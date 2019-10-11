@@ -2,10 +2,13 @@
   "name": "vue-toast",
   "version": "0.1.0",
   "private": true,
+  "main": "./dist/vue-toast.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
+    "watch": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "compile": "vue-cli-service build --target lib --dest dist/ --name vue-toast ./src/index.js"
   },
   "dependencies": {
     "core-js": "^2.6.5",
@@ -42,5 +45,19 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "files": [
+    "dist/*"
+  ],
+  "author": "Gustavo Maronato",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "notification",
+    "toast"
+  ],
+  "bugs": {
+    "url": "https://github.com/Maronato/vue-toast/issues"
+  },
+  "homepage": "https://github.com/Maronato/vue-toastn#readme"
 }
