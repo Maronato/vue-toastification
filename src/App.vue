@@ -17,7 +17,7 @@
               // eslint-disable-next-line no-console
                 console.log("clicking", { timeout: false });
                 // eslint-disable-next-line no-console
-                this.$toast("messagefsdfd fdsf ds", { timeout: 2000 });
+                this.$toast.success("Eu amo demais meu mo");
             }
         }
     };

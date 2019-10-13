@@ -393,6 +393,10 @@
         }
     }
 
+    .bounce-leave {
+        position: absolute;
+    }
+
     .bounce-move {
         transition-timing-function: ease-in-out;
         transition-property: all;

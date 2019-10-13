@@ -130,6 +130,7 @@
         .vue-toast {
             display: inline-block;
             position: relative;
+            max-height: 300px;
             min-height: 64px;
             box-sizing: border-box;
             margin-bottom: 1rem;
@@ -138,9 +139,8 @@
             box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1),
                 0 2px 15px 0 rgba(0, 0, 0, 0.05);
             justify-content: space-between;
-            max-height: 300px;
             overflow: hidden;
-            font-family: Roboto;
+            font-family: 'Lato', Helvetica, 'Roboto', Arial, sans-serif;
             cursor: pointer;
             direction: ltr;
             max-width: 500px;
