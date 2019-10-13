@@ -6,6 +6,8 @@ export default {
     newestOnTop: false,
     maxToasts: Infinity,
 
+    transition: "fade",
+
     draggable: true,
     draggablePercent: 0.6,
 

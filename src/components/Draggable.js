@@ -13,14 +13,13 @@ export default {
         return {
             beingDragged: false,
             dragStart: 0,
-            dragEnded: false,
             dragPos: {},
             dragRect: {},
         };
     },
     computed: {
         draggableStyle() {
-            if (this.isRunning) {
+            if (this.dragStart === this.dragPos.x) {
                 return {}
             }
             if (this.beingDragged) {
@@ -86,6 +85,7 @@ export default {
             }
         },
         onDragEnd() {
+            console.log('bbb')
             if (this.beingDragged) {
                 if (Math.abs(this.dragDelta) >= Math.abs(this.removalDistance)) {
                     this.closeToast()

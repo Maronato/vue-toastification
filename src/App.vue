@@ -17,11 +17,11 @@
               // eslint-disable-next-line no-console
                 console.log("clicking", { timeout: false });
                 // eslint-disable-next-line no-console
-                this.$toast("messagefsdfd fdsf ds", { timeout: false });
-                this.$toast.info("message", { timeout: false });
-                this.$toast.success("message", { timeout: false });
-                this.$toast.error("message", { timeout: false });
-                this.$toast.warning("message", { timeout: false });
+                this.$toast("messagefsdfd fdsf ds", { timeout: 2000 });
+                this.$toast.info("message", { timeout: 2000 });
+                this.$toast.success("message", { timeout: 2000 });
+                this.$toast.error("message", { timeout: 2000 });
+                this.$toast.warning("message", { timeout: 2000 });
             }
         }
     };

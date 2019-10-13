@@ -1,16 +1,14 @@
 <template>
     <div class="vue-toasts">
-        <div
-            v-for="position in positions"
+        <transition-group tag="div" v-for="position in positions"
             :class="`vue-toast-container ${position}`"
-            :key="position"
-        >
+            :key="position" :name="transition">
             <Toast
                 v-for="toast in getPositionToasts(position)"
                 v-bind="toast"
                 :key="toast.id"
             />
-        </div>
+        </transition-group>
     </div>
 </template>
 
@@ -31,6 +29,7 @@
             type: String,
             newestOnTop: Boolean,
             maxToasts: Number,
+            transition: String,
 
             draggable: Boolean,
             draggablePercent: Number,
@@ -70,10 +69,8 @@
         },
         methods: {
             setup() {
-                this.parent = document.createElement("div");
                 const container = this.container || document.body;
-                container.appendChild(this.parent);
-                this.parent.insertAdjacentElement("afterbegin", this.$el);
+                container.appendChild(this.$el);
             },
             addToast(params) {
                 const props = Object.assign({}, this.defaultParams, params);
