@@ -108,7 +108,7 @@
             -webkit-transform: translate3d(0, 0, 5000px);
             position: fixed;
             padding: 4px;
-            width: 500px;
+            max-width: 500px;
             box-sizing: border-box;
             display: flex;
             color: #fff;

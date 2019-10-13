@@ -20,6 +20,9 @@ export default {
     },
     computed: {
         draggableStyle() {
+            if (this.isRunning) {
+                return {}
+            }
             if (this.beingDragged) {
                 return {
                     transform: `translateX(${this.dragDelta}px)`,

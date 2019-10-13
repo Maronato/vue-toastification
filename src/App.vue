@@ -17,7 +17,7 @@
               // eslint-disable-next-line no-console
                 console.log("clicking", { timeout: false });
                 // eslint-disable-next-line no-console
-                this.$toast("messagefsdfd fdsf ds fsdf sdfa dg fdg sdf g d gfd g  df g sdf g dfgfdgsdfgshfg h fg h gfhdfghfgdhhd fghgfdhgfhfg hdfgh", { timeout: false });
+                this.$toast("messagefsdfd fdsf ds", { timeout: false });
                 this.$toast.info("message", { timeout: false });
                 this.$toast.success("message", { timeout: false });
                 this.$toast.error("message", { timeout: false });
