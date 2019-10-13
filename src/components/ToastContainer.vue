@@ -108,9 +108,11 @@
             -webkit-transform: translate3d(0, 0, 5000px);
             position: fixed;
             padding: 4px;
-            max-width: 500px;
+            width: 500px;
             box-sizing: border-box;
+            display: flex;
             color: #fff;
+            flex-direction: column;
             @media only screen and (min-width: 480px) {
                 &.top-left,
                 &.top-right,
@@ -127,17 +129,27 @@
                 &.top-left,
                 &.bottom-left {
                     left: 1em;
+                    .vue-toast {
+                        margin-right: auto;
+                    }
                 }
 
                 &.top-right,
                 &.bottom-right {
                     right: 1em;
+                    .vue-toast {
+                        margin-left: auto;
+                    }
                 }
 
                 &.top-center,
                 &.bottom-center {
                     left: 50%;
-                    margin-left: calc(-326px / 2);
+                    margin-left: calc(-500px / 2);
+                    .vue-toast {
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
                 }
             }
 

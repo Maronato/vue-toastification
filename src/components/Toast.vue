@@ -104,7 +104,6 @@
             border-radius: 8px;
             box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1),
                 0 2px 15px 0 rgba(0, 0, 0, 0.05);
-            display: flex;
             justify-content: space-between;
             max-height: 300px;
             overflow: hidden;
