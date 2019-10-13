@@ -1,14 +1,18 @@
 <template>
     <div class="vue-toasts">
-        <transition-group tag="div" v-for="position in positions"
+        <div
+            v-for="position in positions"
             :class="`vue-toast-container ${position}`"
-            :key="position" :name="transition">
+            :key="position"
+        >
+        <transition-group tag="div" name="bounce">
             <Toast
                 v-for="toast in getPositionToasts(position)"
                 v-bind="toast"
                 :key="toast.id"
             />
         </transition-group>
+        </div>
     </div>
 </template>
 
@@ -110,6 +114,10 @@
             display: flex;
             color: #fff;
             flex-direction: column;
+            pointer-events: none;
+            .vue-toast {
+                pointer-events:auto;
+            }
             @media only screen and (min-width: 480px) {
                 &.top-left,
                 &.top-right,
@@ -127,7 +135,7 @@
                 &.bottom-left {
                     left: 1em;
                     .vue-toast {
-                        margin-right: auto;
+                        float: left;
                     }
                 }
 
@@ -135,7 +143,7 @@
                 &.bottom-right {
                     right: 1em;
                     .vue-toast {
-                        margin-left: auto;
+                        float: right;
                     }
                 }
 
@@ -167,5 +175,227 @@
                 }
             }
         }
+    }
+</style>
+
+<style lang="scss">
+    $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
+    @mixin timing-function {
+        animation-timing-function: $trans-cubic-bezier;
+    }
+
+    @keyframes bounceInRight {
+        from,
+        60%,
+        75%,
+        90%,
+        to {
+            @include timing-function;
+        }
+        from {
+            opacity: 0;
+            transform: translate3d(3000px, 0, 0);
+        }
+        60% {
+            opacity: 1;
+            transform: translate3d(-25px, 0, 0);
+        }
+        75% {
+            transform: translate3d(10px, 0, 0);
+        }
+        90% {
+            transform: translate3d(-5px, 0, 0);
+        }
+        to {
+            transform: none;
+        }
+    }
+
+    @keyframes bounceOutRight {
+        40% {
+            opacity: 1;
+            transform: translate3d(-20px, 0, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate3d(1000px, 0, 0);
+        }
+    }
+
+    @keyframes bounceInLeft {
+        from,
+        60%,
+        75%,
+        90%,
+        to {
+            @include timing-function;
+        }
+        0% {
+            opacity: 0;
+            transform: translate3d(-3000px, 0, 0);
+        }
+        60% {
+            opacity: 1;
+            transform: translate3d(25px, 0, 0);
+        }
+        75% {
+            transform: translate3d(-10px, 0, 0);
+        }
+        90% {
+            transform: translate3d(5px, 0, 0);
+        }
+        to {
+            transform: none;
+        }
+    }
+
+    @keyframes bounceOutLeft {
+        20% {
+            opacity: 1;
+            transform: translate3d(20px, 0, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate3d(-2000px, 0, 0);
+        }
+    }
+
+    @keyframes bounceInUp {
+        from,
+        60%,
+        75%,
+        90%,
+        to {
+            @include timing-function;
+        }
+        from {
+            opacity: 0;
+            transform: translate3d(0, 3000px, 0);
+        }
+        60% {
+            opacity: 1;
+            transform: translate3d(0, -20px, 0);
+        }
+        75% {
+            transform: translate3d(0, 10px, 0);
+        }
+        90% {
+            transform: translate3d(0, -5px, 0);
+        }
+        to {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    @keyframes bounceOutUp {
+        20% {
+            transform: translate3d(0, -10px, 0);
+        }
+        40%,
+        45% {
+            opacity: 1;
+            transform: translate3d(0, 20px, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate3d(0, -2000px, 0);
+        }
+    }
+
+    @keyframes bounceInDown {
+        from,
+        60%,
+        75%,
+        90%,
+        to {
+            @include timing-function;
+        }
+        0% {
+            opacity: 0;
+            transform: translate3d(0, -3000px, 0);
+        }
+        60% {
+            opacity: 1;
+            transform: translate3d(0, 25px, 0);
+        }
+        75% {
+            transform: translate3d(0, -10px, 0);
+        }
+        90% {
+            transform: translate3d(0, 5px, 0);
+        }
+        to {
+            transform: none;
+        }
+    }
+
+    @keyframes bounceOutDown {
+        20% {
+            transform: translate3d(0, 10px, 0);
+        }
+        40%,
+        45% {
+            opacity: 1;
+            transform: translate3d(0, -20px, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate3d(0, 2000px, 0);
+        }
+    }
+
+    @keyframes bounceOutDown {
+        20% {
+            transform: translate3d(0, 10px, 0);
+        }
+        40%,
+        45% {
+            opacity: 1;
+            transform: translate3d(0, -20px, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate3d(0, 2000px, 0);
+        }
+    }
+
+    .bounce-enter-active {
+        &.top-left,
+        &.bottom-left {
+            animation: bounceInLeft 750ms;
+        }
+        &.top-right,
+        &.bottom-right {
+            animation: bounceInRight 750ms;
+        }
+        &.top-center {
+            animation: bounceInDown 750ms;
+        }
+        &.bottom-center {
+            animation: bounceInUp 750ms;
+        }
+    }
+
+    .bounce-leave-active {
+        &.top-left,
+        &.bottom-left {
+            animation: bounceOutLeft 750ms;
+        }
+        &.top-right,
+        &.bottom-right {
+            animation: bounceOutRight 750ms;
+        }
+        &.top-center {
+            animation: bounceOutUp 750ms;
+        }
+        &.bottom-center {
+            animation: bounceOutDown 750ms;
+        }
+    }
+
+    .bounce-move {
+        transition-timing-function: ease-in-out;
+        transition-property: all;
+        transition-duration: 600ms;
     }
 </style>

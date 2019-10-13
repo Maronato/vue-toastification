@@ -18,10 +18,6 @@
                 console.log("clicking", { timeout: false });
                 // eslint-disable-next-line no-console
                 this.$toast("messagefsdfd fdsf ds", { timeout: 2000 });
-                this.$toast.info("message", { timeout: 2000 });
-                this.$toast.success("message", { timeout: 2000 });
-                this.$toast.error("message", { timeout: 2000 });
-                this.$toast.warning("message", { timeout: 2000 });
             }
         }
     };

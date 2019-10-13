@@ -6,7 +6,7 @@ export default {
     newestOnTop: false,
     maxToasts: Infinity,
 
-    transition: "fade",
+    transition: "bounce",
 
     draggable: true,
     draggablePercent: 0.6,
@@ -16,6 +16,6 @@ export default {
 
     closeOnClick: true,
 
-    timeout: 5000,
+    timeout: false,
     hideProgressBar: false
 }

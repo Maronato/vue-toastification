@@ -13,7 +13,7 @@ export default {
         return {
             beingDragged: false,
             dragStart: 0,
-            dragPos: {},
+            dragPos: { x: 0, y: 0 },
             dragRect: {},
         };
     },
@@ -85,10 +85,10 @@ export default {
             }
         },
         onDragEnd() {
-            console.log('bbb')
             if (this.beingDragged) {
                 if (Math.abs(this.dragDelta) >= Math.abs(this.removalDistance)) {
-                    this.closeToast()
+                    this.disableTransitions = true;
+                    this.$nextTick(() => this.closeToast())
                 } else {
                     setTimeout(() => {
                         this.beingDragged = false;

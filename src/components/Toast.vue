@@ -5,27 +5,32 @@
         @mouseleave="hoverPlay"
         @blur="focusPause"
         @focus="focusPlay"
-        :class="`vue-toast ${type}`"
+        :class="classes"
         :style="draggableStyle"
     >
-        <template v-if="typeof content === 'string'">
-            {{ content }}
-        </template>
+        <template v-if="typeof content === 'string'">{{ content }}</template>
         <component v-else :is="content" v-bind="contentProps" v-on="contentListeners" />
-        <ProgressBar v-if="timeout" :is-running="isRunning" @closeToast="timeoutHandler" :hide="hideProgressBar" />
+        <ProgressBar
+            v-if="timeout"
+            :is-running="isRunning"
+            @closeToast="timeoutHandler"
+            :hide="hideProgressBar"
+            :timeout="timeout"
+        />
     </div>
 </template>
 
 <script>
     import ProgressBar from "./ProgressBar";
     import events from "../js/events";
-    import Draggable from './Draggable';
-    import { EVENTS } from '../js/constants';
+    import Draggable from "./Draggable";
+    import { EVENTS } from "../js/constants";
 
     export default {
-        mixins: [ Draggable ],
+        inheritAttrs: false,
+        mixins: [Draggable],
         components: {
-            ProgressBar
+            ProgressBar,
         },
         props: {
             id: {
@@ -33,6 +38,7 @@
                 default: 0
             },
             type: String,
+            position: String,
             content: [String, Object],
             contentProps: Object,
             contentListeners: Object,
@@ -44,12 +50,32 @@
                 default: () => {}
             },
             timeout: [Number, Boolean],
-            hideProgressBar: Boolean
+            hideProgressBar: Boolean,
+            transition: [String, Object]
         },
         data() {
             return {
                 isRunning: true,
+                disableTransitions: false
             };
+        },
+        computed: {
+            exitTransition() {
+                return this.enableExitTransition
+                    ? `${this.transition}-leave-active`
+                    : undefined;
+            },
+            classes() {
+                const classes = [
+                    'vue-toast',
+                    this.type,
+                    this.position
+                ];
+                if (this.disableTransitions) {
+                    classes.push('disable-transition');
+                }
+                return classes;
+            }
         },
         methods: {
             closeToast() {
@@ -57,7 +83,7 @@
             },
             clickHandler() {
                 if (this.onClick) {
-                    this.onClick(this.closeToast)
+                    this.onClick(this.closeToast);
                 }
                 if (this.closeOnClick) {
                     if (!this.beingDragged || this.dragStart === this.dragPos.x) {
@@ -66,31 +92,38 @@
                 }
             },
             timeoutHandler() {
-                this.closeToast()
+                this.closeToast();
             },
             hoverPause() {
                 if (this.pauseOnHover) {
-                    this.isRunning = false
+                    this.isRunning = false;
                 }
             },
             hoverPlay() {
                 if (this.pauseOnHover) {
-                    this.isRunning = true
+                    this.isRunning = true;
                 }
             },
             focusPause() {
                 if (this.pauseOnFocusLoss) {
-                    this.isRunning = false
+                    this.isRunning = false;
                 }
             },
             focusPlay() {
                 if (this.pauseOnFocusLoss) {
-                    this.isRunning = true
+                    this.isRunning = true;
                 }
             }
         }
     };
 </script>
+
+<style lang="scss" scoped>
+    .vue-toast.disable-transition {
+        transition: none;
+        animation: none;
+    }
+</style>
 
 <style lang="scss">
     .vue-toasts {
@@ -134,12 +167,5 @@
                 margin-bottom: 0.5rem;
             }
         }
-    }
-
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 1s;
     }
 </style>
