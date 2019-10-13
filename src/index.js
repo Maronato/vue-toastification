@@ -1,18 +1,11 @@
-const Toast = {
-    install(Vue, options) {
-        if (!options) {
-            options = {};
-        }
+import ToastInterface from './js/interface';
 
-        const Toast = console.log('works');
-        Vue.component('toast', Toast);
-        Vue.toasted = Vue.prototype.$toast = Toast;
-    }
+const plugin = {}
+
+plugin.install = (Vue, options = {}) => {
+  const toast = ToastInterface(Vue, options);
+  Vue.$toast = toast;
+  Vue.prototype.$toast = toast;
 };
 
-// register plugin if it is used via cdn or directly as a script tag
-if (typeof window !== 'undefined' && window.Vue) {
-    window.Toast = Toast;
-}
-
-export default Toast;
+export default plugin;

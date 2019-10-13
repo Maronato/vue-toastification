@@ -1,58 +1,139 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <div
+        @click="clickHandler"
+        @mouseenter="hoverPause"
+        @mouseleave="hoverPlay"
+        @blur="focusPause"
+        @focus="focusPlay"
+        :class="`vue-toast ${type}`"
+        :style="draggableStyle"
+    >
+        <template v-if="typeof content === 'string'">
+            {{ content }}
+        </template>
+        <component v-else :is="content" v-bind="contentProps" v-on="contentListeners" />
+        <ProgressBar v-if="timeout" :is-running="isRunning" @closeToast="timeoutHandler" :hide="hideProgressBar" />
+    </div>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+    import ProgressBar from "./ProgressBar";
+    import events from "../js/events";
+    import Draggable from './Draggable';
+    import { EVENTS } from '../js/constants';
+
+    export default {
+        mixins: [ Draggable ],
+        components: {
+            ProgressBar
+        },
+        props: {
+            id: {
+                type: [String, Number],
+                default: 0
+            },
+            type: String,
+            content: [String, Object],
+            contentProps: Object,
+            contentListeners: Object,
+            pauseOnHover: Boolean,
+            pauseOnFocusLoss: Boolean,
+            closeOnClick: Boolean,
+            onClick: {
+                type: Function,
+                default: () => {}
+            },
+            timeout: [Number, Boolean],
+            hideProgressBar: Boolean
+        },
+        data() {
+            return {
+                isRunning: true,
+            };
+        },
+        methods: {
+            closeToast() {
+                events.$emit(EVENTS.DISMISS, this.id);
+            },
+            clickHandler() {
+                if (this.onClick) {
+                    this.onClick(this.closeToast)
+                }
+                if (this.closeOnClick) {
+                    if (!this.beingDragged || this.dragStart === this.dragPos.x) {
+                        this.closeToast();
+                    }
+                }
+            },
+            timeoutHandler() {
+                this.closeToast()
+            },
+            hoverPause() {
+                if (this.pauseOnHover) {
+                    this.isRunning = false
+                }
+            },
+            hoverPlay() {
+                if (this.pauseOnHover) {
+                    this.isRunning = true
+                }
+            },
+            focusPause() {
+                if (this.pauseOnFocusLoss) {
+                    this.isRunning = false
+                }
+            },
+            focusPlay() {
+                if (this.pauseOnFocusLoss) {
+                    this.isRunning = true
+                }
+            }
+        }
+    };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style lang="scss">
+    .vue-toasts {
+        .vue-toast {
+            display: inline-block;
+            position: relative;
+            min-height: 64px;
+            box-sizing: border-box;
+            margin-bottom: 1rem;
+            padding: 22px 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1),
+                0 2px 15px 0 rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            max-height: 300px;
+            overflow: hidden;
+            font-family: Roboto;
+            cursor: pointer;
+            direction: ltr;
+            max-width: 500px;
+            min-width: 326px;
+
+            &.default {
+                background-color: cyan;
+            }
+            &.info {
+                background-color: lightblue;
+            }
+            &.success {
+                background-color: green;
+            }
+            &.error {
+                background-color: red;
+            }
+            &.warning {
+                background-color: yellow;
+            }
+
+            @media only screen and (max-width: 480px) {
+                border-radius: 0px;
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
 </style>
