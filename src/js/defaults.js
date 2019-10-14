@@ -3,7 +3,7 @@ import { TYPE, POSITION } from './constants'
 export default {
     type: TYPE.DEFAULT,
     position: POSITION.TOP_RIGHT,
-    newestOnTop: false,
+    newestOnTop: true,
     maxToasts: Infinity,
 
     transition: "bounce",
@@ -16,6 +16,6 @@ export default {
 
     closeOnClick: true,
 
-    timeout: false,
+    timeout: 5000,
     hideProgressBar: false
 }

@@ -5,13 +5,13 @@
             :class="`vue-toast-container ${position}`"
             :key="position"
         >
-        <transition-group tag="div" name="bounce">
+        <Transition tag="div" group>
             <Toast
                 v-for="toast in getPositionToasts(position)"
                 v-bind="toast"
                 :key="toast.id"
             />
-        </transition-group>
+        </Transition>
         </div>
     </div>
 </template>
@@ -20,10 +20,12 @@
     import Toast from "./Toast";
     import events from "../js/events";
     import { EVENTS, POSITION } from "../js/constants";
+    import Transition from './transitions/BounceTransition';
 
     export default {
         components: {
-            Toast
+            Toast,
+            Transition
         },
         props: {
             contentProps: Object,
@@ -109,9 +111,10 @@
             -webkit-transform: translate3d(0, 0, 5000px);
             position: fixed;
             padding: 4px;
-            max-width: 500px;
+            width: 500px;
             box-sizing: border-box;
             display: flex;
+            height: 100%;
             color: #fff;
             flex-direction: column;
             pointer-events: none;
@@ -129,6 +132,7 @@
                 &.bottom-right,
                 &.bottom-center {
                     bottom: 1em;
+                    flex-direction: column-reverse;
                 }
 
                 &.top-left,
