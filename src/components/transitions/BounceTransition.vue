@@ -12,13 +12,13 @@
 </template>
 <script>
     export default {
-        name: "bounce-transition",
+        name: "transition",
         inheritAttrs: false,
         props: {
             group: Boolean,
             tag: {
                 type: String,
-                default: "span"
+                default: "div"
             }
         },
         computed: {

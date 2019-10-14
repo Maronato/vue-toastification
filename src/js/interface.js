@@ -1,19 +1,17 @@
 import ToastContainer from '../components/ToastContainer.vue';
 import events from './events';
 import { TYPE, EVENTS } from './constants';
-import defaults from './defaults';
 import { getId } from './utils';
 
 const ToastInterface = (Vue, globalOptions = {}) => {
-    const containerProps = { ...defaults, ...globalOptions }
-
     new (Vue.extend(ToastContainer))({
         el: document.createElement('div'),
-        propsData: containerProps
+        propsData: globalOptions
     })
     const toast = (content, options) => {
-        const props = { id: getId(), ...options, content }
-        return events.$emit(EVENTS.ADD, props)
+        const props = { id: getId(), type: TYPE.DEFAULT, ...options, content }
+        events.$emit(EVENTS.ADD, props)
+        return props.id;
     }
     toast.clear = () => events.$emit(EVENTS.CLEAR)
     toast.dismiss = (id) => events.$emit(EVENTS.DISMISS, id)

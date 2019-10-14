@@ -7,7 +7,7 @@
         props: {
             timeout: {
                 type: Number,
-                default: 5000
+                required: true
             },
             hide: Boolean,
             isRunning: Boolean

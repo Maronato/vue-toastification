@@ -8,8 +8,13 @@
         :class="classes"
         :style="draggableStyle"
     >
-        <template v-if="typeof content === 'string'">{{ content }}</template>
+        <template v-if="typeof content === 'string'">
+            <div class="vue-toast__body">
+                {{ content }}
+            </div>
+        </template>
         <component v-else :is="content" v-bind="contentProps" v-on="contentListeners" />
+        <CloseButton @click.stop="closeToast" />
         <ProgressBar
             v-if="timeout"
             :is-running="isRunning"
@@ -22,27 +27,44 @@
 
 <script>
     import ProgressBar from "./ProgressBar";
+    import CloseButton from "./CloseButton";
     import events from "../js/events";
     import Draggable from "./Draggable";
     import { EVENTS } from "../js/constants";
-    import { removeElement } from '../js/utils';
+    import { removeElement } from "../js/utils";
 
     export default {
         inheritAttrs: false,
         mixins: [Draggable],
         components: {
             ProgressBar,
+            CloseButton
         },
         props: {
             id: {
                 type: [String, Number],
-                default: 0
+                required: true
             },
-            type: String,
-            position: String,
-            content: [String, Object],
-            contentProps: Object,
-            contentListeners: Object,
+            type: {
+                type: String,
+                required: true
+            },
+            position: {
+                type: String,
+                required: true
+            },
+            content: {
+                type: [String, Object],
+                required: true
+            },
+            contentProps: {
+                type: Object,
+                default: () => ({})
+            },
+            contentListeners: {
+                type: Object,
+                default: () => ({})
+            },
             pauseOnHover: Boolean,
             pauseOnFocusLoss: Boolean,
             closeOnClick: Boolean,
@@ -50,9 +72,11 @@
                 type: Function,
                 default: () => {}
             },
-            timeout: [Number, Boolean],
-            hideProgressBar: Boolean,
-            transition: [String, Object]
+            timeout: {
+                type: [Number, Boolean],
+                required: true
+            },
+            hideProgressBar: Boolean
         },
         data() {
             return {
@@ -62,20 +86,16 @@
         },
         computed: {
             classes() {
-                const classes = [
-                    'vue-toast',
-                    this.type,
-                    this.position
-                ];
+                const classes = ["vue-toast", this.type, this.position];
                 if (this.disableTransitions) {
-                    classes.push('disable-transition');
+                    classes.push("disable-transition");
                 }
                 return classes;
             }
         },
         destroyed() {
             setTimeout(() => {
-                removeElement(this.$el)
+                removeElement(this.$el);
             }, 1000);
         },
         methods: {
@@ -129,7 +149,7 @@
 <style lang="scss">
     .vue-toasts {
         .vue-toast {
-            display: inline-block;
+            display: flex;
             position: relative;
             max-height: 300px;
             min-height: 64px;
@@ -140,30 +160,36 @@
             box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1),
                 0 2px 15px 0 rgba(0, 0, 0, 0.05);
             justify-content: space-between;
-            font-family: 'Lato', Helvetica, 'Roboto', Arial, sans-serif;
-            cursor: pointer;
+            font-family: "Lato", Helvetica, "Roboto", Arial, sans-serif;
             max-width: 500px;
             min-width: 326px;
 
             &.default {
-                background-color: cyan;
+                background-color: #1976D2;
             }
             &.info {
-                background-color: lightblue;
+                background-color: #2196F3;
             }
             &.success {
-                background-color: green;
+                background-color: #4CAF50;
             }
             &.error {
-                background-color: red;
+                background-color: #FF5252;
             }
             &.warning {
-                background-color: yellow;
+                background-color: #FFC107;
             }
 
             @media only screen and (max-width: 480px) {
                 border-radius: 0px;
                 margin-bottom: 0.5rem;
+            }
+
+            .vue-toast__body {
+                flex: 1;
+                line-height: 24px;
+                font-size: 16px;
+                word-break: break-word;
             }
         }
     }

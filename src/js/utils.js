@@ -1,3 +1,6 @@
+/**
+ * ID generator
+ */
 export const getId = (i => () => i++)(0)
 
 export function getX(e) {

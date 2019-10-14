@@ -32,19 +32,42 @@
                 type: String,
                 default: POSITION.TOP_RIGHT
             },
-            newestOnTop: Boolean,
-            maxToasts: Number,
-            transition: String,
-
-            draggable: Boolean,
-            draggablePercent: Number,
-
-            pauseOnFocusLoss: Boolean,
-            pauseOnHover: Boolean,
-
-            closeOnClick: Boolean,
-
-            timeout: [Number, Boolean],
+            newestOnTop: {
+                type: Boolean,
+                default: true
+            },
+            maxToasts: {
+                type: Number,
+                default: Infinity
+            },
+            transition: {
+                type: String,
+                default: ''
+            },
+            draggable: {
+                type: Boolean,
+                default: true
+            },
+            draggablePercent: {
+                type: Number,
+                default: 0.6
+            },
+            pauseOnFocusLoss: {
+                type: Boolean,
+                default: true
+            },
+            pauseOnHover: {
+                type: Boolean,
+                default: true
+            },
+            closeOnClick: {
+                type: Boolean,
+                default: false
+            },
+            timeout: {
+                type: [Number, Boolean],
+                default: 5000
+            },
             hideProgressBar: Boolean,
         },
         data() {

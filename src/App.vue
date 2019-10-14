@@ -14,11 +14,12 @@
         },
         methods: {
             click() {
-              // eslint-disable-next-line no-console
-                console.log("clicking", { timeout: false });
-                // eslint-disable-next-line no-console
-                this.$toast.success("Eu amo demais meu mo");
-                // this.$toast.success("Eu amo demais mfdsfsdf fdsfdsfdsafdsfsd sfsdfadfsdfeu mo");
+                this.$toast("default");
+                this.$toast("extra", { position: 'bottom-left' });
+                this.$toast.success("success", { position: 'top-center' });
+                this.$toast.info("info", { position: 'top-left' });
+                this.$toast.warning("success", { position: 'bottom-center' });
+                this.$toast.error("success", { position: 'bottom-right' });
             }
         }
     };
