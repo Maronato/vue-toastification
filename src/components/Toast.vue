@@ -13,7 +13,7 @@
                 {{ content }}
             </div>
         </template>
-        <component v-else :is="content" v-bind="contentProps" v-on="contentListeners" />
+        <component v-else :is="content.component || content" v-bind="content.props" v-on="content.listeners" />
         <CloseButton @click.stop="closeToast" />
         <ProgressBar
             v-if="timeout"
@@ -56,14 +56,6 @@
             content: {
                 type: [String, Object],
                 required: true
-            },
-            contentProps: {
-                type: Object,
-                default: () => ({})
-            },
-            contentListeners: {
-                type: Object,
-                default: () => ({})
             },
             pauseOnHover: Boolean,
             pauseOnFocusLoss: Boolean,

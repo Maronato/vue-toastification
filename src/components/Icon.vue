@@ -8,9 +8,6 @@
 
 <script>
 export default {
-    props: {
-        value: Number,
-    }
 }
 </script>
 

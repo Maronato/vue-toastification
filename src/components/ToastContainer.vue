@@ -69,8 +69,8 @@
                 default: 5000
             },
             container: {
-                type: Object,
-                default: document.body
+                type: Element,
+                default: () => document.body
             },
             hideProgressBar: Boolean,
         },
