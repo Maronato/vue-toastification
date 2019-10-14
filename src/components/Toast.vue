@@ -31,7 +31,7 @@
     import events from "../js/events";
     import Draggable from "./Draggable";
     import { EVENTS, TYPE, POSITION } from "../js/constants";
-    import { removeElement } from "../js/utils";
+    import { removeElement, isVueComponent } from "../js/utils";
 
     export default {
         inheritAttrs: false,
@@ -57,7 +57,8 @@
             },
             content: {
                 type: [String, Object],
-                required: true
+                required: true,
+                validator: (value) => typeof value === 'string' || isVueComponent(value) || isVueComponent(value.component)
             },
             pauseOnHover: Boolean,
             pauseOnFocusLoss: Boolean,
