@@ -11,3 +11,11 @@ export function getY(e) {
         ? e.targetTouches[0].clientY
         : e.clientY;
 }
+
+export const removeElement = (el) => {
+    if (typeof el.remove !== 'undefined') {
+      el.remove()
+    } else {
+      el.parentNode.removeChild(el)
+    }
+  };

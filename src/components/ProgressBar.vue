@@ -52,7 +52,6 @@
         width: 100%;
         height: 5px;
         z-index: 5000;
-        opacity: 0.7;
         background-color: rgba(255, 255, 255, 0.7);
         transform-origin: left;
         animation: scale-x-frames linear 1 forwards;

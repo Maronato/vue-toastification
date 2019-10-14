@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { getX, getY } from "../js/utils";
 
 export default {

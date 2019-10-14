@@ -25,6 +25,7 @@
     import events from "../js/events";
     import Draggable from "./Draggable";
     import { EVENTS } from "../js/constants";
+    import { removeElement } from '../js/utils';
 
     export default {
         inheritAttrs: false,
@@ -60,11 +61,6 @@
             };
         },
         computed: {
-            exitTransition() {
-                return this.enableExitTransition
-                    ? `${this.transition}-leave-active`
-                    : undefined;
-            },
             classes() {
                 const classes = [
                     'vue-toast',
@@ -76,6 +72,11 @@
                 }
                 return classes;
             }
+        },
+        destroyed() {
+            setTimeout(() => {
+                removeElement(this.$el)
+            }, 1000);
         },
         methods: {
             closeToast() {
@@ -139,10 +140,8 @@
             box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1),
                 0 2px 15px 0 rgba(0, 0, 0, 0.05);
             justify-content: space-between;
-            overflow: hidden;
             font-family: 'Lato', Helvetica, 'Roboto', Arial, sans-serif;
             cursor: pointer;
-            direction: ltr;
             max-width: 500px;
             min-width: 326px;
 

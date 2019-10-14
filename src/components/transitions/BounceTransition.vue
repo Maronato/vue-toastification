@@ -2,8 +2,7 @@
     <component
         :is="componentType"
         :tag="tag"
-        v-bind="$attrs"
-        v-on="hooks"
+        @leave="leave"
         enter-active-class="bounce-enter-active"
         move-class="bounce-move"
         leave-active-class="bounce-leave-active"
@@ -12,10 +11,35 @@
     </component>
 </template>
 <script>
-    import baseTransition from "./baseTransition";
     export default {
-        name: "fade-transition",
-        mixins: [baseTransition]
+        name: "bounce-transition",
+        inheritAttrs: false,
+        props: {
+            group: Boolean,
+            tag: {
+                type: String,
+                default: "span"
+            }
+        },
+        computed: {
+            componentType() {
+                return this.group ? "transition-group" : "transition";
+            }
+        },
+        methods: {
+            leave(el, done) {
+                this.setAbsolutePosition(el);
+                this.$emit("leave", el, done);
+            },
+            setAbsolutePosition(el) {
+                if (this.group) {
+                    el.style.left = el.offsetLeft + "px";
+                    el.style.top = el.offsetTop + "px";
+                    el.style.position = "absolute";
+                }
+                return this;
+            }
+        }
     };
 </script>
 <style lang="scss">
@@ -202,40 +226,44 @@
     .bounce-enter-active {
         &.top-left,
         &.bottom-left {
-            animation-name: bounceInLeft;
+            animation: bounceInLeft 500ms forwards;
         }
         &.top-right,
         &.bottom-right {
-            animation-name: bounceInRight;
+            animation: bounceInRight 500ms forwards;
         }
         &.top-center {
-            animation-name: bounceInDown;
+            animation: bounceInDown 500ms forwards;
         }
         &.bottom-center {
-            animation-name: bounceInUp;
+            animation: bounceInUp 500ms forwards;
         }
     }
 
     .bounce-leave-active {
         &.top-left,
         &.bottom-left {
-            animation-name: bounceOutLeft;
+            animation: bounceOutLeft 500ms forwards;
         }
         &.top-right,
         &.bottom-right {
-            animation-name: bounceOutRight;
+            animation: bounceOutRight 500ms forwards;
         }
         &.top-center {
-            animation-name: bounceOutUp;
+            animation: bounceOutUp 500ms forwards;
         }
         &.bottom-center {
-            animation-name: bounceOutDown;
+            animation: bounceOutDown 500ms forwards;
         }
+    }
+
+    .bounce-leave {
+        position: absolute;
     }
 
     .bounce-move {
         transition-timing-function: ease-in-out;
         transition-property: all;
-        transition-duration: 600ms;
+        transition-duration: 400ms;
     }
 </style>
