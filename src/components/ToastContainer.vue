@@ -68,6 +68,10 @@
                 type: [Number, Boolean],
                 default: 5000
             },
+            container: {
+                type: Object,
+                default: document.body
+            },
             hideProgressBar: Boolean,
         },
         data() {
@@ -87,8 +91,7 @@
         },
         methods: {
             setup() {
-                const container = this.container || document.body;
-                container.appendChild(this.$el);
+                this.container.appendChild(this.$el);
             },
             addToast(params) {
                 const props = Object.assign({}, this.$props, params);

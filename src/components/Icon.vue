@@ -1,17 +1,16 @@
 <template>
-  <div @click="click">aaaa {{ value }}</div>
+  <div>
+      <h1>Aaaa</h1>
+      <div>teste</div>
+      <button>Test</button>
+  </div>
 </template>
 
 <script>
 export default {
     props: {
         value: Number,
-    },
-    methods: {
-        click() {
-            this.$emit('input', this.value * 2)
-        }
-    },
+    }
 }
 </script>
 

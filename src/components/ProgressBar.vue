@@ -1,5 +1,5 @@
 <template>
-    <div :style="style" class="vue-toast-progress-bar" />
+    <div :style="style" class="vue-toast__progress-bar" />
 </template>
 
 <script>
@@ -45,7 +45,7 @@
         }
     }
 
-    .vue-toasts .vue-toast-progress-bar {
+    .vue-toasts .vue-toast__progress-bar {
         position: absolute;
         bottom: 0;
         left: 0;

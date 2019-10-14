@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Icon from './components/Icon';
     export default {
         name: "app",
         data() {
@@ -15,7 +16,7 @@
         methods: {
             click() {
                 this.$toast("default");
-                this.$toast("extra", { position: 'bottom-left' });
+                this.$toast(Icon, { position: 'bottom-left' });
                 this.$toast.success("success", { position: 'top-center' });
                 this.$toast.info("info", { position: 'top-left' });
                 this.$toast.warning("success", { position: 'bottom-center' });

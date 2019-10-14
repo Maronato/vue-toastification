@@ -85,7 +85,7 @@ export default {
         },
         onDragEnd() {
             if (this.beingDragged) {
-                if (Math.abs(this.dragDelta) >= Math.abs(this.removalDistance)) {
+                if (Math.abs(this.dragDelta) >= this.removalDistance) {
                     this.disableTransitions = true;
                     this.$nextTick(() => this.closeToast())
                 } else {
