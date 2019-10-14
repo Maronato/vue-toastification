@@ -20,7 +20,7 @@ import Icon from './components/Icon';
                 this.$toast.success("success", { position: 'top-center' });
                 this.$toast.info("info", { position: 'top-left' });
                 this.$toast.warning("success", { position: 'bottom-center' });
-                this.$toast.error("success", { position: 'bottom-right' });
+                this.$toast.error("success", { position: 'bottom-right', timeout: 100 });
             }
         }
     };

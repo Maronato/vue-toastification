@@ -30,7 +30,7 @@
     import CloseButton from "./CloseButton";
     import events from "../js/events";
     import Draggable from "./Draggable";
-    import { EVENTS } from "../js/constants";
+    import { EVENTS, TYPE, POSITION } from "../js/constants";
     import { removeElement } from "../js/utils";
 
     export default {
@@ -47,11 +47,13 @@
             },
             type: {
                 type: String,
-                required: true
+                required: true,
+                validator: (value) => Object.values(TYPE).indexOf(value) !== -1
             },
             position: {
                 type: String,
-                required: true
+                required: true,
+                validator: (value) => Object.values(POSITION).indexOf(value) !== -1
             },
             content: {
                 type: [String, Object],
@@ -66,7 +68,8 @@
             },
             timeout: {
                 type: [Number, Boolean],
-                required: true
+                required: true,
+                validator: (value) => Number.isInteger(value) && value > 0 || value === false
             },
             hideProgressBar: Boolean
         },

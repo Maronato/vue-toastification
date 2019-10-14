@@ -30,7 +30,8 @@
         props: {
             position: {
                 type: String,
-                default: POSITION.TOP_RIGHT
+                default: POSITION.TOP_RIGHT,
+                validator: (value) => Object.values(POSITION).indexOf(value) !== -1
             },
             newestOnTop: {
                 type: Boolean,
@@ -38,7 +39,8 @@
             },
             maxToasts: {
                 type: Number,
-                default: Infinity
+                default: 100,
+                validator: (value) => Number.isInteger(value) && value >= 0
             },
             transition: {
                 type: String,
@@ -50,7 +52,8 @@
             },
             draggablePercent: {
                 type: Number,
-                default: 0.6
+                default: 0.6,
+                validator: (value) => !Number.isNaN(value) && value > 0
             },
             pauseOnFocusLoss: {
                 type: Boolean,
@@ -66,7 +69,8 @@
             },
             timeout: {
                 type: [Number, Boolean],
-                default: 5000
+                default: 5000,
+                validator: (value) => Number.isInteger(value) && value > 0 || value === false
             },
             container: {
                 type: Element,
