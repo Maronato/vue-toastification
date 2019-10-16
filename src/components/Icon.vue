@@ -1,16 +1,13 @@
 <template>
   <div>
-      <h1>Aaaa</h1>
-      <div>teste</div>
-      <button>Test</button>
+    <h1>Aaaa</h1>
+    <div>teste</div>
+    <button>Test</button>
   </div>
 </template>
 
 <script>
-export default {
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

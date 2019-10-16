@@ -6,15 +6,15 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "watch": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build  --dest build/",
     "lint": "vue-cli-service lint",
     "compile": "vue-cli-service build --target lib --dest dist/ --name vue-toast ./src/index.js"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10"
   },
   "devDependencies": {
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10",
     "@vue/cli-plugin-babel": "^3.12.0",
     "@vue/cli-plugin-eslint": "^3.12.0",
     "@vue/cli-service": "^3.12.0",
@@ -26,29 +26,6 @@
     "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ],
   "files": [
     "dist/*"
   ],
