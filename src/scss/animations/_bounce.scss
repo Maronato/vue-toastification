@@ -182,34 +182,34 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
 .bounce-enter-active {
   &.top-left,
   &.bottom-left {
-    animation: bounceInLeft 500ms forwards;
+    animation-name: bounceInLeft;
   }
   &.top-right,
   &.bottom-right {
-    animation: bounceInRight 500ms forwards;
+    animation-name: bounceInRight;
   }
   &.top-center {
-    animation: bounceInDown 500ms forwards;
+    animation-name: bounceInDown;
   }
   &.bottom-center {
-    animation: bounceInUp 500ms forwards;
+    animation-name: bounceInUp;
   }
 }
 
 .bounce-leave-active {
   &.top-left,
   &.bottom-left {
-    animation: bounceOutLeft 500ms forwards;
+    animation-name: bounceOutLeft;
   }
   &.top-right,
   &.bottom-right {
-    animation: bounceOutRight 500ms forwards;
+    animation-name: bounceOutRight;
   }
   &.top-center {
-    animation: bounceOutUp 500ms forwards;
+    animation-name: bounceOutUp;
   }
   &.bottom-center {
-    animation: bounceOutDown 500ms forwards;
+    animation-name: bounceOutDown;
   }
 }
 

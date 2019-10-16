@@ -3,6 +3,7 @@
     <div v-for="pos in positions" :key="pos">
       <Transition
         :name="transition"
+        :duration="transitionDuration"
         :class="`${VT_NAMESPACE}__container ${pos}`"
       >
         <Toast
@@ -42,6 +43,10 @@ export default {
     transition: {
       type: String,
       default: "bounce"
+    },
+    transitionDuration: {
+      type: [Number, Object],
+      default: 750
     },
     draggable: {
       type: Boolean,
