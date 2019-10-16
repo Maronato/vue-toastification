@@ -1,9 +1,8 @@
 <template>
   <div>
     <div v-for="pos in positions" :key="pos">
-      <BounceTransition
-        tag="div"
-        group
+      <Transition
+        :name="transition"
         :class="`${VT_NAMESPACE}__container ${pos}`"
       >
         <Toast
@@ -11,7 +10,7 @@
           :key="toast.id"
           v-bind="toast"
         />
-      </BounceTransition>
+      </Transition>
     </div>
   </div>
 </template>
@@ -20,12 +19,12 @@
 import Toast from "./Toast";
 import events from "../js/events";
 import { EVENTS, POSITION, VT_NAMESPACE } from "../js/constants";
-import BounceTransition from "./transitions/BounceTransition";
+import Transition from "./Transition";
 
 export default {
   components: {
     Toast,
-    BounceTransition
+    Transition
   },
   props: {
     position: {
@@ -42,7 +41,7 @@ export default {
     },
     transition: {
       type: String,
-      default: ""
+      default: "bounce"
     },
     draggable: {
       type: Boolean,
