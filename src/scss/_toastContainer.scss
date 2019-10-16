@@ -5,7 +5,7 @@
   width: $vt-toast-max-width;
   box-sizing: border-box;
   display: flex;
-  height: 100%;
+  min-height: 100%;
   color: #fff;
   flex-direction: column;
   pointer-events: none;
@@ -27,7 +27,7 @@
   &.bottom-left {
     left: 1em;
     .#{$vt-namespace}__toast {
-      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -35,7 +35,7 @@
   &.bottom-right {
     right: 1em;
     .#{$vt-namespace}__toast {
-      margin-right: auto;
+      margin-left: auto;
     }
   }
 

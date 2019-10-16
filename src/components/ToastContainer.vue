@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div
-      v-for="pos in positions"
-      :key="pos"
-      :class="`${VT_NAMESPACE}__container ${pos}`"
-    >
-      <BounceTransition tag="div" group>
+    <div v-for="pos in positions" :key="pos">
+      <BounceTransition
+        tag="div"
+        group
+        :class="`${VT_NAMESPACE}__container ${pos}`"
+      >
         <Toast
           v-for="toast in getPositionToasts(pos)"
           :key="toast.id"
@@ -66,7 +66,7 @@ export default {
     },
     timeout: {
       type: [Number, Boolean],
-      default: false
+      default: 5000
     },
     container: {
       type: Element,

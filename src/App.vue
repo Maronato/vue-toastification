@@ -20,7 +20,10 @@ export default {
       this.$toast.success("success", { position: "top-center" });
       this.$toast.info("info", { position: "top-left" });
       this.$toast.warning("success", { position: "bottom-center" });
-      this.$toast.error("success", { position: "bottom-right" });
+      this.$toast.error(
+        "success fd fds fds f a fsd fasdfdsfsdfhksdkfksd    fsahfjdshfksjdhf ksdjfhksjfdhsdkjhjf",
+        { position: "bottom-right" }
+      );
     }
   }
 };

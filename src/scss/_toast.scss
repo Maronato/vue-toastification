@@ -48,7 +48,7 @@
     }
 
     &.disable-transition {
-      transition: none;
-      animation: none;
+      transition: none !important;
+      animation: none !important;
     }
   }
