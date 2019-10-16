@@ -1,9 +1,9 @@
 <template>
-  <div class="vue-toasts">
+  <div>
     <div
       v-for="pos in positions"
       :key="pos"
-      :class="`vue-toast-container ${pos}`"
+      :class="`${VT_NAMESPACE}__container ${pos}`"
     >
       <BounceTransition tag="div" group>
         <Toast
@@ -19,7 +19,7 @@
 <script>
 import Toast from "./Toast";
 import events from "../js/events";
-import { EVENTS, POSITION } from "../js/constants";
+import { EVENTS, POSITION, VT_NAMESPACE } from "../js/constants";
 import BounceTransition from "./transitions/BounceTransition";
 
 export default {
@@ -66,7 +66,7 @@ export default {
     },
     timeout: {
       type: [Number, Boolean],
-      default: 5000
+      default: false
     },
     container: {
       type: Element,
@@ -78,7 +78,8 @@ export default {
     return {
       count: 0,
       positions: Object.values(POSITION),
-      toasts: {}
+      toasts: {},
+      VT_NAMESPACE
     };
   },
   beforeMount() {
@@ -115,83 +116,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
-
-<style lang="scss">
-.vue-toasts {
-  .vue-toast-container {
-    z-index: 5000;
-    -webkit-transform: translate3d(0, 0, 5000px);
-    position: fixed;
-    padding: 4px;
-    width: 500px;
-    box-sizing: border-box;
-    display: flex;
-    height: 100%;
-    color: #fff;
-    flex-direction: column;
-    pointer-events: none;
-    .vue-toast {
-      pointer-events: auto;
-    }
-    @media only screen and (min-width: 480px) {
-      &.top-left,
-      &.top-right,
-      &.top-center {
-        top: 1em;
-      }
-
-      &.bottom-left,
-      &.bottom-right,
-      &.bottom-center {
-        bottom: 1em;
-        flex-direction: column-reverse;
-      }
-
-      &.top-left,
-      &.bottom-left {
-        left: 1em;
-        .vue-toast {
-          float: left;
-        }
-      }
-
-      &.top-right,
-      &.bottom-right {
-        right: 1em;
-        .vue-toast {
-          float: right;
-        }
-      }
-
-      &.top-center,
-      &.bottom-center {
-        left: 50%;
-        margin-left: calc(-500px / 2);
-        .vue-toast {
-          margin-left: auto;
-          margin-right: auto;
-        }
-      }
-    }
-
-    @media only screen and (max-width: 480px) {
-      width: 100vw;
-      padding: 0;
-      left: 0;
-      margin: 0;
-      &.top-left,
-      &.top-right,
-      &.top-center {
-        top: 0;
-      }
-      &.bottom-left,
-      &.bottom-right,
-      &.bottom-center {
-        bottom: 0;
-      }
-    }
-  }
-}
-</style>

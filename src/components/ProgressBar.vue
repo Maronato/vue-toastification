@@ -1,8 +1,9 @@
 <template>
-  <div :style="style" class="vue-toast__progress-bar" />
+  <div :style="style" :class="`${VT_NAMESPACE}__progress-bar`" />
 </template>
 
 <script>
+import { VT_NAMESPACE } from "../js/constants";
 export default {
   props: {
     timeout: {
@@ -11,6 +12,11 @@ export default {
     },
     hide: Boolean,
     isRunning: Boolean
+  },
+  data() {
+    return {
+      VT_NAMESPACE
+    };
   },
   computed: {
     style() {
@@ -34,26 +40,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@keyframes scale-x-frames {
-  0% {
-    transform: scaleX(1);
-  }
-  100% {
-    transform: scaleX(0);
-  }
-}
-
-.vue-toasts .vue-toast__progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  z-index: 5000;
-  background-color: rgba(255, 255, 255, 0.7);
-  transform-origin: left;
-  animation: scale-x-frames linear 1 forwards;
-}
-</style>

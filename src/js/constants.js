@@ -20,3 +20,5 @@ export const EVENTS = {
   DISMISS: "dismiss",
   CLEAR: "clear"
 };
+
+export const VT_NAMESPACE = "Vue-Toast";

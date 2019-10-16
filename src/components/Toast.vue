@@ -9,9 +9,7 @@
     @focus="focusPlay"
   >
     <template v-if="typeof content === 'string'">
-      <div class="vue-toast__body">
-        {{ content }}
-      </div>
+      <div :class="`${VT_NAMESPACE}__body`">{{ content }}</div>
     </template>
     <component
       :is="content.component || content"
@@ -35,7 +33,7 @@ import ProgressBar from "./ProgressBar";
 import CloseButton from "./CloseButton";
 import events from "../js/events";
 import Draggable from "./Draggable";
-import { EVENTS } from "../js/constants";
+import { EVENTS, VT_NAMESPACE } from "../js/constants";
 import { removeElement } from "../js/utils";
 
 export default {
@@ -78,12 +76,17 @@ export default {
   data() {
     return {
       isRunning: true,
-      disableTransitions: false
+      disableTransitions: false,
+      VT_NAMESPACE
     };
   },
   computed: {
     classes() {
-      const classes = ["vue-toast", this.type, this.position];
+      const classes = [
+        `${VT_NAMESPACE}__toast`,
+        `${VT_NAMESPACE}__toast--${this.type}`,
+        `${this.position}`
+      ];
       if (this.disableTransitions) {
         classes.push("disable-transition");
       }
@@ -135,59 +138,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.vue-toast.disable-transition {
-  transition: none;
-  animation: none;
-}
-</style>
-
-<style lang="scss">
-.vue-toasts {
-  .vue-toast {
-    display: flex;
-    position: relative;
-    max-height: 300px;
-    min-height: 64px;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-    padding: 22px 24px;
-    border-radius: 8px;
-    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1),
-      0 2px 15px 0 rgba(0, 0, 0, 0.05);
-    justify-content: space-between;
-    font-family: "Lato", Helvetica, "Roboto", Arial, sans-serif;
-    max-width: 500px;
-    min-width: 326px;
-
-    &.default {
-      background-color: #1976d2;
-    }
-    &.info {
-      background-color: #2196f3;
-    }
-    &.success {
-      background-color: #4caf50;
-    }
-    &.error {
-      background-color: #ff5252;
-    }
-    &.warning {
-      background-color: #ffc107;
-    }
-
-    @media only screen and (max-width: 480px) {
-      border-radius: 0px;
-      margin-bottom: 0.5rem;
-    }
-
-    .vue-toast__body {
-      flex: 1;
-      line-height: 24px;
-      font-size: 16px;
-      word-break: break-word;
-    }
-  }
-}
-</style>
