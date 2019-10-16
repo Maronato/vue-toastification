@@ -9,7 +9,7 @@
     @focus="focusPlay"
   >
     <template v-if="typeof content === 'string'">
-      <div :class="`${VT_NAMESPACE}__body`">{{ content }}</div>
+      <div :class="bodyClasses">{{ content }}</div>
     </template>
     <component
       :is="content.component || content"
@@ -71,7 +71,15 @@ export default {
       type: [Number, Boolean],
       required: true
     },
-    hideProgressBar: Boolean
+    hideProgressBar: Boolean,
+    toastClassName: {
+      type: [Array, String],
+      required: true
+    },
+    bodyClassName: {
+      type: [Array, String],
+      required: true
+    }
   },
   data() {
     return {
@@ -85,11 +93,23 @@ export default {
       const classes = [
         `${VT_NAMESPACE}__toast`,
         `${VT_NAMESPACE}__toast--${this.type}`,
-        `${this.position}`
+        `${this.position}`,
+        ...(Array.isArray(this.toastClassName)
+          ? this.toastClassName
+          : [this.toastClassName])
       ];
       if (this.disableTransitions) {
         classes.push("disable-transition");
       }
+      return classes;
+    },
+    bodyClasses() {
+      const classes = [
+        `${VT_NAMESPACE}__body`,
+        ...(Array.isArray(this.bodyClassName)
+          ? this.bodyClassName
+          : [this.bodyClassName])
+      ];
       return classes;
     }
   },

@@ -76,6 +76,14 @@ export default {
       type: Element,
       default: () => document.body
     },
+    toastClassName: {
+      type: [Array, String],
+      default: () => []
+    },
+    bodyClassName: {
+      type: [Array, String],
+      default: () => []
+    },
     hideProgressBar: Boolean
   },
   data() {
