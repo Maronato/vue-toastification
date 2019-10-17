@@ -21,4 +21,4 @@ export const EVENTS = {
   CLEAR: "clear"
 };
 
-export const VT_NAMESPACE = "Vue-Toastify";
+export const VT_NAMESPACE = "Vue-Toastification";

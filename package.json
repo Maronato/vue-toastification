@@ -1,15 +1,15 @@
 {
-  "name": "vuetoastify",
-  "version": "0.1.0",
+  "name": "vue-toastification",
+  "version": "0.1.2",
   "description": "Toasts for Vue made easy!",
   "private": false,
-  "main": "./dist/vue-toast.umd.min.js",
+  "main": "./dist/vue-toastification.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "watch": "vue-cli-service serve",
     "build": "vue-cli-service build  --dest build/",
     "lint": "vue-cli-service lint",
-    "compile": "vue-cli-service build --target lib --dest dist/ --name vue-toast ./src/index.js"
+    "compile": "vue-cli-service build --target lib --dest dist/ ./src/index.js"
   },
   "dependencies": {},
   "devDependencies": {

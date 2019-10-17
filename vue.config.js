@@ -1,3 +1,4 @@
 module.exports = {
-  outputDir: "build"
+  outputDir: "build",
+  css: { extract: false }
 };

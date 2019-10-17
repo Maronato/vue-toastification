@@ -1,5 +1,5 @@
-import "./scss/index.scss";
 import ToastInterface from "./js/interface";
+import "./scss/index.scss";
 
 const plugin = {};
 
