@@ -75,7 +75,7 @@ export default {
     },
     timeout: {
       type: [Number, Boolean],
-      default: false
+      default: 5000
     },
     container: {
       type: Element,
