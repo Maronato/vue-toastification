@@ -27,8 +27,10 @@ const isFunction = value => typeof value === "function";
 
 const isNonEmptyString = value => value === "string" && value.trim().length > 0;
 
+const isObject = value => typeof value === "object";
+
 export const isVueComponent = obj =>
-  isFunction(obj) || isNonEmptyString(obj.template);
+  isObject(obj) && (isFunction(obj.render) || isNonEmptyString(obj.template));
 
 export const isPositiveInt = value => Number.isInteger(value) && value > 0;
 

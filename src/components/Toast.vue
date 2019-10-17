@@ -67,7 +67,10 @@ export default {
     content: {
       type: [String, Object],
       required: true,
-      validator: value => isVueComponent(value.component) || isString(value)
+      validator: value =>
+        isString(value) ||
+        isVueComponent(value) ||
+        isVueComponent(value.component)
     },
     pauseOnHover: Boolean,
     pauseOnFocusLoss: Boolean,
