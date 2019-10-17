@@ -1,7 +1,8 @@
 {
-  "name": "vue-toast",
+  "name": "vuetoastify",
   "version": "0.1.0",
-  "private": true,
+  "description": "Toasts for Vue made easy!",
+  "private": false,
   "main": "./dist/vue-toast.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -40,5 +41,9 @@
   "bugs": {
     "url": "https://github.com/Maronato/vue-toast/issues"
   },
-  "homepage": "https://github.com/Maronato/vue-toastn#readme"
+  "homepage": "https://github.com/Maronato/vue-toastn#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maronato/vue-toast.git"
+  }
 }
