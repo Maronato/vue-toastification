@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import Icon from "./components/Icon";
 export default {
   name: "App",
   data() {
@@ -16,15 +15,9 @@ export default {
   methods: {
     click() {
       this.$toast("default");
-      this.$toast(Icon, { position: "bottom-left" });
+      this.$toast("aaaa", { position: "bottom-left" });
       this.$toast.success("success", { position: "top-center" });
-      this.$toast.info(
-        {
-          component: Icon,
-          listeners: { click: () => console.log("clicked!") }
-        },
-        { position: "top-left" }
-      );
+      this.$toast.info("info", { position: "top-left" });
       this.$toast.warning("success", { position: "bottom-center" });
       this.$toast.error(
         "success fd fds fds f a fsd fasdfdsfsdfhksdkfksd    fsahfjdshfksjdhf ksdjfhksjfdhsdkjhjf",

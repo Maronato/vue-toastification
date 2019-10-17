@@ -8,6 +8,7 @@
     @blur="focusPause"
     @focus="focusPlay"
   >
+    <Icon v-if="icon" :custom-icon="icon" :type="type" />
     <template v-if="typeof content === 'string'">
       <div :class="bodyClasses">{{ content }}</div>
     </template>
@@ -32,6 +33,7 @@
 <script>
 import ProgressBar from "./ProgressBar";
 import CloseButton from "./CloseButton";
+import Icon from "./Icon";
 import events from "../js/events";
 import Draggable from "./Draggable";
 import { EVENTS, VT_NAMESPACE, TYPE, POSITION } from "../js/constants";
@@ -46,7 +48,8 @@ import {
 export default {
   components: {
     ProgressBar,
-    CloseButton
+    CloseButton,
+    Icon
   },
   mixins: [Draggable],
   inheritAttrs: false,
@@ -95,6 +98,10 @@ export default {
       type: [Array, String],
       required: true,
       validator: value => isString(value) || value.every(v => isString(v))
+    },
+    icon: {
+      type: [String, Boolean],
+      default: true
     }
   },
   data() {
@@ -121,7 +128,7 @@ export default {
     },
     bodyClasses() {
       const classes = [
-        `${VT_NAMESPACE}__body`,
+        `${VT_NAMESPACE}__toast-body`,
         ...(Array.isArray(this.bodyClassName)
           ? this.bodyClassName
           : [this.bodyClassName])
