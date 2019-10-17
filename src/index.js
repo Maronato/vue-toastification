@@ -1,6 +1,7 @@
-import ToastInterface from './js/interface';
+import "./scss/index.scss";
+import ToastInterface from "./js/interface";
 
-const plugin = {}
+const plugin = {};
 
 plugin.install = (Vue, options = {}) => {
   const toast = ToastInterface(Vue, options);

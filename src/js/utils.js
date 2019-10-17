@@ -1,7 +1,7 @@
 /**
  * ID generator
  */
-export const getId = (i => () => i++)(0)
+export const getId = (i => () => i++)(0);
 
 export function getX(e) {
   return e.targetTouches && e.targetTouches.length >= 1
