@@ -16,6 +16,7 @@
       v-else
       v-bind="content.props"
       v-on="content.listeners"
+      @close-toast="closeToast"
     />
     <CloseButton @click.stop="closeToast" />
     <ProgressBar
@@ -23,7 +24,7 @@
       :is-running="isRunning"
       :hide="hideProgressBar"
       :timeout="timeout"
-      @closeToast="timeoutHandler"
+      @close-toast="timeoutHandler"
     />
   </div>
 </template>

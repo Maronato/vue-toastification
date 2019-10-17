@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     animationEnded() {
-      this.$emit("closeToast");
+      this.$emit("close-toast");
     }
   }
 };
