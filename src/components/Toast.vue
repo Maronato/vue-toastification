@@ -33,8 +33,14 @@ import ProgressBar from "./ProgressBar";
 import CloseButton from "./CloseButton";
 import events from "../js/events";
 import Draggable from "./Draggable";
-import { EVENTS, VT_NAMESPACE } from "../js/constants";
-import { removeElement } from "../js/utils";
+import { EVENTS, VT_NAMESPACE, TYPE, POSITION } from "../js/constants";
+import {
+  removeElement,
+  isVueComponent,
+  isPositiveInt,
+  isString,
+  isIn
+} from "../js/utils";
 
 export default {
   components: {
@@ -50,15 +56,18 @@ export default {
     },
     type: {
       type: String,
-      required: true
+      required: true,
+      validator: value => isIn(value, Object.values(TYPE))
     },
     position: {
       type: String,
-      required: true
+      required: true,
+      validator: value => isIn(value, Object.values(POSITION))
     },
     content: {
       type: [String, Object],
-      required: true
+      required: true,
+      validator: value => isVueComponent(value.component) || isString(value)
     },
     pauseOnHover: Boolean,
     pauseOnFocusLoss: Boolean,
@@ -69,16 +78,19 @@ export default {
     },
     timeout: {
       type: [Number, Boolean],
-      required: true
+      required: true,
+      validator: value => isPositiveInt(value) || value === false
     },
     hideProgressBar: Boolean,
     toastClassName: {
       type: [Array, String],
-      required: true
+      required: true,
+      validator: value => isString(value) || value.every(v => isString(v))
     },
     bodyClassName: {
       type: [Array, String],
-      required: true
+      required: true,
+      validator: value => isString(value) || value.every(v => isString(v))
     }
   },
   data() {

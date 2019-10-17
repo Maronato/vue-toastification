@@ -5,7 +5,8 @@ export default {
     draggable: Boolean,
     draggablePercent: {
       type: Number,
-      required: true
+      required: true,
+      validator: value => value > 0
     }
   },
   data() {

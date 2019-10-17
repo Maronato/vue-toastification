@@ -17,6 +17,8 @@ export default {
     click() {
       this.$toast("default");
       this.$toast(Icon, { position: "bottom-left" });
+      const x = Icon;
+      console.log(x);
       this.$toast.success("success", { position: "top-center" });
       this.$toast.info("info", { position: "top-left" });
       this.$toast.warning("success", { position: "bottom-center" });

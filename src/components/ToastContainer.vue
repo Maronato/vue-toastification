@@ -20,6 +20,7 @@
 import Toast from "./Toast";
 import events from "../js/events";
 import { EVENTS, POSITION, VT_NAMESPACE } from "../js/constants";
+import { isPositiveInt } from "../js/utils";
 import Transition from "./Transition";
 
 export default {
@@ -38,7 +39,8 @@ export default {
     },
     maxToasts: {
       type: Number,
-      default: Infinity
+      default: 20,
+      validator: value => isPositiveInt(value)
     },
     transition: {
       type: String,
@@ -46,7 +48,10 @@ export default {
     },
     transitionDuration: {
       type: [Number, Object],
-      default: 750
+      default: 750,
+      validator: value =>
+        isPositiveInt(value) ||
+        (isPositiveInt(value.enter) && isPositiveInt(value.leave))
     },
     draggable: {
       type: Boolean,

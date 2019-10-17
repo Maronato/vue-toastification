@@ -15,12 +15,23 @@ export function getY(e) {
     : e.clientY;
 }
 
-export const removeElement = (el) => {
-  if (typeof el.remove !== 'undefined') {
-    el.remove()
+export const removeElement = el => {
+  if (typeof el.remove !== "undefined") {
+    el.remove();
   } else {
-    el.parentNode.removeChild(el)
+    el.parentNode.removeChild(el);
   }
 };
 
-export const isVueComponent = (obj) => typeof obj === 'object'
+const isFunction = value => typeof value === "function";
+
+const isNonEmptyString = value => value === "string" && value.trim().length > 0;
+
+export const isVueComponent = obj =>
+  isFunction(obj) || isNonEmptyString(obj.template);
+
+export const isPositiveInt = value => Number.isInteger(value) && value > 0;
+
+export const isString = value => typeof value === "string";
+
+export const isIn = (value, list) => list.indexOf(value) !== -1;
