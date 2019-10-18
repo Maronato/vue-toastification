@@ -100,7 +100,7 @@ export default {
     },
     icon: {
       type: [String, Boolean],
-      default: true
+      required: true
     }
   },
   data() {

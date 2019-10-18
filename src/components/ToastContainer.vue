@@ -90,7 +90,11 @@ export default {
       default: () => []
     },
     hideProgressBar: Boolean,
-    hideCloseButton: Boolean
+    hideCloseButton: Boolean,
+    icon: {
+      type: [String, Boolean],
+      default: true
+    }
   },
   data() {
     return {
