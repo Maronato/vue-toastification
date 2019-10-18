@@ -6,7 +6,18 @@
           <v-col cols="12">
             <v-row justify="center" class="text-center">
               <v-col cols="12" md="6">
-                <h1 class="display-4 font-weight-light">Vue Toastification</h1>
+                <h1 class="display-4 font-weight-light d-none d-lg-block">
+                  {{ title }}
+                </h1>
+                <h1
+                  class="display-3 font-weight-light d-none d-sm-block d-lg-none"
+                >
+                  {{ title }}
+                </h1>
+                <h1 class="display-2 font-weight-light d-sm-none">
+                  {{ title }}
+                </h1>
+                <span class="title">Light, easy and beautiful toasts</span>
               </v-col>
               <v-col cols="12">
                 <v-btn
@@ -14,16 +25,20 @@
                   elevation="4"
                   href="https://github.com/Maronato/vue-toastification"
                   class="mr-sm-5 mt-2 black white--text"
-                  >Check the code<v-icon right>fab fa-github</v-icon></v-btn
                 >
+                  Check the code
+                  <v-icon right>fab fa-github</v-icon>
+                </v-btn>
                 <v-btn
                   outlined
                   raised
                   elevation="4"
                   href="https://github.com/Maronato/vue-toastification/stargazers/"
                   class="yellow black--text mt-2"
-                  >Give it a star<v-icon right>fas fa-star</v-icon></v-btn
                 >
+                  Give it a star
+                  <v-icon right>fas fa-star</v-icon>
+                </v-btn>
               </v-col>
             </v-row>
           </v-col>
@@ -149,9 +164,7 @@
           <v-col order="2" cols="12" sm="8" md="4">
             <v-row>
               <v-col order="1" order-md="0" cols="12">
-                <h1 class="display-1 font-weight-light">
-                  Le code
-                </h1>
+                <h1 class="display-1 font-weight-light">Preview the code</h1>
               </v-col>
               <v-col cols="12" order="2" order-md="1">
                 <v-card class="pa-5">
@@ -207,6 +220,7 @@ const simpleActionCode = `// Component.vue (style omitted)
     >CLICK ME</button>
   </div>
 </template>
+
 <script>
 export default {
   methods: {
@@ -227,6 +241,7 @@ const eventsCode = `// Component.vue (style omitted)
     >SEND!</button>
   </div>
 </template>
+
 <script>
 export default {
   methods: {
@@ -240,6 +255,7 @@ export default {
 export default {
   components: { Prism },
   data: () => ({
+    title: "Vue Toastification",
     valid: false,
     type: "default",
     types: [
@@ -357,30 +373,30 @@ export default {
       } else {
         pre = `import Component from "./Component.vue";
 
-// ...
+    // ...
 
- `;
+     `;
         if (this.content !== Events) {
           content = `Component`;
         } else {
           content = `{
-  component: Component,
-  listeners: {
-    myClick: () => this.$toast.success("Event received!")
-  }
-}`;
+      component: Component,
+      listeners: {
+        myClick: () => this.$toast.success("Event received!")
+      }
+    }`;
         }
       }
       const options = `{
-  position: "${this.position}",
-  timeout: ${this.options.timeout || "false"},
-  closeOnClick: ${this.options.closeOnClick},
-  pauseOnFocusLoss: ${this.options.pauseOnFocusLoss},
-  pauseOnHover: ${this.options.pauseOnHover},
-  draggable: ${this.options.draggable},
-  hideCloseButton: ${this.options.hideCloseButton},
-  hideProgressBar: ${this.options.hideProgressBar}
-}`;
+      position: "${this.position}",
+      timeout: ${this.options.timeout || "false"},
+      closeOnClick: ${this.options.closeOnClick},
+      pauseOnFocusLoss: ${this.options.pauseOnFocusLoss},
+      pauseOnHover: ${this.options.pauseOnHover},
+      draggable: ${this.options.draggable},
+      hideCloseButton: ${this.options.hideCloseButton},
+      hideProgressBar: ${this.options.hideProgressBar}
+    }`;
       const code = `${pre}this.$toast${type}(${content}, ${options});`;
       return code;
     }
@@ -425,10 +441,5 @@ export default {
 .v-application pre {
   background-color: white;
   box-shadow: none;
-}
-@media only screen and (max-width: 600px) {
-  .v-application .display-4 {
-    font-size: 3rem !important;
-  }
 }
 </style>

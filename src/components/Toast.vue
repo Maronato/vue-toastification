@@ -13,7 +13,7 @@
       <div :class="bodyClasses">{{ content }}</div>
     </template>
     <component
-      :is="content.component || content"
+      :is="getVueComponentFromObj(content)"
       v-else
       v-bind="content.props"
       v-on="content.listeners"
@@ -42,7 +42,8 @@ import {
   isVueComponent,
   isPositiveInt,
   isString,
-  isIn
+  isIn,
+  getVueComponentFromObj
 } from "../js/utils";
 
 export default {
@@ -71,10 +72,7 @@ export default {
     content: {
       type: [String, Object],
       required: true,
-      validator: value =>
-        isString(value) ||
-        isVueComponent(value) ||
-        isVueComponent(value.component)
+      validator: value => isString(value) || isVueComponent(value)
     },
     pauseOnHover: Boolean,
     pauseOnFocusLoss: Boolean,
@@ -143,6 +141,7 @@ export default {
     }, 1000);
   },
   methods: {
+    getVueComponentFromObj,
     closeToast() {
       events.$emit(EVENTS.DISMISS, this.id);
     },

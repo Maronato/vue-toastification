@@ -935,7 +935,7 @@
     babel-plugin-module-resolver "3.2.0"
     core-js "^2.6.5"
 
-"@vue/babel-preset-jsx@^1.0.0":
+"@vue/babel-preset-jsx@^1.0.0", "@vue/babel-preset-jsx@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@vue/babel-preset-jsx/-/babel-preset-jsx-1.1.1.tgz#3a74642ca0ecea10aae13649df5ff70f9d24a6f5"
   integrity sha512-SeyndwQZc8MAOkhbJaC34ocTwcKekKkwrwnTMC3YF8VmGp5IQWW5gPIU66bqO9WFBXFA3J3ANsUbP2pj8q8KdQ==

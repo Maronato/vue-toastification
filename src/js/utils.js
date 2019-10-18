@@ -25,15 +25,35 @@ export const removeElement = el => {
 
 const isFunction = value => typeof value === "function";
 
-const isNonEmptyString = value => value === "string" && value.trim().length > 0;
+const isNonEmptyString = value =>
+  typeof value === "string" && value.trim().length > 0;
 
 const isObject = value => typeof value === "object";
 
 export const isVueComponent = obj =>
-  isObject(obj) && (isFunction(obj.render) || isNonEmptyString(obj.template));
+  isObject(obj) &&
+  (isVueComponent(obj.component) ||
+    (isFunction(obj.render) || isNonEmptyString(obj.tag)));
 
 export const isPositiveInt = value => Number.isInteger(value) && value > 0;
 
 export const isString = value => typeof value === "string";
 
 export const isIn = (value, list) => list.indexOf(value) !== -1;
+
+export const getVueComponentFromObj = obj => {
+  if (isObject(obj.component)) {
+    // Recurse if component prop
+    return getVueComponentFromObj(obj.component);
+  }
+  if (isNonEmptyString(obj.tag)) {
+    // Create render function for JSX
+    return {
+      render() {
+        return obj;
+      }
+    };
+  }
+  // Return the actual object if regular vue component
+  return obj;
+};
