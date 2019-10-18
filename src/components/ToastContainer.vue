@@ -89,7 +89,8 @@ export default {
       type: [Array, String],
       default: () => []
     },
-    hideProgressBar: Boolean
+    hideProgressBar: Boolean,
+    hideCloseButton: Boolean
   },
   data() {
     return {

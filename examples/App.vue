@@ -2,6 +2,32 @@
   <v-app id="inspire">
     <v-content>
       <v-container class="fill-height">
+        <v-row>
+          <v-col cols="12">
+            <v-row justify="center" class="text-center">
+              <v-col cols="12" md="6">
+                <h1 class="display-4 font-weight-light">Vue Toastification</h1>
+              </v-col>
+              <v-col cols="12">
+                <v-btn
+                  outlined
+                  elevation="4"
+                  href="https://github.com/Maronato/vue-toastification"
+                  class="mr-sm-5 mt-2 black white--text"
+                  >Check the code<v-icon right>fab fa-github</v-icon></v-btn
+                >
+                <v-btn
+                  outlined
+                  raised
+                  elevation="4"
+                  href="https://github.com/Maronato/vue-toastification/stargazers/"
+                  class="yellow black--text mt-2"
+                  >Give it a star<v-icon right>fas fa-star</v-icon></v-btn
+                >
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
         <v-row justify="center">
           <v-col order="1" cols="12" sm="8" md="4">
             <v-row>
@@ -102,6 +128,20 @@
                   v-model="options.draggable"
                   class="py-0 my-0"
                   label="Drag toast to close"
+                ></v-switch>
+              </v-col>
+              <v-col cols="6">
+                <v-switch
+                  v-model="options.hideCloseButton"
+                  class="py-0 my-0"
+                  label="Hide close button"
+                ></v-switch>
+              </v-col>
+              <v-col cols="6">
+                <v-switch
+                  v-model="options.hideProgressBar"
+                  class="py-0 my-0"
+                  label="Hide progress bar"
                 ></v-switch>
               </v-col>
             </v-row>
@@ -265,7 +305,7 @@ export default {
     content: "I'm a toast!",
     components: [
       {
-        text: "Alt Text",
+        text: "Alternate text",
         value: AltText
       },
       {
@@ -273,7 +313,7 @@ export default {
         value: SimpleAction
       },
       {
-        text: "With events",
+        text: "Action with events",
         value: Events
       }
     ],
@@ -282,7 +322,9 @@ export default {
       draggable: true,
       pauseOnFocusLoss: true,
       closeOnClick: true,
-      timeout: 5000
+      timeout: 5000,
+      hideCloseButton: false,
+      hideProgressBar: false
     }
   }),
   computed: {
@@ -335,9 +377,11 @@ export default {
   closeOnClick: ${this.options.closeOnClick},
   pauseOnFocusLoss: ${this.options.pauseOnFocusLoss},
   pauseOnHover: ${this.options.pauseOnHover},
-  draggable: ${this.options.draggable}
+  draggable: ${this.options.draggable},
+  hideCloseButton: ${this.options.hideCloseButton},
+  hideProgressBar: ${this.options.hideProgressBar}
 }`;
-      const code = `${pre}const toastId = this.$toast${type}(${content}, ${options});`;
+      const code = `${pre}this.$toast${type}(${content}, ${options});`;
       return code;
     }
   },
@@ -381,5 +425,10 @@ export default {
 .v-application pre {
   background-color: white;
   box-shadow: none;
+}
+@media only screen and (max-width: 600px) {
+  .v-application .display-4 {
+    font-size: 3rem !important;
+  }
 }
 </style>

@@ -19,7 +19,7 @@
       v-on="content.listeners"
       @close-toast="closeToast"
     />
-    <CloseButton @click.stop="closeToast" />
+    <CloseButton v-if="!hideCloseButton" @click.stop="closeToast" />
     <ProgressBar
       v-if="timeout"
       :is-running="isRunning"
@@ -89,6 +89,7 @@ export default {
       validator: value => isPositiveInt(value) || value === false
     },
     hideProgressBar: Boolean,
+    hideCloseButton: Boolean,
     toastClassName: {
       type: [Array, String],
       required: true,
