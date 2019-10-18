@@ -2,9 +2,7 @@
 [![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest)  [![Vue](https://img.shields.io/badge/Vue-2.0-red)](https://vuejs.org/)
 
 
-
 ![gif](https://media.giphy.com/media/j6B9MLpMcqxDnZH1Iq/giphy.gif)
-
 
 
 Light, easy and beautiful toasts!
@@ -12,43 +10,41 @@ Light, easy and beautiful toasts!
 Inspired by [React Toastify](https://github.com/fkhadra/react-toastify)
 
 
-
--  [Vue Toastification](#vue-toastification)
-
--  [Features](#features)
-
--  [Demo](#demo)
-
--  [Installation](#installation)
-
--  [Usage](#usage)
-
--  [Positioning the Toast](#positioning-the-toast)
+- [Vue Toastification](#vue-toastification)
+  - [Features](#features)
+  - [Demo](#demo)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Positioning the Toast](#positioning-the-toast)
+    - [Toast types](#toast-types)
+    - [Setting the toast timeout](#setting-the-toast-timeout)
+    - [Render a component](#render-a-component)
+    - [Close the toast using a custom component](#close-the-toast-using-a-custom-component)
+    - [Render a JSX component](#render-a-jsx-component)
+    - [Render a component with props and events](#render-a-component-with-props-and-events)
+    - [Dismiss toasts programatically](#dismiss-toasts-programatically)
+    - [Clear all toasts](#clear-all-toasts)
+  - [API](#api)
+    - [Plugin registration (Vue.use)](#plugin-registration-vueuse)
+    - [Toast (this.$toast)](#toast-thistoast)
+      - [Toast Content Object](#toast-content-object)
+      - [Toast Options Object](#toast-options-object)
+- [License](#license)
 
 
 
 ## Features
 
 - Easy to setup for real, you can make it work in less than 10sec!
-
 - Customize everything
-
 - Swipe to close 👌
-
 - Use your custom components or JSX as the toast body for endless possibilities!
-
 - Create custom experiences with the `onClose` and `onClick` hooks
-
 - Remove toasts programatically
-
 - Define behavior per toast
-
 - Pause toast when hovering and when window loses focus 👁
-
 - Fancy progress bar to display the remaining time
-
 - Use your themes and animations easily
-
 
 
 ## Demo
@@ -60,11 +56,8 @@ Need some more convincing? Check out the [demo](https://maronato.github.io/vue-t
 ## Installation
 
 ```
-
 $ yarn add vue-toastification
-
 $ npm install --save vue-toastification
-
 ```
 
 
@@ -74,27 +67,17 @@ $ npm install --save vue-toastification
 Add it as a Vue plugin:
 
 ```javascript
-
-import  Vue  from  "vue";
-
-import  Toast  from  "vue-toastification";
-
+import Vue from "vue";
+import Toast from "vue-toastification";
 // Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
 
-import  "vue-toastification/dist/index.css";
-
-
-
-const  options  =  {
-
-// You can set your default options here
-
+const options = {
+    // You can set your default options here
 };
 
 
-
-Vue.use(Toast,  options);
-
+Vue.use(Toast, options);
 ```
 
 
@@ -102,53 +85,33 @@ Vue.use(Toast,  options);
 And then just call it in your components with
 
 ```javascript
-
 this.$toast("I'm a toast!");
 
-
-
 // Or with options
-
-this.$toast("My toast content",  {
-
-timeout:  2000,
-
-onClose:  ()  =>  console.log("closed!")
-
+this.$toast("My toast content", {
+    timeout: 2000,
+    onClose: () => console.log("closed!")
 });
-
 // These options will override the options defined in the "Vue.use" plugin registration for this specific toast
-
 ```
-
-
 
 ### Positioning the Toast
 
 By default, the toasts will be displayed at the top right corner of your screen, but you can set it manually using the `position` option.
 
-
-
 The following values are allowed: **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.
 
-
-
 ```javascript
-
-Vue.use(Toast,  {
-
-// Setting the global default position
-
-position:  "top-left"
-
+Vue.use(Toast, {
+    // Setting the global default position
+    position: "top-left"
 });
 
 
 
 // Or set it per toast
 
-this.$toast("I'm a toast",  { position:  "bottom-left"  });
-
+this.$toast("I'm a toast", { position: "bottom-left" });
 ```
 
 
@@ -160,279 +123,160 @@ Depending on the context, you may want to use toasts of different colors. You ca
 
 
 ```javascript
-
 this.$toast("Default toast");
-
 this.$toast.info("Info toast");
-
 this.$toast.success("Success toast");
-
 this.$toast.error("Error toast");
-
 this.$toast.warning("Warning toast");
 
-
-
 // You can also set the type programatically when calling the default toast
-
-this.$toast("Also a success toast",  {
-
-type:  "success"  // or "error", "default", "info" and "warning"
-
+this.$toast("Also a success toast", {
+    type: "success"  // or "error", "default", "info" and "warning"
 });
-
 ```
 
 Setting the type only works when using `this.$toast`, it won't work when registering the plugin with `Vue.use`.
-
-
 
 ### Setting the toast timeout
 
 You can set for how long the toast will remain on the screen (in milliseconds) using the `timeout` option, or disable it altogether by setting it to `false`
 
-
-
 ```js
-
 // 1 second
-
-this.$toast("Quick toast",  { timeout:  1000  });
-
-
+this.$toast("Quick toast", { timeout: 1000 });
 
 // Or make the toast permanent until manually closed
-
-this.$toast("Persistent toast",  { timeout:  false  })
-
-
+this.$toast("Persistent toast", { timeout: false })
 
 // Or set it when registering the plugin
-
-Vue.use(Toast,  { timeout:  2000  });
-
+Vue.use(Toast, { timeout: 2000 });
 ```
-
-
 
 ### Render a component
-
 Want to use some custom single file component inside the toast? You can! Just pass it as the toast content and it will be rendered.
 
-
-
 ```js
-
-import  MyComponent  from  "./MyComponent.vue";
-
-
+import MyComponent from "./MyComponent.vue";
 
 this.$toast(MyComponent);
-
 ```
 
-
-
 ### Close the toast using a custom component
-
 When using custom components it is also possible to close the toast from within.
-
-
 
 To do that, just emit the `close-toast` event
 
 ```js
-
 // MyComponent.vue
 
 <template>
-
-<button  @click="$emit('close-toast')">Close  Toast</button>
-
+    <button @click="$emit('close-toast')">Close Toast</button>
 </template>
 
 
-
-
 // OtherFile.vue
-
-import  MyComponent  from  "./MyComponent.vue";
-
+import MyComponent from "./MyComponent.vue";
 
 
 // This toast will be closed when the button inside it is clicked
-
 this.$toast(MyComponent);
-
 ```
 
 
-
 ### Render a JSX component
-
 Sometimes you won't want to create a whole component just for a toast. In those cases, you can pass a JSX template to the Toast for it to render as a component
 
 > Note: Read [this](https://vuejs.org/v2/guide/render-function.html#JSX) to learn how to enable JSX inside of Vue
 
-
-
 ```js
-
-const  myJSX  = (
-
-<div>
-
-<h1>My Title</h1>
-
-<span>My text</span>
-
-</div>
-
+const myJSX = (
+    <div>
+        <h1>My Title</h1>
+        <span>My text</span>
+    </div>
 );
 
-
-
 // Vue Toastification will generate the appropriate render function automatically.
-
 this.$toast(myJSX);
-
 ```
-
 
 
 ### Render a component with props and events
 
 Usually it is not enough to just render a simple component and you'll need to handle events or pass props. You can do that too!
 
-
-
 Just pass the content in the format
 
 ```js
-
 {
-
-component:  Component,
-
-props:  {
-
-propName:  propValue  // Optional
-
-},
-
-listeners:  {
-
-eventName:  eventHandler  // Optional
-
+    component: Component,
+    props:  {
+        propName: propValue  // Optional
+    },
+    listeners: {
+        eventName: eventHandler  // Optional
+    }
 }
-
-}
-
 ```
-
-
 
 Props will be passed to the created component and the event listeners will be attached to it as well.
 
 > Note: Props passed are not reactive
 
-
-
 ```js
+const content = {
+    // Your component or JSX template
+    component: MyComponent,
 
-const  content  =  {
+    // Props are just regular props, but these won't be reactive
+    props: {
+        myProp: "abc",
+        otherProp: 123
+    },
 
-// Your component or JSX template
-
-component:  MyComponent,
-
-// Props are just regular props, but these won't be reactive
-
-props:  {
-
-myProp:  "abc",
-
-otherProp:  123
-
-},
-
-// Listeners will listen to and execute on event emission
-
-listeners:  {
-
-click:  ()  =>  console.log("Clicked!"),
-
-myEvent:  myEventHandler
-
-}
-
+    // Listeners will listen to and execute on event emission
+    listeners: {
+        click: () => console.log("Clicked!"),
+        myEvent: myEventHandler
+    }
 };
 
 
-
 this.$toast(content);
-
 ```
 
-
-
 ### Dismiss toasts programatically
-
 When a toast is created, an ID is assigned to it. You can use it later to programatically dismiss the toast.
-
 
 
 You can also choose a custom ID (String or Number) for the toast during its creation.
 
 
-
 ```js
-
 // Get the toast ID on creation
-
-const  toastId  =  this.$toast("my toast");
-
-
+const toastId = this.$toast("my toast");
 
 // Dismiss it later
-
 this.$toast.dismiss(toastId);
 
-
-
 // Pass your custom ID to the toast
-
-this.$toast("my other toast",  { id:  "my id"  });
-
+this.$toast("my other toast", { id: "my id" });
 this.$toast.dismiss("my id");
-
 ```
 
 
 
 ### Clear all toasts
-
 You can also dismiss all toasts at once using `clear`.
 
-
-
 ```js
-
 this.$toast("my toast A");
-
 this.$toast("my toast B");
-
 this.$toast("my toast C");
 
-
-
 // Dismiss all toasts
-
 this.$toast.clear();
-
 ```
-
-
 
 ## API
 
