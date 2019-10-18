@@ -373,30 +373,30 @@ export default {
       } else {
         pre = `import Component from "./Component.vue";
 
-    // ...
+// ...
 
-     `;
+`;
         if (this.content !== Events) {
           content = `Component`;
         } else {
           content = `{
-      component: Component,
-      listeners: {
-        myClick: () => this.$toast.success("Event received!")
-      }
-    }`;
+  component: Component,
+  listeners: {
+    myClick: () => this.$toast.success("Event received!")
+  }
+}`;
         }
       }
       const options = `{
-      position: "${this.position}",
-      timeout: ${this.options.timeout || "false"},
-      closeOnClick: ${this.options.closeOnClick},
-      pauseOnFocusLoss: ${this.options.pauseOnFocusLoss},
-      pauseOnHover: ${this.options.pauseOnHover},
-      draggable: ${this.options.draggable},
-      hideCloseButton: ${this.options.hideCloseButton},
-      hideProgressBar: ${this.options.hideProgressBar}
-    }`;
+  position: "${this.position}",
+  timeout: ${this.options.timeout || "false"},
+  closeOnClick: ${this.options.closeOnClick},
+  pauseOnFocusLoss: ${this.options.pauseOnFocusLoss},
+  pauseOnHover: ${this.options.pauseOnHover},
+  draggable: ${this.options.draggable},
+  hideCloseButton: ${this.options.hideCloseButton},
+  hideProgressBar: ${this.options.hideProgressBar}
+}`;
       const code = `${pre}this.$toast${type}(${content}, ${options});`;
       return code;
     }
