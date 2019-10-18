@@ -3,7 +3,7 @@
     <v-content>
       <v-container class="fill-height">
         <v-row justify="center">
-          <v-col order="2" order-md="1" cols="12" sm="8" md="4">
+          <v-col order="1" cols="12" sm="8" md="4">
             <v-row>
               <v-col cols="12">
                 <h1 class="display-1 font-weight-light">
@@ -106,29 +106,36 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col order="1" order-md="2" cols="12" sm="8" md="4">
-            <v-col cols="12">
-              <h1 class="display-1 font-weight-light">
-                Le code
-              </h1>
-            </v-col>
-            <v-col v-show="contentType !== 'text'" order="0" cols="12">
-              <v-card class="pa-5">
-                <Prism language="html">{{ customComponentCodeExample }}</Prism>
-              </v-card>
-            </v-col>
-            <v-col cols="12" order="2" order-md="1">
-              <v-card class="pa-5">
-                <Prism language="javascript">{{ toastCode }}</Prism>
-              </v-card>
-            </v-col>
-            <v-col cols="12" order="1" order-md="2">
-              <v-col cols="12">
+          <v-col order="2" cols="12" sm="8" md="4">
+            <v-row>
+              <v-col order="1" order-md="0" cols="12">
+                <h1 class="display-1 font-weight-light">
+                  Le code
+                </h1>
+              </v-col>
+              <v-col cols="12" order="2" order-md="1">
+                <v-card class="pa-5">
+                  <Prism language="javascript">{{ toastCode }}</Prism>
+                </v-card>
+              </v-col>
+              <v-col
+                v-show="contentType !== 'text'"
+                order="3"
+                order-md="3"
+                cols="12"
+              >
+                <v-card class="pa-5">
+                  <Prism language="html">{{
+                    customComponentCodeExample
+                  }}</Prism>
+                </v-card>
+              </v-col>
+              <v-col cols="12" order="0" order-md="2">
                 <v-btn color="primary" block large rounded @click="launch"
                   >Show toast!</v-btn
                 >
               </v-col>
-            </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
