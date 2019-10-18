@@ -12,6 +12,7 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/preset-env": "^7.6.3",
+    "@mdi/font": "^4.5.95",
     "@vue/cli-plugin-babel": "^3.12.0",
     "@vue/cli-plugin-eslint": "^3.12.0",
     "@vue/cli-service": "^3.12.0",
@@ -33,6 +34,7 @@
     "unminified-webpack-plugin": "^2.0.0",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.1",
+    "vue-prism-component": "^1.1.1",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
     "vuetify": "^2.1.4",

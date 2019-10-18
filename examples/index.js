@@ -2,6 +2,7 @@ import Vue from "vue";
 import vuetify from "./vuetify";
 import App from "./App.vue";
 import Toast from "../src/index";
+import "../src/scss/index.scss";
 
 Vue.config.productionTip = false;
 
