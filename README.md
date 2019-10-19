@@ -25,6 +25,9 @@ Inspired by [React Toastify](https://github.com/fkhadra/react-toastify)
       - [Render a component with props and events](#render-a-component-with-props-and-events)
     - [Dismiss toasts programatically](#dismiss-toasts-programatically)
     - [Clear all toasts](#clear-all-toasts)
+    - [Styling](#styling)
+      - [Custom toast classes](#custom-toast-classes)
+      - [Override SCSS variables](#override-scss-variables)
   - [API](#api)
     - [Plugin registration (Vue.use)](#plugin-registration-vueuse)
     - [Toast (this.$toast)](#toast-thistoast)
@@ -156,6 +159,10 @@ Vue.use(Toast, { timeout: 2000 });
 ### Using a custom component
 Passing strings as the toast content is not enough? You can render anything inside the toast using custom components! Vue Toastification accepts both Vue Components and JSX templates as parameters.
 
+See an example with custom components in action:
+
+[![Edit Vue Template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-template-w2w2c?fontsize=14)
+
 #### Render a component
 To use a Single File Component as content just pass it to the toast:
 
@@ -280,6 +287,65 @@ this.$toast("my toast C");
 
 // Dismiss all toasts
 this.$toast.clear();
+```
+
+### Styling
+There are two ways to style your toast components. You can either add custom classes to the toast and modify them using those or you can override the actual toast's SCSS when importing them.
+
+#### Custom toast classes
+```js
+this.$toast({
+    // For the actual toast, including different toast types:
+    toastClassName: "my-custom-toast-class",
+
+    // For the toast body when using strings as content
+    bodyClassName: ["custom-class-1", "custom-class-2"]
+});
+
+<style>
+/* When setting CSS, remember that priority increases with specificity, so don't forget to select the exisiting classes as well */
+
+    .Vue-Toastification__toast--default.my-custom-toast-class {
+        background-color: red;
+    }
+
+    .Vue-Toastification__toast-body.custom-class-1 {
+        font-size: 30px;
+    }
+</style>
+```
+These can also be defined when registering the vue plugin.
+
+#### Override SCSS variables
+There is a set of [pre defined variables](https://github.com/Maronato/vue-toastification/blob/master/src/scss/_variables.scss) that you can override to change some basic styling.
+
+If you have a SCSS loader in your project, simply create a file overriding the defaults
+```scss
+// yourMainScssFile.scss
+
+// Override the variables or import a file that overrides them
+$vt-color-success: white;
+$vt-text-color-success: #000;
+
+// Import the regular Vue Toastification stylesheets (or create your own)
+@import "vue-toastification/src/scss/_variables";
+@import "vue-toastification/src/scss/_toastContainer";
+@import "vue-toastification/src/scss/_toast";
+@import "vue-toastification/src/scss/_closeButton";
+@import "vue-toastification/src/scss/_progressBar";
+@import "vue-toastification/src/scss/_icon";
+@import "vue-toastification/src/scss/animations/_bounce";
+```
+
+Then you import it when registering the plugin
+```javascript
+import Vue from "vue";
+import Toast from "vue-toastification";
+
+// The magic is here
+import "./yourMainScssFile.scss";
+
+Vue.use(Toast);
 ```
 
 ## API
