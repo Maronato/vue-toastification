@@ -62,12 +62,12 @@
     "toast"
   ],
   "bugs": {
-    "url": "https://github.com/Maronato/vue-toast/issues"
+    "url": "https://github.com/Maronato/vue-toastification/issues"
   },
-  "homepage": "https://github.com/Maronato/vue-toastn#readme",
+  "homepage": "https://github.com/Maronato/vue-toastification#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Maronato/vue-toast.git"
+    "url": "https://github.com/Maronato/vue-toastification.git"
   },
   "peerDependencies": {
     "vue": "^2.0.0"
