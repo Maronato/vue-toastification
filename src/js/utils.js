@@ -25,7 +25,7 @@ export const removeElement = el => {
 
 const isFunction = value => typeof value === "function";
 
-const isNonEmptyString = value =>
+export const isNonEmptyString = value =>
   typeof value === "string" && value.trim().length > 0;
 
 const isObject = value => typeof value === "object";

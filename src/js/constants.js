@@ -18,7 +18,8 @@ export const POSITION = {
 export const EVENTS = {
   ADD: "add",
   DISMISS: "dismiss",
-  CLEAR: "clear"
+  CLEAR: "clear",
+  UPDATE_DEFAULTS: "update_defaults"
 };
 
 export const VT_NAMESPACE = "Vue-Toastification";

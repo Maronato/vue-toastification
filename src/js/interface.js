@@ -14,6 +14,7 @@ const ToastInterface = (Vue, globalOptions = {}) => {
     return props.id;
   };
   toast.clear = () => events.$emit(EVENTS.CLEAR);
+  toast.updateDefaults = update => events.$emit(EVENTS.UPDATE_DEFAULTS, update);
   toast.dismiss = id => events.$emit(EVENTS.DISMISS, id);
   toast.success = (content, options) =>
     toast(content, { ...options, type: TYPE.SUCCESS });

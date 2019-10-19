@@ -1,9 +1,9 @@
 <template>
   <transition-group
     tag="div"
-    :enter-active-class="`${name}-enter-active`"
-    :move-class="`${name}-move`"
-    :leave-active-class="`${name}-leave-active`"
+    :enter-active-class="name.enter ? name.enter : `${name}-enter-active`"
+    :move-class="name.move ? name.move : `${name}-move`"
+    :leave-active-class="name.leave ? name.leave : `${name}-leave-active`"
     @leave="leave"
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
@@ -20,7 +20,7 @@ export default {
   inheritAttrs: false,
   props: {
     name: {
-      type: String,
+      type: [String, Object],
       required: true
     },
     duration: {

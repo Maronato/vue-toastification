@@ -2,8 +2,8 @@
   <div>
     <div v-for="pos in positions" :key="pos">
       <Transition
-        :name="transition"
-        :duration="transitionDuration"
+        :name="defaults.transition"
+        :duration="defaults.transitionDuration"
         :class="`${VT_NAMESPACE}__container ${pos}`"
       >
         <Toast
@@ -20,7 +20,7 @@
 import Toast from "./Toast";
 import events from "../js/events";
 import { EVENTS, POSITION, VT_NAMESPACE } from "../js/constants";
-import { isPositiveInt } from "../js/utils";
+import { isPositiveInt, isNonEmptyString } from "../js/utils";
 import Transition from "./Transition";
 
 export default {
@@ -43,8 +43,11 @@ export default {
       validator: value => isPositiveInt(value)
     },
     transition: {
-      type: String,
-      default: "bounce"
+      type: [Object, String],
+      default: "bounce",
+      validator: value =>
+        isNonEmptyString(value) ||
+        ["enter", "leave", "move"].every(k => isNonEmptyString(value[k]))
     },
     transitionDuration: {
       type: [Number, Object],
@@ -101,23 +104,24 @@ export default {
       count: 0,
       positions: Object.values(POSITION),
       toasts: {},
-      VT_NAMESPACE
+      VT_NAMESPACE,
+      defaults: {}
     };
   },
   beforeMount() {
     this.setup();
-  },
-  mounted() {
     events.$on(EVENTS.ADD, this.addToast);
     events.$on(EVENTS.CLEAR, this.clearToasts);
     events.$on(EVENTS.DISMISS, this.dismissToast);
+    events.$on(EVENTS.UPDATE_DEFAULTS, this.updateDefaults);
+    this.defaults = this.$props;
   },
   methods: {
     setup() {
       this.container.appendChild(this.$el);
     },
     addToast(params) {
-      const props = Object.assign({}, this.$props, params);
+      const props = Object.assign({}, this.defaults, params);
       this.$set(this.toasts, props.id, props);
     },
     dismissToast(id) {
@@ -132,8 +136,11 @@ export default {
     getPositionToasts(position) {
       const toasts = Object.values(this.toasts)
         .filter(toast => toast.position === position)
-        .slice(0, this.maxToasts);
-      return this.newestOnTop ? toasts.reverse() : toasts;
+        .slice(0, this.defaults.maxToasts);
+      return this.defaults.newestOnTop ? toasts.reverse() : toasts;
+    },
+    updateDefaults(update) {
+      this.defaults = Object.assign({}, this.defaults, update);
     }
   }
 };
