@@ -7,7 +7,7 @@
 
 Light, easy and beautiful toasts!
 
-Inspired by [React Toastify](https://github.com/fkhadra/react-toastify)
+Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toastification/)!
 
 
 - [Vue Toastification](#vue-toastification)
@@ -33,6 +33,7 @@ Inspired by [React Toastify](https://github.com/fkhadra/react-toastify)
     - [Toast (this.$toast)](#toast-thistoast)
       - [Toast Content Object](#toast-content-object)
       - [Toast Options Object](#toast-options-object)
+- [Acknowledgements](#acknowledgements)
 - [License](#license)
 
 
@@ -404,6 +405,9 @@ Vue.use(Toast);
 | icon | Boolean or String | `true` | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. |
 
 ⚠️️ _Toast options supersede Plugin Registration props_  ⚠️
+
+# Acknowledgements
+This project was heavily inspired by the beautiful [React Toastify](https://github.com/fkhadra/react-toastify) project and [other](https://github.com/shakee93/vue-toasted) [great](https://github.com/ankurk91/vue-toast-notification) Vue libraries.
 
 # License
 Copyright (C) 2019 [Maronato](https://github.com/Maronato). Licensed under MIT
