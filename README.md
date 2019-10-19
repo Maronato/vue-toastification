@@ -294,7 +294,7 @@ There are two ways to style your toast components. You can either add custom cla
 
 #### Custom toast classes
 ```js
-this.$toast({
+this.$toast("my toast", {
     // For the actual toast, including different toast types:
     toastClassName: "my-custom-toast-class",
 
@@ -374,8 +374,8 @@ Vue.use(Toast);
 ### Toast (this.$toast)
 | Parameter | Type | Required | Description |
 |--|--|--|--|
-| content | String, Vue Component, JSX or Object | Yes | Toast contents. Can either be a string, a Vue Component, a JSX template or an Object. The shape of the object and its properties are described [here]() |
-| options | Object | No | Toast options. Described [here]() |
+| content | String, Vue Component, JSX or Object | Yes | Toast contents. Can either be a string, a Vue Component, a JSX template or an Object. The shape of the object and its properties are described [here](#toast-content-object) |
+| options | Object | No | Toast options. Described [here](#toast-options-object) |
 
 #### Toast Content Object
 | Prop | Type | Required | Description |
