@@ -179,7 +179,7 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
 
-.bounce-enter-active {
+.#{$vt-namespace}__bounce-enter-active {
   &.top-left,
   &.bottom-left {
     animation-name: bounceInLeft;
@@ -196,7 +196,7 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
 
-.bounce-leave-active {
+.#{$vt-namespace}__bounce-leave-active {
   &.top-left,
   &.bottom-left {
     animation-name: bounceOutLeft;
@@ -213,7 +213,7 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
 
-.bounce-move {
+.#{$vt-namespace}__bounce-move {
   transition-timing-function: ease-in-out;
   transition-property: all;
   transition-duration: 400ms;

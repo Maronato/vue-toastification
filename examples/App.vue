@@ -103,11 +103,11 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <h3 class="title font-weight-thin">Options</h3>
+                <h3 class="title font-weight-thin">Toast Options</h3>
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" md="8">
+              <v-col cols="12" md="6">
                 <h3 class="body-1 font-weight-thin">
                   Toast timeout
                   <code>{{ computedTimeout }}</code>
@@ -117,54 +117,107 @@
                   max="10000"
                 ></v-slider>
               </v-col>
-              <v-col cols="6">
+              <v-col cols="12" md="6">
                 <v-switch
                   v-model="options.closeOnClick"
-                  class="py-0 my-0"
                   label="Close on click"
+                ></v-switch>
+              </v-col>
+              <v-col cols="12" md="6">
+                <h3 class="body-1 font-weight-thin">
+                  Drag percentage
+                  <code>{{ options.draggablePercent / 100 }}</code>
+                </h3>
+                <v-slider
+                  v-model.number="options.draggablePercent"
+                  min="10"
+                  max="200"
+                  :disabled="!options.draggable"
+                ></v-slider>
+              </v-col>
+              <v-col cols="6">
+                <v-switch
+                  v-model="options.draggable"
+                  label="Drag toast to close"
                 ></v-switch>
               </v-col>
               <v-col cols="6">
                 <v-switch
                   v-model="options.pauseOnFocusLoss"
-                  class="py-0 my-0"
                   label="Pause when out of focus"
                 ></v-switch>
               </v-col>
               <v-col cols="6">
                 <v-switch
                   v-model="options.pauseOnHover"
-                  class="py-0 my-0"
                   label="Pause on hover"
                 ></v-switch>
               </v-col>
               <v-col cols="6">
                 <v-switch
-                  v-model="options.draggable"
-                  class="py-0 my-0"
-                  label="Drag toast to close"
-                ></v-switch>
-              </v-col>
-              <v-col cols="6">
-                <v-switch
                   v-model="options.hideCloseButton"
-                  class="py-0 my-0"
                   label="Hide close button"
                 ></v-switch>
               </v-col>
               <v-col cols="6">
                 <v-switch
                   v-model="options.hideProgressBar"
-                  class="py-0 my-0"
                   label="Hide progress bar"
                 ></v-switch>
               </v-col>
+              <v-col cols="6">
+                <v-combobox
+                  v-model="options.icon"
+                  :hide-no-data="!iconSearch"
+                  :items="iconOptions"
+                  :search-input.sync="iconSearch"
+                  :filter="filterIcons"
+                  label="Icon"
+                >
+              </v-combobox>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <h3 class="title font-weight-thin">Plugin Options</h3>
+              </v-col>
+            </v-row>
+            <v-row>
+            <v-col cols="12" md="6">
+              <h3 class="body-1 font-weight-thin">
+                Max toasts
+                <code>{{ pluginOptions.maxToasts }}</code>
+              </h3>
+              <v-slider
+                v-model.number="pluginOptions.maxToasts"
+                max="30"
+                min="1"
+              ></v-slider>
+            </v-col>
+            <v-col cols="6">
+              <v-select
+                v-model="pluginOptions.transition"
+                :items="transitionOptions"
+                label="Transition"
+              ></v-select>
+            </v-col>
+            <v-col md="6">
+              <v-switch
+                v-model="pluginOptions.newestOnTop"
+                label="Newest on top"
+              ></v-switch>
+            </v-col>
             </v-row>
           </v-col>
           <v-col order="2" cols="12" sm="8" md="4">
             <v-row>
               <v-col order="1" order-md="0" cols="12">
                 <h1 class="display-1 font-weight-light">Preview the code</h1>
+              </v-col>
+              <v-col order="3" order-md="3" cols="12">
+                <v-card class="pa-5">
+                  <Prism language="javascript">{{ pluginCode }}</Prism>
+                </v-card>
               </v-col>
               <v-col cols="12" order="2" order-md="1">
                 <v-card class="pa-5">
@@ -336,12 +389,47 @@ export default {
     options: {
       pauseOnHover: true,
       draggable: true,
+      draggablePercent: 60,
       pauseOnFocusLoss: true,
       closeOnClick: true,
       timeout: 5000,
       hideCloseButton: false,
-      hideProgressBar: false
-    }
+      hideProgressBar: false,
+      icon: {
+        text: "Default icons",
+        value: true
+      },
+    },
+    transitionOptions: [
+      {
+        text: "Default Bounce",
+        value: "bounce"
+      },
+      {
+        text: "Custom Fade",
+        value: "my-custom-fade"
+      }
+    ],
+    pluginOptions: {
+      transition: "bounce",
+      maxToasts: 20,
+      newestOnTop: true
+    },
+    iconSearch: "",
+    iconOptions: [
+      { header: "Select an option or type the name of a FontAwesome icon"},
+      {
+        text: "Default icons",
+        value: true
+      },
+      {
+        text: "Disable icon",
+        value: false
+      },
+      "fas fa-rocket",
+      "fas fa-bomb",
+      "fab fa-galactic-republic"
+    ]
   }),
   computed: {
     computedTimeout() {
@@ -360,6 +448,34 @@ export default {
         return simpleActionCode;
       }
       return eventsCode;
+    },
+    toastCodeOptions() {
+      const options = `position: "${this.position}",
+  timeout: ${this.options.timeout || "false"},
+  closeOnClick: ${this.options.closeOnClick},
+  pauseOnFocusLoss: ${this.options.pauseOnFocusLoss},
+  pauseOnHover: ${this.options.pauseOnHover},
+  draggable: ${this.options.draggable},
+  draggablePercent: ${this.options.draggablePercent / 100},
+  hideCloseButton: ${this.options.hideCloseButton},
+  hideProgressBar: ${this.options.hideProgressBar},
+  icon: ${typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`}`;
+      return options;
+    },
+    pluginCode() {
+      const code = `// YourApp.vue
+
+import Vue from "vue";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+Vue.use(Toast, {
+  transition: "${this.pluginOptions.transition}",
+  maxToasts: ${this.pluginOptions.maxToasts},
+  newestOnTop: ${this.pluginOptions.newestOnTop}
+});
+`;
+      return code;
     },
     toastCode() {
       let type = "";
@@ -387,18 +503,17 @@ export default {
 }`;
         }
       }
-      const options = `{
-  position: "${this.position}",
-  timeout: ${this.options.timeout || "false"},
-  closeOnClick: ${this.options.closeOnClick},
-  pauseOnFocusLoss: ${this.options.pauseOnFocusLoss},
-  pauseOnHover: ${this.options.pauseOnHover},
-  draggable: ${this.options.draggable},
-  hideCloseButton: ${this.options.hideCloseButton},
-  hideProgressBar: ${this.options.hideProgressBar}
-}`;
-      const code = `${pre}this.$toast${type}(${content}, ${options});`;
+
+      const code = `${pre}this.$toast${type}(${content}, {
+  ${this.toastCodeOptions}
+});`;
       return code;
+    },
+    toastIcon() {
+      if (typeof this.options.icon === 'object') {
+        return this.options.icon.value
+      }
+      return this.options.icon
     }
   },
   watch: {
@@ -408,6 +523,12 @@ export default {
       } else {
         this.content = AltText;
       }
+    },
+    pluginOptions: {
+      handler(val) {
+        this.$toast.updateDefaults(val);
+      },
+      deep: true
     }
   },
   methods: {
@@ -422,7 +543,11 @@ export default {
           }
         };
       }
-      const options = { ...this.options };
+      const options = {
+        ...this.options,
+        draggablePercent: this.options.draggablePercent / 100,
+        icon: this.toastIcon
+      };
       if (options.timeout === 0) {
         options.timeout = false;
       }
@@ -431,7 +556,19 @@ export default {
         type: this.type,
         ...options
       });
-    }
+    },
+    filterIcons (item, queryText, itemText) {
+        if (item.header) return false
+
+        const hasValue = val => val != null ? val : ''
+
+        const text = hasValue(itemText)
+        const query = hasValue(queryText)
+
+        return text.toString()
+          .toLowerCase()
+          .indexOf(query.toString().toLowerCase()) > -1
+      },
   }
 };
 </script>
@@ -441,5 +578,35 @@ export default {
 .v-application pre {
   background-color: white;
   box-shadow: none;
+}
+</style>
+
+<style lang="scss">
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.my-custom-fade-enter-active {
+  animation-name: fadeIn;
+}
+.my-custom-fade-leave-active {
+  animation-name: fadeOut;
+}
+.my-custom-fade-move {
+  transition-timing-function: ease-in-out;
+  transition-property: all;
+  transition-duration: 400ms;
 }
 </style>

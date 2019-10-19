@@ -44,7 +44,7 @@ export default {
     },
     transition: {
       type: [Object, String],
-      default: "bounce",
+      default: `${VT_NAMESPACE}__bounce`,
       validator: value =>
         isNonEmptyString(value) ||
         ["enter", "leave", "move"].every(k => isNonEmptyString(value[k]))
