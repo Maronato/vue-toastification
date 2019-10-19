@@ -2,7 +2,7 @@
 [![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest)  [![Vue](https://img.shields.io/badge/Vue-2.0-red)](https://vuejs.org/)
 
 
-![vt](https://user-images.githubusercontent.com/19658460/67136684-16ec0880-f200-11e9-9ac3-c3b518bfff0a.gif)
+![vt](https://i.imgur.com/i2PMcTq.gif)
 
 
 Light, easy and beautiful toasts!
