@@ -18,10 +18,11 @@ Inspired by [React Toastify](https://github.com/fkhadra/react-toastify)
     - [Positioning the Toast](#positioning-the-toast)
     - [Toast types](#toast-types)
     - [Setting the toast timeout](#setting-the-toast-timeout)
-    - [Render a component](#render-a-component)
-    - [Close the toast using a custom component](#close-the-toast-using-a-custom-component)
-    - [Render a JSX component](#render-a-jsx-component)
-    - [Render a component with props and events](#render-a-component-with-props-and-events)
+    - [Using a custom component](#using-a-custom-component)
+      - [Render a component](#render-a-component)
+      - [Close the toast using a custom component](#close-the-toast-using-a-custom-component)
+      - [Render a JSX component](#render-a-jsx-component)
+      - [Render a component with props and events](#render-a-component-with-props-and-events)
     - [Dismiss toasts programatically](#dismiss-toasts-programatically)
     - [Clear all toasts](#clear-all-toasts)
   - [API](#api)
@@ -152,8 +153,11 @@ this.$toast("Persistent toast", { timeout: false })
 Vue.use(Toast, { timeout: 2000 });
 ```
 
-### Render a component
-Want to use some custom single file component inside the toast? You can! Just pass it as the toast content and it will be rendered.
+### Using a custom component
+Passing strings as the toast content is not enough? You can render anything inside the toast using custom components! Vue Toastification accepts both Vue Components and JSX templates as parameters.
+
+#### Render a component
+To use a Single File Component as content just pass it to the toast:
 
 ```js
 import MyComponent from "./MyComponent.vue";
@@ -161,7 +165,7 @@ import MyComponent from "./MyComponent.vue";
 this.$toast(MyComponent);
 ```
 
-### Close the toast using a custom component
+#### Close the toast using a custom component
 When using custom components it is also possible to close the toast from within.
 
 To do that, just emit the `close-toast` event
@@ -183,7 +187,7 @@ this.$toast(MyComponent);
 ```
 
 
-### Render a JSX component
+#### Render a JSX component
 Sometimes you won't want to create a whole component just for a toast. In those cases, you can pass a JSX template to the Toast for it to render as a component
 
 > Note: Read [this](https://vuejs.org/v2/guide/render-function.html#JSX) to learn how to enable JSX inside of Vue
@@ -201,7 +205,7 @@ this.$toast(myJSX);
 ```
 
 
-### Render a component with props and events
+#### Render a component with props and events
 
 Usually it is not enough to just render a simple component and you'll need to handle events or pass props. You can do that too!
 
