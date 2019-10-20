@@ -23,7 +23,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
       - [Close the toast using a custom component](#close-the-toast-using-a-custom-component)
       - [Render a JSX component](#render-a-jsx-component)
       - [Render a component with props and events](#render-a-component-with-props-and-events)
-    - [Dismiss toasts programatically](#dismiss-toasts-programatically)
+    - [Dismiss toasts programmatically](#dismiss-toasts-programmatically)
     - [Clear all toasts](#clear-all-toasts)
     - [Styling](#styling)
       - [Custom toast classes](#custom-toast-classes)
@@ -49,7 +49,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 - Swipe to close 👌
 - Use your custom components or JSX as the toast body for endless possibilities!
 - Create custom experiences with the `onClose` and `onClick` hooks
-- Remove toasts programatically
+- Remove toasts programmatically
 - Define behavior per toast
 - Pause toast when hovering and when window loses focus 👁
 - Fancy progress bar to display the remaining time
@@ -136,7 +136,7 @@ this.$toast.success("Success toast");
 this.$toast.error("Error toast");
 this.$toast.warning("Warning toast");
 
-// You can also set the type programatically when calling the default toast
+// You can also set the type programmatically when calling the default toast
 this.$toast("Also a success toast", {
     type: "success"  // or "error", "default", "info" and "warning"
 });
@@ -259,8 +259,8 @@ const content = {
 this.$toast(content);
 ```
 
-### Dismiss toasts programatically
-When a toast is created, an ID is assigned to it. You can use it later to programatically dismiss the toast.
+### Dismiss toasts programmatically
+When a toast is created, an ID is assigned to it. You can use it later to programmatically dismiss the toast.
 
 
 You can also choose a custom ID (String or Number) for the toast during its creation.
@@ -441,7 +441,7 @@ You can use `updateDefaults` to update any of the default [API options](#plugin-
 | pauseOnFocusLoss   | Boolean                    | `true`                       | Whether or not the toast is paused when the window loses focus.                                                                                                                             |
 | pauseOnHover       | Boolean                    | `true`                       | Whether or not the toast is paused when it is hovered by the mouse.                                                                                                                         |
 | closeOnClick       | Boolean                    | `true`                       | Whether or not the toast is closed when clicked.                                                                                                                                            |
-| timeout            | Positive Integer or false  | `5000`                       | How many miliseconds for the toast to be auto dismissed, or false to disable.                                                                                                               |
+| timeout            | Positive Integer or false  | `5000`                       | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                               |
 | container          | HTMLElement                | `document.body`              | Container where the toasts are mounted.                                                                                                                                                     |
 | toastClassName     | String or Array of Strings | `[]`                         | Custom classes applied to the toast.                                                                                                                                                        |
 | bodyClassName      | String or Array of Strings | `[]`                         | Custom classes applied to the body of the toast.                                                                                                                                            |
@@ -474,7 +474,7 @@ You can use `updateDefaults` to update any of the default [API options](#plugin-
 | pauseOnHover     | Boolean                    | `true`      | Whether or not the toast is paused when it is hovered by the mouse.                                                                                   |
 | closeOnClick     | Boolean                    | `true`      | Whether or not the toast is closed when clicked.                                                                                                      |
 | onClick          | Function                   | `NOOP`      | Callback for when the toast is clicked. A `closeToast` callback is passed as argument to `onClick` when it is called.                                 |
-| timeout          | Positive Integer or false  | `5000`      | How many miliseconds for the toast to be auto dismissed, or false to disable.                                                                         |
+| timeout          | Positive Integer or false  | `5000`      | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                         |
 | toastClassName   | String or Array of Strings | `[]`        | Custom classes applied to the toast.                                                                                                                  |
 | bodyClassName    | String or Array of Strings | `[]`        | Custom classes applied to the body of the toast.                                                                                                      |
 | hideProgressBar  | Boolean                    | `false`     | Whether or not the progress bar is hidden.                                                                                                            |
