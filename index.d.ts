@@ -170,3 +170,4 @@ declare module 'vue/types/vue' {
 export default class Toast {
   static install: PluginFunction<never>;
 }
+
