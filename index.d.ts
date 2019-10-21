@@ -16,7 +16,7 @@ interface CommonOptions {
   /**
    *  By how much of the toast width in percent (0 to 1) it must be dragged before being dismissed.
    */
-  draggablePercent?: boolean;
+  draggablePercent?: number;
   /**
    *  Whether or not the toast is paused when the window loses focus.
    */
