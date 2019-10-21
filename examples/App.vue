@@ -174,7 +174,7 @@
                   :filter="filterIcons"
                   label="Icon"
                 >
-              </v-combobox>
+                </v-combobox>
               </v-col>
             </v-row>
             <v-row>
@@ -183,30 +183,30 @@
               </v-col>
             </v-row>
             <v-row>
-            <v-col cols="12" md="6">
-              <h3 class="body-1 font-weight-thin">
-                Max toasts
-                <code>{{ pluginOptions.maxToasts }}</code>
-              </h3>
-              <v-slider
-                v-model.number="pluginOptions.maxToasts"
-                max="30"
-                min="1"
-              ></v-slider>
-            </v-col>
-            <v-col cols="6">
-              <v-select
-                v-model="pluginOptions.transition"
-                :items="transitionOptions"
-                label="Transition"
-              ></v-select>
-            </v-col>
-            <v-col md="6">
-              <v-switch
-                v-model="pluginOptions.newestOnTop"
-                label="Newest on top"
-              ></v-switch>
-            </v-col>
+              <v-col cols="12" md="6">
+                <h3 class="body-1 font-weight-thin">
+                  Max toasts
+                  <code>{{ pluginOptions.maxToasts }}</code>
+                </h3>
+                <v-slider
+                  v-model.number="pluginOptions.maxToasts"
+                  max="30"
+                  min="1"
+                ></v-slider>
+              </v-col>
+              <v-col cols="6">
+                <v-select
+                  v-model="pluginOptions.transition"
+                  :items="transitionOptions"
+                  label="Transition"
+                ></v-select>
+              </v-col>
+              <v-col md="6">
+                <v-switch
+                  v-model="pluginOptions.newestOnTop"
+                  label="Newest on top"
+                ></v-switch>
+              </v-col>
             </v-row>
           </v-col>
           <v-col order="2" cols="12" sm="8" md="4">
@@ -398,12 +398,12 @@ export default {
       icon: {
         text: "Default icons",
         value: true
-      },
+      }
     },
     transitionOptions: [
       {
         text: "Default Bounce",
-        value: "bounce"
+        value: "Vue-Toastification__bounce"
       },
       {
         text: "Custom Fade",
@@ -411,13 +411,13 @@ export default {
       }
     ],
     pluginOptions: {
-      transition: "bounce",
+      transition: "Vue-Toastification__bounce",
       maxToasts: 20,
       newestOnTop: true
     },
     iconSearch: "",
     iconOptions: [
-      { header: "Select an option or type the name of a FontAwesome icon"},
+      { header: "Select an option or type the name of a FontAwesome icon" },
       {
         text: "Default icons",
         value: true
@@ -459,7 +459,9 @@ export default {
   draggablePercent: ${this.options.draggablePercent / 100},
   hideCloseButton: ${this.options.hideCloseButton},
   hideProgressBar: ${this.options.hideProgressBar},
-  icon: ${typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`}`;
+  icon: ${
+        typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`
+      }`;
       return options;
     },
     pluginCode() {
@@ -510,10 +512,10 @@ Vue.use(Toast, {
       return code;
     },
     toastIcon() {
-      if (typeof this.options.icon === 'object') {
-        return this.options.icon.value
+      if (typeof this.options.icon === "object") {
+        return this.options.icon.value;
       }
-      return this.options.icon
+      return this.options.icon;
     }
   },
   watch: {
@@ -557,18 +559,21 @@ Vue.use(Toast, {
         ...options
       });
     },
-    filterIcons (item, queryText, itemText) {
-        if (item.header) return false
+    filterIcons(item, queryText, itemText) {
+      if (item.header) return false;
 
-        const hasValue = val => val != null ? val : ''
+      const hasValue = val => (val != null ? val : "");
 
-        const text = hasValue(itemText)
-        const query = hasValue(queryText)
+      const text = hasValue(itemText);
+      const query = hasValue(queryText);
 
-        return text.toString()
+      return (
+        text
+          .toString()
           .toLowerCase()
           .indexOf(query.toString().toLowerCase()) > -1
-      },
+      );
+    }
   }
 };
 </script>
