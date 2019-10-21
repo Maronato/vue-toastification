@@ -13,6 +13,7 @@
     max-width:$vt-toast-max-width;
     min-width: $vt-toast-min-width;
     pointer-events: auto;
+    overflow: hidden;
 
     &--default {
       background-color: $vt-color-default;
