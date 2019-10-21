@@ -122,22 +122,47 @@ interface ToastContent {
 type ToastComponent = string | Component<any, any, any, any> | ToastContent
 
 interface ToastModule { 
+  /**
+   * Display a toast
+   */
   (content: ToastComponent, options?: ToastOptions): void;
+  /**
+   * Clear all toasts
+   */
   clear: () => void;
+  /**
+   * Dismiss toast specified by an id
+   */
   dismiss: (id: number) => void;
+  /**
+   * Display a success toast
+   */
   success: (content: ToastComponent, options?: ToastOptions &  { type: 'success' }) => void;
+  /**
+   * Display an info toast
+   */
   info: (content: ToastComponent, options?: ToastOptions &  { type: 'info' }) => void;
+  /**
+   * Display an error toast
+   */
   error: (content: ToastComponent, options?: ToastOptions &  { type: 'error' }) => void;
+  /**
+   * Display a warning toast
+   */
   warning: (content: ToastComponent, options?: ToastOptions &  { type: 'warning' }) => void;
+  /**
+   * update
+   */
+  updateDefaults: (toastOpts: PluginOptions) => void;
 }
 
 declare module 'vue/types/vue' {
   interface Vue {
-      $toast: ToastModule;
-      
+    $toast: ToastModule;
   }
+  
   interface VueConstructor {
-      $toast: ToastModule;
+    $toast: ToastModule;
   }
 }
 
