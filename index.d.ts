@@ -97,6 +97,7 @@ export interface ToastOptions extends CommonOptions {
   type?: 'success' | 'error' | 'default' | 'info' | 'warning';
   /**
    * 	Callback for when the toast is clicked. 
+   *
    *  A closeToast callback is passed as argument to onClick when it is called.
    */
   onClick?: (closeToast: Function) => void;
