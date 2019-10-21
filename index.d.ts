@@ -28,23 +28,23 @@ interface CommonOptions {
    /**
    * 	Whether or not the toast is closed when clicked.
    */
-  closeOnClick: boolean;
+  closeOnClick?: boolean;
   /**
    * How many milliseconds for the toast to be auto dismissed, or false to disable.
    */
-  timeout: number | false;
+  timeout?: number | false;
   /**
    * Container where the toasts are mounted.
    */
-  container: HTMLElement;
+  container?: HTMLElement;
   /**
    * 	Custom classes applied to the toast.
    */
-  toastClassName: string | string[];
+  toastClassName?: string | string[];
   /**
    * 	Custom classes applied to the body of the toast.
    */
-  bodyClassName: string | string[];
+  bodyClassName?: string | string[];
   /**
    * Whether or not the progress bar is hidden.
    */
@@ -75,13 +75,13 @@ interface PluginOptions extends CommonOptions {
    * 
    *  Only `enter-active`, `leave-active` and `move` are applied.
    */
-  transition: string | Record<'enter' | 'leave' | 'move', string>;
+  transition?: string | Record<'enter' | 'leave' | 'move', string>;
   /**
    * Duration of the transition. 
    * 
    * Can either be a positive integer for both enter and leave, or an object of shape `{enter: number, leave: number}`.
    */
-  transitionDuration: number | Record<'enter' | 'leave', number>;
+  transitionDuration?: number | Record<'enter' | 'leave', number>;
 }
 
 export interface ToastOptions extends CommonOptions {
@@ -112,11 +112,11 @@ interface ToastContent {
    * 
    * __These are not reactive__
    */
-  props: { [p: string]: any };
+  props?: { [p: string]: any };
   /**
    * `eventName: eventHandler` pairs of events that the component can emit.
    */
-  listeners: {[p: string]: Function}
+  listeners?: {[p: string]: Function}
 }
 
 type ToastComponent = string | Component<any, any, any, any> | ToastContent
