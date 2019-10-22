@@ -70,7 +70,7 @@ export default {
       validator: value => isIn(value, Object.values(POSITION))
     },
     content: {
-      type: [String, Object],
+      type: [String, Object, Function],
       required: true,
       validator: value => isString(value) || isVueComponent(value)
     },
