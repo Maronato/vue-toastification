@@ -1,3 +1,4 @@
+import Vue from "vue";
 /**
  * ID generator
  */
@@ -31,9 +32,15 @@ export const isNonEmptyString = value =>
 const isObject = value => typeof value === "object";
 
 export const isVueComponent = obj =>
-  isObject(obj) &&
-  (isVueComponent(obj.component) ||
-    (isFunction(obj.render) || isNonEmptyString(obj.tag)));
+  // Regular Vue instances
+  obj instanceof Vue ||
+  obj.prototype instanceof Vue ||
+  // Object with a render function
+  isFunction(obj.render) ||
+  // JSX template
+  isNonEmptyString(obj.tag) ||
+  // Nested object
+  isVueComponent(obj.component);
 
 export const isPositiveInt = value => Number.isInteger(value) && value > 0;
 
