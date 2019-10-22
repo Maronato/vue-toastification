@@ -3,15 +3,15 @@ import { PluginFunction, VueConstructor, Component } from 'vue';
 interface CommonOptions {
   /**
    *  Position of the toast on the screen.
-   * 
+   *
    *  Can be any of top-right, top-center, top-left, bottom-right, bottom-center, bottom-left.
-   */ 
+   */
   position?: 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
   /**
    *  Position of the toast on the screen.
-   * 
+   *
    *  Can be any of top-right, top-center, top-left, bottom-right, bottom-center, bottom-left.
-   */ 
+   */
   draggable?: boolean;
   /**
    *  By how much of the toast width in percent (0 to 1) it must be dragged before being dismissed.
@@ -54,8 +54,8 @@ interface CommonOptions {
    */
   hideCloseButton?: boolean;
   /**
-   * Custom icon class to be used. 
-   * 
+   * Custom icon class to be used.
+   *
    * When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon.
    */
   icon?: boolean | string;
@@ -71,14 +71,14 @@ interface PluginOptions extends CommonOptions {
    */
   maxToasts?: number;
   /**
-   *  Name of the Vue Transition or object with classes to use. 
-   * 
+   *  Name of the Vue Transition or object with classes to use.
+   *
    *  Only `enter-active`, `leave-active` and `move` are applied.
    */
   transition?: string | Record<'enter' | 'leave' | 'move', string>;
   /**
-   * Duration of the transition. 
-   * 
+   * Duration of the transition.
+   *
    * Can either be a positive integer for both enter and leave, or an object of shape `{enter: number, leave: number}`.
    */
   transitionDuration?: number | Record<'enter' | 'leave', number>;
@@ -90,13 +90,13 @@ export interface ToastOptions extends CommonOptions {
    */
   id?: number;
   /**
-   *  Type of the toast. 
-   * 
+   *  Type of the toast.
+   *
    *  Can be any of `success error default info warning`
    */
   type?: 'success' | 'error' | 'default' | 'info' | 'warning';
   /**
-   * 	Callback for when the toast is clicked. 
+   * 	Callback for when the toast is clicked.
    *
    *  A closeToast callback is passed as argument to onClick when it is called.
    */
@@ -109,8 +109,8 @@ interface ToastContent {
    */
   component: Component<any, any, any, any> | string;
   /**
-   * `propName: propValue` pairs of props that will be passed to the component. 
-   * 
+   * `propName: propValue` pairs of props that will be passed to the component.
+   *
    * __These are not reactive__
    */
   props?: { [p: string]: any };
@@ -122,7 +122,7 @@ interface ToastContent {
 
 type ToastComponent = string | Component<any, any, any, any> | ToastContent
 
-interface ToastModule { 
+interface ToastModule {
   /**
    * Display a toast
    */
@@ -161,7 +161,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $toast: ToastModule;
   }
-  
+
   interface VueConstructor {
     $toast: ToastModule;
   }
@@ -170,4 +170,3 @@ declare module 'vue/types/vue' {
 export default class Toast {
   static install: PluginFunction<never>;
 }
-
