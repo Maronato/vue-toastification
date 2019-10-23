@@ -104,6 +104,20 @@ this.$toast("My toast content", {
 // These options will override the options defined in the "Vue.use" plugin registration for this specific toast
 ```
 
+Or reference in your Vuex store with
+
+```javascript
+this._vm.$toast("I'm a toast!");
+
+// Or with import
+import Vue from "vue";
+
+Vue.$toast("My toast content", {
+    timeout: 2000,
+    onClose: () => console.log("closed!")
+});
+```
+
 ### Positioning the Toast
 
 By default, the toasts will be displayed at the top right corner of your screen, but you can set it manually using the `position` option.
