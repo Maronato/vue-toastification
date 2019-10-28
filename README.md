@@ -365,6 +365,24 @@ import "./yourMainScssFile.scss";
 Vue.use(Toast);
 ```
 
+### Transitions
+Vue Toastification comes with built-in transitions, but you can also customize your own. 
+
+Default Usage using the built-in bounce transition:
+```
+Vue.use(Toast, {
+  transition: "Vue-Toastification__bounce",
+  maxToasts: 20,
+  newestOnTop: true
+});
+```
+
+Some of the currently available built-in transitions are:
+- Bounce (default): Set the transition property to "Vue-Toastification__bounce"
+- Fade In / Out: Set the transition property to "Vue-Toastification__fade"
+- Slide In / Out (Blurred): Set the transition property to "Vue-Toastification__slideBlurred"
+However, new ones may be added so be sure to check the [live demo](https://maronato.github.io/vue-toastification/) page for the updated list.
+
 ### Custom transitions
 When registering the plugin you can use your custom transitions as the toasts' transitions. You can use both named transitions or the transition classes separately.
 

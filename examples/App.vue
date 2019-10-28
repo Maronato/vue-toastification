@@ -402,8 +402,16 @@ export default {
     },
     transitionOptions: [
       {
-        text: "Default Bounce",
+        text: "Bounce (Default)",
         value: "Vue-Toastification__bounce"
+      },
+      {
+        text: "Fade In / Out",
+        value: "Vue-Toastification__fade"
+      },
+      {
+        text: "Slide In / Out Blurred",
+        value: "Vue-Toastification__slideBlurred"
       },
       {
         text: "Custom Fade",
@@ -460,8 +468,8 @@ export default {
   hideCloseButton: ${this.options.hideCloseButton},
   hideProgressBar: ${this.options.hideProgressBar},
   icon: ${
-        typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`
-      }`;
+    typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`
+  }`;
       return options;
     },
     pluginCode() {
