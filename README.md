@@ -28,6 +28,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
     - [Styling](#styling)
       - [Custom toast classes](#custom-toast-classes)
       - [Override SCSS variables](#override-scss-variables)
+    - [Transitions](#transitions)
     - [Custom transitions](#custom-transitions)
       - [Named transitions](#named-transitions)
       - [Transition classes](#transition-classes)
@@ -366,7 +367,7 @@ Vue.use(Toast);
 ```
 
 ### Transitions
-Vue Toastification comes with built-in transitions, but you can also customize your own. 
+Vue Toastification comes with built-in transitions, but you can also customize your own.
 
 Default Usage using the built-in bounce transition:
 ```
