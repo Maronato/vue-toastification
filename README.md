@@ -24,6 +24,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
       - [Render a JSX component](#render-a-jsx-component)
       - [Render a component with props and events](#render-a-component-with-props-and-events)
     - [Dismiss toasts programmatically](#dismiss-toasts-programmatically)
+    - [Update toasts programmatically](#update-toasts-programmatically)
     - [Clear all toasts](#clear-all-toasts)
     - [Styling](#styling)
       - [Custom toast classes](#custom-toast-classes)
@@ -291,6 +292,23 @@ this.$toast.dismiss(toastId);
 // Pass your custom ID to the toast
 this.$toast("my other toast", { id: "my id" });
 this.$toast.dismiss("my id");
+```
+
+### Update toasts programmatically
+You can update toasts contents and props programmatically using it's ID.
+
+The method signature is `$toast.update(id, { content, options })` with `content` and `options` being optional. Updates override previous values.
+
+```js
+// Get the toast ID on creation
+const toastId = this.$toast("Loading...");
+
+// Update it later
+this.$toast.update(toastId, { content: "Loaded!" });
+
+// Pass your custom ID to the toast
+this.$toast("my other toast", { id: "my id", timeout: false });
+this.$toast.update("my id", { content: "Finished!", options: { timeout: 5000 } });
 ```
 
 

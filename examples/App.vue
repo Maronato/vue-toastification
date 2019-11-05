@@ -252,6 +252,7 @@
 <script>
 import AltText from "./components/AltText";
 import SimpleAction from "./components/SimpleAction";
+import UpdateAction from "./components/UpdateAction";
 import Events from "./components/Events";
 import Prism from "vue-prism-component";
 
@@ -279,6 +280,36 @@ export default {
   methods: {
     clicked() {
       alert("Clicked!");
+    }
+  }
+};
+<\/script>`;
+
+const updateActionCode = `// Component.vue (style omitted)
+<template>
+  <div class="container">
+    <span>Update me!</span>
+    <button
+      class="action"
+      @click.stop="clicked"
+    >CLICK ME</button>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    toastId: {
+      type: [String, Number],
+      required: true
+    }
+  },
+  methods: {
+    clicked() {
+      this.$toast.update(this.toastId, {
+        content: "Updated!",
+        options: { type: "success" }
+      });
     }
   }
 };
@@ -382,6 +413,10 @@ export default {
         value: SimpleAction
       },
       {
+        text: "Updatable Toast",
+        value: UpdateAction
+      },
+      {
         text: "Action with events",
         value: Events
       }
@@ -454,6 +489,8 @@ export default {
         return altTextCode;
       } else if (this.content === SimpleAction) {
         return simpleActionCode;
+      } else if (this.content === UpdateAction) {
+        return updateActionCode;
       }
       return eventsCode;
     },
