@@ -52,10 +52,12 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 - Use your custom components or JSX as the toast body for endless possibilities!
 - Create custom experiences with the `onClose` and `onClick` hooks
 - Remove toasts programmatically
+- Update toasts programmatically
 - Define behavior per toast
 - Pause toast when hovering and when window loses focus 👁
 - Fancy progress bar to display the remaining time
 - Use your themes and animations easily
+- And much more!
 
 
 ## Demo
