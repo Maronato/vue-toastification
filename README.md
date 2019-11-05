@@ -178,6 +178,8 @@ Vue.use(Toast, { timeout: 2000 });
 ### Using a custom component
 Passing strings as the toast content is not enough? You can render anything inside the toast using custom components! Vue Toastification accepts both Vue Components and JSX templates as parameters.
 
+When using custom components, the prop `toastId` containing the toast ID is always passed by default. Also, an event listener for `close-toast` is attached, so you can close the toast prommatically by emmiting it from inside the component.
+
 See an example with custom components in action:
 
 [![Edit Vue Template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-template-w2w2c?fontsize=14)
