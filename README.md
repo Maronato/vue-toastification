@@ -24,6 +24,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
       - [Render a JSX component](#render-a-jsx-component)
       - [Render a component with props and events](#render-a-component-with-props-and-events)
     - [Dismiss toasts programmatically](#dismiss-toasts-programmatically)
+    - [Update toasts programmatically](#update-toasts-programmatically)
     - [Clear all toasts](#clear-all-toasts)
     - [Styling](#styling)
       - [Custom toast classes](#custom-toast-classes)
@@ -177,6 +178,8 @@ Vue.use(Toast, { timeout: 2000 });
 ### Using a custom component
 Passing strings as the toast content is not enough? You can render anything inside the toast using custom components! Vue Toastification accepts both Vue Components and JSX templates as parameters.
 
+When using custom components, the prop `toastId` containing the toast ID is always passed by default. Also, an event listener for `close-toast` is attached, so you can close the toast prommatically by emmiting it from inside the component.
+
 See an example with custom components in action:
 
 [![Edit Vue Template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-template-w2w2c?fontsize=14)
@@ -291,6 +294,23 @@ this.$toast.dismiss(toastId);
 // Pass your custom ID to the toast
 this.$toast("my other toast", { id: "my id" });
 this.$toast.dismiss("my id");
+```
+
+### Update toasts programmatically
+You can update toasts contents and props programmatically using it's ID.
+
+The method signature is `$toast.update(id, { content, options })` with `content` and `options` being optional. Updates override previous values.
+
+```js
+// Get the toast ID on creation
+const toastId = this.$toast("Loading...");
+
+// Update it later
+this.$toast.update(toastId, { content: "Loaded!" });
+
+// Pass your custom ID to the toast
+this.$toast("my other toast", { id: "my id", timeout: false });
+this.$toast.update("my id", { content: "Finished!", options: { timeout: 5000 } });
 ```
 
 

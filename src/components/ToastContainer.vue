@@ -113,6 +113,7 @@ export default {
     events.$on(EVENTS.ADD, this.addToast);
     events.$on(EVENTS.CLEAR, this.clearToasts);
     events.$on(EVENTS.DISMISS, this.dismissToast);
+    events.$on(EVENTS.UPDATE, this.updateToast);
     events.$on(EVENTS.UPDATE_DEFAULTS, this.updateDefaults);
     this.defaults = this.$props;
   },
@@ -120,9 +121,12 @@ export default {
     setup() {
       this.container.appendChild(this.$el);
     },
-    addToast(params) {
-      const props = Object.assign({}, this.defaults, params);
+    setToast(defaults, params) {
+      const props = Object.assign({}, defaults, params);
       this.$set(this.toasts, props.id, props);
+    },
+    addToast(params) {
+      this.setToast(this.defaults, params);
     },
     dismissToast(id) {
       if (this.toasts[id].onClose) {
@@ -141,6 +145,9 @@ export default {
     },
     updateDefaults(update) {
       this.defaults = Object.assign({}, this.defaults, update);
+    },
+    updateToast({ id, options }) {
+      if (this.toasts[id]) this.setToast(this.toasts[id], options);
     }
   }
 };

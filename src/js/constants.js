@@ -18,6 +18,7 @@ export const POSITION = {
 export const EVENTS = {
   ADD: "add",
   DISMISS: "dismiss",
+  UPDATE: "update",
   CLEAR: "clear",
   UPDATE_DEFAULTS: "update_defaults"
 };

@@ -15,6 +15,7 @@
     <component
       :is="getVueComponentFromObj(content)"
       v-else
+      :toast-id="id"
       v-bind="content.props"
       v-on="content.listeners"
       @close-toast="closeToast"
