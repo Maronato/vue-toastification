@@ -163,9 +163,10 @@ export default {
     updateDefaults(update) {
       this.defaults = Object.assign({}, this.defaults, update);
     },
-    updateToast({ id, options }) {
+    updateToast({ id, options, create }) {
       if (this.toasts[id])
         this.setToast(Object.assign({}, this.toasts[id], options));
+      else if (create) this.addToast({ id, ...options });
     }
   }
 };

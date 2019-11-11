@@ -62,7 +62,7 @@ export default {
     },
     type: {
       type: String,
-      required: true,
+      default: TYPE.DEFAULT,
       validator: value => isIn(value, Object.values(TYPE))
     },
     position: {
