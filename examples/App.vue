@@ -207,6 +207,13 @@
                   label="Newest on top"
                 ></v-switch>
               </v-col>
+              <v-col cols="6">
+                <v-select
+                  v-model="customFilter"
+                  :items="customFilterOptions"
+                  label="Custom filters"
+                ></v-select>
+              </v-col>
             </v-row>
           </v-col>
           <v-col order="2" cols="12" sm="8" md="4">
@@ -336,6 +343,54 @@ export default {
 };
 <\/script>`;
 
+const filterToasts = toasts => {
+  // Keep track of existing types
+  const types = {};
+  return toasts.reduce((aggToasts, toast) => {
+    // Check if type was not seen before
+    if (!types[toast.type]) {
+      aggToasts.push(toast);
+      types[toast.type] = true;
+    }
+    return aggToasts;
+  }, []);
+};
+
+const filterToastsCode = `filterToasts: toasts => {
+    // Keep track of existing types
+    const types = {};
+    return toasts.reduce((aggToasts, toast) => {
+      // Check if type was not seen before
+      if (!types[toast.type]) {
+        aggToasts.push(toast);
+        types[toast.type] = true;
+      }
+      return aggToasts;
+    }, []);
+  }`;
+
+const filterBeforeCreate = (toast, toasts) => {
+  if (toasts.filter(t => t.type === toast.type).length !== 0) {
+    // Returning false discards the toast
+    return false;
+  }
+  // You can modify the toast if you want
+  return toast;
+};
+
+const filterBeforeCreateCode = `filterBeforeCreate: (toast, toasts) => {
+    if (toasts.filter(
+      t => t.type === toast.type
+    ).length !== 0) {
+      // Returning false discards the toast
+      return false;
+    }
+    // You can modify the toast if you want
+    return toast;
+  }`;
+
+const noop = x => x;
+
 export default {
   components: { Prism },
   data: () => ({
@@ -453,10 +508,27 @@ export default {
         value: "my-custom-fade"
       }
     ],
+    customFilter: false,
+    customFilterOptions: [
+      {
+        text: "None",
+        value: false
+      },
+      {
+        text: "Discarding preventDuplicates",
+        value: "filterBeforeCreate"
+      },
+      {
+        text: "Enqueueing preventDuplicates",
+        value: "filterToasts"
+      }
+    ],
     pluginOptions: {
       transition: "Vue-Toastification__bounce",
       maxToasts: 20,
-      newestOnTop: true
+      newestOnTop: true,
+      filterBeforeCreate: noop,
+      filterToasts: noop
     },
     iconSearch: "",
     iconOptions: [
@@ -505,11 +577,21 @@ export default {
   hideCloseButton: ${this.options.hideCloseButton},
   hideProgressBar: ${this.options.hideProgressBar},
   icon: ${
-    typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`
-  }`;
+        typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`
+      }`;
       return options;
     },
     pluginCode() {
+      let cf = "";
+      if (this.customFilter) {
+        if (this.customFilter === "filterToasts") {
+          cf = `,
+  ${filterToastsCode}`;
+        } else {
+          cf = `,
+  ${filterBeforeCreateCode}`;
+        }
+      }
       const code = `// YourApp.vue
 
 import Vue from "vue";
@@ -519,7 +601,7 @@ import "vue-toastification/dist/index.css";
 Vue.use(Toast, {
   transition: "${this.pluginOptions.transition}",
   maxToasts: ${this.pluginOptions.maxToasts},
-  newestOnTop: ${this.pluginOptions.newestOnTop}
+  newestOnTop: ${this.pluginOptions.newestOnTop}${cf}
 });
 `;
       return code;
@@ -576,6 +658,15 @@ Vue.use(Toast, {
         this.$toast.updateDefaults(val);
       },
       deep: true
+    },
+    customFilter(val) {
+      this.pluginOptions.filterToasts = noop;
+      this.pluginOptions.filterBeforeCreate = noop;
+      if (val === "filterToasts") {
+        this.pluginOptions.filterToasts = filterToasts;
+      } else if (val === "filterBeforeCreate") {
+        this.pluginOptions.filterBeforeCreate = filterBeforeCreate;
+      }
     }
   },
   methods: {

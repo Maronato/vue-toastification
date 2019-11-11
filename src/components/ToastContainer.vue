@@ -97,6 +97,14 @@ export default {
     icon: {
       type: [String, Boolean],
       default: true
+    },
+    filterBeforeCreate: {
+      type: Function,
+      default: props => props
+    },
+    filterToasts: {
+      type: Function,
+      default: toasts => toasts
     }
   },
   data() {
@@ -107,6 +115,14 @@ export default {
       VT_NAMESPACE,
       defaults: {}
     };
+  },
+  computed: {
+    toastArray() {
+      return Object.values(this.toasts);
+    },
+    filteredToasts() {
+      return this.defaults.filterToasts(this.toastArray);
+    }
   },
   beforeMount() {
     this.setup();
@@ -121,12 +137,13 @@ export default {
     setup() {
       this.container.appendChild(this.$el);
     },
-    setToast(defaults, params) {
-      const props = Object.assign({}, defaults, params);
+    setToast(props) {
       this.$set(this.toasts, props.id, props);
     },
     addToast(params) {
-      this.setToast(this.defaults, params);
+      const props = Object.assign({}, this.defaults, params);
+      const toast = this.defaults.filterBeforeCreate(props, this.toastArray);
+      toast && this.setToast(toast);
     },
     dismissToast(id) {
       if (this.toasts[id].onClose) {
@@ -138,7 +155,7 @@ export default {
       Object.keys(this.toasts).forEach(id => this.dismissToast(id));
     },
     getPositionToasts(position) {
-      const toasts = Object.values(this.toasts)
+      const toasts = this.filteredToasts
         .filter(toast => toast.position === position)
         .slice(0, this.defaults.maxToasts);
       return this.defaults.newestOnTop ? toasts.reverse() : toasts;
@@ -147,7 +164,8 @@ export default {
       this.defaults = Object.assign({}, this.defaults, update);
     },
     updateToast({ id, options }) {
-      if (this.toasts[id]) this.setToast(this.toasts[id], options);
+      if (this.toasts[id])
+        this.setToast(Object.assign({}, this.toasts[id], options));
     }
   }
 };
