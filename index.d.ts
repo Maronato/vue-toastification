@@ -173,7 +173,7 @@ interface ToastModule {
   /**
    * Update Toast
    */
-  update: (id: ToastID, { content, options }?: { content?: ToastComponent, options?: ToastOptions }) => void;
+  update: (id: ToastID, { content, options }?: { content?: ToastComponent, options?: ToastOptions }, create?: Boolean) => void;
   /**
    * Update Plugin Defaults
    */
