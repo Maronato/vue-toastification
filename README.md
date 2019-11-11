@@ -34,6 +34,9 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
       - [Named transitions](#named-transitions)
       - [Transition classes](#transition-classes)
     - [Updating default options](#updating-default-options)
+    - [Custom toast filters](#custom-toast-filters)
+      - [`filterBeforeCreate`](#filterbeforecreate)
+      - [`filterToasts`](#filtertoasts)
   - [API](#api)
     - [Plugin registration (Vue.use)](#plugin-registration-vueuse)
     - [Toast (this.$toast)](#toast-thistoast)
@@ -481,6 +484,61 @@ this.$toast.updateDefaults(update);
 
 You can use `updateDefaults` to update any of the default [API options](#plugin-registration-vueuse), but be careful as they are updated globally, so all new toasts will share the new defaults.
 
+### Custom toast filters
+Some applications require custom logic to select which toasts to display and how to display them. To solve this issue, Vue Toastification provides you with two callback functions that give you fine control of your toasts. These are `filterBeforeCreate` and `filterToasts`.
+
+#### `filterBeforeCreate`
+Called just before toast creation, `filterBeforeCreate` allows you to edit toast props in runtime or discard toasts entirely.
+
+It takes two parameters:
+- The new toast's [props](#toast-options-object)
+- A list of existing toasts
+
+It must return the modified toast props, or `false` to discard the toast.
+
+Example implementation of a *preventDuplicates* feature, which prevent toasts of the same type from appearing simultaneously:
+```js
+// App.js
+
+// Prevents toasts of the same type from appearing simultaneously, discarding duplicates
+const filterBeforeCreate = (toast, toasts) => {
+  if (toasts.filter(t => t.type === toast.type).length !== 0) {
+    // Returning false discards the toast
+    return false;
+  }
+  // You can modify the toast if you want
+  return toast;
+}
+
+Vue.use(Toast, { filterBeforeCreate });
+```
+
+#### `filterToasts`
+This callback enables you to filter *created* toasts from being **rendered**. It differs from `filterBeforeCreate` by allowing you to enqueue toasts, as opposed to the former, which allows you to discard them.
+
+It takes the list of created toasts and must return a list of toasts to be rendered. Filtered toasts may be rendered later on.
+
+Another example of `preventDuplicates` feature that enqueues toasts instead of discarding them:
+```js
+// App.js
+
+// Enqueues toasts of the same type, preventing duplicates
+const filterToasts = (toasts) => {
+  // Keep track of existing types
+  const types = {};
+  return toasts.reduce((aggToasts, toast) => {
+    // Check if type was not seen before
+    if (!types[toast.type]) {
+      aggToasts.push(toast);
+      types[toast.type] = true;
+    }
+    return aggToasts;
+  }, []);
+}
+
+Vue.use(Toast, { filterToasts });
+```
+
 ## API
 
 ### Plugin registration (Vue.use)
@@ -496,13 +554,15 @@ You can use `updateDefaults` to update any of the default [API options](#plugin-
 | pauseOnFocusLoss   | Boolean                    | `true`                       | Whether or not the toast is paused when the window loses focus.                                                                                                                             |
 | pauseOnHover       | Boolean                    | `true`                       | Whether or not the toast is paused when it is hovered by the mouse.                                                                                                                         |
 | closeOnClick       | Boolean                    | `true`                       | Whether or not the toast is closed when clicked.                                                                                                                                            |
-| timeout            | Positive Integer or false  | `5000`                       | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                               |
+| timeout            | Positive Integer or false  | `5000`                       | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                              |
 | container          | HTMLElement                | `document.body`              | Container where the toasts are mounted.                                                                                                                                                     |
 | toastClassName     | String or Array of Strings | `[]`                         | Custom classes applied to the toast.                                                                                                                                                        |
 | bodyClassName      | String or Array of Strings | `[]`                         | Custom classes applied to the body of the toast.                                                                                                                                            |
 | hideProgressBar    | Boolean                    | `false`                      | Whether or not the progress bar is hidden.                                                                                                                                                  |
 | hideCloseButton    | Boolean                    | `false`                      | Whether or not the close button is hidden.                                                                                                                                                  |
 | icon               | Boolean or String          | `true`                       | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon.                                                  |
+| filterBeforeCreate | Function                   | `NOOP`                       | Callback to filter toasts before their creation. Takes a `toast` and `toasts` argument and returns a `toast` or `false`                                                                     |
+| filterToasts       | Function                   | `NOOP`                       | Callback to filter created toasts. Takes a list of `toasts` argument and return a filtered list of `toasts`                                                                                 |
 
 ### Toast (this.$toast)
 | Parameter | Type                                 | Required | Description                                                                                                                                                                  |
@@ -529,7 +589,7 @@ You can use `updateDefaults` to update any of the default [API options](#plugin-
 | pauseOnHover     | Boolean                    | `true`      | Whether or not the toast is paused when it is hovered by the mouse.                                                                                   |
 | closeOnClick     | Boolean                    | `true`      | Whether or not the toast is closed when clicked.                                                                                                      |
 | onClick          | Function                   | `NOOP`      | Callback for when the toast is clicked. A `closeToast` callback is passed as argument to `onClick` when it is called.                                 |
-| timeout          | Positive Integer or false  | `5000`      | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                         |
+| timeout          | Positive Integer or false  | `5000`      | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                        |
 | toastClassName   | String or Array of Strings | `[]`        | Custom classes applied to the toast.                                                                                                                  |
 | bodyClassName    | String or Array of Strings | `[]`        | Custom classes applied to the body of the toast.                                                                                                      |
 | hideProgressBar  | Boolean                    | `false`     | Whether or not the progress bar is hidden.                                                                                                            |
