@@ -1,5 +1,5 @@
 <template>
-  <div :style="style" :class="`${VT_NAMESPACE}__progress-bar`" />
+  <div :style="style" :class="cpClass" />
 </template>
 
 <script>
@@ -15,7 +15,7 @@ export default {
   },
   data() {
     return {
-      VT_NAMESPACE
+      hasClass: true
     };
   },
   computed: {
@@ -25,6 +25,15 @@ export default {
         animationPlayState: this.isRunning ? "running" : "paused",
         opacity: this.hide ? 0 : 1
       };
+    },
+    cpClass() {
+      return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : "";
+    }
+  },
+  watch: {
+    timeout() {
+      this.hasClass = false;
+      this.$nextTick(() => (this.hasClass = true));
     }
   },
   mounted() {

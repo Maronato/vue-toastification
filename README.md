@@ -321,6 +321,8 @@ this.$toast("my other toast", { id: "my id", timeout: false });
 this.$toast.update("my id", { content: "Finished!", options: { timeout: 5000 } });
 ```
 
+> **Note**: The remaining timeout of the toast will be carried on updates. To reset the timeout, simply pass a `timeout` option during the update. It can be the same as the one set during the toast creation.
+
 
 ### Clear all toasts
 You can also dismiss all toasts at once using `clear`.

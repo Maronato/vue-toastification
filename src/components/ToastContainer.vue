@@ -164,9 +164,14 @@ export default {
       this.defaults = Object.assign({}, this.defaults, update);
     },
     updateToast({ id, options, create }) {
-      if (this.toasts[id])
+      if (this.toasts[id]) {
+        // If a timeout is defined, and is equal to the one before, change it
+        // a little so the progressBar is reset
+        if (options.timeout && options.timeout === this.toasts[id].timeout) {
+          options.timeout++;
+        }
         this.setToast(Object.assign({}, this.toasts[id], options));
-      else if (create) this.addToast({ id, ...options });
+      } else if (create) this.addToast({ id, ...options });
     }
   }
 };
