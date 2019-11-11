@@ -82,6 +82,18 @@ interface PluginOptions extends CommonOptions {
    * Can either be a positive integer for both enter and leave, or an object of shape `{enter: number, leave: number}`.
    */
   transitionDuration?: number | Record<'enter' | 'leave', number>;
+  /**
+   * Callback to filter toasts during creation
+   *
+   * Takes the new toast and a list of the current toasts and returns a modified toast or false.
+   */
+  filterBeforeCreate?: (toast: ToastOptions, toasts: Array<ToastOptions>) => ToastOptions | false;
+  /**
+   * Callback to filter toasts during render
+   *
+   * Filter toasts during render and queues filtered toasts.
+   */
+  filterToasts?: (toasts: Array<ToastOptions>) => Array<ToastOptions>;
 }
 
 export interface ToastOptions extends CommonOptions {
