@@ -54,6 +54,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 - Swipe to close 👌
 - Use your custom components or JSX as the toast body for endless possibilities!
 - Create custom experiences with the `onClose` and `onClick` hooks
+- Custom toast filtering and enqueueing with lifecycle hooks
 - Remove toasts programmatically
 - Update toasts programmatically
 - Define behavior per toast
