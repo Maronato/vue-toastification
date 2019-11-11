@@ -1,5 +1,7 @@
 import { PluginFunction, VueConstructor, Component } from 'vue';
 
+type ToastID = string | number;
+
 interface CommonOptions {
   /**
    *  Position of the toast on the screen.
@@ -25,9 +27,9 @@ interface CommonOptions {
    *  Whether or not the toast is paused when it is hovered by the mouse.
    */
   pauseOnHover?: boolean;
-   /**
-   * 	Whether or not the toast is closed when clicked.
-   */
+  /**
+  * 	Whether or not the toast is closed when clicked.
+  */
   closeOnClick?: boolean;
   /**
    * How many milliseconds for the toast to be auto dismissed, or false to disable.
@@ -100,7 +102,7 @@ export interface ToastOptions extends CommonOptions {
   /**
    *  ID of the toast.
    */
-  id?: number;
+  id?: ToastID;
   /**
    *  Type of the toast.
    *
@@ -129,16 +131,21 @@ interface ToastContent {
   /**
    * `eventName: eventHandler` pairs of events that the component can emit.
    */
-  listeners?: {[p: string]: Function}
+  listeners?: { [p: string]: Function }
 }
 
 type ToastComponent = string | Component<any, any, any, any> | ToastContent
+
+interface ToastComponentAndOptions {
+  content?: ToastComponent,
+  options?: ToastOptions
+}
 
 interface ToastModule {
   /**
    * Display a toast
    */
-  (content: ToastComponent, options?: ToastOptions): void;
+  (content: ToastComponent, options?: ToastOptions): ToastID;
   /**
    * Clear all toasts
    */
@@ -150,21 +157,25 @@ interface ToastModule {
   /**
    * Display a success toast
    */
-  success: (content: ToastComponent, options?: ToastOptions &  { type: 'success' }) => void;
+  success: (content: ToastComponent, options?: ToastOptions & { type: 'success' }) => ToastID;
   /**
    * Display an info toast
    */
-  info: (content: ToastComponent, options?: ToastOptions &  { type: 'info' }) => void;
+  info: (content: ToastComponent, options?: ToastOptions & { type: 'info' }) => ToastID;
   /**
    * Display an error toast
    */
-  error: (content: ToastComponent, options?: ToastOptions &  { type: 'error' }) => void;
+  error: (content: ToastComponent, options?: ToastOptions & { type: 'error' }) => ToastID;
   /**
    * Display a warning toast
    */
-  warning: (content: ToastComponent, options?: ToastOptions &  { type: 'warning' }) => void;
+  warning: (content: ToastComponent, options?: ToastOptions & { type: 'warning' }) => ToastID;
   /**
-   * update
+   * Update Toast
+   */
+  update: (id: ToastID, { content, options }?: { content?: ToastComponent, options?: ToastOptions }, create?: Boolean) => void;
+  /**
+   * Update Plugin Defaults
    */
   updateDefaults: (toastOpts: PluginOptions) => void;
 }
