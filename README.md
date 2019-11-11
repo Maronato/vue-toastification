@@ -304,7 +304,9 @@ this.$toast.dismiss("my id");
 ### Update toasts programmatically
 You can update toasts contents and props programmatically using it's ID.
 
-The method signature is `$toast.update(id, { content, options })` with `content` and `options` being optional. Updates override previous values.
+The method signature is `$toast.update(id, { content, options }, create)` with `content`, `options` and `create` being optional. Updates override previous values.
+
+`create` is a boolean, `false` by default. If `true`, a toast will be created if no matching toast with the `id` is found.
 
 ```js
 // Get the toast ID on creation
@@ -317,7 +319,6 @@ this.$toast.update(toastId, { content: "Loaded!" });
 this.$toast("my other toast", { id: "my id", timeout: false });
 this.$toast.update("my id", { content: "Finished!", options: { timeout: 5000 } });
 ```
-
 
 
 ### Clear all toasts
