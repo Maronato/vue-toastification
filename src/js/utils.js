@@ -29,18 +29,17 @@ const isFunction = value => typeof value === "function";
 export const isNonEmptyString = value =>
   typeof value === "string" && value.trim().length > 0;
 
-const isObject = value => typeof value === "object";
-
 export const isVueComponent = obj =>
+  typeof obj !== "undefined" &&
   // Regular Vue instances
-  obj instanceof Vue ||
-  obj.prototype instanceof Vue ||
-  // Object with a render function
-  isFunction(obj.render) ||
-  // JSX template
-  isNonEmptyString(obj.tag) ||
-  // Nested object
-  isVueComponent(obj.component);
+  (obj instanceof Vue ||
+    obj.prototype instanceof Vue ||
+    // Object with a render function
+    isFunction(obj.render) ||
+    // JSX template
+    isNonEmptyString(obj.tag) ||
+    // Nested object
+    isVueComponent(obj.component));
 
 export const isPositiveInt = value => Number.isInteger(value) && value > 0;
 
@@ -49,7 +48,7 @@ export const isString = value => typeof value === "string";
 export const isIn = (value, list) => list.indexOf(value) !== -1;
 
 export const getVueComponentFromObj = obj => {
-  if (isObject(obj.component)) {
+  if (isVueComponent(obj.component)) {
     // Recurse if component prop
     return getVueComponentFromObj(obj.component);
   }
