@@ -1,6 +1,6 @@
 {
   "name": "vue-toastification",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Toasts for Vue made easy!",
   "private": false,
   "scripts": {
