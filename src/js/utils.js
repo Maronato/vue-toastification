@@ -26,8 +26,12 @@ export const removeElement = el => {
 
 const isFunction = value => typeof value === "function";
 
+export const isString = value => typeof value === "string";
+
 export const isNonEmptyString = value =>
-  typeof value === "string" && value.trim().length > 0;
+  isString(value) && value.trim().length > 0;
+
+export const isDefined = value => typeof value !== "undefined";
 
 export const isVueComponent = obj =>
   typeof obj !== "undefined" &&
@@ -42,8 +46,6 @@ export const isVueComponent = obj =>
     isVueComponent(obj.component));
 
 export const isPositiveInt = value => Number.isInteger(value) && value > 0;
-
-export const isString = value => typeof value === "string";
 
 export const isIn = (value, list) => list.indexOf(value) !== -1;
 

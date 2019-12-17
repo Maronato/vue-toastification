@@ -1,10 +1,12 @@
 <template>
-  <component :is="component" :class="iconClasses" />
+  <component :is="component" :class="iconClasses">{{
+    customIconChildren
+  }}</component>
 </template>
 
 <script>
 import { TYPE, VT_NAMESPACE } from "../js/constants";
-import { isString } from "../js/utils";
+import { isNonEmptyString, isDefined } from "../js/utils";
 import SuccessIcon from "./icons/SuccessIcon";
 import InfoIcon from "./icons/InfoIcon";
 import WarningIcon from "./icons/WarningIcon";
@@ -16,20 +18,35 @@ export default {
       required: true
     },
     customIcon: {
-      type: [String, Boolean],
-      required: true
+      type: [String, Boolean, Object],
+      required: true,
+      validator: value =>
+        value === false ||
+        isNonEmptyString(value) ||
+        ["class", "children", "tag"].every(
+          v => !isDefined(v) || isNonEmptyString(v)
+        )
     }
   },
   computed: {
-    trimmedCustomIcon() {
-      return isString(this.customIcon) ? this.customIcon.trim() : "";
+    customIconChildren() {
+      return this.trimValue(this.customIcon.children);
+    },
+    customIconClass() {
+      return this.trimValue(
+        this.customIcon,
+        this.trimValue(this.customIcon.class)
+      );
+    },
+    customIconTag() {
+      return this.trimValue(this.customIcon.tag, "i");
     },
     hasCustomIcon() {
-      return this.trimmedCustomIcon.length > 0;
+      return this.customIconClass.length > 0;
     },
     component() {
       if (this.hasCustomIcon) {
-        return "i";
+        return this.customIconTag;
       }
       return this.iconTypeComponent;
     },
@@ -46,9 +63,14 @@ export default {
     iconClasses() {
       const classes = [`${VT_NAMESPACE}__icon`];
       if (this.hasCustomIcon) {
-        classes.push(this.trimmedCustomIcon);
+        classes.push(this.customIconClass);
       }
       return classes;
+    }
+  },
+  methods: {
+    trimValue(value, empty = "") {
+      return isNonEmptyString(value) ? value.trim() : empty;
     }
   }
 };
