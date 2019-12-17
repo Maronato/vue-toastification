@@ -543,7 +543,23 @@ export default {
       },
       "fas fa-rocket",
       "fas fa-bomb",
-      "fab fa-galactic-republic"
+      "fab fa-galactic-republic",
+      {
+        text: "Material Icons bug_report",
+        value: {
+          class: "material-icons",
+          children: "bug_report",
+          tag: "span"
+        }
+      },
+      {
+        text: "Material Icons code",
+        value: {
+          class: "material-icons",
+          children: "code",
+          tag: "span"
+        }
+      }
     ]
   }),
   computed: {
@@ -566,6 +582,20 @@ export default {
       }
       return eventsCode;
     },
+    toastIconExample() {
+      switch (typeof this.toastIcon) {
+        case "boolean":
+          return this.toastIcon.toString();
+        case "object":
+          return `{
+    class: "${this.toastIcon.class}",
+    children: "${this.toastIcon.children || ''}",
+    tag: "${this.toastIcon.tag || 'i'}"
+  }`;
+        default:
+          return `"${this.toastIcon}"`;
+      }
+    },
     toastCodeOptions() {
       const options = `position: "${this.position}",
   timeout: ${this.options.timeout || "false"},
@@ -576,9 +606,7 @@ export default {
   draggablePercent: ${this.options.draggablePercent / 100},
   hideCloseButton: ${this.options.hideCloseButton},
   hideProgressBar: ${this.options.hideProgressBar},
-  icon: ${
-        typeof this.toastIcon === "boolean" ? this.toastIcon : `"${this.toastIcon}"`
-      }`;
+  icon: ${this.toastIconExample}`;
       return options;
     },
     pluginCode() {

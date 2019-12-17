@@ -100,7 +100,7 @@ export default {
       validator: value => isString(value) || value.every(v => isString(v))
     },
     icon: {
-      type: [String, Boolean],
+      type: [String, Boolean, Object],
       required: true
     }
   },

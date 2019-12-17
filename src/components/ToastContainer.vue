@@ -95,7 +95,7 @@ export default {
     hideProgressBar: Boolean,
     hideCloseButton: Boolean,
     icon: {
-      type: [String, Boolean],
+      type: [String, Boolean, Object],
       default: true
     },
     filterBeforeCreate: {
