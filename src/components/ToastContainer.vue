@@ -93,7 +93,7 @@ export default {
           options.timeout++;
         }
         this.setToast(Object.assign({}, this.toasts[id], options));
-      } else if (create) this.addToast({ id, ...options });
+      } else if (create) this.addToast(Object.assign({}, { id }, options));
     }
   }
 };

@@ -98,8 +98,7 @@ const CORE_TOAST = {
   icon: ICON.customIcon
 };
 
-const TOAST = {
-  ...CORE_TOAST,
+const TOAST = Object.assign({}, CORE_TOAST, {
   id: {
     type: [String, Number],
     required: true
@@ -111,11 +110,9 @@ const TOAST = {
     validator: value => isString(value) || isVueComponent(value)
   },
   onClick: COMMON.noop
-};
+});
 
-const CONTAINER = {
-  ...CORE_TOAST,
-  ...TRANSITION,
+const CONTAINER = Object.assign({}, CORE_TOAST, TRANSITION, {
   newestOnTop: COMMON.trueBoolean,
   maxToasts: {
     type: Number,
@@ -128,7 +125,7 @@ const CONTAINER = {
   },
   filterBeforeCreate: COMMON.passThrough,
   filterToasts: COMMON.passThrough
-};
+});
 
 export default {
   TOAST,

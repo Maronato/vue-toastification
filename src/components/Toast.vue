@@ -62,23 +62,23 @@ export default {
       const classes = [
         `${VT_NAMESPACE}__toast`,
         `${VT_NAMESPACE}__toast--${this.type}`,
-        `${this.position}`,
-        ...(Array.isArray(this.toastClassName)
+        `${this.position}`
+      ].concat(
+        Array.isArray(this.toastClassName)
           ? this.toastClassName
-          : [this.toastClassName])
-      ];
+          : [this.toastClassName]
+      );
       if (this.disableTransitions) {
         classes.push("disable-transition");
       }
       return classes;
     },
     bodyClasses() {
-      const classes = [
-        `${VT_NAMESPACE}__toast-body`,
-        ...(Array.isArray(this.bodyClassName)
+      const classes = [`${VT_NAMESPACE}__toast-body`].concat(
+        Array.isArray(this.bodyClassName)
           ? this.bodyClassName
-          : [this.bodyClassName])
-      ];
+          : [this.bodyClassName]
+      );
       return classes;
     }
   },

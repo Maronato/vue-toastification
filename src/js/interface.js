@@ -9,7 +9,12 @@ const ToastInterface = (Vue, globalOptions = {}) => {
     propsData: globalOptions
   });
   const toast = (content, options) => {
-    const props = { id: getId(), type: TYPE.DEFAULT, ...options, content };
+    const props = Object.assign(
+      {},
+      { id: getId(), type: TYPE.DEFAULT },
+      options,
+      { content }
+    );
     events.$emit(EVENTS.ADD, props);
     return props.id;
   };
@@ -19,17 +24,17 @@ const ToastInterface = (Vue, globalOptions = {}) => {
   toast.update = (id, { content, options }, create = false) =>
     events.$emit(EVENTS.UPDATE, {
       id,
-      options: { ...options, content },
+      options: Object.assign({}, options, { content }),
       create
     });
   toast.success = (content, options) =>
-    toast(content, { ...options, type: TYPE.SUCCESS });
+    toast(content, Object.assign({}, { options }, { type: TYPE.SUCCESS }));
   toast.info = (content, options) =>
-    toast(content, { ...options, type: TYPE.INFO });
+    toast(content, Object.assign({}, { options }, { type: TYPE.INFO }));
   toast.error = (content, options) =>
-    toast(content, { ...options, type: TYPE.ERROR });
+    toast(content, Object.assign({}, { options }, { type: TYPE.ERROR }));
   toast.warning = (content, options) =>
-    toast(content, { ...options, type: TYPE.WARNING });
+    toast(content, Object.assign({}, { options }, { type: TYPE.WARNING }));
   return toast;
 };
 export default ToastInterface;
