@@ -1,0 +1,17 @@
+language: node_js
+node_js: stable
+
+cache:
+  directories:
+    - node_modules
+
+before_deploy:
+  - "yarn docs"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: docs
+  on:
+    branch: master
