@@ -674,7 +674,7 @@ Vue.use(Toast, { filterToasts });
 | bodyClassName    | String or Array of Strings | `[]`        | Custom classes applied to the body of the toast.                                                                                                                                                            |
 | hideProgressBar  | Boolean                    | `false`     | Whether or not the progress bar is hidden.                                                                                                                                                                  |
 | hideCloseButton  | Boolean                    | `false`     | Whether or not the close button is hidden.                                                                                                                                                                  |
-| icon             | Boolean, String or Object  | `true`      | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. Object shape is { class: String, children: String, tag: String } |
+| icon             | Boolean, String or Object  | `true`      | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. Object shape is `{ class: String, children: String, tag: String }` |
 
 ⚠️️ _Toast options supersede Plugin Registration props_  ⚠️
 

@@ -1,9 +1,13 @@
 <template>
   <transition-group
     tag="div"
-    :enter-active-class="name.enter ? name.enter : `${name}-enter-active`"
-    :move-class="name.move ? name.move : `${name}-move`"
-    :leave-active-class="name.leave ? name.leave : `${name}-leave-active`"
+    :enter-active-class="
+      transition.enter ? transition.enter : `${transition}-enter-active`
+    "
+    :move-class="transition.move ? transition.move : `${transition}-move`"
+    :leave-active-class="
+      transition.leave ? transition.leave : `${transition}-leave-active`
+    "
     @leave="leave"
     @before-enter="beforeEnter"
     @before-leave="beforeLeave"
@@ -15,24 +19,17 @@
 </template>
 <script>
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
+import PROPS from "../js/propValidators";
+
 export default {
   name: "Transition",
   inheritAttrs: false,
-  props: {
-    name: {
-      type: [String, Object],
-      required: true
-    },
-    duration: {
-      type: [Number, Object],
-      default: 750
-    }
-  },
+  props: PROPS.TRANSITION,
   methods: {
     beforeEnter(el) {
-      const enterDuration = this.duration.enter
-        ? this.duration.enter
-        : this.duration;
+      const enterDuration = this.transitionDuration.enter
+        ? this.transitionDuration.enter
+        : this.transitionDuration;
       el.style.animationDuration = `${enterDuration}ms`;
       el.style.animationFillMode = "both";
       this.$emit("before-enter", el);
@@ -46,9 +43,9 @@ export default {
       this.$emit("after-leave", el);
     },
     beforeLeave(el) {
-      const leaveDuration = this.duration.leave
-        ? this.duration.leave
-        : this.duration;
+      const leaveDuration = this.transitionDuration.leave
+        ? this.transitionDuration.leave
+        : this.transitionDuration;
       el.style.animationDuration = `${leaveDuration}ms`;
       el.style.animationFillMode = "both";
       this.$emit("before-leave", el);

@@ -24,7 +24,7 @@
     <ProgressBar
       v-if="timeout"
       :is-running="isRunning"
-      :hide="hideProgressBar"
+      :hide-progress-bar="hideProgressBar"
       :timeout="timeout"
       @close-toast="timeoutHandler"
     />
@@ -37,15 +37,9 @@ import CloseButton from "./CloseButton";
 import Icon from "./Icon";
 import events from "../js/events";
 import Draggable from "./Draggable";
-import { EVENTS, VT_NAMESPACE, TYPE, POSITION } from "../js/constants";
-import {
-  removeElement,
-  isVueComponent,
-  isPositiveInt,
-  isString,
-  isIn,
-  getVueComponentFromObj
-} from "../js/utils";
+import { EVENTS, VT_NAMESPACE } from "../js/constants";
+import PROPS from "../js/propValidators";
+import { removeElement, getVueComponentFromObj } from "../js/utils";
 
 export default {
   components: {
@@ -55,55 +49,7 @@ export default {
   },
   mixins: [Draggable],
   inheritAttrs: false,
-  props: {
-    id: {
-      type: [String, Number],
-      required: true
-    },
-    type: {
-      type: String,
-      default: TYPE.DEFAULT,
-      validator: value => isIn(value, Object.values(TYPE))
-    },
-    position: {
-      type: String,
-      required: true,
-      validator: value => isIn(value, Object.values(POSITION))
-    },
-    content: {
-      type: [String, Object, Function],
-      required: true,
-      validator: value => isString(value) || isVueComponent(value)
-    },
-    pauseOnHover: Boolean,
-    pauseOnFocusLoss: Boolean,
-    closeOnClick: Boolean,
-    onClick: {
-      type: Function,
-      default: () => {}
-    },
-    timeout: {
-      type: [Number, Boolean],
-      required: true,
-      validator: value => isPositiveInt(value) || value === false
-    },
-    hideProgressBar: Boolean,
-    hideCloseButton: Boolean,
-    toastClassName: {
-      type: [Array, String],
-      required: true,
-      validator: value => isString(value) || value.every(v => isString(v))
-    },
-    bodyClassName: {
-      type: [Array, String],
-      required: true,
-      validator: value => isString(value) || value.every(v => isString(v))
-    },
-    icon: {
-      type: [String, Boolean, Object],
-      required: true
-    }
-  },
+  props: PROPS.TOAST,
   data() {
     return {
       isRunning: true,

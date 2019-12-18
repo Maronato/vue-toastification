@@ -1,14 +1,6 @@
 import { getX, getY } from "../js/utils";
 
 export default {
-  props: {
-    draggable: Boolean,
-    draggablePercent: {
-      type: Number,
-      required: true,
-      validator: value => value > 0
-    }
-  },
   data() {
     return {
       beingDragged: false,
