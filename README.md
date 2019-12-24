@@ -349,10 +349,11 @@ this.$toast("my toast", {
     // For the actual toast, including different toast types:
     toastClassName: "my-custom-toast-class",
 
-    // For the toast body when using strings as content
+    // For the toast body when using strings or a custom component as content
     bodyClassName: ["custom-class-1", "custom-class-2"]
 });
-
+```
+```css
 <style>
 /* When setting CSS, remember that priority increases with specificity, so don't forget to select the exisiting classes as well */
 
@@ -360,12 +361,20 @@ this.$toast("my toast", {
         background-color: red;
     }
 
+    /* Applied to the toast body when using regular strings as content */
     .Vue-Toastification__toast-body.custom-class-1 {
         font-size: 30px;
+    }
+
+    /* Applied to a wrapper div when using a custom component as content */
+    .Vue-Toastification__toast-component-body.custom-class-2 {
+        width: 100%;
     }
 </style>
 ```
 These can also be defined when registering the vue plugin.
+
+> Note: `bodyClassName`s applied to toasts that use a custom component are not applied to the custom component itself. Instead, they are applied to a `div` that wraps the custom component.
 
 #### Override SCSS variables
 There is a set of [pre defined variables](https://github.com/Maronato/vue-toastification/blob/master/src/scss/_variables.scss) that you can override to change some basic styling.
