@@ -48,6 +48,10 @@
       word-break: break-word;
     }
 
+    &-component-body {
+      flex: 1;
+    }
+
     &.disable-transition {
       transition: none !important;
       animation: none !important;

@@ -9,17 +9,19 @@
     @focus="focusPlay"
   >
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
-    <template v-if="typeof content === 'string'">
-      <div :class="bodyClasses">{{ content }}</div>
-    </template>
-    <component
-      :is="getVueComponentFromObj(content)"
-      v-else
-      :toast-id="id"
-      v-bind="content.props"
-      v-on="content.listeners"
-      @close-toast="closeToast"
-    />
+    <div :class="bodyClasses">
+      <template v-if="typeof content === 'string'">
+        {{ content }}
+      </template>
+      <component
+        :is="getVueComponentFromObj(content)"
+        v-else
+        :toast-id="id"
+        v-bind="content.props"
+        v-on="content.listeners"
+        @close-toast="closeToast"
+      />
+    </div>
     <CloseButton v-if="!hideCloseButton" @click.stop="closeToast" />
     <ProgressBar
       v-if="timeout"
@@ -39,7 +41,7 @@ import events from "../js/events";
 import Draggable from "./Draggable";
 import { EVENTS, VT_NAMESPACE } from "../js/constants";
 import PROPS from "../js/propValidators";
-import { removeElement, getVueComponentFromObj } from "../js/utils";
+import { removeElement, getVueComponentFromObj, isString } from "../js/utils";
 
 export default {
   components: {
@@ -74,7 +76,11 @@ export default {
       return classes;
     },
     bodyClasses() {
-      const classes = [`${VT_NAMESPACE}__toast-body`].concat(
+      const classes = [
+        `${VT_NAMESPACE}__toast-${
+          isString(this.content) ? "body" : "component-body"
+        }`
+      ].concat(
         Array.isArray(this.bodyClassName)
           ? this.bodyClassName
           : [this.bodyClassName]
