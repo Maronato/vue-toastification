@@ -27,5 +27,5 @@ module.exports = {
     "jest-watch-typeahead/testname"
   ],
 
-  preset: '@vue/cli-plugin-unit-jest'
+  preset: "@vue/cli-plugin-unit-jest"
 };
