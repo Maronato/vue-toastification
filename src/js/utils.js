@@ -45,7 +45,10 @@ export const isVueComponent = obj =>
     // Nested object
     isVueComponent(obj.component));
 
-export const isPositiveInt = value => Number.isInteger(value) && value > 0;
+export const isPositiveNumber = value => Number.isFinite(value) && value > 0;
+
+export const isPositiveInt = value =>
+  Number.isInteger(value) && isPositiveNumber(value);
 
 export const isIn = (value, list) => list.indexOf(value) !== -1;
 

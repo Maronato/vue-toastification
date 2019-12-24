@@ -2,8 +2,8 @@
   <div>
     <div v-for="pos in positions" :key="pos">
       <Transition
-        :name="defaults.transition"
-        :duration="defaults.transitionDuration"
+        :transition="defaults.transition"
+        :transition-duration="defaults.transitionDuration"
         :class="`${VT_NAMESPACE}__container ${pos}`"
       >
         <Toast
@@ -20,7 +20,7 @@
 import Toast from "./Toast";
 import events from "../js/events";
 import { EVENTS, POSITION, VT_NAMESPACE } from "../js/constants";
-import { isPositiveInt, isNonEmptyString } from "../js/utils";
+import PROPS from "../js/propValidators";
 import Transition from "./Transition";
 
 export default {
@@ -28,85 +28,7 @@ export default {
     Toast,
     Transition
   },
-  props: {
-    position: {
-      type: String,
-      default: POSITION.TOP_RIGHT
-    },
-    newestOnTop: {
-      type: Boolean,
-      default: true
-    },
-    maxToasts: {
-      type: Number,
-      default: 20,
-      validator: value => isPositiveInt(value)
-    },
-    transition: {
-      type: [Object, String],
-      default: `${VT_NAMESPACE}__bounce`,
-      validator: value =>
-        isNonEmptyString(value) ||
-        ["enter", "leave", "move"].every(k => isNonEmptyString(value[k]))
-    },
-    transitionDuration: {
-      type: [Number, Object],
-      default: 750,
-      validator: value =>
-        isPositiveInt(value) ||
-        (isPositiveInt(value.enter) && isPositiveInt(value.leave))
-    },
-    draggable: {
-      type: Boolean,
-      default: true
-    },
-    draggablePercent: {
-      type: Number,
-      default: 0.6
-    },
-    pauseOnFocusLoss: {
-      type: Boolean,
-      default: true
-    },
-    pauseOnHover: {
-      type: Boolean,
-      default: true
-    },
-    closeOnClick: {
-      type: Boolean,
-      default: false
-    },
-    timeout: {
-      type: [Number, Boolean],
-      default: 5000
-    },
-    container: {
-      type: Element,
-      default: () => document.body
-    },
-    toastClassName: {
-      type: [Array, String],
-      default: () => []
-    },
-    bodyClassName: {
-      type: [Array, String],
-      default: () => []
-    },
-    hideProgressBar: Boolean,
-    hideCloseButton: Boolean,
-    icon: {
-      type: [String, Boolean, Object],
-      default: true
-    },
-    filterBeforeCreate: {
-      type: Function,
-      default: props => props
-    },
-    filterToasts: {
-      type: Function,
-      default: toasts => toasts
-    }
-  },
+  props: PROPS.CONTAINER,
   data() {
     return {
       count: 0,
@@ -171,7 +93,7 @@ export default {
           options.timeout++;
         }
         this.setToast(Object.assign({}, this.toasts[id], options));
-      } else if (create) this.addToast({ id, ...options });
+      } else if (create) this.addToast(Object.assign({}, { id }, options));
     }
   }
 };

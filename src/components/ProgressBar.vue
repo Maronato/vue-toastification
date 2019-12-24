@@ -4,15 +4,9 @@
 
 <script>
 import { VT_NAMESPACE } from "../js/constants";
+import PROPS from "../js/propValidators";
 export default {
-  props: {
-    timeout: {
-      type: Number,
-      required: true
-    },
-    hide: Boolean,
-    isRunning: Boolean
-  },
+  props: PROPS.PROGRESS_BAR,
   data() {
     return {
       hasClass: true
@@ -23,7 +17,7 @@ export default {
       return {
         animationDuration: `${this.timeout}ms`,
         animationPlayState: this.isRunning ? "running" : "paused",
-        opacity: this.hide ? 0 : 1
+        opacity: this.hideProgressBar ? 0 : 1
       };
     },
     cpClass() {

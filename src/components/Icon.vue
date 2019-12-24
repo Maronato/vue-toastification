@@ -6,28 +6,14 @@
 
 <script>
 import { TYPE, VT_NAMESPACE } from "../js/constants";
-import { isNonEmptyString, isDefined } from "../js/utils";
+import { isNonEmptyString } from "../js/utils";
+import PROPS from "../js/propValidators";
 import SuccessIcon from "./icons/SuccessIcon";
 import InfoIcon from "./icons/InfoIcon";
 import WarningIcon from "./icons/WarningIcon";
 import ErrorIcon from "./icons/ErrorIcon";
 export default {
-  props: {
-    type: {
-      type: String,
-      required: true
-    },
-    customIcon: {
-      type: [String, Boolean, Object],
-      required: true,
-      validator: value =>
-        value === false ||
-        isNonEmptyString(value) ||
-        ["class", "children", "tag"].every(
-          v => !isDefined(v) || isNonEmptyString(v)
-        )
-    }
-  },
+  props: PROPS.ICON,
   computed: {
     customIconChildren() {
       return this.trimValue(this.customIcon.children);
