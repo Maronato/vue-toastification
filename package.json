@@ -1,23 +1,39 @@
 {
   "name": "vue-toastification",
   "version": "0.6.0",
-  "description": "Toasts for Vue made easy!",
   "private": false,
+  "description": "Toasts for Vue made easy!",
+  "author": "Gustavo Maronato",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --mode production",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint",
+    "lint:no-fix": "vue-cli-service lint --no-fix",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --config=webpack.config.dev.js",
     "docs": "cross-env NODE_ENV=production webpack --config=webpack.config.dev.js --progress --mode production",
-    "prepublishOnly": "yarn lint && yarn build",
-    "lint": "vue-cli-service lint"
+    "prepublishOnly": "yarn lint:no-fix && yarn test && yarn build && yarn docs",
+    "test": "yarn test:unit --passWithNoTests"
   },
+  "main": "dist/index.js",
+  "browser": "dist/index.min.js",
+  "files": [
+    "src",
+    "dist",
+    "index.d.ts"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.6.6",
     "@mdi/font": "^4.7.95",
     "@vue/babel-preset-jsx": "^1.1.2",
+    "@vue/cli-plugin-babel": "^3.12.0",
+    "@vue/cli-plugin-eslint": "^3.12.0",
+    "@vue/cli-plugin-unit-jest": "^4.1.1",
     "@vue/cli-service": "^4.1.1",
     "@vue/eslint-config-prettier": "^6.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^6.0.3",
@@ -34,6 +50,7 @@
     "terser-webpack-plugin": "^2.3.1",
     "unminified-webpack-plugin": "^2.0.0",
     "vue": "^2.6.11",
+    "vue-jest": "^3.0.5",
     "vue-loader": "^15.8.3",
     "vue-prism-component": "^1.1.1",
     "vue-template-compiler": "^2.6.11",
@@ -43,31 +60,23 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.0"
   },
-  "files": [
-    "src",
-    "dist",
-    "index.d.ts"
-  ],
-  "main": "dist/index.js",
-  "browser": "dist/index.min.js",
-  "style": "dist/index.css",
-  "types": "index.d.ts",
-  "author": "Gustavo Maronato",
-  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^2.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Maronato/vue-toastification/issues"
+  },
+  "homepage": "https://github.com/Maronato/vue-toastification#readme",
   "keywords": [
     "vue",
     "notification",
     "toast"
   ],
-  "bugs": {
-    "url": "https://github.com/Maronato/vue-toastification/issues"
-  },
-  "homepage": "https://github.com/Maronato/vue-toastification#readme",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Maronato/vue-toastification.git"
   },
-  "peerDependencies": {
-    "vue": "^2.0.0"
-  }
+  "style": "dist/index.css",
+  "types": "index.d.ts"
 }
