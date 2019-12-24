@@ -1,6 +1,6 @@
 {
   "name": "vue-toastification",
-  "version": "0.6.0",
+  "version": "0.6.5",
   "private": false,
   "description": "Toasts for Vue made easy!",
   "author": "Gustavo Maronato",
