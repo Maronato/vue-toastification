@@ -7,6 +7,11 @@ assignees: ''
 
 ---
 
+**Versions**
+List of versions known to be affected.
+- 1.0
+- 2.0
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
