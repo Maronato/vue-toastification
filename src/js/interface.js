@@ -28,13 +28,13 @@ const ToastInterface = (Vue, globalOptions = {}) => {
       create
     });
   toast.success = (content, options) =>
-    toast(content, Object.assign({}, { options }, { type: TYPE.SUCCESS }));
+    toast(content, Object.assign({}, options, { type: TYPE.SUCCESS }));
   toast.info = (content, options) =>
-    toast(content, Object.assign({}, { options }, { type: TYPE.INFO }));
+    toast(content, Object.assign({}, options, { type: TYPE.INFO }));
   toast.error = (content, options) =>
-    toast(content, Object.assign({}, { options }, { type: TYPE.ERROR }));
+    toast(content, Object.assign({}, options, { type: TYPE.ERROR }));
   toast.warning = (content, options) =>
-    toast(content, Object.assign({}, { options }, { type: TYPE.WARNING }));
+    toast(content, Object.assign({}, options, { type: TYPE.WARNING }));
   return toast;
 };
 export default ToastInterface;
