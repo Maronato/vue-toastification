@@ -49,6 +49,15 @@ const ICON = {
   }
 };
 
+const CLOSE_BUTTON = {
+  component: {
+    type: [String, Object, Function],
+    default: "button",
+    validator: value => value === "button" || isVueComponent(value)
+  },
+  classNames: COMMON.classNames
+};
+
 const PROGRESS_BAR = {
   timeout: {
     type: [Number, Boolean],
@@ -96,7 +105,9 @@ const CORE_TOAST = {
   hideCloseButton: Boolean,
   toastClassName: COMMON.classNames,
   bodyClassName: COMMON.classNames,
-  icon: ICON.customIcon
+  icon: ICON.customIcon,
+  closeButton: CLOSE_BUTTON.component,
+  closeButtonClassName: CLOSE_BUTTON.classNames
 };
 
 const TOAST = Object.assign({}, CORE_TOAST, {
@@ -133,5 +144,6 @@ export default {
   CONTAINER,
   PROGRESS_BAR,
   ICON,
-  TRANSITION
+  TRANSITION,
+  CLOSE_BUTTON
 };

@@ -56,7 +56,7 @@ export default {
     iconClasses() {
       const classes = [`${VT_NAMESPACE}__icon`];
       if (this.hasCustomIcon) {
-        classes.push(this.customIconClass);
+        return classes.concat(this.customIconClass);
       }
       return classes;
     }

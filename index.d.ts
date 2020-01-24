@@ -61,6 +61,16 @@ interface CommonOptions {
    * When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon.
    */
   icon?: boolean | string | Partial<Record<'tag' | 'children' | 'class', string>> | Component<any, any, any, any>;
+  /**
+   * Custom close button component
+   *
+   * Alternative close button component to be displayed in toasts
+   */
+  closeButton?: "button" | Component<any, any, any, any>;
+  /**
+   * 	Custom classes applied to the close button of the toast.
+   */
+  closeButtonClassName?: string | string[];
 }
 
 interface PluginOptions extends CommonOptions {
