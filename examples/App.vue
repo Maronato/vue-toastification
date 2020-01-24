@@ -261,6 +261,7 @@ import AltText from "./components/AltText";
 import SimpleAction from "./components/SimpleAction";
 import UpdateAction from "./components/UpdateAction";
 import Events from "./components/Events";
+import MyIconComponent from './components/MyIconComponent';
 import Prism from "vue-prism-component";
 
 const altTextCode = `// Component.vue (style omitted)
@@ -542,15 +543,9 @@ export default {
         value: false
       },
       "fas fa-rocket",
-      "fas fa-bomb",
-      "fab fa-galactic-republic",
       {
-        text: "Material Icons bug_report",
-        value: {
-          class: "material-icons",
-          children: "bug_report",
-          tag: "span"
-        }
+        text: "Icon Component",
+        value: { component: { MyIconComponent } }
       },
       {
         text: "Material Icons code",
@@ -586,12 +581,16 @@ export default {
       switch (typeof this.toastIcon) {
         case "boolean":
           return this.toastIcon.toString();
-        case "object":
+        case "object": {
+          if (this.toastIcon.component) {
+            return Object.keys(this.toastIcon.component)[0];
+          }
           return `{
     class: "${this.toastIcon.class}",
     children: "${this.toastIcon.children || ''}",
     tag: "${this.toastIcon.tag || 'i'}"
   }`;
+        }
         default:
           return `"${this.toastIcon}"`;
       }
@@ -712,7 +711,9 @@ Vue.use(Toast, {
       const options = {
         ...this.options,
         draggablePercent: this.options.draggablePercent / 100,
-        icon: this.toastIcon
+        icon: this.toastIcon.component
+          ? Object.values(this.toastIcon.component)[0]
+          : this.toastIcon
       };
       if (options.timeout === 0) {
         options.timeout = false;

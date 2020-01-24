@@ -22,7 +22,12 @@
         @close-toast="closeToast"
       />
     </div>
-    <CloseButton v-if="!hideCloseButton" @click.stop="closeToast" />
+    <CloseButton
+      v-if="!hideCloseButton"
+      :component="closeButton"
+      :class-names="closeButtonClassName"
+      @click.stop="closeToast"
+    />
     <ProgressBar
       v-if="timeout"
       :is-running="isRunning"
