@@ -60,7 +60,7 @@ interface CommonOptions {
    *
    * When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon.
    */
-  icon?: boolean | string | Partial<Record<'tag' | 'children' | 'class', string>>;
+  icon?: boolean | string | Partial<Record<'tag' | 'children' | 'class', string>> | Component<any, any, any, any>;
 }
 
 interface PluginOptions extends CommonOptions {

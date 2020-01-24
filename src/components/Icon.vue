@@ -1,12 +1,16 @@
 <template>
-  <component :is="component" :class="iconClasses">{{
-    customIconChildren
-  }}</component>
+  <component :is="component" :class="iconClasses">
+    {{ customIconChildren }}
+  </component>
 </template>
 
 <script>
 import { TYPE, VT_NAMESPACE } from "../js/constants";
-import { isNonEmptyString } from "../js/utils";
+import {
+  isNonEmptyString,
+  isVueComponent,
+  getVueComponentFromObj
+} from "../js/utils";
 import PROPS from "../js/propValidators";
 import SuccessIcon from "./icons/SuccessIcon";
 import InfoIcon from "./icons/InfoIcon";
@@ -33,6 +37,9 @@ export default {
     component() {
       if (this.hasCustomIcon) {
         return this.customIconTag;
+      }
+      if (isVueComponent(this.customIcon)) {
+        return getVueComponentFromObj(this.customIcon);
       }
       return this.iconTypeComponent;
     },

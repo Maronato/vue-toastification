@@ -37,10 +37,11 @@ const COMMON = {
 const ICON = {
   type: COMMON.type,
   customIcon: {
-    type: [String, Boolean, Object],
+    type: [String, Boolean, Object, Function],
     default: true,
     validator: value =>
       typeof value === "boolean" ||
+      isVueComponent(value) ||
       isNonEmptyString(value) ||
       ["class", "children", "tag"].every(
         k => !isDefined(value[k]) || isNonEmptyString(value[k])
