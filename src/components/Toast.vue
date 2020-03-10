@@ -26,6 +26,7 @@
       v-if="!hideCloseButton"
       :component="closeButton"
       :class-names="closeButtonClassName"
+      :show-on-hover="showCloseButtonOnHover"
       @click.stop="closeToast"
     />
     <ProgressBar

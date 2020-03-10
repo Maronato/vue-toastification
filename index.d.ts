@@ -56,6 +56,10 @@ interface CommonOptions {
    */
   hideCloseButton?: boolean;
   /**
+   * Only shows the close button when hovering the toast
+   */
+  showCloseButtonOnHover?: boolean;
+  /**
    * Custom icon class to be used.
    *
    * When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon.

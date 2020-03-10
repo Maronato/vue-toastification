@@ -55,7 +55,11 @@ const CLOSE_BUTTON = {
     default: "button",
     validator: value => value === "button" || isVueComponent(value)
   },
-  classNames: COMMON.classNames
+  classNames: COMMON.classNames,
+  showOnHover: {
+    type: Boolean,
+    default: false
+  }
 };
 
 const PROGRESS_BAR = {
@@ -107,7 +111,8 @@ const CORE_TOAST = {
   bodyClassName: COMMON.classNames,
   icon: ICON.customIcon,
   closeButton: CLOSE_BUTTON.component,
-  closeButtonClassName: CLOSE_BUTTON.classNames
+  closeButtonClassName: CLOSE_BUTTON.classNames,
+  showCloseButtonOnHover: CLOSE_BUTTON.showOnHover
 };
 
 const TOAST = Object.assign({}, CORE_TOAST, {

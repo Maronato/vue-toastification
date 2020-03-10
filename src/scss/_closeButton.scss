@@ -7,13 +7,16 @@
     padding: 0;
     padding-left: 10px;
     cursor: pointer;
-    opacity: 0.7;
     transition: 0.3s ease;
     align-items: center;
     color: #fff;
     opacity: 0.3;
+    transition: visibility 0s, opacity 0.2s linear;
     &:hover,
     &:focus {
       opacity: 1;
+    }
+    .#{$vt-namespace}__toast:not(:hover) &.show-on-hover {
+      opacity: 0;
     }
   }
