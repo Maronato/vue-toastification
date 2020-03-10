@@ -161,6 +161,12 @@
               </v-col>
               <v-col cols="6">
                 <v-switch
+                  v-model="options.showCloseButtonOnHover"
+                  label="Only show close button on hover"
+                ></v-switch>
+              </v-col>
+              <v-col cols="6">
+                <v-switch
                   v-model="options.hideProgressBar"
                   label="Hide progress bar"
                 ></v-switch>
@@ -485,6 +491,7 @@ export default {
       closeOnClick: true,
       timeout: 5000,
       hideCloseButton: false,
+      showCloseButtonOnHover: false,
       hideProgressBar: false,
       icon: {
         text: "Default icons",
@@ -604,6 +611,7 @@ export default {
   draggable: ${this.options.draggable},
   draggablePercent: ${this.options.draggablePercent / 100},
   hideCloseButton: ${this.options.hideCloseButton},
+  showCloseButtonOnHover: ${this.options.showCloseButtonOnHover},
   hideProgressBar: ${this.options.hideProgressBar},
   icon: ${this.toastIconExample}`;
       return options;

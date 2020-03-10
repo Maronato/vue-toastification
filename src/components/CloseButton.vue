@@ -1,6 +1,6 @@
 <template>
-  <component :is="buttonComponet" :class="classes" v-on="$listeners"
-    >✖
+  <component :is="buttonComponet" :class="classes" v-on="$listeners">
+    ✖
   </component>
 </template>
 <script>
@@ -23,6 +23,9 @@ export default {
     },
     classes() {
       const classes = [`${VT_NAMESPACE}__close-button`];
+      if (this.showOnHover) {
+        classes.push("show-on-hover");
+      }
       if (this.classNames) {
         return classes.concat(this.classNames);
       }
