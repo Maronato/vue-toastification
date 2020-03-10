@@ -1,0 +1,59 @@
+.#{$vt-namespace}__toast {
+    display: inline-flex;
+    position: relative;
+    max-height: $vt-toast-max-height;
+    min-height: $vt-toast-min-height;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    padding: 22px 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
+    justify-content: space-between;
+    font-family: $vt-font-family;
+    max-width:$vt-toast-max-width;
+    min-width: $vt-toast-min-width;
+    pointer-events: auto;
+    overflow: hidden;
+
+    &--default {
+      background-color: $vt-color-default;
+      color: $vt-text-color-default;
+    }
+    &--info {
+      background-color: $vt-color-info;
+      color: $vt-text-color-info;
+    }
+    &--success {
+      background-color: $vt-color-success;
+      color: $vt-text-color-success;
+    }
+    &--error {
+      background-color: $vt-color-error;
+      color: $vt-text-color-error;
+    }
+    &--warning {
+      background-color: $vt-color-warning;
+      color: $vt-text-color-warning;
+    }
+
+    @media #{$vt-mobile} {
+      border-radius: 0px;
+      margin-bottom: 0.5rem;
+    }
+
+    &-body {
+      flex: 1;
+      line-height: 24px;
+      font-size: 16px;
+      word-break: break-word;
+    }
+
+    &-component-body {
+      flex: 1;
+    }
+
+    &.disable-transition {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
