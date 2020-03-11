@@ -9,6 +9,7 @@ cache:
 script:
   - yarn lint:no-fix
   - yarn test
+  - yarn docs
 
 
 deploy:
