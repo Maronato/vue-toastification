@@ -187,7 +187,7 @@ interface ToastModule {
   /**
    * Update Toast
    */
-  update: (id: ToastID, { content, options }?: { content?: ToastComponent, options?: ToastOptions }, create?: Boolean) => void;
+  update: (id: ToastID, contentAndOptions?: ToastComponentAndOptions, create?: Boolean) => void;
   /**
    * Update Plugin Defaults
    */
@@ -205,5 +205,5 @@ declare module 'vue/types/vue' {
 }
 
 export default class Toast {
-  static install: PluginFunction<never>;
+  static install: PluginFunction<PluginOptions>;
 }
