@@ -1,45 +1,26 @@
 module.exports = {
   root: true,
-
   env: {
     node: true
   },
-
-  extends: ["plugin:vue/recommended", "@vue/prettier"],
-
+  extends: [
+    "plugin:vue/essential",
+    "eslint:recommended",
+    "@vue/typescript/recommended",
+    "@vue/prettier",
+    "@vue/prettier/@typescript-eslint"
+  ],
+  parserOptions: {
+    ecmaVersion: 2020
+  },
   rules: {
-    "no-console": "off",
-    "no-debugger": "off",
-    "vue/array-bracket-spacing": "error",
-    "vue/arrow-spacing": "error",
-    "vue/block-spacing": "error",
-    "vue/brace-style": "error",
-    "vue/camelcase": "error",
-    "vue/comma-dangle": "error",
-    "vue/component-name-in-template-casing": "error",
-    "vue/eqeqeq": "error",
-    "vue/key-spacing": "error",
-    "vue/match-component-file-name": "error",
-    "vue/object-curly-spacing": "error",
-    "vue/require-direct-export": "error",
-    "vue/script-indent": "error",
-    "vue/space-infix-ops": "error",
-    "vue/space-unary-ops": "error",
-    "vue/v-on-function-call": "error",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-useless-escape": "off"
   },
-
-  parserOptions: {
-    parser: "babel-eslint"
-  },
-
   overrides: [
-    {
-      files: ["**/__tests__/*.{j,t}s?(x)"],
-      env: {
-        jest: true
-      }
-    },
     {
       files: [
         "**/__tests__/*.{j,t}s?(x)",

@@ -115,8 +115,7 @@ this.$toast("I'm a toast!");
 
 // Or with options
 this.$toast("My toast content", {
-    timeout: 2000,
-    onClose: () => console.log("closed!")
+    timeout: 2000
 });
 // These options will override the options defined in the "Vue.use" plugin registration for this specific toast
 ```
@@ -130,8 +129,7 @@ this._vm.$toast("I'm a toast!");
 import Vue from "vue";
 
 Vue.$toast("My toast content", {
-    timeout: 2000,
-    onClose: () => console.log("closed!")
+    timeout: 2000
 });
 ```
 
@@ -725,7 +723,8 @@ Vue.use(Toast, { filterToasts });
 | pauseOnFocusLoss       | Boolean                                      | `true`       | Whether or not the toast is paused when the window loses focus.                                                                                                                                               |
 | pauseOnHover           | Boolean                                      | `true`       | Whether or not the toast is paused when it is hovered by the mouse.                                                                                                                                           |
 | closeOnClick           | Boolean                                      | `true`       | Whether or not the toast is closed when clicked.                                                                                                                                                              |
-| onClick                | Function                                     | `NOOP`       | Callback for when the toast is clicked. A `closeToast` callback is passed as an argument to `onClick` when it is called.                                                                                      |
+| onClick                | Function                                     | `NOOP`       | Callback executed when the toast is clicked. A `closeToast` callback is passed as an argument to `onClick` when it is called.                                                                                      |
+| onClose                | Function                                     | `NOOP`       | Callback executed when the toast is closed.                                                                                      |
 | timeout                | Positive Integer or false                    | `5000`       | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                                                |
 | toastClassName         | String or Array of Strings                   | `[]`         | Custom classes applied to the toast.                                                                                                                                                                          |
 | bodyClassName          | String or Array of Strings                   | `[]`         | Custom classes applied to the body of the toast.                                                                                                                                                              |

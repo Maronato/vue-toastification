@@ -4,3 +4,6 @@
     <span>Listen!</span>
   </div>
 </template>
+<script>
+export default {};
+</script>

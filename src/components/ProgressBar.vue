@@ -2,44 +2,50 @@
   <div :style="style" :class="cpClass" />
 </template>
 
-<script>
-import { VT_NAMESPACE } from "../js/constants";
-import PROPS from "../js/propValidators";
-export default {
-  props: PROPS.PROGRESS_BAR,
-  data() {
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+import { Watch } from "vue-property-decorator";
+
+import { VT_NAMESPACE } from "../ts/constants";
+import PROPS from "../ts/propValidators";
+
+const ProgressBarProps = Vue.extend({
+  props: PROPS.PROGRESS_BAR
+});
+
+@Component
+export default class ProgressBar extends ProgressBarProps {
+  hasClass = true;
+
+  get style() {
     return {
-      hasClass: true
+      animationDuration: `${this.timeout}ms`,
+      animationPlayState: this.isRunning ? "running" : "paused",
+      opacity: this.hideProgressBar ? 0 : 1
     };
-  },
-  computed: {
-    style() {
-      return {
-        animationDuration: `${this.timeout}ms`,
-        animationPlayState: this.isRunning ? "running" : "paused",
-        opacity: this.hideProgressBar ? 0 : 1
-      };
-    },
-    cpClass() {
-      return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : "";
-    }
-  },
-  watch: {
-    timeout() {
-      this.hasClass = false;
-      this.$nextTick(() => (this.hasClass = true));
-    }
-  },
+  }
+
+  get cpClass() {
+    return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : "";
+  }
+
   mounted() {
     this.$el.addEventListener("animationend", this.animationEnded);
-  },
+  }
+
   beforeDestroy() {
     this.$el.removeEventListener("animationend", this.animationEnded);
-  },
-  methods: {
-    animationEnded() {
-      this.$emit("close-toast");
-    }
   }
-};
+
+  animationEnded() {
+    this.$emit("close-toast");
+  }
+
+  @Watch("timeout")
+  onTimeoutChange() {
+    this.hasClass = false;
+    this.$nextTick(() => (this.hasClass = true));
+  }
+}
 </script>

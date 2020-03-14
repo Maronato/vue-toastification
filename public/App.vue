@@ -263,11 +263,11 @@
 </template>
 
 <script>
-import AltText from "./components/AltText";
-import SimpleAction from "./components/SimpleAction";
-import UpdateAction from "./components/UpdateAction";
-import Events from "./components/Events";
-import MyIconComponent from './components/MyIconComponent';
+import AltText from "./components/AltText.vue";
+import SimpleAction from "./components/SimpleAction.vue";
+import UpdateAction from "./components/UpdateAction.vue";
+import Events from "./components/Events.vue";
+import MyIconComponent from "./components/MyIconComponent.vue";
 import Prism from "vue-prism-component";
 
 const altTextCode = `// Component.vue (style omitted)
@@ -594,8 +594,8 @@ export default {
           }
           return `{
     class: "${this.toastIcon.class}",
-    children: "${this.toastIcon.children || ''}",
-    tag: "${this.toastIcon.tag || 'i'}"
+    children: "${this.toastIcon.children || ""}",
+    tag: "${this.toastIcon.tag || "i"}"
   }`;
         }
         default:

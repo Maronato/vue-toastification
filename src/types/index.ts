@@ -1,14 +1,16 @@
-import { PluginFunction, VueConstructor, Component } from 'vue';
+import { Component } from "vue";
+import ToastInterface from "../ts/interface";
+import { TYPE, POSITION } from "../ts/constants";
 
-type ToastID = string | number;
+export type ToastID = string | number;
 
-interface CommonOptions {
+export interface CommonOptions {
   /**
    *  Position of the toast on the screen.
    *
    *  Can be any of top-right, top-center, top-left, bottom-right, bottom-center, bottom-left.
    */
-  position?: 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
+  position?: POSITION;
   /**
    *  Position of the toast on the screen.
    *
@@ -28,17 +30,13 @@ interface CommonOptions {
    */
   pauseOnHover?: boolean;
   /**
-  * 	Whether or not the toast is closed when clicked.
-  */
+   * 	Whether or not the toast is closed when clicked.
+   */
   closeOnClick?: boolean;
   /**
    * How many milliseconds for the toast to be auto dismissed, or false to disable.
    */
   timeout?: number | false;
-  /**
-   * Container where the toasts are mounted.
-   */
-  container?: HTMLElement;
   /**
    * 	Custom classes applied to the toast.
    */
@@ -64,20 +62,28 @@ interface CommonOptions {
    *
    * When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon.
    */
-  icon?: boolean | string | Partial<Record<'tag' | 'children' | 'class', string>> | Component<any, any, any, any>;
+  icon?:
+    | boolean
+    | string
+    | Partial<Record<"tag" | "children" | "class", string>>
+    | Component;
   /**
    * Custom close button component
    *
    * Alternative close button component to be displayed in toasts
    */
-  closeButton?: "button" | Component<any, any, any, any>;
+  closeButton?: "button" | Component;
   /**
    * 	Custom classes applied to the close button of the toast.
    */
   closeButtonClassName?: string | string[];
 }
 
-interface PluginOptions extends CommonOptions {
+export interface PluginOptions extends CommonOptions {
+  /**
+   * Container where the toasts are mounted.
+   */
+  container?: HTMLElement;
   /**
    *  Whether or not the newest toasts are placed on the top of the stack.
    */
@@ -91,19 +97,22 @@ interface PluginOptions extends CommonOptions {
    *
    *  Only `enter-active`, `leave-active` and `move` are applied.
    */
-  transition?: string | Record<'enter' | 'leave' | 'move', string>;
+  transition?: string | Record<"enter" | "leave" | "move", string>;
   /**
    * Duration of the transition.
    *
    * Can either be a positive integer for both enter and leave, or an object of shape `{enter: number, leave: number}`.
    */
-  transitionDuration?: number | Record<'enter' | 'leave', number>;
+  transitionDuration?: number | Record<"enter" | "leave", number>;
   /**
    * Callback to filter toasts during creation
    *
    * Takes the new toast and a list of the current toasts and returns a modified toast or false.
    */
-  filterBeforeCreate?: (toast: ToastOptions, toasts: Array<ToastOptions>) => ToastOptions | false;
+  filterBeforeCreate?: (
+    toast: ToastOptions,
+    toasts: Array<ToastOptions>
+  ) => ToastOptions | false;
   /**
    * Callback to filter toasts during render
    *
@@ -122,88 +131,49 @@ export interface ToastOptions extends CommonOptions {
    *
    *  Can be any of `success error default info warning`
    */
-  type?: 'success' | 'error' | 'default' | 'info' | 'warning';
+  type?: TYPE;
   /**
-   * 	Callback for when the toast is clicked.
+   * 	Callback executed when the toast is clicked.
    *
    *  A closeToast callback is passed as argument to onClick when it is called.
    */
   onClick?: (closeToast: Function) => void;
+  /**
+   * 	Callback executed when the toast is closed.
+   */
+  onClose?: () => void;
 }
 
-interface ToastContent {
+export type RenderableToastContent = string | Component;
+
+export interface ToastComponent {
   /**
    * Component that will be rendered.
    */
-  component: Component<any, any, any, any> | string;
+  component: ToastContent;
   /**
    * `propName: propValue` pairs of props that will be passed to the component.
    *
    * __These are not reactive__
    */
-  props?: { [p: string]: any };
+  props?: { [propName: string]: unknown };
   /**
    * `eventName: eventHandler` pairs of events that the component can emit.
    */
-  listeners?: { [p: string]: Function }
+  listeners?: { [listenerEvent: string]: Function };
 }
 
-type ToastComponent = string | Component<any, any, any, any> | ToastContent
+export type ToastContent =
+  | RenderableToastContent
+  | JSX.Element
+  | ToastComponent;
 
-interface ToastComponentAndOptions {
-  content?: ToastComponent,
-  options?: ToastOptions
-}
-
-interface ToastModule {
-  /**
-   * Display a toast
-   */
-  (content: ToastComponent, options?: ToastOptions): ToastID;
-  /**
-   * Clear all toasts
-   */
-  clear: () => void;
-  /**
-   * Dismiss toast specified by an id
-   */
-  dismiss: (id: number) => void;
-  /**
-   * Display a success toast
-   */
-  success: (content: ToastComponent, options?: ToastOptions & { type: 'success' }) => ToastID;
-  /**
-   * Display an info toast
-   */
-  info: (content: ToastComponent, options?: ToastOptions & { type: 'info' }) => ToastID;
-  /**
-   * Display an error toast
-   */
-  error: (content: ToastComponent, options?: ToastOptions & { type: 'error' }) => ToastID;
-  /**
-   * Display a warning toast
-   */
-  warning: (content: ToastComponent, options?: ToastOptions & { type: 'warning' }) => ToastID;
-  /**
-   * Update Toast
-   */
-  update: (id: ToastID, { content, options }?: { content?: ToastComponent, options?: ToastOptions }, create?: Boolean) => void;
-  /**
-   * Update Plugin Defaults
-   */
-  updateDefaults: (toastOpts: PluginOptions) => void;
-}
-
-declare module 'vue/types/vue' {
+declare module "vue/types/vue" {
   interface Vue {
-    $toast: ToastModule;
+    $toast: ReturnType<typeof ToastInterface>;
   }
 
   interface VueConstructor {
-    $toast: ToastModule;
+    $toast: ReturnType<typeof ToastInterface>;
   }
-}
-
-export default class Toast {
-  static install: PluginFunction<never>;
 }

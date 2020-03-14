@@ -5,60 +5,79 @@
   "description": "Toasts for Vue made easy!",
   "author": "Gustavo Maronato",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --progress --mode production",
+    "dev": "vue-cli-service serve public",
+    "prebuild": "rimraf ./dist",
+    "build": "rollup -c build/rollup.config.js",
+    "build:demo": "vue-cli-service build --dest demo public",
     "test:unit": "vue-cli-service test:unit",
+    "test": "yarn test:unit --passWithNoTests",
     "lint": "vue-cli-service lint",
     "lint:no-fix": "vue-cli-service lint --no-fix",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --config=webpack.config.dev.js",
-    "docs": "cross-env NODE_ENV=production webpack --config=webpack.config.dev.js --progress --mode production",
-    "prepublishOnly": "yarn lint:no-fix && yarn test && yarn build && yarn docs",
-    "test": "yarn test:unit --passWithNoTests"
+    "prepublishOnly": "yarn lint:no-fix && yarn test:unit && yarn build"
   },
-  "main": "dist/index.js",
-  "browser": "dist/index.min.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "browser": {
+    "./dist/cjs/index.js": "./dist/umd/index.js",
+    "./dist/esm/index.js": "./dist/esm/index.js"
+  },
+  "unpkg": "dist/umd/index.min.js",
+  "jsdelivr": "dist/umd/index.min.js",
+  "typings": "dist/types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
-    "src",
-    "dist",
-    "index.d.ts"
+    "dist"
   ],
+  "style": "dist/index.css",
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.6.6",
-    "@mdi/font": "^4.7.95",
-    "@vue/babel-preset-jsx": "^1.1.2",
-    "@vue/cli-plugin-babel": "^3.12.0",
-    "@vue/cli-plugin-eslint": "^3.12.0",
-    "@vue/cli-plugin-unit-jest": "^4.1.1",
-    "@vue/cli-service": "^4.1.1",
+    "@mdi/font": "^5.0.45",
+    "@types/jest": "25.1.4",
+    "@types/vue": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "@vue/cli-plugin-babel": "~4.2.0",
+    "@vue/cli-plugin-eslint": "~4.2.0",
+    "@vue/cli-plugin-typescript": "~4.2.0",
+    "@vue/cli-plugin-unit-jest": "~4.2.0",
+    "@vue/cli-service": "~4.2.0",
     "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/test-utils": "1.0.0-beta.29",
-    "babel-eslint": "^10.0.3",
-    "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
-    "cross-env": "^6.0.3",
-    "css-loader": "^3.4.0",
+    "@vue/eslint-config-typescript": "^5.0.1",
+    "@vue/test-utils": "1.0.0-beta.31",
+    "babel-eslint": "^10.1.0",
+    "core-js": "^3.6.4",
+    "deepmerge": "^4.2.2",
     "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-vue": "^6.0.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-vue": "^6.1.2",
     "fibers": "^4.0.2",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.8.2",
-    "sass": "^1.23.7",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.2",
-    "terser-webpack-plugin": "^2.3.1",
-    "unminified-webpack-plugin": "^2.0.0",
+    "lint-staged": "10.0.8",
+    "prettier": "^1.19.1",
+    "rollup": "^2.0.6",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-filesize": "^6.2.1",
+    "rollup-plugin-scss": "^2.1.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "rollup-plugin-typescript2": "^0.26.0",
+    "rollup-plugin-vue": "^5.1.6",
+    "sass": "^1.26.3",
+    "sass-loader": "^8.0.2",
+    "typescript": "^3.8.3",
     "vue": "^2.6.11",
-    "vue-jest": "^3.0.5",
-    "vue-loader": "^15.8.3",
+    "vue-class-component": "^7.2.2",
     "vue-prism-component": "^1.1.1",
+    "vue-property-decorator": "^8.4.0",
     "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.1.15",
-    "vuetify-loader": "^1.4.3",
-    "webpack": "^4.41.3",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.0"
+    "vuetify": "^2.2.17"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   },
   "peerDependencies": {
     "vue": "^2.0.0"
@@ -76,7 +95,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Maronato/vue-toastification.git"
-  },
-  "style": "dist/index.css",
-  "types": "index.d.ts"
+  }
 }
