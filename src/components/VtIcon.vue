@@ -15,10 +15,10 @@ import {
   getVueComponentFromObj
 } from "../ts/utils";
 import PROPS from "../ts/propValidators";
-import SuccessIcon from "./icons/SuccessIcon.vue";
-import InfoIcon from "./icons/InfoIcon.vue";
-import WarningIcon from "./icons/WarningIcon.vue";
-import ErrorIcon from "./icons/ErrorIcon.vue";
+import SuccessIcon from "./icons/VtSuccessIcon.vue";
+import InfoIcon from "./icons/VtInfoIcon.vue";
+import WarningIcon from "./icons/VtWarningIcon.vue";
+import ErrorIcon from "./icons/VtErrorIcon.vue";
 
 export default Vue.extend({
   props: PROPS.ICON,

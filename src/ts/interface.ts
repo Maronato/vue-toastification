@@ -1,5 +1,5 @@
 import _Vue from "vue";
-import ToastContainer from "../components/ToastContainer.vue";
+import ToastContainer from "../components/VtToastContainer.vue";
 import events from "./events";
 import { TYPE, EVENTS } from "./constants";
 import { getId } from "./utils";

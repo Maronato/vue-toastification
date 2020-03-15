@@ -19,8 +19,8 @@
 <script lang="ts">
 import Vue from "vue";
 
-import Toast from "./Toast.vue";
-import Transition from "./Transition.vue";
+import Toast from "./VtToast.vue";
+import Transition from "./VtTransition.vue";
 import events from "../ts/events";
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants";
 import PROPS from "../ts/propValidators";

@@ -40,9 +40,9 @@
 <script lang="ts">
 import Vue from "vue";
 
-import ProgressBar from "./ProgressBar.vue";
-import CloseButton from "./CloseButton.vue";
-import Icon from "./Icon.vue";
+import ProgressBar from "./VtProgressBar.vue";
+import CloseButton from "./VtCloseButton.vue";
+import Icon from "./VtIcon.vue";
 
 import events from "../ts/events";
 import { EVENTS, VT_NAMESPACE } from "../ts/constants";

@@ -26,7 +26,8 @@
   "typings": "dist/types/index.d.ts",
   "types": "dist/types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "style": "dist/index.css",
   "dependencies": {},
