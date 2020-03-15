@@ -5,7 +5,7 @@ import scss from "rollup-plugin-scss";
 import filesize from "rollup-plugin-filesize";
 import configs from "./config";
 
-const externals = ["vue-property-decorator", "vue", "vue-class-component"];
+const externals = ["vue"];
 
 const genTsPlugin = configOpts =>
   typescript({
@@ -39,7 +39,7 @@ const genPlugins = configOpts => {
   plugins.push(genCommonJsPlugin(configOpts));
   plugins.push(genScssPlugin(configOpts));
   plugins.push(genVuePlugin(configOpts));
-  plugins.push(filesize(configOpts));
+  plugins.push(genFileSizePlugin(configOpts));
 
   if (configOpts.plugins && configOpts.plugins.post) {
     plugins.push(...configOpts.plugins.post);

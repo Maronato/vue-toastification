@@ -6,9 +6,7 @@ export default {
     format: "umd",
     target: "es5",
     globals: {
-      vue: "Vue",
-      "vue-class-component": "Component",
-      "vue-property-decorator": "vuePropertyDecorator"
+      vue: "Vue"
     },
     env: "development"
   },
@@ -17,9 +15,7 @@ export default {
     format: "umd",
     target: "es5",
     globals: {
-      vue: "Vue",
-      "vue-class-component": "Component",
-      "vue-property-decorator": "vuePropertyDecorator"
+      vue: "Vue"
     },
     plugins: {
       post: [

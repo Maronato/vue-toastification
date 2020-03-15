@@ -20,57 +20,53 @@
 <script lang="ts">
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
 import Vue from "vue";
-import Component from "vue-class-component";
 
 import PROPS from "../ts/propValidators";
 
-const TransitionProps = Vue.extend({
-  props: PROPS.TRANSITION
+export default Vue.extend({
+  inheritAttrs: false,
+  props: PROPS.TRANSITION,
+  methods: {
+    beforeEnter(el: HTMLElement) {
+      const enterDuration =
+        typeof this.transitionDuration === "number"
+          ? this.transitionDuration
+          : this.transitionDuration.enter;
+      el.style.animationDuration = `${enterDuration}ms`;
+      el.style.animationFillMode = "both";
+      this.$emit("before-enter", el);
+    },
+    afterEnter(el: HTMLElement) {
+      this.cleanUpStyles(el);
+      this.$emit("after-enter", el);
+    },
+    afterLeave(el: HTMLElement) {
+      this.cleanUpStyles(el);
+      this.$emit("after-leave", el);
+    },
+    beforeLeave(el: HTMLElement) {
+      const leaveDuration =
+        typeof this.transitionDuration === "number"
+          ? this.transitionDuration
+          : this.transitionDuration.leave;
+      el.style.animationDuration = `${leaveDuration}ms`;
+      el.style.animationFillMode = "both";
+      this.$emit("before-leave", el);
+    },
+    leave(el: HTMLElement, done: Function) {
+      this.setAbsolutePosition(el);
+      this.$emit("leave", el, done);
+    },
+    setAbsolutePosition(el: HTMLElement) {
+      el.style.left = el.offsetLeft + "px";
+      el.style.top = el.offsetTop + "px";
+      el.style.position = "absolute";
+      return this;
+    },
+    cleanUpStyles(el: HTMLElement) {
+      el.style.animationFillMode = "";
+      el.style.animationDuration = "";
+    }
+  }
 });
-
-@Component({
-  inheritAttrs: false
-})
-export default class Transition extends TransitionProps {
-  beforeEnter(el: HTMLElement) {
-    const enterDuration =
-      typeof this.transitionDuration === "number"
-        ? this.transitionDuration
-        : this.transitionDuration.enter;
-    el.style.animationDuration = `${enterDuration}ms`;
-    el.style.animationFillMode = "both";
-    this.$emit("before-enter", el);
-  }
-  afterEnter(el: HTMLElement) {
-    this.cleanUpStyles(el);
-    this.$emit("after-enter", el);
-  }
-  afterLeave(el: HTMLElement) {
-    this.cleanUpStyles(el);
-    this.$emit("after-leave", el);
-  }
-  beforeLeave(el: HTMLElement) {
-    const leaveDuration =
-      typeof this.transitionDuration === "number"
-        ? this.transitionDuration
-        : this.transitionDuration.leave;
-    el.style.animationDuration = `${leaveDuration}ms`;
-    el.style.animationFillMode = "both";
-    this.$emit("before-leave", el);
-  }
-  leave(el: HTMLElement, done: Function) {
-    this.setAbsolutePosition(el);
-    this.$emit("leave", el, done);
-  }
-  setAbsolutePosition(el: HTMLElement) {
-    el.style.left = el.offsetLeft + "px";
-    el.style.top = el.offsetTop + "px";
-    el.style.position = "absolute";
-    return this;
-  }
-  cleanUpStyles(el: HTMLElement) {
-    el.style.animationFillMode = "";
-    el.style.animationDuration = "";
-  }
-}
 </script>
