@@ -35,7 +35,7 @@ const ICON = {
 
 const CLOSE_BUTTON = {
   component: {
-    type: [String, Object, Function] as PropType<
+    type: [String, Object, Function, Boolean] as PropType<
       NonNullable<CommonOptions["closeButton"]>
     >,
     default: "button"
@@ -83,7 +83,6 @@ const CORE_TOAST = {
   closeOnClick: COMMON.trueBoolean,
   timeout: PROGRESS_BAR.timeout,
   hideProgressBar: PROGRESS_BAR.hideProgressBar,
-  hideCloseButton: Boolean,
   toastClassName: COMMON.classNames,
   bodyClassName: COMMON.classNames,
   icon: ICON.customIcon,

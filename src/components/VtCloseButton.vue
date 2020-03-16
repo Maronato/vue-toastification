@@ -1,5 +1,5 @@
 <template>
-  <component :is="buttonComponet" :class="classes" v-on="$listeners">
+  <component :is="buttonComponent" :class="classes" v-on="$listeners">
     ✖
   </component>
 </template>
@@ -15,8 +15,11 @@ export default Vue.extend({
   props: PROPS.CLOSE_BUTTON,
 
   computed: {
-    buttonComponet(): RenderableToastContent {
-      return getVueComponentFromObj(this.component);
+    buttonComponent(): RenderableToastContent {
+      if (this.component !== false) {
+        return getVueComponentFromObj(this.component);
+      }
+      return "button";
     },
     classes(): string[] {
       const classes = [`${VT_NAMESPACE}__close-button`];

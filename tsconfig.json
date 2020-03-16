@@ -13,7 +13,8 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "jsx": "preserve",
   },
   "include": [
     "src"

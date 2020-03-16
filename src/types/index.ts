@@ -50,10 +50,6 @@ export interface CommonOptions {
    */
   hideProgressBar?: boolean;
   /**
-   * Whether or not the close button is hidden.
-   */
-  hideCloseButton?: boolean;
-  /**
    * Only shows the close button when hovering the toast
    */
   showCloseButtonOnHover?: boolean;
@@ -65,14 +61,19 @@ export interface CommonOptions {
   icon?:
     | boolean
     | string
-    | { tag?: keyof HTMLElementTagNameMap; children?: string; class?: string }
-    | Component;
+    | {
+        iconTag?: keyof HTMLElementTagNameMap;
+        iconChildren?: string;
+        iconClass?: string;
+      }
+    | Component
+    | JSX.Element;
   /**
    * Custom close button component
    *
    * Alternative close button component to be displayed in toasts
    */
-  closeButton?: keyof HTMLElementTagNameMap | Component | JSX.Element;
+  closeButton?: false | keyof HTMLElementTagNameMap | Component | JSX.Element;
   /**
    * 	Custom classes applied to the close button of the toast.
    */

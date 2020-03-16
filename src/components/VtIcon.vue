@@ -12,8 +12,9 @@ import { TYPE, VT_NAMESPACE } from "../ts/constants";
 import {
   isNonEmptyString,
   isToastContent,
-  getVueComponentFromObj,
-  hasProp
+  hasProp,
+  isString,
+  getVueComponentFromObj
 } from "../ts/utils";
 import PROPS from "../ts/propValidators";
 import SuccessIcon from "./icons/VtSuccessIcon.vue";
@@ -26,21 +27,21 @@ export default Vue.extend({
 
   computed: {
     customIconChildren(): string {
-      return hasProp(this.customIcon, "children")
-        ? this.trimValue(this.customIcon.children)
+      return hasProp(this.customIcon, "iconChildren")
+        ? this.trimValue(this.customIcon.iconChildren)
         : "";
     },
     customIconClass(): string {
-      if (typeof this.customIcon === "string") {
+      if (isString(this.customIcon)) {
         return this.trimValue(this.customIcon);
-      } else if (hasProp(this.customIcon, "class")) {
-        return this.trimValue(this.customIcon.class);
+      } else if (hasProp(this.customIcon, "iconClass")) {
+        return this.trimValue(this.customIcon.iconClass);
       }
       return "";
     },
     customIconTag(): string {
-      if (hasProp(this.customIcon, "tag")) {
-        return this.trimValue(this.customIcon.tag, "i");
+      if (hasProp(this.customIcon, "iconTag")) {
+        return this.trimValue(this.customIcon.iconTag, "i");
       }
       return "i";
     },

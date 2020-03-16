@@ -21,7 +21,7 @@
       />
     </div>
     <CloseButton
-      v-if="!hideCloseButton"
+      v-if="closeButton !== false"
       :component="closeButton"
       :class-names="closeButtonClassName"
       :show-on-hover="showCloseButtonOnHover"
