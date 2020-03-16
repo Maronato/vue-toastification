@@ -8,7 +8,7 @@ import Vue from "vue";
 
 import { VT_NAMESPACE } from "../ts/constants";
 import PROPS from "../ts/propValidators";
-import { getVueComponentFromObj, isVueComponent } from "../ts/utils";
+import { getVueComponentFromObj } from "../ts/utils";
 import { RenderableToastContent } from "../types";
 
 export default Vue.extend({
@@ -16,10 +16,7 @@ export default Vue.extend({
 
   computed: {
     buttonComponet(): RenderableToastContent {
-      if (isVueComponent(this.component)) {
-        return getVueComponentFromObj(this.component);
-      }
-      return this.component;
+      return getVueComponentFromObj(this.component);
     },
     classes(): string[] {
       const classes = [`${VT_NAMESPACE}__close-button`];

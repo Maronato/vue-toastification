@@ -11,8 +11,9 @@ import { RenderableToastContent } from "../types";
 import { TYPE, VT_NAMESPACE } from "../ts/constants";
 import {
   isNonEmptyString,
-  isVueComponent,
-  getVueComponentFromObj
+  isToastContent,
+  getVueComponentFromObj,
+  hasProp
 } from "../ts/utils";
 import PROPS from "../ts/propValidators";
 import SuccessIcon from "./icons/VtSuccessIcon.vue";
@@ -25,24 +26,20 @@ export default Vue.extend({
 
   computed: {
     customIconChildren(): string {
-      return typeof this.customIcon === "object" &&
-        "children" in this.customIcon
+      return hasProp(this.customIcon, "children")
         ? this.trimValue(this.customIcon.children)
         : "";
     },
     customIconClass(): string {
       if (typeof this.customIcon === "string") {
         return this.trimValue(this.customIcon);
-      } else if (
-        typeof this.customIcon === "object" &&
-        "class" in this.customIcon
-      ) {
+      } else if (hasProp(this.customIcon, "class")) {
         return this.trimValue(this.customIcon.class);
       }
       return "";
     },
     customIconTag(): string {
-      if (typeof this.customIcon === "object" && "tag" in this.customIcon) {
+      if (hasProp(this.customIcon, "tag")) {
         return this.trimValue(this.customIcon.tag, "i");
       }
       return "i";
@@ -54,7 +51,7 @@ export default Vue.extend({
       if (this.hasCustomIcon) {
         return this.customIconTag;
       }
-      if (isVueComponent(this.customIcon)) {
+      if (isToastContent(this.customIcon)) {
         return getVueComponentFromObj(this.customIcon);
       }
       return this.iconTypeComponent;
