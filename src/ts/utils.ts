@@ -72,7 +72,7 @@ function getY(event: MouseEvent | TouchEvent) {
 }
 
 const removeElement = (el: Element) => {
-  if (typeof el.remove !== "undefined") {
+  if (!isUndefined(el.remove)) {
     el.remove();
   } else if (el.parentNode) {
     el.parentNode.removeChild(el);
