@@ -105,5 +105,6 @@ export {
   isNonEmptyString,
   isToastContent,
   getVueComponentFromObj,
-  hasProp
+  hasProp,
+  isUndefined
 };
