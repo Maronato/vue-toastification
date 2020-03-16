@@ -138,17 +138,19 @@ Vue.$toast("My toast content", {
 
 By default, the toasts will be displayed at the top right corner of your screen, but you can set it manually using the `position` option.
 
-The following values are allowed: **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.
+You can use the type definitions or one of the allowed values: **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.
 
 ```javascript
+import Toast, { POSITION } from "vue-toastification";
+
 Vue.use(Toast, {
     // Setting the global default position
-    position: "top-left"
+    position: POSITION.TOP_LEFT
 });
 
 
 // Or set it per toast
-this.$toast("I'm a toast", { position: "bottom-left" });
+this.$toast("I'm a toast", { position: POSITION.BOTTOM_LEFT });
 ```
 
 
@@ -160,6 +162,8 @@ Depending on the context, you may want to use toasts of different colors. You ca
 
 
 ```javascript
+
+
 this.$toast("Default toast");
 this.$toast.info("Info toast");
 this.$toast.success("Success toast");
@@ -167,8 +171,10 @@ this.$toast.error("Error toast");
 this.$toast.warning("Warning toast");
 
 // You can also set the type programmatically when calling the default toast
+import { TYPE } from "vue-toastification";
+
 this.$toast("Also a success toast", {
-    type: "success"  // or "error", "default", "info" and "warning"
+    type: TYPE.SUCCESS  // or "success", "error", "default", "info" and "warning"
 });
 ```
 
