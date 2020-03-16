@@ -41,13 +41,11 @@ export default Vue.extend({
         [toastId: string]: ToastOptions;
       };
       defaults: PluginOptions;
-      VT_NAMESPACE: typeof VT_NAMESPACE;
     } = {
       count: 0,
       positions: Object.values(POSITION),
       toasts: {},
-      defaults: {},
-      VT_NAMESPACE
+      defaults: {}
     };
     return data;
   },
