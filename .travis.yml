@@ -9,12 +9,12 @@ cache:
 script:
   - yarn lint:no-fix
   - yarn test
-  - yarn docs
+  - yarn build:demo
 
 
 deploy:
   provider: pages
-  local_dir: docs
+  local_dir: demo
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true

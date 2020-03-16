@@ -155,7 +155,8 @@
               </v-col>
               <v-col cols="6">
                 <v-switch
-                  v-model="options.hideCloseButton"
+                  :value="!Boolean(options.closeButton)"
+                  @change="setHideCloseButton"
                   label="Hide close button"
                 ></v-switch>
               </v-col>
@@ -263,11 +264,11 @@
 </template>
 
 <script>
-import AltText from "./components/AltText";
-import SimpleAction from "./components/SimpleAction";
-import UpdateAction from "./components/UpdateAction";
-import Events from "./components/Events";
-import MyIconComponent from './components/MyIconComponent';
+import AltText from "./components/AltText.vue";
+import SimpleAction from "./components/SimpleAction.vue";
+import UpdateAction from "./components/UpdateAction.vue";
+import Events from "./components/Events.vue";
+import MyIconComponent from "./components/MyIconComponent.vue";
 import Prism from "vue-prism-component";
 
 const altTextCode = `// Component.vue (style omitted)
@@ -484,13 +485,13 @@ export default {
       }
     ],
     options: {
+      closeButton: "button",
       pauseOnHover: true,
       draggable: true,
       draggablePercent: 60,
       pauseOnFocusLoss: true,
       closeOnClick: true,
       timeout: 5000,
-      hideCloseButton: false,
       showCloseButtonOnHover: false,
       hideProgressBar: false,
       icon: {
@@ -557,9 +558,9 @@ export default {
       {
         text: "Material Icons code",
         value: {
-          class: "material-icons",
-          children: "code",
-          tag: "span"
+          iconClass: "material-icons",
+          iconChildren: "code",
+          iconTag: "span"
         }
       }
     ]
@@ -593,9 +594,9 @@ export default {
             return Object.keys(this.toastIcon.component)[0];
           }
           return `{
-    class: "${this.toastIcon.class}",
-    children: "${this.toastIcon.children || ''}",
-    tag: "${this.toastIcon.tag || 'i'}"
+    iconClass: "${this.toastIcon.class}",
+    iconChildren: "${this.toastIcon.children || ""}",
+    iconTag: "${this.toastIcon.tag || "i"}"
   }`;
         }
         default:
@@ -610,9 +611,11 @@ export default {
   pauseOnHover: ${this.options.pauseOnHover},
   draggable: ${this.options.draggable},
   draggablePercent: ${this.options.draggablePercent / 100},
-  hideCloseButton: ${this.options.hideCloseButton},
   showCloseButtonOnHover: ${this.options.showCloseButtonOnHover},
-  hideProgressBar: ${this.options.hideProgressBar},
+  hideProgressBar: ${!this.options.hideProgressBar},
+  closeButton: ${
+    this.options.closeButton ? `"${this.options.closeButton}"` : "false"
+  },
   icon: ${this.toastIconExample}`;
       return options;
     },
@@ -746,6 +749,13 @@ Vue.use(Toast, {
           .toLowerCase()
           .indexOf(query.toString().toLowerCase()) > -1
       );
+    },
+    setHideCloseButton(v) {
+      if (v) {
+        this.options.closeButton = false;
+      } else {
+        this.options.closeButton = "button";
+      }
     }
   }
 };

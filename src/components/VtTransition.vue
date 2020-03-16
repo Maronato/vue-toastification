@@ -17,53 +17,56 @@
     <slot></slot>
   </transition-group>
 </template>
-<script>
+<script lang="ts">
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
-import PROPS from "../js/propValidators";
+import Vue from "vue";
 
-export default {
-  name: "Transition",
+import PROPS from "../ts/propValidators";
+
+export default Vue.extend({
   inheritAttrs: false,
   props: PROPS.TRANSITION,
   methods: {
-    beforeEnter(el) {
-      const enterDuration = this.transitionDuration.enter
-        ? this.transitionDuration.enter
-        : this.transitionDuration;
+    beforeEnter(el: HTMLElement) {
+      const enterDuration =
+        typeof this.transitionDuration === "number"
+          ? this.transitionDuration
+          : this.transitionDuration.enter;
       el.style.animationDuration = `${enterDuration}ms`;
       el.style.animationFillMode = "both";
       this.$emit("before-enter", el);
     },
-    afterEnter(el) {
+    afterEnter(el: HTMLElement) {
       this.cleanUpStyles(el);
       this.$emit("after-enter", el);
     },
-    afterLeave(el) {
+    afterLeave(el: HTMLElement) {
       this.cleanUpStyles(el);
       this.$emit("after-leave", el);
     },
-    beforeLeave(el) {
-      const leaveDuration = this.transitionDuration.leave
-        ? this.transitionDuration.leave
-        : this.transitionDuration;
+    beforeLeave(el: HTMLElement) {
+      const leaveDuration =
+        typeof this.transitionDuration === "number"
+          ? this.transitionDuration
+          : this.transitionDuration.leave;
       el.style.animationDuration = `${leaveDuration}ms`;
       el.style.animationFillMode = "both";
       this.$emit("before-leave", el);
     },
-    leave(el, done) {
+    leave(el: HTMLElement, done: Function) {
       this.setAbsolutePosition(el);
       this.$emit("leave", el, done);
     },
-    setAbsolutePosition(el) {
+    setAbsolutePosition(el: HTMLElement) {
       el.style.left = el.offsetLeft + "px";
       el.style.top = el.offsetTop + "px";
       el.style.position = "absolute";
       return this;
     },
-    cleanUpStyles(el) {
+    cleanUpStyles(el: HTMLElement) {
       el.style.animationFillMode = "";
       el.style.animationDuration = "";
     }
   }
-};
+});
 </script>

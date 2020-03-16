@@ -1,0 +1,253 @@
+<template>
+  <div
+    :class="classes"
+    :style="draggableStyle"
+    @click="clickHandler"
+    @mouseenter="hoverPause"
+    @mouseleave="hoverPlay"
+    @blur="focusPause"
+    @focus="focusPlay"
+  >
+    <Icon v-if="icon" :custom-icon="icon" :type="type" />
+    <div :class="bodyClasses">
+      <template v-if="typeof content === 'string'">{{ content }}</template>
+      <component
+        :is="getVueComponentFromObj(content)"
+        v-else
+        :toast-id="id"
+        v-bind="content.props"
+        v-on="content.listeners"
+        @close-toast="closeToast"
+      />
+    </div>
+    <CloseButton
+      v-if="closeButton !== false"
+      :component="closeButton"
+      :class-names="closeButtonClassName"
+      :show-on-hover="showCloseButtonOnHover"
+      @click.stop="closeToast"
+    />
+    <ProgressBar
+      v-if="timeout"
+      :is-running="isRunning"
+      :hide-progress-bar="hideProgressBar"
+      :timeout="timeout"
+      @close-toast="timeoutHandler"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+
+import ProgressBar from "./VtProgressBar.vue";
+import CloseButton from "./VtCloseButton.vue";
+import Icon from "./VtIcon.vue";
+
+import events from "../ts/events";
+import { EVENTS, VT_NAMESPACE } from "../ts/constants";
+import PROPS from "../ts/propValidators";
+import {
+  removeElement,
+  getVueComponentFromObj,
+  isString,
+  getX,
+  getY
+} from "../ts/utils";
+
+export default Vue.extend({
+  components: { ProgressBar, CloseButton, Icon },
+  inheritAttrs: false,
+
+  props: Object.assign({}, PROPS.CORE_TOAST, PROPS.TOAST),
+
+  data() {
+    const data: {
+      dragRect: DOMRect | {};
+      isRunning: boolean;
+      disableTransitions: boolean;
+      beingDragged: boolean;
+      dragStart: number;
+      dragPos: { x: number; y: number };
+    } = {
+      isRunning: true,
+      disableTransitions: false,
+
+      beingDragged: false,
+      dragStart: 0,
+      dragPos: { x: 0, y: 0 },
+      dragRect: {}
+    };
+    return data;
+  },
+
+  computed: {
+    classes(): string[] {
+      const classes = [
+        `${VT_NAMESPACE}__toast`,
+        `${VT_NAMESPACE}__toast--${this.type}`,
+        `${this.position}`
+      ].concat(this.toastClassName);
+      if (this.disableTransitions) {
+        classes.push("disable-transition");
+      }
+      return classes;
+    },
+    bodyClasses(): string[] {
+      const classes = [
+        `${VT_NAMESPACE}__toast-${
+          isString(this.content) ? "body" : "component-body"
+        }`
+      ].concat(this.bodyClassName);
+      return classes;
+    },
+
+    draggableStyle(): {
+      transition?: string;
+      opacity?: number;
+      transform?: string;
+    } {
+      if (this.dragStart === this.dragPos.x) {
+        return {};
+      }
+      if (this.beingDragged) {
+        return {
+          transform: `translateX(${this.dragDelta}px)`,
+          opacity: 1 - Math.abs(this.dragDelta / this.removalDistance)
+        };
+      }
+      return {
+        transition: "transform 0.2s, opacity 0.2s",
+        transform: "translateX(0)",
+        opacity: 1
+      };
+    },
+    dragDelta(): number {
+      return this.beingDragged ? this.dragPos.x - this.dragStart : 0;
+    },
+    removalDistance(): number {
+      if (this.dragRect instanceof DOMRect) {
+        return (
+          (this.dragRect.right - this.dragRect.left) * this.draggablePercent
+        );
+      }
+      return 0;
+    }
+  },
+
+  mounted() {
+    if (this.draggable) {
+      this.draggableSetup();
+    }
+  },
+  beforeDestroy() {
+    if (this.draggable) {
+      this.draggableCleanup();
+    }
+  },
+
+  destroyed() {
+    setTimeout(() => {
+      removeElement(this.$el);
+    }, 1000);
+  },
+
+  methods: {
+    getVueComponentFromObj,
+    closeToast() {
+      events.$emit(EVENTS.DISMISS, this.id);
+    },
+    clickHandler() {
+      if (this.onClick) {
+        this.onClick(this.closeToast);
+      }
+      if (this.closeOnClick) {
+        if (!this.beingDragged || this.dragStart === this.dragPos.x) {
+          this.closeToast();
+        }
+      }
+    },
+    timeoutHandler() {
+      this.closeToast();
+    },
+    hoverPause() {
+      if (this.pauseOnHover) {
+        this.isRunning = false;
+      }
+    },
+    hoverPlay() {
+      if (this.pauseOnHover) {
+        this.isRunning = true;
+      }
+    },
+    focusPause() {
+      if (this.pauseOnFocusLoss) {
+        this.isRunning = false;
+      }
+    },
+    focusPlay() {
+      if (this.pauseOnFocusLoss) {
+        this.isRunning = true;
+      }
+    },
+
+    draggableSetup() {
+      const element = this.$el as HTMLElement;
+      element.addEventListener("touchstart", this.onDragStart);
+      element.addEventListener("mousedown", this.onDragStart);
+      addEventListener("touchmove", this.onDragMove);
+      addEventListener("mousemove", this.onDragMove);
+      addEventListener("touchend", this.onDragEnd);
+      addEventListener("mouseup", this.onDragEnd);
+    },
+    draggableCleanup() {
+      const element = this.$el as HTMLElement;
+      element.removeEventListener("touchstart", this.onDragStart);
+      element.removeEventListener("mousedown", this.onDragStart);
+      removeEventListener("touchmove", this.onDragMove);
+      removeEventListener("mousemove", this.onDragMove);
+      removeEventListener("touchend", this.onDragEnd);
+      removeEventListener("mouseup", this.onDragEnd);
+    },
+
+    onDragStart(event: TouchEvent | MouseEvent) {
+      this.beingDragged = true;
+      this.dragPos = { x: getX(event), y: getY(event) };
+      this.dragStart = getX(event);
+      this.dragRect = this.$el.getBoundingClientRect();
+    },
+    onDragMove(event: TouchEvent | MouseEvent) {
+      if (this.beingDragged) {
+        if (this.isRunning) {
+          this.isRunning = false;
+        }
+        this.dragPos = { x: getX(event), y: getY(event) };
+      }
+    },
+    onDragEnd() {
+      if (this.beingDragged) {
+        if (Math.abs(this.dragDelta) >= this.removalDistance) {
+          this.disableTransitions = true;
+          this.$nextTick(() => this.closeToast());
+        } else {
+          setTimeout(() => {
+            this.beingDragged = false;
+            if (
+              this.dragRect instanceof DOMRect &&
+              this.pauseOnHover &&
+              this.dragRect.bottom >= this.dragPos.y &&
+              this.dragPos.y >= this.dragRect.top &&
+              this.dragRect.left <= this.dragPos.x &&
+              this.dragPos.x <= this.dragRect.right
+            ) {
+              this.isRunning = false;
+            } else {
+              this.isRunning = true;
+            }
+          });
+        }
+      }
+    }
+  }
+});
+</script>

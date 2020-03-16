@@ -28,6 +28,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
     - [Clear all toasts](#clear-all-toasts)
     - [Styling](#styling)
       - [Custom toast classes](#custom-toast-classes)
+      - [Custom toast container classes](#custom-toast-container-classes)
       - [Override SCSS variables](#override-scss-variables)
     - [Transitions](#transitions)
     - [Custom transitions](#custom-transitions)
@@ -115,8 +116,7 @@ this.$toast("I'm a toast!");
 
 // Or with options
 this.$toast("My toast content", {
-    timeout: 2000,
-    onClose: () => console.log("closed!")
+    timeout: 2000
 });
 // These options will override the options defined in the "Vue.use" plugin registration for this specific toast
 ```
@@ -130,8 +130,7 @@ this._vm.$toast("I'm a toast!");
 import Vue from "vue";
 
 Vue.$toast("My toast content", {
-    timeout: 2000,
-    onClose: () => console.log("closed!")
+    timeout: 2000
 });
 ```
 
@@ -346,7 +345,7 @@ this.$toast.clear();
 ```
 
 ### Styling
-There are two ways to style your toast components. You can either add custom classes to the toast and modify them using those or you can override the actual toast's SCSS when importing them.
+There are two ways to style your toast components. You can either add custom classes to the toast or containers and modify them using those or you can override the actual toast's SCSS when importing them.
 
 #### Custom toast classes
 ```js
@@ -380,6 +379,33 @@ this.$toast("my toast", {
 These can also be defined when registering the vue plugin.
 
 > Note: `bodyClassName`s applied to toasts that use a custom component are not applied to the custom component itself. Instead, they are applied to a `div` that wraps the custom component.
+
+#### Custom toast container classes
+You can also add custom classes to the toast's **containers**. Keep in mind that here **containers** refer to the 6 `div`s that contain the toasts in the 6 possible toast positions (`top-right`, `top-left`, etc).
+
+These classes can be defined during plugin initialization.
+```js
+Vue.use(Toast, {
+    // Can be either a string or an array of strings
+    containerClassName: "my-container-class",
+});
+```
+```css
+<style>
+/* When setting CSS, remember that priority increases with specificity, so don't forget to select the exisiting classes as well */
+
+    /* This will only affect the top-right container */
+    .Vue-Toastification__container.top-right.my-container-class{
+        top: 10em;
+    }
+
+    /* This will affect all 6 containers */
+    .Vue-Toastification__container.my-container-class{
+        position: relative;
+    }
+</style>
+```
+
 
 #### Override SCSS variables
 There is a set of [pre defined variables](https://github.com/Maronato/vue-toastification/blob/master/src/scss/_variables.scss) that you can override to change some basic styling.
@@ -543,9 +569,9 @@ this.$toast('Icons are awesome!', { icon: 'fas fa-rocket' });
 // Using Material Icons
 this.$toast('Material icons!', {
   icon: {
-    class: 'material-icons',  // Optional
-    children: 'check_circle', // Optional
-    tag: 'span'               // Optional
+    iconClass: 'material-icons',  // Optional
+    iconChildren: 'check_circle', // Optional
+    iconTag: 'span'               // Optional
   }
 });
 ```
@@ -558,7 +584,7 @@ When you just pass a string, for example `fas fa-rocket`, the rendered component
 ```
 If your icon library supports that, then you're good to go!
 
-Other libraries require you to define icons with [ligatures](http://alistapart.com/article/the-era-of-symbol-fonts). To support that, Vue Toastification allows you to construct your icon component through some options: `class`, `children` and `tag`.
+Other libraries require you to define icons with [ligatures](http://alistapart.com/article/the-era-of-symbol-fonts). To support that, Vue Toastification allows you to construct your icon component through some options: `iconClass`, `iconChildren` and `iconTag`.
 
 Taking the Material Icon example from above, the rendered component would look like:
 ```html
@@ -574,10 +600,10 @@ You can modify the toast close buttons in 3 ways:
 - Add extra classes to it
 
 #### Hiding the close button
-To hide it, simply set `hideCloseButton` when calling the toast or setting up the plugin
+To hide it, simply set `closeButton` to `false` when calling the toast or setting up the plugin
 ```js
 this.$toast('No close button', {
-  hideCloseButton: true
+  closeButton: false
 });
 ```
 
@@ -590,7 +616,7 @@ this.$toast('No close button', {
 ```
 
 #### Custom close button component
-You can also use custom components as close buttons. It accepts both Single File Components and JSX:
+You can also use custom components as close buttons. It accepts Single File Components, JSX and tag names:
 ```js
 this.$toast('With a custom close component', {
   closeButton: MyComponent
@@ -676,30 +702,30 @@ Vue.use(Toast, { filterToasts });
 ## API
 
 ### Plugin registration (Vue.use)
-| Option                 | Type                                          | Default                      | Description                                                                                                                                                                                                 |
-| ---------------------- | --------------------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| position               | String                                        | `top-right`                  | Position of the toast on the screen. Can be any of **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.                                                       |
-| newestOnTop            | Boolean                                       | `true`                       | Whether or not the newest toasts are placed on the top of the stack.                                                                                                                                        |
-| maxToasts              | Number                                        | `20`                         | Maximum number of toasts on each stack at a time. Overflows wait until older toasts are dismissed to appear.                                                                                                |
-| transition             | String or Object                              | `Vue-Toastification__bounce` | Name of the [Vue Transition](https://vuejs.org/v2/guide/transitions.html) or [object with classes](#transition-classes) to use. Only `enter-active`, `leave-active` and `move` are applied.                 |
-| transitionDuration     | Number or Object                              | `750`                        | Duration of the transition. Can either be a positive integer for both enter and leave, or an object of shape `{enter: Number, leave: Number}`.                                                              |
-| draggable              | Boolean                                       | `true`                       | Whether or not the toast can be dismissed by being dragged to the side.                                                                                                                                     |
-| draggablePercent       | Positive Number                               | `0.6`                        | By how much of the toast width in percent (`0` to `1`) it must be dragged before being dismissed.                                                                                                           |
-| pauseOnFocusLoss       | Boolean                                       | `true`                       | Whether or not the toast is paused when the window loses focus.                                                                                                                                             |
-| pauseOnHover           | Boolean                                       | `true`                       | Whether or not the toast is paused when it is hovered by the mouse.                                                                                                                                         |
-| closeOnClick           | Boolean                                       | `true`                       | Whether or not the toast is closed when clicked.                                                                                                                                                            |
-| timeout                | Positive Integer or false                     | `5000`                       | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                                              |
-| container              | HTMLElement                                   | `document.body`              | Container where the toasts are mounted.                                                                                                                                                                     |
-| toastClassName         | String or Array of Strings                    | `[]`                         | Custom classes applied to the toast.                                                                                                                                                                        |
-| bodyClassName          | String or Array of Strings                    | `[]`                         | Custom classes applied to the body of the toast.                                                                                                                                                            |
-| hideProgressBar        | Boolean                                       | `false`                      | Whether or not the progress bar is hidden.                                                                                                                                                                  |
-| hideCloseButton        | Boolean                                       | `false`                      | Whether or not the close button is hidden.                                                                                                                                                                  |
-| icon                   | Boolean, String, Object, Vue Component or JSX | `true`                       | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. Object shape is { class: String, children: String, tag: String } |
-| filterBeforeCreate     | Function                                      | `NOOP`                       | Callback to filter toasts before their creation. Takes a `toast` and `toasts` argument and returns a `toast` or `false`                                                                                     |
-| filterToasts           | Function                                      | `NOOP`                       | Callback to filter created toasts. Takes a list of `toasts` argument and return a filtered list of `toasts`                                                                                                 |
-| closeButtonClassName   | String or Array of Strings                    | `[]`                         | Custom classes applied to the close button of the toast.                                                                                                                                                    |
-| closeButton            | Vue Component or JSX                          | `<button />`                 | Custom component that can be used as the close button.                                                                                                                                                      |
-| showCloseButtonOnHover | Boolean                                       | `false`                      | Only shows the close button when hovering the toast.                                                                                                                                                        |
+| Option                 | Type                                         | Default                      | Description                                                                                                                                                                                                               |
+| ---------------------- | -------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| position               | String                                       | `top-right`                  | Position of the toast on the screen. Can be any of **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.                                                                     |
+| newestOnTop            | Boolean                                      | `true`                       | Whether or not the newest toasts are placed on the top of the stack.                                                                                                                                                      |
+| maxToasts              | Number                                       | `20`                         | Maximum number of toasts on each stack at a time. Overflows wait until older toasts are dismissed to appear.                                                                                                              |
+| transition             | String or Object                             | `Vue-Toastification__bounce` | Name of the [Vue Transition](https://vuejs.org/v2/guide/transitions.html) or [object with classes](#transition-classes) to use. Only `enter-active`, `leave-active` and `move` are applied.                               |
+| transitionDuration     | Number or Object                             | `750`                        | Duration of the transition. Can either be a positive integer for both enter and leave, or an object of shape `{enter: Number, leave: Number}`.                                                                            |
+| draggable              | Boolean                                      | `true`                       | Whether or not the toast can be dismissed by being dragged to the side.                                                                                                                                                   |
+| draggablePercent       | Positive Number                              | `0.6`                        | By how much of the toast width in percent (`0` to `1`) it must be dragged before being dismissed.                                                                                                                         |
+| pauseOnFocusLoss       | Boolean                                      | `true`                       | Whether or not the toast is paused when the window loses focus.                                                                                                                                                           |
+| pauseOnHover           | Boolean                                      | `true`                       | Whether or not the toast is paused when it is hovered by the mouse.                                                                                                                                                       |
+| closeOnClick           | Boolean                                      | `true`                       | Whether or not the toast is closed when clicked.                                                                                                                                                                          |
+| timeout                | Positive Integer or false                    | `5000`                       | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                                                            |
+| container              | HTMLElement                                  | `document.body`              | Container where the toasts are mounted.                                                                                                                                                                                   |
+| toastClassName         | String or Array of Strings                   | `[]`                         | Custom classes applied to the toast.                                                                                                                                                                                      |
+| bodyClassName          | String or Array of Strings                   | `[]`                         | Custom classes applied to the body of the toast.                                                                                                                                                                          |
+| hideProgressBar        | Boolean                                      | `false`                      | Whether or not the progress bar is hidden.                                                                                                                                                                                |
+| icon                   | Boolean, String, Object Vue Component or JSX | `true`                       | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. Object shape is `{ iconClass: String, iconChildren: String, iconTag: String }` |
+| filterBeforeCreate     | Function                                     | `NOOP`                       | Callback to filter toasts before their creation. Takes a `toast` and `toasts` argument and returns a `toast` or `false`                                                                                                   |
+| filterToasts           | Function                                     | `NOOP`                       | Callback to filter created toasts. Takes a list of `toasts` argument and return a filtered list of `toasts`                                                                                                               |
+| closeButtonClassName   | String or Array of Strings                   | `[]`                         | Custom classes applied to the close button of the toast.                                                                                                                                                                  |
+| closeButton            | `false`, Vue Component, JSX or HTML Tag name | `"button"`                   | Custom component that can be used as the close button.                                                                                                                                                                    |
+| showCloseButtonOnHover | Boolean                                      | `false`                      | Only shows the close button when hovering the toast.                                                                                                                                                                      |
+| containerClassName     | String or Array of Strings                   | `[]`                         | Extra CSS class or classes added to each of the Toast containers.                                                                                                                                                         |
 
 ### Toast (this.$toast)
 | Parameter | Type                                 | Required | Description                                                                                                                                                                     |
@@ -715,26 +741,26 @@ Vue.use(Toast, { filterToasts });
 | listeners | Object               | No       | `eventName: eventHandler` pairs of events that the component can emit.                                |
 
 #### Toast Options Object
-| Option                 | Type                                         | Default      | Description                                                                                                                                                                                                   |
-| ---------------------- | -------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id                     | Number or String                             | `auto`       | ID of the toast.                                                                                                                                                                                              |
-| type                   | String                                       | `default`    | Type of the toast. Can be any of  **success**, **error**, **default**, **info** and **warning**                                                                                                               |
-| position               | String                                       | `top-right`  | Position of the toast on the screen. Can be any of **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.                                                         |
-| draggable              | Boolean                                      | `true`       | Whether or not the toast can be dismissed by being dragged to the side.                                                                                                                                       |
-| draggablePercent       | Positive Number                              | `0.6`        | By how much of the toast width in percent (`0` to `1`) it must be dragged before being dismissed.                                                                                                             |
-| pauseOnFocusLoss       | Boolean                                      | `true`       | Whether or not the toast is paused when the window loses focus.                                                                                                                                               |
-| pauseOnHover           | Boolean                                      | `true`       | Whether or not the toast is paused when it is hovered by the mouse.                                                                                                                                           |
-| closeOnClick           | Boolean                                      | `true`       | Whether or not the toast is closed when clicked.                                                                                                                                                              |
-| onClick                | Function                                     | `NOOP`       | Callback for when the toast is clicked. A `closeToast` callback is passed as an argument to `onClick` when it is called.                                                                                      |
-| timeout                | Positive Integer or false                    | `5000`       | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                                                |
-| toastClassName         | String or Array of Strings                   | `[]`         | Custom classes applied to the toast.                                                                                                                                                                          |
-| bodyClassName          | String or Array of Strings                   | `[]`         | Custom classes applied to the body of the toast.                                                                                                                                                              |
-| hideProgressBar        | Boolean                                      | `false`      | Whether or not the progress bar is hidden.                                                                                                                                                                    |
-| hideCloseButton        | Boolean                                      | `false`      | Whether or not the close button is hidden.                                                                                                                                                                    |
-| icon                   | Boolean, String, Object Vue Component or JSX | `true`       | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. Object shape is `{ class: String, children: String, tag: String }` |
-| closeButtonClassName   | String or Array of Strings                   | `[]`         | Custom classes applied to the close button of the toast.                                                                                                                                                      |
-| closeButton            | Vue Component or JSX                         | `<button />` | Custom component that can be used as the close button.                                                                                                                                                        |
-| showCloseButtonOnHover | Boolean                                      | `false`      | Only shows the close button when hovering the toast.                                                                                                                                                          |
+| Option                 | Type                                         | Default     | Description                                                                                                                                                                                                               |
+| ---------------------- | -------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id                     | Number or String                             | `auto`      | ID of the toast.                                                                                                                                                                                                          |
+| type                   | String                                       | `default`   | Type of the toast. Can be any of  **success**, **error**, **default**, **info** and **warning**                                                                                                                           |
+| position               | String                                       | `top-right` | Position of the toast on the screen. Can be any of **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.                                                                     |
+| draggable              | Boolean                                      | `true`      | Whether or not the toast can be dismissed by being dragged to the side.                                                                                                                                                   |
+| draggablePercent       | Positive Number                              | `0.6`       | By how much of the toast width in percent (`0` to `1`) it must be dragged before being dismissed.                                                                                                                         |
+| pauseOnFocusLoss       | Boolean                                      | `true`      | Whether or not the toast is paused when the window loses focus.                                                                                                                                                           |
+| pauseOnHover           | Boolean                                      | `true`      | Whether or not the toast is paused when it is hovered by the mouse.                                                                                                                                                       |
+| closeOnClick           | Boolean                                      | `true`      | Whether or not the toast is closed when clicked.                                                                                                                                                                          |
+| onClick                | Function                                     | `NOOP`      | Callback executed when the toast is clicked. A `closeToast` callback is passed as an argument to `onClick` when it is called.                                                                                             |
+| onClose                | Function                                     | `NOOP`      | Callback executed when the toast is closed.                                                                                                                                                                               |
+| timeout                | Positive Integer or false                    | `5000`      | How many milliseconds for the toast to be auto dismissed, or false to disable.                                                                                                                                            |
+| toastClassName         | String or Array of Strings                   | `[]`        | Custom classes applied to the toast.                                                                                                                                                                                      |
+| bodyClassName          | String or Array of Strings                   | `[]`        | Custom classes applied to the body of the toast.                                                                                                                                                                          |
+| hideProgressBar        | Boolean                                      | `false`     | Whether or not the progress bar is hidden.                                                                                                                                                                                |
+| icon                   | Boolean, String, Object Vue Component or JSX | `true`      | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. Object shape is `{ iconClass: String, iconChildren: String, iconTag: String }` |
+| closeButtonClassName   | String or Array of Strings                   | `[]`        | Custom classes applied to the close button of the toast.                                                                                                                                                                  |
+| closeButton            | `false`, Vue Component, JSX or HTML Tag name | `"button"`  | Custom component that can be used as the close button.                                                                                                                                                                    |
+| showCloseButtonOnHover | Boolean                                      | `false`     | Only shows the close button when hovering the toast.                                                                                                                                                                      |
 
 ⚠️️ _Toast options supersede Plugin Registration props_  ⚠️
 

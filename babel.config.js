@@ -4,7 +4,7 @@ module.exports = {
     [
       "@babel/preset-env",
       {
-        modules: false,
+        modules: "auto",
         forceAllTransforms: true,
         targets: {
           browsers: ["defaults", "not ie > 0", "not ie_mob > 0"]
