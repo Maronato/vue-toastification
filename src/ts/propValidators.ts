@@ -101,7 +101,8 @@ const TOAST = {
     type: [String, Object, Function] as PropType<ToastContent>,
     required: true
   },
-  onClick: Function as PropType<NonNullable<ToastOptions["onClick"]>>
+  onClick: Function as PropType<NonNullable<ToastOptions["onClick"]>>,
+  onClose: Function as PropType<NonNullable<ToastOptions["onClose"]>>
 };
 
 const CONTAINER = {
