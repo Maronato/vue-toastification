@@ -65,14 +65,14 @@ export interface CommonOptions {
   icon?:
     | boolean
     | string
-    | Partial<Record<"tag" | "children" | "class", string>>
+    | { tag?: keyof HTMLElementTagNameMap; children?: string; class?: string }
     | Component;
   /**
    * Custom close button component
    *
    * Alternative close button component to be displayed in toasts
    */
-  closeButton?: "button" | Component;
+  closeButton?: keyof HTMLElementTagNameMap | Component | JSX.Element;
   /**
    * 	Custom classes applied to the close button of the toast.
    */
