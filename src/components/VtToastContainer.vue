@@ -4,7 +4,7 @@
       <Transition
         :transition="defaults.transition"
         :transition-duration="defaults.transitionDuration"
-        :class="`${VT_NAMESPACE}__container ${pos}`"
+        :class="getClasses(pos)"
       >
         <Toast
           v-for="toast in getPositionToasts(pos)"
@@ -132,6 +132,10 @@ export default Vue.extend({
         }
         this.setToast(Object.assign({}, this.toasts[id], options));
       } else if (create) this.addToast(Object.assign({}, { id }, options));
+    },
+    getClasses(position: string) {
+      const classes = [`${VT_NAMESPACE}__container`, position];
+      return classes.concat(this.containerClassName);
     }
   }
 });

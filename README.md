@@ -28,6 +28,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
     - [Clear all toasts](#clear-all-toasts)
     - [Styling](#styling)
       - [Custom toast classes](#custom-toast-classes)
+      - [Custom toast container classes](#custom-toast-container-classes)
       - [Override SCSS variables](#override-scss-variables)
     - [Transitions](#transitions)
     - [Custom transitions](#custom-transitions)
@@ -344,7 +345,7 @@ this.$toast.clear();
 ```
 
 ### Styling
-There are two ways to style your toast components. You can either add custom classes to the toast and modify them using those or you can override the actual toast's SCSS when importing them.
+There are two ways to style your toast components. You can either add custom classes to the toast or containers and modify them using those or you can override the actual toast's SCSS when importing them.
 
 #### Custom toast classes
 ```js
@@ -378,6 +379,33 @@ this.$toast("my toast", {
 These can also be defined when registering the vue plugin.
 
 > Note: `bodyClassName`s applied to toasts that use a custom component are not applied to the custom component itself. Instead, they are applied to a `div` that wraps the custom component.
+
+#### Custom toast container classes
+You can also add custom classes to the toast's **containers**. Keep in mind that here **containers** refer to the 6 `div`s that contain the toasts in the 6 possible toast positions (`top-right`, `top-left`, etc).
+
+These classes can be defined during plugin initialization.
+```js
+Vue.use(Toast, {
+    // Can be either a string or an array of strings
+    containerClassName: "my-container-class",
+});
+```
+```css
+<style>
+/* When setting CSS, remember that priority increases with specificity, so don't forget to select the exisiting classes as well */
+
+    /* This will only affect the top-right container */
+    .Vue-Toastification__container.top-right.my-container-class{
+        top: 10em;
+    }
+
+    /* This will affect all 6 containers */
+    .Vue-Toastification__container.my-container-class{
+        position: relative;
+    }
+</style>
+```
+
 
 #### Override SCSS variables
 There is a set of [pre defined variables](https://github.com/Maronato/vue-toastification/blob/master/src/scss/_variables.scss) that you can override to change some basic styling.
@@ -697,6 +725,7 @@ Vue.use(Toast, { filterToasts });
 | closeButtonClassName   | String or Array of Strings                   | `[]`                         | Custom classes applied to the close button of the toast.                                                                                                                                                                  |
 | closeButton            | `false`, Vue Component, JSX or HTML Tag name | `"button"`                   | Custom component that can be used as the close button.                                                                                                                                                                    |
 | showCloseButtonOnHover | Boolean                                      | `false`                      | Only shows the close button when hovering the toast.                                                                                                                                                                      |
+| containerClassName     | String or Array of Strings                   | `[]`                         | Extra CSS class or classes added to each of the Toast containers.                                                                                                                                                         |
 
 ### Toast (this.$toast)
 | Parameter | Type                                 | Required | Description                                                                                                                                                                     |

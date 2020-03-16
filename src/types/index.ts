@@ -120,6 +120,12 @@ export interface PluginOptions extends CommonOptions {
    * Filter toasts during render and queues filtered toasts.
    */
   filterToasts?: (toasts: Array<ToastOptions>) => Array<ToastOptions>;
+  /**
+   * Extra CSS class or classes added to each of the Toast containers.
+   *
+   * Keep in mind that there is one container for each possible toast position.
+   */
+  containerClassName?: string | string[];
 }
 
 export interface ToastOptions extends CommonOptions {

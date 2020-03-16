@@ -87,11 +87,7 @@ export default Vue.extend({
         `${VT_NAMESPACE}__toast`,
         `${VT_NAMESPACE}__toast--${this.type}`,
         `${this.position}`
-      ].concat(
-        Array.isArray(this.toastClassName)
-          ? this.toastClassName
-          : [this.toastClassName]
-      );
+      ].concat(this.toastClassName);
       if (this.disableTransitions) {
         classes.push("disable-transition");
       }
@@ -102,11 +98,7 @@ export default Vue.extend({
         `${VT_NAMESPACE}__toast-${
           isString(this.content) ? "body" : "component-body"
         }`
-      ].concat(
-        Array.isArray(this.bodyClassName)
-          ? this.bodyClassName
-          : [this.bodyClassName]
-      );
+      ].concat(this.bodyClassName);
       return classes;
     },
 

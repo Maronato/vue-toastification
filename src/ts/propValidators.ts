@@ -119,7 +119,10 @@ const CONTAINER = {
   filterBeforeCreate: Function as PropType<
     NonNullable<PluginOptions["filterBeforeCreate"]>
   >,
-  filterToasts: Function as PropType<NonNullable<PluginOptions["filterToasts"]>>
+  filterToasts: Function as PropType<
+    NonNullable<PluginOptions["filterToasts"]>
+  >,
+  containerClassName: COMMON.classNames
 };
 
 export default {
