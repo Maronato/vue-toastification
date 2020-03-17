@@ -6,14 +6,12 @@ import {
   WrapperArray
 } from "@vue/test-utils";
 import Toast, { POSITION } from "@/index";
-import VtToast from "@/components/VtToast.vue";
-import VtToastContainer from "@/components/VtToastContainer.vue";
 import { PluginOptions } from "@/types";
 
-const withGetToasts = <T extends Wrapper<VtToastContainer>>(wrapper: T) => {
-  (wrapper as T & { getToasts(): WrapperArray<VtToast> }).getToasts = () =>
+const withGetToasts = <T extends Wrapper<Vue>>(wrapper: T) => {
+  (wrapper as T & { getToasts(): WrapperArray<Vue> }).getToasts = () =>
     wrapper.findAll(".Vue-Toastification__toast");
-  return wrapper as T & { getToasts(): WrapperArray<VtToast> };
+  return wrapper as T & { getToasts(): WrapperArray<Vue> };
 };
 
 const loadPlugin = (options?: PluginOptions) => {
