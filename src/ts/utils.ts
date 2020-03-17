@@ -8,7 +8,7 @@ interface DictionaryLike {
 /**
  * Utility type to declare an extended Vue constructor
  */
-type VueClass<V extends Vue> = (new (...args: any[]) => V) & typeof Vue;
+type VueClass<V extends Vue> = (new (...args: unknown[]) => V) & typeof Vue;
 
 const isFunction = (value: unknown): value is Function =>
   typeof value === "function";

@@ -136,11 +136,11 @@ export interface PluginOptions extends CommonOptions {
    */
   onMounted?: (
     containerComponent: CombinedVueInstance<
-      Record<never, any> & Vue,
+      Record<never, unknown> & Vue,
       object,
       object,
       object,
-      Record<never, any>
+      Record<never, unknown>
     >
   ) => void;
 }
