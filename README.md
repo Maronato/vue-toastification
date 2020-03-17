@@ -1,7 +1,7 @@
 # Vue Toastification
 [![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest)
 
-[![Build Status](https://travis-ci.com/Maronato/vue-toastification.svg?branch=master)](https://travis-ci.com/Maronato/vue-toastification) [![codecov](https://codecov.io/gh/Maronato/vue-toastification/branch/master/graph/badge.svg)](https://codecov.io/gh/Maronato/vue-toastification) [![Maintainability](https://api.codeclimate.com/v1/badges/8e2c16345047e8e03b58/maintainability)](https://codeclimate.com/github/Maronato/vue-toastification/maintainability)
+[![Build Status](https://travis-ci.com/Maronato/vue-toastification.svg?branch=master)](https://travis-ci.com/Maronato/vue-toastification) [![codecov](https://codecov.io/gh/Maronato/vue-toastification/branch/master/graph/badge.svg)](https://codecov.io/gh/Maronato/vue-toastification) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d10315093b4c45a097ac10d1276015ce)](https://app.codacy.com/manual/Maronato/vue-toastification?utm_source=github.com&utm_medium=referral&utm_content=Maronato/vue-toastification&utm_campaign=Badge_Grade_Dashboard) [![Maintainability](https://api.codeclimate.com/v1/badges/8e2c16345047e8e03b58/maintainability)](https://codeclimate.com/github/Maronato/vue-toastification/maintainability)
 
 
 [![dependencies Status](https://david-dm.org/maronato/vue-toastification/status.svg)](https://david-dm.org/maronato/vue-toastification) [![devDependencies Status](https://david-dm.org/maronato/vue-toastification/dev-status.svg)](https://david-dm.org/maronato/vue-toastification?type=dev)
