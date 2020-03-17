@@ -7,10 +7,10 @@ cache:
     - node_modules
 
 script:
+  - yarn global add codecov
   - yarn lint:no-fix
   - yarn test
   - yarn build:demo
-
 
 deploy:
   provider: pages
@@ -20,3 +20,6 @@ deploy:
   keep_history: true
   on:
     branch: master
+
+after_success:
+  - codecov

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VtProgressBar matches snapshot 1`] = `
+<div
+  class="Vue-Toastification__progress-bar"
+  style="animation-duration: 5000ms; animation-play-state: paused; opacity: 1;"
+/>
+`;

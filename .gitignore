@@ -2,6 +2,8 @@
 node_modules
 /dist
 /demo
+coverage
+.nyc_output
 
 # local env files
 .env.local

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VtCloseButton matches default snapshot 1`] = `
+<button
+  class="Vue-Toastification__close-button"
+>
+  
+  ✖
+
+</button>
+`;
