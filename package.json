@@ -10,7 +10,8 @@
     "build": "rollup -c build/rollup.config.js",
     "build:demo": "vue-cli-service build --dest demo public",
     "test:unit": "vue-cli-service test:unit",
-    "test": "yarn test:unit --passWithNoTests",
+    "test": "yarn test:unit",
+    "test:watch": "yarn test --watch",
     "lint": "vue-cli-service lint",
     "lint:no-fix": "vue-cli-service lint --no-fix",
     "prepublishOnly": "yarn lint:no-fix && yarn test && yarn build"
@@ -33,7 +34,7 @@
   "dependencies": {},
   "devDependencies": {
     "@mdi/font": "^5.0.45",
-    "@types/jest": "25.1.4",
+    "@rollup/plugin-alias": "^3.0.1",
     "@types/vue": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
@@ -52,6 +53,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.1.2",
     "fibers": "^4.0.2",
+    "jest-serializer-vue": "^2.0.2",
     "lint-staged": "10.0.8",
     "prettier": "^1.19.1",
     "rollup": "^2.0.6",

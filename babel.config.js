@@ -1,29 +1,3 @@
 module.exports = {
-  presets: [
-    "@vue/babel-preset-jsx",
-    [
-      "@babel/preset-env",
-      {
-        modules: "auto",
-        forceAllTransforms: true,
-        targets: {
-          browsers: ["defaults", "not ie > 0", "not ie_mob > 0"]
-        }
-      }
-    ]
-  ],
-  env: {
-    test: {
-      presets: [
-        [
-          "@babel/preset-env",
-          {
-            targets: {
-              node: "current"
-            }
-          }
-        ]
-      ]
-    }
-  }
+  presets: ["@vue/cli-plugin-babel/preset"]
 };

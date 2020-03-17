@@ -1,12 +1,12 @@
 import { PropType } from "vue";
-import { TYPE, POSITION, VT_NAMESPACE } from "./constants";
 import {
   ToastContent,
   CommonOptions,
   PluginOptions,
   ToastID,
   ToastOptions
-} from "../types";
+} from "@/types";
+import { TYPE, POSITION, VT_NAMESPACE } from "./constants";
 
 const COMMON = {
   type: {

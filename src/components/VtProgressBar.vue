@@ -5,8 +5,8 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { VT_NAMESPACE } from "../ts/constants";
-import PROPS from "../ts/propValidators";
+import { VT_NAMESPACE } from "@/ts/constants";
+import PROPS from "@/ts/propValidators";
 
 export default Vue.extend({
   props: PROPS.PROGRESS_BAR,

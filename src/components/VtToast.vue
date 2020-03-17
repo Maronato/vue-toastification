@@ -40,20 +40,20 @@
 <script lang="ts">
 import Vue from "vue";
 
-import ProgressBar from "./VtProgressBar.vue";
-import CloseButton from "./VtCloseButton.vue";
-import Icon from "./VtIcon.vue";
-
-import events from "../ts/events";
-import { EVENTS, VT_NAMESPACE } from "../ts/constants";
-import PROPS from "../ts/propValidators";
+import events from "@/ts/events";
+import { EVENTS, VT_NAMESPACE } from "@/ts/constants";
+import PROPS from "@/ts/propValidators";
 import {
   removeElement,
   getVueComponentFromObj,
   isString,
   getX,
   getY
-} from "../ts/utils";
+} from "@/ts/utils";
+
+import ProgressBar from "./VtProgressBar.vue";
+import CloseButton from "./VtCloseButton.vue";
+import Icon from "./VtIcon.vue";
 
 export default Vue.extend({
   components: { ProgressBar, CloseButton, Icon },
