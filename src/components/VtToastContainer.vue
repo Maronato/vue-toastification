@@ -104,7 +104,9 @@ export default Vue.extend({
       this.$delete(this.toasts, id);
     },
     clearToasts() {
-      Object.keys(this.toasts).forEach((id: ToastID) => this.dismissToast(id));
+      Object.keys(this.toasts).forEach((id: ToastID) => {
+        this.dismissToast(id);
+      });
     },
     getPositionToasts(position: POSITION) {
       const toasts = this.filteredToasts
@@ -141,7 +143,7 @@ export default Vue.extend({
         );
       }
     },
-    getClasses(position: string) {
+    getClasses(position: POSITION) {
       const classes = [`${VT_NAMESPACE}__container`, position];
       return classes.concat(this.containerClassName);
     }
