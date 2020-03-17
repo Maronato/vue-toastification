@@ -1,6 +1,10 @@
 # Vue Toastification
-[![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest)  [![Vue](https://img.shields.io/badge/Vue-2.0-red)](https://vuejs.org/)
+[![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest)
 
+[![Build Status](https://travis-ci.com/Maronato/vue-toastification.svg?branch=master)](https://travis-ci.com/Maronato/vue-toastification) [![codecov](https://codecov.io/gh/Maronato/vue-toastification/branch/master/graph/badge.svg)](https://codecov.io/gh/Maronato/vue-toastification) [![Maintainability](https://api.codeclimate.com/v1/badges/8e2c16345047e8e03b58/maintainability)](https://codeclimate.com/github/Maronato/vue-toastification/maintainability)
+
+
+[![dependencies Status](https://david-dm.org/maronato/vue-toastification/status.svg)](https://david-dm.org/maronato/vue-toastification) [![devDependencies Status](https://david-dm.org/maronato/vue-toastification/dev-status.svg)](https://david-dm.org/maronato/vue-toastification?type=dev)
 
 ![vt](https://i.imgur.com/i2PMcTq.gif)
 
@@ -732,6 +736,7 @@ Vue.use(Toast, { filterToasts });
 | closeButton            | `false`, Vue Component, JSX or HTML Tag name | `"button"`                   | Custom component that can be used as the close button.                                                                                                                                                                    |
 | showCloseButtonOnHover | Boolean                                      | `false`                      | Only shows the close button when hovering the toast.                                                                                                                                                                      |
 | containerClassName     | String or Array of Strings                   | `[]`                         | Extra CSS class or classes added to each of the Toast containers.                                                                                                                                                         |
+| onMounted              | Function `(containerComponent) => void`      | `undefined`                  | Callback executed when the Toast container is mounted. Receives the container vue instance as a parameter.                                                                                                                |
 
 ### Toast (this.$toast)
 | Parameter | Type                                 | Required | Description                                                                                                                                                                     |

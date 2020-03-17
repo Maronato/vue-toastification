@@ -1,6 +1,7 @@
 import { Component } from "vue";
-import ToastInterface from "../ts/interface";
-import { TYPE, POSITION } from "../ts/constants";
+import ToastInterface from "@/ts/interface";
+import { TYPE, POSITION } from "@/ts/constants";
+import { CombinedVueInstance } from "vue/types/vue";
 
 export type ToastID = string | number;
 
@@ -111,21 +112,37 @@ export interface PluginOptions extends CommonOptions {
    * Takes the new toast and a list of the current toasts and returns a modified toast or false.
    */
   filterBeforeCreate?: (
-    toast: ToastOptions,
-    toasts: Array<ToastOptions>
-  ) => ToastOptions | false;
+    toast: ToastOptionsAndRequiredContent,
+    toasts: ToastOptionsAndRequiredContent[]
+  ) => ToastOptionsAndRequiredContent | false;
   /**
    * Callback to filter toasts during render
    *
    * Filter toasts during render and queues filtered toasts.
    */
-  filterToasts?: (toasts: Array<ToastOptions>) => Array<ToastOptions>;
+  filterToasts?: (
+    toasts: ToastOptionsAndRequiredContent[]
+  ) => ToastOptionsAndRequiredContent[];
   /**
    * Extra CSS class or classes added to each of the Toast containers.
    *
    * Keep in mind that there is one container for each possible toast position.
    */
   containerClassName?: string | string[];
+  /**
+   * Callback executed when the toast container is mounted.
+   *
+   * Receives the Container vue instance as a parameter.
+   */
+  onMounted?: (
+    containerComponent: CombinedVueInstance<
+      Record<never, any> & Vue,
+      object,
+      object,
+      object,
+      Record<never, any>
+    >
+  ) => void;
 }
 
 export interface ToastOptions extends CommonOptions {
@@ -174,6 +191,11 @@ export type ToastContent =
   | RenderableToastContent
   | JSX.Element
   | ToastComponent;
+
+export type ToastOptionsAndContent = ToastOptions & { content?: ToastContent };
+export type ToastOptionsAndRequiredContent = ToastOptions & {
+  content: ToastContent;
+};
 
 declare module "vue/types/vue" {
   interface Vue {

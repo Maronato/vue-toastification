@@ -19,13 +19,19 @@
 <script lang="ts">
 import Vue from "vue";
 
+import events from "@/ts/events";
+import { EVENTS, POSITION, VT_NAMESPACE } from "@/ts/constants";
+import PROPS from "@/ts/propValidators";
+import {
+  PluginOptions,
+  ToastID,
+  ToastOptionsAndContent,
+  ToastOptionsAndRequiredContent
+} from "@/types";
+import { removeElement, isUndefined } from "@/ts/utils";
+
 import Toast from "./VtToast.vue";
 import Transition from "./VtTransition.vue";
-import events from "../ts/events";
-import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants";
-import PROPS from "../ts/propValidators";
-import { PluginOptions, ToastOptions, ToastID } from "../types";
-import { removeElement, isUndefined } from "../ts/utils";
 
 export default Vue.extend({
   components: { Toast, Transition },
@@ -37,8 +43,8 @@ export default Vue.extend({
       count: number;
       positions: POSITION[];
       toasts: {
-        [toastId: number]: ToastOptions;
-        [toastId: string]: ToastOptions;
+        [toastId: number]: ToastOptionsAndRequiredContent;
+        [toastId: string]: ToastOptionsAndRequiredContent;
       };
       defaults: PluginOptions;
     } = {
@@ -51,10 +57,10 @@ export default Vue.extend({
   },
 
   computed: {
-    toastArray(): ToastOptions[] {
+    toastArray(): ToastOptionsAndRequiredContent[] {
       return Object.values(this.toasts);
     },
-    filteredToasts(): ToastOptions[] {
+    filteredToasts(): ToastOptionsAndRequiredContent[] {
       if (!isUndefined(this.defaults.filterToasts)) {
         return this.defaults.filterToasts(this.toastArray);
       }
@@ -77,15 +83,15 @@ export default Vue.extend({
       removeElement(this.$el);
       container.appendChild(this.$el);
     },
-    setToast(props: ToastOptions) {
+    setToast(props: ToastOptionsAndRequiredContent) {
       if (!isUndefined(props.id)) {
         this.$set(this.toasts, props.id, props);
       }
     },
-    addToast(params: ToastOptions) {
+    addToast(params: ToastOptionsAndRequiredContent) {
       const props = Object.assign({}, this.defaults, params);
       const filterBeforeCreate = isUndefined(this.defaults.filterBeforeCreate)
-        ? (toast: ToastOptions) => toast
+        ? (toast: ToastOptionsAndRequiredContent) => toast
         : this.defaults.filterBeforeCreate;
       const toast = filterBeforeCreate(props, this.toastArray);
       toast && this.setToast(toast);
@@ -119,7 +125,7 @@ export default Vue.extend({
       create
     }: {
       id: ToastID;
-      options: ToastOptions;
+      options: ToastOptionsAndContent;
       create: boolean;
     }) {
       if (this.toasts[id]) {
@@ -129,7 +135,11 @@ export default Vue.extend({
           options.timeout++;
         }
         this.setToast(Object.assign({}, this.toasts[id], options));
-      } else if (create) this.addToast(Object.assign({}, { id }, options));
+      } else if (create) {
+        this.addToast(
+          Object.assign({}, { id }, options as ToastOptionsAndRequiredContent)
+        );
+      }
     },
     getClasses(position: string) {
       const classes = [`${VT_NAMESPACE}__container`, position];
