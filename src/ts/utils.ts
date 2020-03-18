@@ -18,6 +18,8 @@ const isString = (value: unknown): value is string => typeof value === "string";
 const isNonEmptyString = (value: unknown): value is string =>
   isString(value) && value.trim().length > 0;
 
+const isNumber = (value: unknown): value is number => typeof value === "number";
+
 const isUndefined = (value: unknown): value is undefined =>
   typeof value === "undefined";
 
@@ -70,6 +72,15 @@ const isToastContent = (obj: unknown): obj is ToastContent =>
     isJSX(obj) ||
     // Nested object
     isToastComponent(obj));
+
+const isDOMRect = (obj: unknown): obj is DOMRect =>
+  isObject(obj) &&
+  isNumber(obj.height) &&
+  isNumber(obj.width) &&
+  isNumber(obj.right) &&
+  isNumber(obj.left) &&
+  isNumber(obj.top) &&
+  isNumber(obj.bottom);
 
 const hasProp = <O extends unknown, K extends PropertyKey>(
   obj: O,
@@ -130,5 +141,6 @@ export {
   isToastContent,
   getVueComponentFromObj,
   hasProp,
-  isUndefined
+  isUndefined,
+  isDOMRect
 };

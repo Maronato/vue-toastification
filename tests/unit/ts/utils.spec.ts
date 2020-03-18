@@ -9,7 +9,8 @@ import {
   isToastContent,
   getVueComponentFromObj,
   hasProp,
-  isUndefined
+  isUndefined,
+  isDOMRect
 } from "@/ts/utils";
 import Simple from "../../utils/components/Simple.vue";
 
@@ -207,5 +208,112 @@ describe("isUndefined", () => {
   });
   it("is not undefined", () => {
     expect(isUndefined("abc")).toBe(false);
+  });
+});
+
+describe("isDOMRect", () => {
+  it("is dom rect", () => {
+    expect(
+      isDOMRect({
+        width: 10,
+        height: 10,
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10
+      })
+    ).toBe(true);
+  });
+  it("missing prop", () => {
+    expect(
+      isDOMRect({ width: 10, height: 10, left: 10, top: 10, bottom: 10 })
+    ).toBe(false);
+    expect(
+      isDOMRect({ width: 10, height: 10, right: 10, top: 10, bottom: 10 })
+    ).toBe(false);
+    expect(
+      isDOMRect({ width: 10, left: 10, right: 10, top: 10, bottom: 10 })
+    ).toBe(false);
+    expect(
+      isDOMRect({ height: 10, left: 10, right: 10, top: 10, bottom: 10 })
+    ).toBe(false);
+    expect(
+      isDOMRect({ width: 10, height: 10, left: 10, right: 10, top: 10 })
+    ).toBe(false);
+    expect(
+      isDOMRect({ width: 10, height: 10, left: 10, right: 10, bottom: 10 })
+    ).toBe(false);
+  });
+  it("prop wrong type", () => {
+    expect(
+      isDOMRect({
+        width: 10,
+        height: 10,
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: "abc"
+      })
+    ).toBe(false);
+    expect(
+      isDOMRect({
+        width: 10,
+        height: 10,
+        left: 10,
+        right: 10,
+        top: "abc",
+        bottom: 10
+      })
+    ).toBe(false);
+    expect(
+      isDOMRect({
+        width: 10,
+        height: 10,
+        left: 10,
+        right: "abc",
+        top: 10,
+        bottom: 10
+      })
+    ).toBe(false);
+    expect(
+      isDOMRect({
+        width: 10,
+        height: 10,
+        left: "abc",
+        right: 10,
+        top: 10,
+        bottom: 10
+      })
+    ).toBe(false);
+    expect(
+      isDOMRect({
+        width: 10,
+        height: "abc",
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10
+      })
+    ).toBe(false);
+    expect(
+      isDOMRect({
+        width: "abc",
+        height: 10,
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10
+      })
+    ).toBe(false);
+  });
+  it("not an object", () => {
+    const func = () => ({});
+    func.height = 10;
+    func.width = 10;
+    func.left = 10;
+    func.right = 10;
+    func.top = 10;
+    func.bottom = 10;
+    expect(isDOMRect(func)).toBe(false);
   });
 });

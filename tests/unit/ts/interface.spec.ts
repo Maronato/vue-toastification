@@ -16,8 +16,6 @@ describe("ToastInterface", () => {
     return { ...agg, [eventName]: handler };
   }, {} as { [eventName in EVENTS]: jest.Mock });
 
-  // const eventsWrapper = createWrapper(events);
-
   beforeEach(() => {
     wrappers = loadPlugin();
     localVue = wrappers.localVue;

@@ -21,7 +21,7 @@
       />
     </div>
     <CloseButton
-      v-if="closeButton !== false"
+      v-if="!!closeButton"
       :component="closeButton"
       :class-names="closeButtonClassName"
       :show-on-hover="showCloseButtonOnHover"
@@ -48,7 +48,8 @@ import {
   getVueComponentFromObj,
   isString,
   getX,
-  getY
+  getY,
+  isDOMRect
 } from "@/ts/utils";
 
 import ProgressBar from "./VtProgressBar.vue";
@@ -126,7 +127,7 @@ export default Vue.extend({
       return this.beingDragged ? this.dragPos.x - this.dragStart : 0;
     },
     removalDistance(): number {
-      if (this.dragRect instanceof DOMRect) {
+      if (isDOMRect(this.dragRect)) {
         return (
           (this.dragRect.right - this.dragRect.left) * this.draggablePercent
         );
@@ -233,7 +234,7 @@ export default Vue.extend({
           setTimeout(() => {
             this.beingDragged = false;
             if (
-              this.dragRect instanceof DOMRect &&
+              isDOMRect(this.dragRect) &&
               this.pauseOnHover &&
               this.dragRect.bottom >= this.dragPos.y &&
               this.dragPos.y >= this.dragRect.top &&
