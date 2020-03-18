@@ -5,7 +5,7 @@ import {
   PluginOptions,
   ToastID,
   ToastOptions
-} from "@/types";
+} from "../types";
 import { TYPE, POSITION, VT_NAMESPACE } from "./constants";
 
 const COMMON = {

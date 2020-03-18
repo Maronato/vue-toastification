@@ -6,10 +6,10 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { VT_NAMESPACE } from "@/ts/constants";
-import PROPS from "@/ts/propValidators";
-import { getVueComponentFromObj } from "@/ts/utils";
-import { RenderableToastContent } from "@/types";
+import { VT_NAMESPACE } from "../ts/constants";
+import PROPS from "../ts/propValidators";
+import { getVueComponentFromObj } from "../ts/utils";
+import { RenderableToastContent } from "../types";
 
 export default Vue.extend({
   props: PROPS.CLOSE_BUTTON,

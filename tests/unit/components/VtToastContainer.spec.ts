@@ -4,8 +4,8 @@ import {
   PluginOptions,
   ToastID,
   ToastOptionsAndContent
-} from "@/types";
-import { POSITION, VT_NAMESPACE } from "@/ts/constants";
+} from "../../../src/types";
+import { POSITION, VT_NAMESPACE } from "../../../src/ts/constants";
 
 describe("VtToastContainer", () => {
   it("snapshots with default value", () => {

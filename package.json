@@ -24,8 +24,8 @@
   },
   "unpkg": "dist/umd/index.min.js",
   "jsdelivr": "dist/umd/index.min.js",
-  "typings": "dist/types/index.d.ts",
-  "types": "dist/types/index.d.ts",
+  "typings": "dist/types/src/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -34,7 +34,6 @@
   "dependencies": {},
   "devDependencies": {
     "@mdi/font": "^5.0.45",
-    "@rollup/plugin-alias": "^3.0.1",
     "@types/vue": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",

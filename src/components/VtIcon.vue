@@ -7,16 +7,16 @@
 <script lang="ts">
 import Vue, { Component as VueComponent } from "vue";
 
-import { RenderableToastContent } from "@/types";
-import { TYPE, VT_NAMESPACE } from "@/ts/constants";
+import { RenderableToastContent } from "../types";
+import { TYPE, VT_NAMESPACE } from "../ts/constants";
 import {
   isNonEmptyString,
   isToastContent,
   hasProp,
   isString,
   getVueComponentFromObj
-} from "@/ts/utils";
-import PROPS from "@/ts/propValidators";
+} from "../ts/utils";
+import PROPS from "../ts/propValidators";
 import SuccessIcon from "./icons/VtSuccessIcon.vue";
 import InfoIcon from "./icons/VtInfoIcon.vue";
 import WarningIcon from "./icons/VtWarningIcon.vue";

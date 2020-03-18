@@ -12,16 +12,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "jsx": "preserve",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@tests/*": [
-        "tests/*"
-      ]
-    },
-    "baseUrl": "."
+    "jsx": "preserve"
   },
   "include": [
     "src",

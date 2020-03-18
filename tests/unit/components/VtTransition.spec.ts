@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import VtTransition from "@/components/VtTransition.vue";
+import VtTransition from "../../../src/components/VtTransition.vue";
 
 describe("VtTransition", () => {
   it("snapshots default values", () => {

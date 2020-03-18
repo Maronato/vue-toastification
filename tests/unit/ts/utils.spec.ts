@@ -11,7 +11,7 @@ import {
   hasProp,
   isUndefined,
   isDOMRect
-} from "@/ts/utils";
+} from "../../../src/ts/utils";
 import Simple from "../../utils/components/Simple.vue";
 
 describe("getId", () => {

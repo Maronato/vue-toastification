@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import VtWarningIcon from "@/components/icons/VtWarningIcon.vue";
+import VtWarningIcon from "../../../../src/components/icons/VtWarningIcon.vue";
 
 describe("VtWarningIcon", () => {
   it("matches snapshot", () => {

@@ -1,10 +1,8 @@
-import path from "path";
 import typescript from "rollup-plugin-typescript2";
 import commonjs from "rollup-plugin-commonjs";
 import vue from "rollup-plugin-vue";
 import scss from "rollup-plugin-scss";
 import filesize from "rollup-plugin-filesize";
-import alias from "@rollup/plugin-alias";
 import configs from "./config";
 
 const externals = ["vue"];
@@ -31,13 +29,6 @@ const genScssPlugin = () => scss({ output: "dist/index.css" });
 
 const genFileSizePlugin = () => filesize();
 
-const genAliasPlugin = () =>
-  alias({
-    entries: [
-      { find: "@", replacement: path.join(path.dirname(__dirname), "src") }
-    ]
-  });
-
 const genPlugins = configOpts => {
   const plugins = [];
   if (configOpts.plugins && configOpts.plugins.pre) {
@@ -45,7 +36,6 @@ const genPlugins = configOpts => {
   }
 
   plugins.push(genTsPlugin(configOpts));
-  plugins.push(genAliasPlugin(configOpts));
   plugins.push(genCommonJsPlugin(configOpts));
   plugins.push(genScssPlugin(configOpts));
   plugins.push(genVuePlugin(configOpts));

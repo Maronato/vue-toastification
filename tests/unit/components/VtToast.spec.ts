@@ -1,11 +1,16 @@
 import { mount, createLocalVue, createWrapper } from "@vue/test-utils";
-import VtToast from "@/components/VtToast.vue";
-import VtIcon from "@/components/VtIcon.vue";
-import VtProgressBar from "@/components/VtProgressBar.vue";
-import VtCloseButton from "@/components/VtCloseButton.vue";
-import { ToastOptionsAndContent } from "@/types";
-import events from "@/ts/events";
-import { VT_NAMESPACE, TYPE, POSITION, EVENTS } from "@/ts/constants";
+import VtToast from "../../../src/components/VtToast.vue";
+import VtIcon from "../../../src/components/VtIcon.vue";
+import VtProgressBar from "../../../src/components/VtProgressBar.vue";
+import VtCloseButton from "../../../src/components/VtCloseButton.vue";
+import { ToastOptionsAndContent } from "../../../src/types";
+import events from "../../../src/ts/events";
+import {
+  VT_NAMESPACE,
+  TYPE,
+  POSITION,
+  EVENTS
+} from "../../../src/ts/constants";
 import Simple from "../../utils/components/Simple.vue";
 
 const mountToast = ({ id, content, ...props }: ToastOptionsAndContent = {}) =>

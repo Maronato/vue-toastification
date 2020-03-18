@@ -1,5 +1,5 @@
 import Vue, { Component } from "vue";
-import { ToastComponent, ToastContent, RenderableToastContent } from "@/types";
+import { ToastComponent, ToastContent, RenderableToastContent } from "../types";
 
 interface DictionaryLike {
   [index: string]: unknown;

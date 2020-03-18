@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import VtCloseButton from "@/components/VtCloseButton.vue";
-import { VT_NAMESPACE } from "@/ts/constants";
+import VtCloseButton from "../../../src/components/VtCloseButton.vue";
+import { VT_NAMESPACE } from "../../../src/ts/constants";
 import Simple from "../../utils/components/Simple.vue";
 
 describe("VtCloseButton", () => {
