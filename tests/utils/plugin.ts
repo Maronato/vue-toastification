@@ -9,6 +9,7 @@ import Toast, { POSITION } from "@/index";
 import { PluginOptions } from "@/types";
 
 const withGetToasts = <T extends Wrapper<Vue>>(wrapper: T) => {
+  /* istanbul ignore next */
   (wrapper as T & { getToasts(): WrapperArray<Vue> }).getToasts = () =>
     wrapper.findAll(".Vue-Toastification__toast");
   return wrapper as T & { getToasts(): WrapperArray<Vue> };
