@@ -12,6 +12,10 @@ describe("VtToastContainer", () => {
     const { containerWrapper } = loadPlugin();
     expect(containerWrapper.element).toMatchSnapshot();
   });
+  it("snapshots with classes", () => {
+    const { containerWrapper } = loadPlugin({ containerClassName: "myclass" });
+    expect(containerWrapper.element).toMatchSnapshot();
+  });
   describe("setup", () => {
     it("removes element and reassigns", () => {
       const { containerWrapper } = loadPlugin();

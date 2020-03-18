@@ -1,5 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`VtToastContainer snapshots with classes 1`] = `
+<div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-left myclass"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-center myclass"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-right myclass"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-left myclass"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-center myclass"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-right myclass"
+    />
+  </div>
+</div>
+`;
+
 exports[`VtToastContainer snapshots with default value 1`] = `
 <div>
   <div>

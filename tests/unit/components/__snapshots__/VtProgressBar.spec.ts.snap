@@ -6,3 +6,38 @@ exports[`VtProgressBar matches snapshot 1`] = `
   style="animation-duration: 5000ms; animation-play-state: paused; opacity: 1;"
 />
 `;
+
+exports[`VtProgressBar sets opacity to 0 from from hideProgressBar 1`] = `
+<div
+  class="Vue-Toastification__progress-bar"
+  style="animation-duration: 5000ms; animation-play-state: paused; opacity: 0;"
+/>
+`;
+
+exports[`VtProgressBar sets playstate from isRunning 1`] = `
+<div
+  class="Vue-Toastification__progress-bar"
+  style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
+/>
+`;
+
+exports[`VtProgressBar sets style duration from timeout 1`] = `
+<div
+  class="Vue-Toastification__progress-bar"
+  style="animation-duration: 1000ms; animation-play-state: paused; opacity: 1;"
+/>
+`;
+
+exports[`VtProgressBar triggers class reset on timeout change 1`] = `
+<div
+  class=""
+  style="animation-duration: 1000ms; animation-play-state: paused; opacity: 1;"
+/>
+`;
+
+exports[`VtProgressBar triggers class reset on timeout change 2`] = `
+<div
+  class="Vue-Toastification__progress-bar"
+  style="animation-duration: 1000ms; animation-play-state: paused; opacity: 1;"
+/>
+`;

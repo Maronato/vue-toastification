@@ -1,5 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`VtCloseButton adds 'show-on-hover' class 1`] = `
+<button
+  class="Vue-Toastification__close-button"
+>
+  
+  ✖
+
+</button>
+`;
+
+exports[`VtCloseButton adds 'show-on-hover' class 2`] = `
+<button
+  class="Vue-Toastification__close-button show-on-hover"
+>
+  
+  ✖
+
+</button>
+`;
+
+exports[`VtCloseButton adds custom class array 1`] = `
+<button
+  class="Vue-Toastification__close-button my-class my-class2"
+>
+  
+  ✖
+
+</button>
+`;
+
+exports[`VtCloseButton adds custom class string 1`] = `
+<button
+  class="Vue-Toastification__close-button my-class"
+>
+  
+  ✖
+
+</button>
+`;
+
 exports[`VtCloseButton matches default snapshot 1`] = `
 <button
   class="Vue-Toastification__close-button"
@@ -8,4 +48,22 @@ exports[`VtCloseButton matches default snapshot 1`] = `
   ✖
 
 </button>
+`;
+
+exports[`VtCloseButton string custom component 1`] = `
+<div
+  class="Vue-Toastification__close-button"
+>
+  
+  ✖
+
+</div>
+`;
+
+exports[`VtCloseButton vue custom component 1`] = `
+<div
+  class="Vue-Toastification__close-button"
+>
+  Example component
+</div>
 `;

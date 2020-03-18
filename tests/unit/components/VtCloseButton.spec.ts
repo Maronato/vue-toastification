@@ -35,6 +35,7 @@ describe("VtCloseButton", () => {
       }
     });
     expect(wrapper.is("div")).toBe(true);
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("vue custom component", () => {
     const wrapper = mount(VtCloseButton, {
@@ -43,6 +44,7 @@ describe("VtCloseButton", () => {
       }
     });
     expect(wrapper.contains(Simple)).toBe(true);
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("adds 'show-on-hover' class", () => {
     const wrapper = mount(VtCloseButton, {
@@ -59,6 +61,8 @@ describe("VtCloseButton", () => {
     });
     expect(wrapper.classes()).not.toContain("show-on-hover");
     expect(wrapper2.classes()).toContain("show-on-hover");
+    expect(wrapper.element).toMatchSnapshot();
+    expect(wrapper2.element).toMatchSnapshot();
   });
   it("adds custom class string", () => {
     const wrapper = mount(VtCloseButton, {
@@ -68,6 +72,7 @@ describe("VtCloseButton", () => {
       }
     });
     expect(wrapper.classes()).toContain("my-class");
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("adds custom class array", () => {
     const wrapper = mount(VtCloseButton, {
@@ -78,6 +83,7 @@ describe("VtCloseButton", () => {
     });
     expect(wrapper.classes()).toContain("my-class");
     expect(wrapper.classes()).toContain("my-class2");
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("attaches onClick listener", () => {
     const onClick = jest.fn();

@@ -42,6 +42,7 @@ describe("VtProgressBar", () => {
       animationPlayState: "paused",
       opacity: 1
     });
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("sets playstate from isRunning", () => {
     const wrapper = mount(VtProgressBar, {
@@ -60,6 +61,7 @@ describe("VtProgressBar", () => {
       animationPlayState: "running",
       opacity: 1
     });
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("sets opacity to 0 from from hideProgressBar", () => {
     const wrapper = mount(VtProgressBar, {
@@ -78,6 +80,7 @@ describe("VtProgressBar", () => {
       animationPlayState: "paused",
       opacity: 0
     });
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("triggers class reset on timeout change", async () => {
     const wrapper = mount(VtProgressBar);
@@ -85,8 +88,10 @@ describe("VtProgressBar", () => {
     wrapper.setProps({ timeout: 1000 });
     await wrapper.vm.$nextTick();
     expect(wrapper.classes()).not.toContain(`${VT_NAMESPACE}__progress-bar`);
+    expect(wrapper.element).toMatchSnapshot();
     await wrapper.vm.$nextTick();
     expect(wrapper.classes()).toContain(`${VT_NAMESPACE}__progress-bar`);
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("emits close-toast on animationend", async () => {
     const wrapper = mount(VtProgressBar);

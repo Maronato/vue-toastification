@@ -28,6 +28,7 @@ describe("VtTransition", () => {
     expect(componentProps.enterActiveClass).toBe("enter-transition");
     expect(componentProps.moveClass).toBe("move-transition");
     expect(componentProps.leaveActiveClass).toBe("leave-transition");
+    expect(wrapper.element).toMatchSnapshot();
   });
   it("beforeEnter with default values", () => {
     const wrapper = mount(VtTransition);

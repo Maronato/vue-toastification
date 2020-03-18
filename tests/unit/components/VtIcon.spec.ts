@@ -89,6 +89,7 @@ describe("VtIcon", () => {
         }
       });
       expect(wrapper.contains(VtSuccessIcon)).toBe(true);
+      expect(wrapper.element).toMatchSnapshot();
     });
     it("renders string as class", () => {
       const wrapper = mount(VtIcon, {
@@ -97,6 +98,7 @@ describe("VtIcon", () => {
         }
       });
       expect(wrapper.find("i").classes()).toContain("myString");
+      expect(wrapper.element).toMatchSnapshot();
     });
     it("renders custom component as icon", () => {
       const wrapper = mount(VtIcon, {
@@ -106,6 +108,7 @@ describe("VtIcon", () => {
       });
       expect(wrapper.contains(Simple)).toBe(true);
       expect(wrapper.find(Simple).classes()).toContain(`${VT_NAMESPACE}__icon`);
+      expect(wrapper.element).toMatchSnapshot();
     });
     it("renders custom icon class string", () => {
       const wrapper = mount(VtIcon, {
@@ -116,6 +119,7 @@ describe("VtIcon", () => {
       expect(wrapper.contains("i")).toBe(true);
       expect(wrapper.find("i").classes()).toContain(`${VT_NAMESPACE}__icon`);
       expect(wrapper.find("i").classes()).toContain("my-class");
+      expect(wrapper.element).toMatchSnapshot();
     });
     it("renders custom icon tag", () => {
       const wrapper = mount(VtIcon, {
@@ -126,6 +130,7 @@ describe("VtIcon", () => {
       expect(wrapper.contains("i")).toBe(false);
       expect(wrapper.contains("span")).toBe(true);
       expect(wrapper.find("span").classes()).toContain("my-class");
+      expect(wrapper.element).toMatchSnapshot();
     });
     it("renders custom icon children", () => {
       const wrapper = mount(VtIcon, {
@@ -135,6 +140,7 @@ describe("VtIcon", () => {
       });
       expect(wrapper.contains("i")).toBe(true);
       expect(wrapper.text()).toBe("my child");
+      expect(wrapper.element).toMatchSnapshot();
     });
   });
   it("trimValue trims string", () => {
