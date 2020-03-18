@@ -1,7 +1,20 @@
-import { Component } from "vue";
-import ToastInterface from "@/ts/interface";
-import { TYPE, POSITION } from "@/ts/constants";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import Vue, { Component, VNode } from "vue";
+import ToastInterface from "../ts/interface";
+import { TYPE, POSITION } from "../ts/constants";
 import { CombinedVueInstance } from "vue/types/vue";
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    type Element = VNode;
+    type ElementClass = Vue;
+    interface IntrinsicElements {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      [elem: string]: any;
+    }
+  }
+}
 
 export type ToastID = string | number;
 

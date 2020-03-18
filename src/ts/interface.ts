@@ -1,12 +1,12 @@
 import _Vue from "vue";
-import ToastContainer from "@/components/VtToastContainer.vue";
+import ToastContainer from "../components/VtToastContainer.vue";
 import {
   ToastContent,
   ToastOptions,
   ToastID,
   PluginOptions,
   ToastOptionsAndRequiredContent
-} from "@/types";
+} from "../types";
 import events from "./events";
 import { TYPE, EVENTS } from "./constants";
 import { getId, isUndefined } from "./utils";

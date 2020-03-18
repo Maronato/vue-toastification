@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
-import VtProgressBar from "@/components/VtProgressBar.vue";
-import { VT_NAMESPACE } from "@/ts/constants";
+import VtProgressBar from "../../../src/components/VtProgressBar.vue";
+import { VT_NAMESPACE } from "../../../src/ts/constants";
 
 describe("VtProgressBar", () => {
   it("matches snapshot", () => {

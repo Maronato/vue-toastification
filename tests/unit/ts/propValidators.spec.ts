@@ -1,4 +1,4 @@
-import PROPS from "@/ts/propValidators";
+import PROPS from "../../../src/ts/propValidators";
 
 describe("CONTAINER props", () => {
   it("default CONTAINER.container is document.body", () => {

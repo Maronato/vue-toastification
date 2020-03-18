@@ -5,8 +5,8 @@ import {
   Wrapper,
   WrapperArray
 } from "@vue/test-utils";
-import Toast, { POSITION } from "@/index";
-import { PluginOptions } from "@/types";
+import Toast, { POSITION } from "../../src/index";
+import { PluginOptions } from "../../src/types";
 
 const withGetToasts = <T extends Wrapper<Vue>>(wrapper: T) => {
   /* istanbul ignore next */

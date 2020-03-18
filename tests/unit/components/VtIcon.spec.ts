@@ -1,10 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { TYPE, VT_NAMESPACE } from "@/ts/constants";
-import VtIcon from "@/components/VtIcon.vue";
-import VtSuccessIcon from "@/components/icons/VtSuccessIcon.vue";
-import VtInfoIcon from "@/components/icons/VtInfoIcon.vue";
-import VtWarningIcon from "@/components/icons/VtWarningIcon.vue";
-import VtErrorIcon from "@/components/icons/VtErrorIcon.vue";
+import { TYPE, VT_NAMESPACE } from "../../../src/ts/constants";
+import VtIcon from "../../../src/components/VtIcon.vue";
+import VtSuccessIcon from "../../../src/components/icons/VtSuccessIcon.vue";
+import VtInfoIcon from "../../../src/components/icons/VtInfoIcon.vue";
+import VtWarningIcon from "../../../src/components/icons/VtWarningIcon.vue";
+import VtErrorIcon from "../../../src/components/icons/VtErrorIcon.vue";
 import Simple from "../../utils/components/Simple.vue";
 
 describe("VtIcon", () => {

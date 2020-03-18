@@ -19,16 +19,16 @@
 <script lang="ts">
 import Vue from "vue";
 
-import events from "@/ts/events";
-import { EVENTS, POSITION, VT_NAMESPACE } from "@/ts/constants";
-import PROPS from "@/ts/propValidators";
+import events from "../ts/events";
+import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants";
+import PROPS from "../ts/propValidators";
 import {
   PluginOptions,
   ToastID,
   ToastOptionsAndContent,
   ToastOptionsAndRequiredContent
-} from "@/types";
-import { removeElement, isUndefined } from "@/ts/utils";
+} from "../types";
+import { removeElement, isUndefined } from "../ts/utils";
 
 import Toast from "./VtToast.vue";
 import Transition from "./VtTransition.vue";

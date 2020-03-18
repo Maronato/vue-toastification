@@ -40,9 +40,9 @@
 <script lang="ts">
 import Vue from "vue";
 
-import events from "@/ts/events";
-import { EVENTS, VT_NAMESPACE } from "@/ts/constants";
-import PROPS from "@/ts/propValidators";
+import events from "../ts/events";
+import { EVENTS, VT_NAMESPACE } from "../ts/constants";
+import PROPS from "../ts/propValidators";
 import {
   removeElement,
   getVueComponentFromObj,
@@ -50,7 +50,7 @@ import {
   getX,
   getY,
   isDOMRect
-} from "@/ts/utils";
+} from "../ts/utils";
 
 import ProgressBar from "./VtProgressBar.vue";
 import CloseButton from "./VtCloseButton.vue";

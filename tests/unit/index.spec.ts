@@ -1,5 +1,5 @@
 import { createLocalVue } from "@vue/test-utils";
-import Toast from "@/index";
+import Toast from "../../src/index";
 
 describe("Toast Plugin", () => {
   it("Loads plugin", () => {

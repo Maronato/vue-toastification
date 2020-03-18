@@ -1,9 +1,9 @@
 import { createLocalVue } from "@vue/test-utils";
-import ToastInterface from "@/ts/interface";
-import { EVENTS, TYPE } from "@/ts/constants";
-import events from "@/ts/events";
+import ToastInterface from "../../../src/ts/interface";
+import { EVENTS, TYPE } from "../../../src/ts/constants";
+import events from "../../../src/ts/events";
 import { loadPlugin } from "../../utils/plugin";
-import { ToastOptions } from "@/types";
+import { ToastOptions } from "../../../src/types";
 
 describe("ToastInterface", () => {
   let localVue: ReturnType<typeof loadPlugin>["localVue"],

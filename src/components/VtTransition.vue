@@ -21,7 +21,7 @@
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
 import Vue from "vue";
 
-import PROPS from "@/ts/propValidators";
+import PROPS from "../ts/propValidators";
 
 export default Vue.extend({
   inheritAttrs: false,
