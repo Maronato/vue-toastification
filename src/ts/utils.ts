@@ -1,9 +1,14 @@
-import Vue from "vue";
-import { ToastComponent, ToastContent, RenderableToastContent } from "../types";
+import Vue, { Component } from "vue";
+import { ToastComponent, ToastContent, RenderableToastContent } from "@/types";
 
 interface DictionaryLike {
   [index: string]: unknown;
 }
+
+/**
+ * Utility type to declare an extended Vue constructor
+ */
+type VueClass<V extends Vue> = (new (...args: unknown[]) => V) & typeof Vue;
 
 const isFunction = (value: unknown): value is Function =>
   typeof value === "function";
@@ -12,6 +17,8 @@ const isString = (value: unknown): value is string => typeof value === "string";
 
 const isNonEmptyString = (value: unknown): value is string =>
   isString(value) && value.trim().length > 0;
+
+const isNumber = (value: unknown): value is number => typeof value === "number";
 
 const isUndefined = (value: unknown): value is undefined =>
   typeof value === "undefined";
@@ -28,19 +35,37 @@ const isTouchEvent = (event: Event): event is TouchEvent =>
 const isToastComponent = (obj: unknown): obj is ToastComponent =>
   hasProp(obj, "component") && isToastContent(obj.component);
 
-const isVueInstance = <O extends unknown>(
+const isConstructor = (c: unknown): c is VueClass<Vue> => {
+  return isFunction(c) && hasProp(c, "cid");
+};
+
+const isVueComponent = (c: unknown): c is Component => {
+  if (isConstructor(c)) {
+    return true;
+  }
+  if (!isObject(c)) {
+    return false;
+  }
+  if (c.extends || c._Ctor) {
+    return true;
+  }
+  if (isString(c.template)) {
+    return true;
+  }
+  return hasRenderFunction(c);
+};
+
+const isVueInstanceOrComponent = <O extends unknown>(
   obj: O
-): obj is O & (Vue | { prototype: Vue }) =>
-  obj instanceof Vue ||
-  (hasProp(obj, "prototype") && obj.prototype instanceof Vue);
+): obj is O & Component => obj instanceof Vue || isVueComponent(obj);
 
 const isToastContent = (obj: unknown): obj is ToastContent =>
   // Ignore undefined
   !isUndefined(obj) &&
   // Is a string
   (isString(obj) ||
-    // Regular Vue instances
-    isVueInstance(obj) ||
+    // Regular Vue instance or component
+    isVueInstanceOrComponent(obj) ||
     // Object with a render function
     hasRenderFunction(obj) ||
     // JSX template
@@ -48,10 +73,20 @@ const isToastContent = (obj: unknown): obj is ToastContent =>
     // Nested object
     isToastComponent(obj));
 
+const isDOMRect = (obj: unknown): obj is DOMRect =>
+  isObject(obj) &&
+  isNumber(obj.height) &&
+  isNumber(obj.width) &&
+  isNumber(obj.right) &&
+  isNumber(obj.left) &&
+  isNumber(obj.top) &&
+  isNumber(obj.bottom);
+
 const hasProp = <O extends unknown, K extends PropertyKey>(
   obj: O,
   propKey: K
-): obj is O & { [key in K]: unknown } => isObject(obj) && propKey in obj;
+): obj is O & { [key in K]: unknown } =>
+  Object.prototype.hasOwnProperty.call(obj, propKey);
 
 const hasRenderFunction = <O extends unknown>(
   obj: O
@@ -106,5 +141,6 @@ export {
   isToastContent,
   getVueComponentFromObj,
   hasProp,
-  isUndefined
+  isUndefined,
+  isDOMRect
 };

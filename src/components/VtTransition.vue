@@ -21,7 +21,7 @@
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
 import Vue from "vue";
 
-import PROPS from "../ts/propValidators";
+import PROPS from "@/ts/propValidators";
 
 export default Vue.extend({
   inheritAttrs: false,
@@ -61,7 +61,6 @@ export default Vue.extend({
       el.style.left = el.offsetLeft + "px";
       el.style.top = el.offsetTop + "px";
       el.style.position = "absolute";
-      return this;
     },
     cleanUpStyles(el: HTMLElement) {
       el.style.animationFillMode = "";

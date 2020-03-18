@@ -1,25 +1,34 @@
 import _Vue from "vue";
-import ToastContainer from "../components/VtToastContainer.vue";
+import ToastContainer from "@/components/VtToastContainer.vue";
+import {
+  ToastContent,
+  ToastOptions,
+  ToastID,
+  PluginOptions,
+  ToastOptionsAndRequiredContent
+} from "@/types";
 import events from "./events";
 import { TYPE, EVENTS } from "./constants";
-import { getId } from "./utils";
-import { ToastContent, ToastOptions, ToastID, PluginOptions } from "../types";
+import { getId, isUndefined } from "./utils";
 
 const ToastInterface = (Vue: typeof _Vue, globalOptions?: PluginOptions) => {
-  new (Vue.extend(ToastContainer))({
+  const containerComponent = new (Vue.extend(ToastContainer))({
     el: document.createElement("div"),
     propsData: globalOptions
   });
+  const onMounted = globalOptions?.onMounted;
+  if (!isUndefined(onMounted)) {
+    onMounted(containerComponent);
+  }
   /**
    * Display a toast
    */
   const toast = (content: ToastContent, options?: ToastOptions): ToastID => {
-    const props = Object.assign(
-      {},
-      { id: getId(), type: TYPE.DEFAULT },
-      options,
-      { content }
-    );
+    const props: ToastOptionsAndRequiredContent & {
+      id: ToastID;
+    } = Object.assign({}, { id: getId(), type: TYPE.DEFAULT }, options, {
+      content
+    });
     events.$emit(EVENTS.ADD, props);
     return props.id;
   };
@@ -42,17 +51,28 @@ const ToastInterface = (Vue: typeof _Vue, globalOptions?: PluginOptions) => {
   /**
    * Update Toast
    */
-  toast.update = (
+  function updateToast(
+    id: ToastID,
+    { content, options }: { content?: ToastContent; options?: ToastOptions },
+    create?: false
+  ): void;
+  function updateToast(
+    id: ToastID,
+    { content, options }: { content: ToastContent; options?: ToastOptions },
+    create?: true
+  ): void;
+  function updateToast(
     id: ToastID,
     { content, options }: { content?: ToastContent; options?: ToastOptions },
     create = false
-  ) => {
+  ): void {
     events.$emit(EVENTS.UPDATE, {
       id,
       options: Object.assign({}, options, { content }),
       create
     });
-  };
+  }
+  toast.update = updateToast;
   /**
    * Display a success toast
    */

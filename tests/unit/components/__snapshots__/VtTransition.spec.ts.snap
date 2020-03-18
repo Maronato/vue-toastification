@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VtTransition snapshots default values 1`] = `<div />`;
+
+exports[`VtTransition transition-group has custom classes 1`] = `<div />`;

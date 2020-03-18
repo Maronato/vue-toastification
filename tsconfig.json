@@ -4,8 +4,7 @@
     "moduleResolution": "node",
     "target": "es2015",
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "strict": true,
     "outDir": "dist",
     "declaration": true,
     "declarationDir": "dist/types",
@@ -13,14 +12,20 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "experimentalDecorators": true,
     "jsx": "preserve",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@tests/*": [
+        "tests/*"
+      ]
+    },
+    "baseUrl": "."
   },
   "include": [
-    "src"
+    "src",
+    "tests"
   ],
-  "exclude": [
-    "node_modules",
-    "test/**/*"
-  ]
+  "exclude": ["node_modules"]
 }
