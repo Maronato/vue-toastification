@@ -146,6 +146,8 @@ Vue.$toast("My toast content", {
 ### Nuxt registration
 Vue Toastification comes with full Nuxt and Nuxt Typescript support.
 
+> **Note:** As a _client_ library, Vue Toastification does not support SSR, so the object `$toast` will **not** be available on the server, only on the client.
+
 To use it, register it as a Nuxt module:
 ```js
 // nuxt.config.js
