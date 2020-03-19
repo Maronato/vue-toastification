@@ -88,6 +88,8 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 Need some more convincing? Check out the [demo](https://maronato.github.io/vue-toastification/)
 
 
+You can also check some [examples](https://github.com/Maronato/vue-toastification/tree/master/examples).
+
 
 ## Installation
 
