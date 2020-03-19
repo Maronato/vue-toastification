@@ -14,9 +14,7 @@ const toastModule = function(moduleOptions) {
     src: path.resolve(__dirname, "plugin.js"),
     fileName: "toast.js",
     ssr: false,
-    options: {
-      options
-    }
+    options
   });
 
   // Add the CSS file if cssFile is a valid string

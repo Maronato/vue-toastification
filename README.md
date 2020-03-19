@@ -174,6 +174,20 @@ export default {
 }
 ```
 
+If you are using Typescript with Nuxt, you may need to add `"vue-toastification/nuxt"` to your external types list to fully load them. e.g.:
+```json
+// tsconfig.json
+
+{
+  "compilerOptions": {
+    "types": [
+      "vue-toastification/nuxt"
+    ]
+  }
+}
+```
+
+
 #### Injecting the Toast CSS
 By default, when you register the module within Nuxt it automatically injects the CSS required to display the toasts using the default `vue-toastification/dist/index.css` file.
 
