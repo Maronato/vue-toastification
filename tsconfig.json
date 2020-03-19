@@ -12,11 +12,18 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "types": [
+      "@nuxt/types",
+      "vuex/types/index",
+      "@types/jest"
+    ],
+    "resolveJsonModule": true
   },
   "include": [
     "src",
-    "tests"
+    "tests",
+    "nuxt"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./nuxt/plugin.js"]
 }
