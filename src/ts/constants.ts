@@ -1,4 +1,4 @@
-export enum TYPE {
+export const enum TYPE {
   SUCCESS = "success",
   ERROR = "error",
   WARNING = "warning",

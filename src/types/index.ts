@@ -82,7 +82,16 @@ export interface CommonOptions {
   closeButtonClassName?: string | string[];
 }
 
-export interface PluginOptions extends CommonOptions {
+type ToastTypeDefaults = {
+  /**
+   *  Default toast options indexed by type of the toast.
+   *
+   *  Key can be any of `success error default info warning`
+   */
+  [key in TYPE]?: ToastOptions;
+};
+
+export interface PluginOptions extends CommonOptions, ToastTypeDefaults {
   /**
    * Container where the toasts are mounted.
    */
