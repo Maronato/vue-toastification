@@ -210,12 +210,34 @@ export type ToastOptionsAndRequiredContent = ToastOptions & {
   content: ToastContent;
 };
 
+export interface NuxtModuleOptions extends PluginOptions {
+  /**
+   * Path to the CSS file containing styles for the toasts.
+   * By default it is original Vue Toastification CSS file.
+   *
+   * If set to false, no CSS file is injected.
+   */
+  cssFile?: string | false;
+}
+
 declare module "vue/types/vue" {
   interface Vue {
     $toast: ReturnType<typeof ToastInterface>;
   }
 
   interface VueConstructor {
+    $toast: ReturnType<typeof ToastInterface>;
+  }
+}
+
+declare module "@nuxt/types" {
+  interface NuxtAppOptions {
+    $toast: ReturnType<typeof ToastInterface>;
+  }
+}
+
+declare module "vuex/types/index" {
+  interface Store<S> {
     $toast: ReturnType<typeof ToastInterface>;
   }
 }

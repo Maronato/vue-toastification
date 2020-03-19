@@ -19,6 +19,9 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
   - [Demo](#demo)
   - [Installation](#installation)
   - [Usage](#usage)
+    - [Plugin registration](#plugin-registration)
+    - [Nuxt registration](#nuxt-registration)
+      - [Injecting the Toast CSS](#injecting-the-toast-css)
     - [Positioning the Toast](#positioning-the-toast)
     - [Toast types](#toast-types)
     - [Setting the toast timeout](#setting-the-toast-timeout)
@@ -63,11 +66,13 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 
 ## Features
 
+- Built-in Nuxt support
+- Fully written in Typescript with full types support
 - Easy to set up for real, you can make it work in less than 10sec!
 - Customize everything
 - Swipe to close 👌
 - Use your custom components or JSX as the toast body for endless possibilities!
-- Create custom experiences with the `onClose` and `onClick` hooks
+- Create custom experiences with `onClose`, `onClick`, and `onMounted` hooks
 - Custom toast filtering and enqueueing with lifecycle hooks
 - Remove toasts programmatically
 - Update toasts programmatically
@@ -95,6 +100,8 @@ $ npm install --save vue-toastification
 
 ## Usage
 
+### Plugin registration
+
 Add it as a Vue plugin:
 
 ```javascript
@@ -110,8 +117,6 @@ const options = {
 
 Vue.use(Toast, options);
 ```
-
-
 
 And then just call it in your components with
 
@@ -137,6 +142,76 @@ Vue.$toast("My toast content", {
     timeout: 2000
 });
 ```
+
+### Nuxt registration
+Vue Toastification comes with full Nuxt and Nuxt Typescript support.
+
+> **Note:** As a _client_ library, Vue Toastification does not support SSR, so the object `$toast` will **not** be available on the server, only on the client.
+
+To use it, register it as a Nuxt module:
+```js
+// nuxt.config.js
+
+export default {
+  // ...
+  modules: [
+    // With default plugin options
+    "vue-toastification/nuxt",
+
+    // You can also pass plugin options
+    ["vue-toastification/nuxt", {
+      timeout: 1000,
+      draggable: false
+    }]
+  ],
+
+  // Or pass options through the "toast" key
+  toast: {
+    timeout: 2000,
+    closeOnClick: false
+  }
+  // ...
+}
+```
+
+If you are using Typescript with Nuxt, you may need to add `"vue-toastification/nuxt"` to your external types list to fully load them. e.g.:
+```json
+// tsconfig.json
+
+{
+  "compilerOptions": {
+    "types": [
+      "vue-toastification/nuxt"
+    ]
+  }
+}
+```
+
+
+#### Injecting the Toast CSS
+By default, when you register the module within Nuxt it automatically injects the CSS required to display the toasts using the default `vue-toastification/dist/index.css` file.
+
+If you have your own CSS file, you can instruct the module to inject it instead by providing its absolute path through the `cssFile` option. You can also disable CSS injection by setting `cssFile: false`:
+```js
+// nuxt.config.js
+
+export default {
+  // ...
+  modules: [
+    "vue-toastification/nuxt",
+  ],
+
+  toast: {
+    // Use your own CSS file
+    cssFile: "path/to/your/file.scss",
+    // Or disable CSS injection
+    cssFile: false
+  }
+  // ...
+}
+```
+
+If your CSS file is actually an SCSS or SASS file, just make sure that you have the correct loaders installed. See [Nuxt docs](https://nuxtjs.org/api/configuration-css) on that.
 
 ### Positioning the Toast
 
