@@ -28,12 +28,14 @@
   "types": "dist/types/src/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "nuxt"
   ],
   "style": "dist/index.css",
   "dependencies": {},
   "devDependencies": {
     "@mdi/font": "^5.0.45",
+    "@nuxt/types": "^0.6.4",
     "@types/vue": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
@@ -54,6 +56,7 @@
     "fibers": "^4.0.2",
     "jest-serializer-vue": "^2.0.2",
     "lint-staged": "10.0.8",
+    "nuxt": "^2.12.0",
     "prettier": "^1.19.1",
     "rollup": "^2.0.6",
     "rollup-plugin-commonjs": "^10.1.0",
@@ -68,7 +71,8 @@
     "vue": "^2.6.11",
     "vue-prism-component": "^1.1.1",
     "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.2.17"
+    "vuetify": "^2.2.17",
+    "vuex": "^3.1.3"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
