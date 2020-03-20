@@ -97,6 +97,12 @@ export interface CommonOptions {
      */
     closeButtonLabel?: string;
   };
+  /**
+   * Right-to-Left support.
+   *
+   * If true, switches the toast contents from right to left. Defaults to false.
+   */
+  rtl?: boolean;
 }
 
 export interface PluginOptions extends CommonOptions {

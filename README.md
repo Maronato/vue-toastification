@@ -37,6 +37,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
       - [Custom toast classes](#custom-toast-classes)
       - [Custom toast container classes](#custom-toast-container-classes)
       - [Override SCSS variables](#override-scss-variables)
+    - [Right to left support](#right-to-left-support)
     - [Transitions](#transitions)
     - [Custom transitions](#custom-transitions)
       - [Named transitions](#named-transitions)
@@ -68,6 +69,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 
 - Built-in Nuxt support
 - Fully written in Typescript with full types support
+- RTL support
 - Easy to set up for real, you can make it work in less than 10sec!
 - Customize everything
 - Swipe to close 👌
@@ -526,11 +528,24 @@ import "./yourMainScssFile.scss";
 Vue.use(Toast);
 ```
 
+### Right to left support
+Right to left layouts are also supported. It can be enabled per toast or globally through plugin options:
+```js
+// Set RTL on individual toasts
+this.$toast.success("!detrevnI", { rtl: true });
+
+// Or globally
+Vue.use(Toast, {
+  rtl: true
+});
+```
+
+
 ### Transitions
 Vue Toastification comes with built-in transitions, but you can also customize your own.
 
 Default Usage using the built-in bounce transition:
-```
+```js
 Vue.use(Toast, {
   transition: "Vue-Toastification__bounce",
   maxToasts: 20,
@@ -815,6 +830,7 @@ Vue.use(Toast, { filterToasts });
 | containerClassName     | String or Array of Strings                          | `[]`                                                | Extra CSS class or classes added to each of the Toast containers.                                                                                                                                                         |
 | onMounted              | Function `(containerComponent) => void`             | `undefined`                                         | Callback executed when the Toast container is mounted. Receives the container vue instance as a parameter.                                                                                                                |
 | accessibility          | `{ toastRole?: string; closeButtonLabel?: string }` | `{ toastRole: "alert", closeButtonLabel: "close" }` | Accessibility options. Define the `role` attribute of the toast body and the `aria-label` attribute of the close button.                                                                                                  |
+| rtl                    | Boolean                                             | `false`                                             | Enables Right to Left layout.                                                                                                                                                                                             |
 
 ### Toast (this.$toast)
 | Parameter | Type                                 | Required | Description                                                                                                                                                                     |
@@ -851,6 +867,7 @@ Vue.use(Toast, { filterToasts });
 | closeButton            | `false`, Vue Component, JSX or HTML Tag name        | `"button"`                                          | Custom component that can be used as the close button.                                                                                                                                                                    |
 | showCloseButtonOnHover | Boolean                                             | `false`                                             | Only shows the close button when hovering the toast.                                                                                                                                                                      |
 | accessibility          | `{ toastRole?: string; closeButtonLabel?: string }` | `{ toastRole: "alert", closeButtonLabel: "close" }` | Accessibility options. Define the `role` attribute of the toast body and the `aria-label` attribute of the close button.                                                                                                  |
+| rtl                    | Boolean                                             | `false`                                             | Enables Right to Left layout.                                                                                                                                                                                             |
 
 ⚠️️ _Toast options supersede Plugin Registration props_  ⚠️
 

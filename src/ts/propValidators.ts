@@ -99,7 +99,8 @@ const CORE_TOAST = {
       toastRole: "alert",
       closeButtonLabel: "close"
     })
-  }
+  },
+  rtl: Boolean
 };
 
 const TOAST = {

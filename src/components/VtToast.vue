@@ -93,6 +93,9 @@ export default Vue.extend({
       if (this.disableTransitions) {
         classes.push("disable-transition");
       }
+      if (this.rtl) {
+        classes.push(`${VT_NAMESPACE}__toast--rtl`);
+      }
       return classes;
     },
     bodyClasses(): string[] {

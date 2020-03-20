@@ -284,6 +284,92 @@ exports[`VtToast ui renders default aria role and button aria label 1`] = `
 </div>
 `;
 
+exports[`VtToast ui renders ltr by default 1`] = `
+<div
+  class="Vue-Toastification__toast Vue-Toastification__toast--default top-right"
+>
+  <svg
+    aria-hidden="true"
+    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
+    data-icon="info-circle"
+    data-prefix="fas"
+    focusable="false"
+    role="img"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"
+      fill="currentColor"
+    />
+  </svg>
+   
+  <div
+    class="Vue-Toastification__toast-body"
+    role="alert"
+  >
+    content
+  </div>
+   
+  <button
+    aria-label="close"
+    class="Vue-Toastification__close-button"
+  >
+    
+  ✖
+
+  </button>
+   
+  <div
+    class="Vue-Toastification__progress-bar"
+    style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
+  />
+</div>
+`;
+
+exports[`VtToast ui renders rtl if set 1`] = `
+<div
+  class="Vue-Toastification__toast Vue-Toastification__toast--default top-right Vue-Toastification__toast--rtl"
+>
+  <svg
+    aria-hidden="true"
+    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
+    data-icon="info-circle"
+    data-prefix="fas"
+    focusable="false"
+    role="img"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"
+      fill="currentColor"
+    />
+  </svg>
+   
+  <div
+    class="Vue-Toastification__toast-body"
+    role="alert"
+  >
+    content
+  </div>
+   
+  <button
+    aria-label="close"
+    class="Vue-Toastification__close-button"
+  >
+    
+  ✖
+
+  </button>
+   
+  <div
+    class="Vue-Toastification__progress-bar"
+    style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
+  />
+</div>
+`;
+
 exports[`VtToast ui timeout = false removes progress bar 1`] = `
 <div
   class="Vue-Toastification__toast Vue-Toastification__toast--default top-right"

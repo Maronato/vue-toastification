@@ -19,4 +19,8 @@
     .#{$vt-namespace}__toast:not(:hover) &.show-on-hover {
       opacity: 0;
     }
+    .#{$vt-namespace}__toast--rtl & {
+      padding-left: unset;
+      padding-right: 10px;
+    }
   }
