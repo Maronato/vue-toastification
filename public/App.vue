@@ -173,6 +173,12 @@
                 ></v-switch>
               </v-col>
               <v-col cols="6">
+                <v-switch
+                  v-model="options.rtl"
+                  label="Right to left layout"
+                ></v-switch>
+              </v-col>
+              <v-col cols="6">
                 <v-combobox
                   v-model="options.icon"
                   :hide-no-data="!iconSearch"
@@ -497,7 +503,8 @@ export default {
       icon: {
         text: "Default icons",
         value: true
-      }
+      },
+      rtl: false
     },
     transitionOptions: [
       {
@@ -616,7 +623,8 @@ export default {
   closeButton: ${
     this.options.closeButton ? `"${this.options.closeButton}"` : "false"
   },
-  icon: ${this.toastIconExample}`;
+  icon: ${this.toastIconExample},
+  rtl: ${this.options.rtl}`;
       return options;
     },
     pluginCode() {

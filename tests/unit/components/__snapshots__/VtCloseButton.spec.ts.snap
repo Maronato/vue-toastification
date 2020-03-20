@@ -2,6 +2,7 @@
 
 exports[`VtCloseButton adds 'show-on-hover' class 1`] = `
 <button
+  aria-label="close"
   class="Vue-Toastification__close-button"
 >
   
@@ -12,6 +13,7 @@ exports[`VtCloseButton adds 'show-on-hover' class 1`] = `
 
 exports[`VtCloseButton adds 'show-on-hover' class 2`] = `
 <button
+  aria-label="close"
   class="Vue-Toastification__close-button show-on-hover"
 >
   
@@ -22,6 +24,7 @@ exports[`VtCloseButton adds 'show-on-hover' class 2`] = `
 
 exports[`VtCloseButton adds custom class array 1`] = `
 <button
+  aria-label="close"
   class="Vue-Toastification__close-button my-class my-class2"
 >
   
@@ -32,6 +35,7 @@ exports[`VtCloseButton adds custom class array 1`] = `
 
 exports[`VtCloseButton adds custom class string 1`] = `
 <button
+  aria-label="close"
   class="Vue-Toastification__close-button my-class"
 >
   
@@ -42,6 +46,29 @@ exports[`VtCloseButton adds custom class string 1`] = `
 
 exports[`VtCloseButton matches default snapshot 1`] = `
 <button
+  aria-label="close"
+  class="Vue-Toastification__close-button"
+>
+  
+  ✖
+
+</button>
+`;
+
+exports[`VtCloseButton renders custom aria label 1`] = `
+<button
+  aria-label="text"
+  class="Vue-Toastification__close-button"
+>
+  
+  ✖
+
+</button>
+`;
+
+exports[`VtCloseButton renders default aria label 1`] = `
+<button
+  aria-label="close"
   class="Vue-Toastification__close-button"
 >
   
@@ -52,6 +79,7 @@ exports[`VtCloseButton matches default snapshot 1`] = `
 
 exports[`VtCloseButton string custom component 1`] = `
 <div
+  aria-label="close"
   class="Vue-Toastification__close-button"
 >
   
@@ -62,6 +90,7 @@ exports[`VtCloseButton string custom component 1`] = `
 
 exports[`VtCloseButton vue custom component 1`] = `
 <div
+  aria-label="close"
   class="Vue-Toastification__close-button"
 >
   Example component
