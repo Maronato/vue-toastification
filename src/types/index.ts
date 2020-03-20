@@ -80,6 +80,23 @@ export interface CommonOptions {
    * 	Custom classes applied to the close button of the toast.
    */
   closeButtonClassName?: string | string[];
+  /**
+   * Accessibility options
+   */
+  accessibility?: {
+    /**
+     * Toast accessibility role
+     *
+     * Accessibility option "role" for screen readers. Defaults to "alert".
+     */
+    toastRole?: string;
+    /**
+     * Close button label
+     *
+     * Accessibility option of the closeButton's "label" for screen readers. Defaults to "close".
+     */
+    closeButtonLabel?: string;
+  };
 }
 
 export interface PluginOptions extends CommonOptions {

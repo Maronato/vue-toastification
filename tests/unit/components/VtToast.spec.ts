@@ -91,6 +91,20 @@ describe("VtToast", () => {
       expect(wrapper.contains(VtProgressBar)).toBe(true);
       expect(wrapper.element).toMatchSnapshot();
     });
+    it("renders default aria role and button aria label", () => {
+      const wrapper = mountToast();
+      expect(wrapper.find("[role='alert']").exists()).toBe(true);
+      expect(wrapper.find("button[aria-label='close']").exists()).toBe(true);
+      expect(wrapper.element).toMatchSnapshot();
+    });
+    it("renders custom aria role and button aria label", () => {
+      const wrapper = mountToast({
+        accessibility: { toastRole: "status", closeButtonLabel: "text" }
+      });
+      expect(wrapper.find("[role='status']").exists()).toBe(true);
+      expect(wrapper.find("button[aria-label='text']").exists()).toBe(true);
+      expect(wrapper.element).toMatchSnapshot();
+    });
   });
   describe("classes", () => {
     it("returns default classes", () => {

@@ -9,7 +9,7 @@
     @focus="focusPlay"
   >
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
-    <div :class="bodyClasses">
+    <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
       <template v-if="typeof content === 'string'">{{ content }}</template>
       <component
         :is="getVueComponentFromObj(content)"
@@ -25,6 +25,7 @@
       :component="closeButton"
       :class-names="closeButtonClassName"
       :show-on-hover="showCloseButtonOnHover"
+      :aria-label="accessibility.closeButtonLabel"
       @click.stop="closeToast"
     />
     <ProgressBar
