@@ -196,7 +196,7 @@ export default Vue.extend({
       const element = this.$el as HTMLElement;
       element.addEventListener("touchstart", this.onDragStart);
       element.addEventListener("mousedown", this.onDragStart);
-      addEventListener("touchmove", this.onDragMove);
+      addEventListener("touchmove", this.onDragMove, { passive: false });
       addEventListener("mousemove", this.onDragMove);
       addEventListener("touchend", this.onDragEnd);
       addEventListener("mouseup", this.onDragEnd);
@@ -219,6 +219,7 @@ export default Vue.extend({
     },
     onDragMove(event: TouchEvent | MouseEvent) {
       if (this.beingDragged) {
+        event.preventDefault();
         if (this.isRunning) {
           this.isRunning = false;
         }

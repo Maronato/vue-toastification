@@ -570,6 +570,19 @@ describe("VtToast", () => {
       expect(vm.isRunning).toBe(false);
       expect(vm.dragPos).toEqual({ x: 20, y: 25 });
     });
+    it("event.preventDefault is called if being dragged", () => {
+      const wrapper = mountToast({ draggable: true });
+      wrapper.setData({ beingDragged: false, isRunning: true });
+      wrapper.trigger("mousedown", {
+        clientX: 0,
+        clientY: 0
+      });
+      const event = new MouseEvent("mousemove", { clientX: 10, clientY: 15 });
+      const spyPreventDefault = jest.spyOn(event, "preventDefault");
+      expect(spyPreventDefault).not.toBeCalled();
+      window.dispatchEvent(event);
+      expect(spyPreventDefault).toBeCalled();
+    });
     it("does nothing if not beingDragged", () => {
       const wrapper = mountToast({ draggable: true });
       const docWrapper = createWrapper(document.body);
