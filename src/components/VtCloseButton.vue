@@ -5,7 +5,7 @@
     :class="classes"
     v-on="$listeners"
   >
-    ✖
+    &times;
   </component>
 </template>
 <script lang="ts">
