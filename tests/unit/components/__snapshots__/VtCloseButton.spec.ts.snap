@@ -6,7 +6,7 @@ exports[`VtCloseButton adds 'show-on-hover' class 1`] = `
   class="Vue-Toastification__close-button"
 >
   
-  ✖
+  ×
 
 </button>
 `;
@@ -17,7 +17,7 @@ exports[`VtCloseButton adds 'show-on-hover' class 2`] = `
   class="Vue-Toastification__close-button show-on-hover"
 >
   
-  ✖
+  ×
 
 </button>
 `;
@@ -28,7 +28,7 @@ exports[`VtCloseButton adds custom class array 1`] = `
   class="Vue-Toastification__close-button my-class my-class2"
 >
   
-  ✖
+  ×
 
 </button>
 `;
@@ -39,7 +39,7 @@ exports[`VtCloseButton adds custom class string 1`] = `
   class="Vue-Toastification__close-button my-class"
 >
   
-  ✖
+  ×
 
 </button>
 `;
@@ -50,7 +50,7 @@ exports[`VtCloseButton matches default snapshot 1`] = `
   class="Vue-Toastification__close-button"
 >
   
-  ✖
+  ×
 
 </button>
 `;
@@ -61,7 +61,7 @@ exports[`VtCloseButton renders custom aria label 1`] = `
   class="Vue-Toastification__close-button"
 >
   
-  ✖
+  ×
 
 </button>
 `;
@@ -72,7 +72,7 @@ exports[`VtCloseButton renders default aria label 1`] = `
   class="Vue-Toastification__close-button"
 >
   
-  ✖
+  ×
 
 </button>
 `;
@@ -83,7 +83,7 @@ exports[`VtCloseButton string custom component 1`] = `
   class="Vue-Toastification__close-button"
 >
   
-  ✖
+  ×
 
 </div>
 `;

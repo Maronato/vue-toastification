@@ -32,7 +32,7 @@ exports[`VtToast snapshots renders 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -111,7 +111,7 @@ exports[`VtToast ui has all default sub components 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -140,7 +140,7 @@ exports[`VtToast ui icon = false removes it 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -183,7 +183,7 @@ exports[`VtToast ui renders custom aria role and button aria label 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -230,7 +230,7 @@ exports[`VtToast ui renders custom component 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -273,7 +273,7 @@ exports[`VtToast ui renders default aria role and button aria label 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -316,7 +316,7 @@ exports[`VtToast ui renders ltr by default 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -359,7 +359,7 @@ exports[`VtToast ui renders rtl if set 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
@@ -402,7 +402,7 @@ exports[`VtToast ui timeout = false removes progress bar 1`] = `
     class="Vue-Toastification__close-button"
   >
     
-  ✖
+  ×
 
   </button>
    
