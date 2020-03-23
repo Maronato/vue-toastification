@@ -20,7 +20,7 @@
 import Vue from "vue";
 
 import events from "../ts/events";
-import { EVENTS, POSITION, VT_NAMESPACE, TYPE } from "../ts/constants";
+import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants";
 import PROPS from "../ts/propValidators";
 import {
   PluginOptions,
@@ -92,7 +92,9 @@ export default Vue.extend({
       const props = Object.assign(
         {},
         this.defaults,
-        (params.type && this.defaults[params.type]) || {},
+        params.type &&
+          this.defaults.toastDefaults &&
+          this.defaults.toastDefaults[params.type],
         params
       );
       const filterBeforeCreate = isUndefined(this.defaults.filterBeforeCreate)

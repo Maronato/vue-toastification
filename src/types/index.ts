@@ -83,15 +83,10 @@ export interface CommonOptions {
 }
 
 type ToastTypeDefaults = {
-  /**
-   *  Default toast options indexed by type of the toast.
-   *
-   *  Key can be any of `success error default info warning`
-   */
   [key in TYPE]?: ToastOptions;
 };
 
-export interface PluginOptions extends CommonOptions, ToastTypeDefaults {
+export interface PluginOptions extends CommonOptions {
   /**
    * Container where the toasts are mounted.
    */
@@ -116,6 +111,12 @@ export interface PluginOptions extends CommonOptions, ToastTypeDefaults {
    * Can either be a positive integer for both enter and leave, or an object of shape `{enter: number, leave: number}`.
    */
   transitionDuration?: number | Record<"enter" | "leave", number>;
+  /**
+   *  Toast's defaults object for configuring default toast options for each toast type.
+   *
+   *  Possible object properties can be any of `success error default info warning`
+   */
+  toastDefaults?: ToastTypeDefaults;
   /**
    * Callback to filter toasts during creation
    *
