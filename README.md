@@ -50,6 +50,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
       - [Only show the close button on hover](#only-show-the-close-button-on-hover)
       - [Custom close button component](#custom-close-button-component)
       - [Custom close button classes](#custom-close-button-classes)
+    - [Presetting default toast options per type](#presetting-default-toast-options-per-type)
     - [Updating default options](#updating-default-options)
     - [Custom toast filters](#custom-toast-filters)
       - [`filterBeforeCreate`](#filterbeforecreate)
@@ -718,6 +719,29 @@ this.$toast('With custom classes', {
 });
 ```
 
+### Presetting default toast options per type
+If you want to unify the behaviour throughout the application and **D**on't **R**epeat **Y**ourself, you could extract the default behaviour for each type of toast.
+```javascript
+import Toast, { TYPE } from "vue-toastification";
+
+const options = {
+    toastDefaults: {
+        // ToastOptions object for each type of toast
+        [TYPE.ERROR]: {
+            timeout: 10000,
+            closeButton: false,
+        },
+        [TYPE.SUCCESS]: {
+            timeout: 3000,
+            hideProgressBar: true,
+        }    
+    }
+};
+
+
+Vue.use(Toast, options);
+```
+
 ### Updating default options
 Some options are only available when registering the plugin, like `transition`, `maxToasts` and others. If you need to update those options in runtime, there is a method you can call to update the default options:
 ```javascript
@@ -807,6 +831,7 @@ Vue.use(Toast, { filterToasts });
 | bodyClassName          | String or Array of Strings                   | `[]`                         | Custom classes applied to the body of the toast.                                                                                                                                                                          |
 | hideProgressBar        | Boolean                                      | `false`                      | Whether or not the progress bar is hidden.                                                                                                                                                                                |
 | icon                   | Boolean, String, Object Vue Component or JSX | `true`                       | Custom icon class to be used. When set to `true`, the icon is set automatically depending on the toast type and `false` disables the icon. Object shape is `{ iconClass: String, iconChildren: String, iconTag: String }` |
+| toastDefaults          | Object                                       | `undefined`                  | Toast's defaults object for configuring default toast options for each toast type.                                                                                                                                        |
 | filterBeforeCreate     | Function                                     | `NOOP`                       | Callback to filter toasts before their creation. Takes a `toast` and `toasts` argument and returns a `toast` or `false`                                                                                                   |
 | filterToasts           | Function                                     | `NOOP`                       | Callback to filter created toasts. Takes a list of `toasts` argument and return a filtered list of `toasts`                                                                                                               |
 | closeButtonClassName   | String or Array of Strings                   | `[]`                         | Custom classes applied to the close button of the toast.                                                                                                                                                                  |

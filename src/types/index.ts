@@ -82,7 +82,7 @@ export interface CommonOptions {
   closeButtonClassName?: string | string[];
 }
 
-type ToastTypeDefaults = {
+export type ToastTypeDefaults = {
   [key in TYPE]?: ToastOptions;
 };
 
