@@ -510,7 +510,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
-      wrapper.trigger("blur");
+      window.dispatchEvent(new window.FocusEvent("blur"));
       expect(vm.isRunning).toBe(false);
     });
     it("does not pause on blur if not pauseOnFocusLoss", () => {
@@ -519,7 +519,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
-      wrapper.trigger("blur");
+      window.dispatchEvent(new window.FocusEvent("blur"));
       expect(vm.isRunning).toBe(true);
     });
   });
@@ -531,7 +531,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
-      wrapper.trigger("focus");
+      window.dispatchEvent(new window.FocusEvent("focus"));
       expect(vm.isRunning).toBe(true);
     });
     it("does not resume on focus if not pauseOnFocusLoss", () => {
@@ -541,7 +541,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
-      wrapper.trigger("focus");
+      window.dispatchEvent(new window.FocusEvent("focus"));
       expect(vm.isRunning).toBe(false);
     });
   });

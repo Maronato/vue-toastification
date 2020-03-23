@@ -5,8 +5,6 @@
     @click="clickHandler"
     @mouseenter="hoverPause"
     @mouseleave="hoverPlay"
-    @blur="focusPause"
-    @focus="focusPlay"
   >
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
     <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
@@ -204,6 +202,9 @@ export default Vue.extend({
       addEventListener("mousemove", this.onDragMove);
       addEventListener("touchend", this.onDragEnd);
       addEventListener("mouseup", this.onDragEnd);
+
+      addEventListener("blur", this.focusPause);
+      addEventListener("focus", this.focusPlay);
     },
     draggableCleanup() {
       const element = this.$el as HTMLElement;
@@ -213,6 +214,9 @@ export default Vue.extend({
       removeEventListener("mousemove", this.onDragMove);
       removeEventListener("touchend", this.onDragEnd);
       removeEventListener("mouseup", this.onDragEnd);
+
+      removeEventListener("blur", this.focusPause);
+      removeEventListener("focus", this.focusPlay);
     },
 
     onDragStart(event: TouchEvent | MouseEvent) {
