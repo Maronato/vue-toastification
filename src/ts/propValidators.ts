@@ -9,7 +9,7 @@ import {
   ToastDefaults
 } from "../types";
 import { TYPE, POSITION, VT_NAMESPACE } from "./constants";
-import { PropValidator, RecordPropsDefinition } from "vue/types/options";
+import { RecordPropsDefinition } from "vue/types/options";
 
 const COMMON = {
   type: {
