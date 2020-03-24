@@ -5,11 +5,10 @@ import {
   PluginOptions,
   ToastID,
   ToastOptions,
-  ToastOptionsAndRequiredContent,
-  ToastDefaults
+  ToastOptionsAndRequiredContent
 } from "../types";
 import { TYPE, POSITION, VT_NAMESPACE } from "./constants";
-import { RecordPropsDefinition } from "vue/types/options";
+import { RecordPropsDefinition, PropOptions } from "vue/types/options";
 
 const COMMON = {
   type: {
@@ -98,7 +97,7 @@ const CORE_TOAST: RecordPropsDefinition<CommonOptionsType> = {
   closeButtonClassName: CLOSE_BUTTON.classNames,
   showCloseButtonOnHover: CLOSE_BUTTON.showOnHover,
   accessibility: {
-    type: Object as PropType<PluginOptions["accessibility"]>,
+    type: Object as PropType<NonNullable<PluginOptions["accessibility"]>>,
     default: () => ({
       toastRole: "alert",
       closeButtonLabel: "close"
@@ -139,7 +138,9 @@ const CONTAINER: RecordPropsDefinition<PluginOptionsType> = {
   },
   transition: TRANSITION.transition,
   transitionDuration: TRANSITION.transitionDuration,
-  toastDefaults: Object as PropType<ToastDefaults>,
+  toastDefaults: Object as PropType<
+    NonNullable<PluginOptions["toastDefaults"]>
+  >,
   filterBeforeCreate: Function as PropType<
     NonNullable<PluginOptions["filterBeforeCreate"]>
   >,

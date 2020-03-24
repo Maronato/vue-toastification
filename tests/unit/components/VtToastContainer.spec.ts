@@ -3,8 +3,7 @@ import {
   PluginOptions,
   ToastID,
   ToastOptionsAndContent,
-  ToastOptionsAndRequiredContent,
-  ToastDefaults
+  ToastOptionsAndRequiredContent
 } from "../../../src/types";
 import { POSITION, TYPE, VT_NAMESPACE } from "../../../src/ts/constants";
 
@@ -93,23 +92,22 @@ describe("VtToastContainer", () => {
     });
     it("merges default for toast type with params", () => {
       const filterBeforeCreate = jest.fn(toast => toast);
+      const toastDefaults = {
+        [TYPE.SUCCESS]: {
+          timeout: 1000,
+          closeButton: false as false
+        }
+      };
       const { containerWrapper } = loadPlugin({
         filterBeforeCreate,
-        toastDefaults: {
-          [TYPE.SUCCESS]: {
-            timeout: 1000,
-            closeButton: false
-          }
-        }
+        toastDefaults
       });
       const vm = (containerWrapper.vm as unknown) as {
         addToast(params: ToastOptionsAndRequiredContent): void;
-        defaults: PluginOptions & {
-          toastDefaults: ToastDefaults;
-        };
+        defaults: PluginOptions;
       };
       const toast: ToastOptionsAndRequiredContent & {
-        type: TYPE;
+        type: TYPE.SUCCESS;
       } = {
         type: TYPE.SUCCESS,
         content: "abc"
@@ -117,7 +115,7 @@ describe("VtToastContainer", () => {
       expect(filterBeforeCreate).not.toHaveBeenCalled();
       vm.addToast(toast);
       expect(filterBeforeCreate).toHaveBeenCalledWith(
-        { ...vm.defaults, ...vm.defaults.toastDefaults[toast.type], ...toast },
+        { ...vm.defaults, ...toastDefaults[toast.type], ...toast },
         []
       );
     });

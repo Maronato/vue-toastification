@@ -105,10 +105,6 @@ export interface CommonOptions {
   rtl?: boolean;
 }
 
-export type ToastDefaults = {
-  [key in TYPE]?: ToastOptions;
-};
-
 export interface PluginOptions extends CommonOptions {
   /**
    * Container where the toasts are mounted.
@@ -139,7 +135,7 @@ export interface PluginOptions extends CommonOptions {
    *
    *  Possible object properties can be any of `success error default info warning`
    */
-  toastDefaults?: ToastDefaults;
+  toastDefaults?: Partial<Record<TYPE, ToastOptions>>;
   /**
    * Callback to filter toasts during creation
    *
