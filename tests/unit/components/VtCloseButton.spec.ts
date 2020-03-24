@@ -97,4 +97,18 @@ describe("VtCloseButton", () => {
     wrapper.trigger("click");
     expect(onClick).toHaveBeenCalled();
   });
+  it("renders default aria label", () => {
+    const wrapper = mount(VtCloseButton);
+    expect(wrapper.find("button[aria-label='close']").exists()).toBe(true);
+    expect(wrapper.element).toMatchSnapshot();
+  });
+  it("renders custom aria label", () => {
+    const wrapper = mount(VtCloseButton, {
+      propsData: {
+        ariaLabel: "text"
+      }
+    });
+    expect(wrapper.find("button[aria-label='text']").exists()).toBe(true);
+    expect(wrapper.element).toMatchSnapshot();
+  });
 });

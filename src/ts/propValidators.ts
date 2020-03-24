@@ -44,7 +44,11 @@ const CLOSE_BUTTON = {
     default: "button" as keyof HTMLElementTagNameMap
   },
   classNames: COMMON.classNames,
-  showOnHover: Boolean
+  showOnHover: Boolean,
+  ariaLabel: {
+    type: String,
+    default: "close"
+  }
 };
 
 const PROGRESS_BAR = {
@@ -92,7 +96,15 @@ const CORE_TOAST: RecordPropsDefinition<CommonOptionsType> = {
   icon: ICON.customIcon,
   closeButton: CLOSE_BUTTON.component,
   closeButtonClassName: CLOSE_BUTTON.classNames,
-  showCloseButtonOnHover: CLOSE_BUTTON.showOnHover
+  showCloseButtonOnHover: CLOSE_BUTTON.showOnHover,
+  accessibility: {
+    type: Object as PropType<PluginOptions["accessibility"]>,
+    default: () => ({
+      toastRole: "alert",
+      closeButtonLabel: "close"
+    })
+  },
+  rtl: Boolean
 };
 
 type ToastOptionsType = Required<

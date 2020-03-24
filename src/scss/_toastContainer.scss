@@ -30,6 +30,10 @@
       .#{$vt-namespace}__toast {
         margin-right: auto;
       }
+      .#{$vt-namespace}__toast--rtl {
+        margin-right: unset;
+        margin-left: auto;
+      }
     }
 
     &.top-right,
@@ -37,6 +41,10 @@
       right: 1em;
       .#{$vt-namespace}__toast {
         margin-left: auto;
+      }
+      .#{$vt-namespace}__toast--rtl {
+        margin-left: unset;
+        margin-right: auto;
       }
     }
 

@@ -36,7 +36,7 @@ import Transition from "./VtTransition.vue";
 export default Vue.extend({
   components: { Toast, Transition },
 
-  props: Object.assign({}, PROPS.CORE_TOAST, PROPS.CONTAINER),
+  props: Object.assign({}, PROPS.CORE_TOAST, PROPS.CONTAINER, PROPS.TRANSITION),
 
   data() {
     const data: {
