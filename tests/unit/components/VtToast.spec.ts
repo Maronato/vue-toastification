@@ -91,6 +91,34 @@ describe("VtToast", () => {
       expect(wrapper.contains(VtProgressBar)).toBe(true);
       expect(wrapper.element).toMatchSnapshot();
     });
+    it("renders default aria role and button aria label", () => {
+      const wrapper = mountToast();
+      expect(wrapper.find("[role='alert']").exists()).toBe(true);
+      expect(wrapper.find("button[aria-label='close']").exists()).toBe(true);
+      expect(wrapper.element).toMatchSnapshot();
+    });
+    it("renders custom aria role and button aria label", () => {
+      const wrapper = mountToast({
+        accessibility: { toastRole: "status", closeButtonLabel: "text" }
+      });
+      expect(wrapper.find("[role='status']").exists()).toBe(true);
+      expect(wrapper.find("button[aria-label='text']").exists()).toBe(true);
+      expect(wrapper.element).toMatchSnapshot();
+    });
+    it("renders ltr by default", () => {
+      const wrapper = mountToast();
+      expect(wrapper.find(`div.${VT_NAMESPACE}__toast--rtl`).exists()).toBe(
+        false
+      );
+      expect(wrapper.element).toMatchSnapshot();
+    });
+    it("renders rtl if set", () => {
+      const wrapper = mountToast({ rtl: true });
+      expect(wrapper.find(`div.${VT_NAMESPACE}__toast--rtl`).exists()).toBe(
+        true
+      );
+      expect(wrapper.element).toMatchSnapshot();
+    });
   });
   describe("classes", () => {
     it("returns default classes", () => {
@@ -569,6 +597,19 @@ describe("VtToast", () => {
       expect(vm.beingDragged).toBe(true);
       expect(vm.isRunning).toBe(false);
       expect(vm.dragPos).toEqual({ x: 20, y: 25 });
+    });
+    it("event.preventDefault is called if being dragged", () => {
+      const wrapper = mountToast({ draggable: true });
+      wrapper.setData({ beingDragged: false, isRunning: true });
+      wrapper.trigger("mousedown", {
+        clientX: 0,
+        clientY: 0
+      });
+      const event = new MouseEvent("mousemove", { clientX: 10, clientY: 15 });
+      const spyPreventDefault = jest.spyOn(event, "preventDefault");
+      expect(spyPreventDefault).not.toBeCalled();
+      window.dispatchEvent(event);
+      expect(spyPreventDefault).toBeCalled();
     });
     it("does nothing if not beingDragged", () => {
       const wrapper = mountToast({ draggable: true });

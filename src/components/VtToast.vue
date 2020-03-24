@@ -9,7 +9,7 @@
     @focus="focusPlay"
   >
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
-    <div :class="bodyClasses">
+    <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
       <template v-if="typeof content === 'string'">{{ content }}</template>
       <component
         :is="getVueComponentFromObj(content)"
@@ -25,6 +25,7 @@
       :component="closeButton"
       :class-names="closeButtonClassName"
       :show-on-hover="showCloseButtonOnHover"
+      :aria-label="accessibility.closeButtonLabel"
       @click.stop="closeToast"
     />
     <ProgressBar
@@ -91,6 +92,9 @@ export default Vue.extend({
       ].concat(this.toastClassName);
       if (this.disableTransitions) {
         classes.push("disable-transition");
+      }
+      if (this.rtl) {
+        classes.push(`${VT_NAMESPACE}__toast--rtl`);
       }
       return classes;
     },
@@ -196,7 +200,7 @@ export default Vue.extend({
       const element = this.$el as HTMLElement;
       element.addEventListener("touchstart", this.onDragStart);
       element.addEventListener("mousedown", this.onDragStart);
-      addEventListener("touchmove", this.onDragMove);
+      addEventListener("touchmove", this.onDragMove, { passive: false });
       addEventListener("mousemove", this.onDragMove);
       addEventListener("touchend", this.onDragEnd);
       addEventListener("mouseup", this.onDragEnd);
@@ -219,6 +223,7 @@ export default Vue.extend({
     },
     onDragMove(event: TouchEvent | MouseEvent) {
       if (this.beingDragged) {
+        event.preventDefault();
         if (this.isRunning) {
           this.isRunning = false;
         }

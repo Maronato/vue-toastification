@@ -1,6 +1,7 @@
 .#{$vt-namespace}__close-button {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 24px;
+    line-height: 24px;
     background: transparent;
     outline: none;
     border: none;
@@ -18,5 +19,9 @@
     }
     .#{$vt-namespace}__toast:not(:hover) &.show-on-hover {
       opacity: 0;
+    }
+    .#{$vt-namespace}__toast--rtl & {
+      padding-left: unset;
+      padding-right: 10px;
     }
   }

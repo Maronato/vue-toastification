@@ -8,4 +8,7 @@
   align-items: center;
   width: 20px;
   height: 100%;
+  .#{$vt-namespace}__toast--rtl & {
+    margin: auto 0px auto 18px;
+  }
 }

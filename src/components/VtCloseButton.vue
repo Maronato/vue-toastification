@@ -1,6 +1,11 @@
 <template>
-  <component :is="buttonComponent" :class="classes" v-on="$listeners">
-    ✖
+  <component
+    :aria-label="ariaLabel"
+    :is="buttonComponent"
+    :class="classes"
+    v-on="$listeners"
+  >
+    &times;
   </component>
 </template>
 <script lang="ts">

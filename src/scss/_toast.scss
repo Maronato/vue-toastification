@@ -14,6 +14,10 @@
     min-width: $vt-toast-min-width;
     pointer-events: auto;
     overflow: hidden;
+    direction: ltr;
+    &--rtl {
+      direction: rtl;
+    }
 
     &--default {
       background-color: $vt-color-default;
