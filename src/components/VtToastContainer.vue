@@ -89,7 +89,14 @@ export default Vue.extend({
       }
     },
     addToast(params: ToastOptionsAndRequiredContent) {
-      const props = Object.assign({}, this.defaults, params);
+      const props = Object.assign(
+        {},
+        this.defaults,
+        params.type &&
+          this.defaults.toastDefaults &&
+          this.defaults.toastDefaults[params.type],
+        params
+      );
       const filterBeforeCreate = isUndefined(this.defaults.filterBeforeCreate)
         ? (toast: ToastOptionsAndRequiredContent) => toast
         : this.defaults.filterBeforeCreate;

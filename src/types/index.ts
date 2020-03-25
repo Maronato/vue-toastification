@@ -131,6 +131,12 @@ export interface PluginOptions extends CommonOptions {
    */
   transitionDuration?: number | Record<"enter" | "leave", number>;
   /**
+   *  Toast's defaults object for configuring default toast options for each toast type.
+   *
+   *  Possible object properties can be any of `success error default info warning`
+   */
+  toastDefaults?: Partial<Record<TYPE, ToastOptions>>;
+  /**
    * Callback to filter toasts during creation
    *
    * Takes the new toast and a list of the current toasts and returns a modified toast or false.

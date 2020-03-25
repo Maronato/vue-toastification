@@ -4,9 +4,11 @@ import {
   CommonOptions,
   PluginOptions,
   ToastID,
-  ToastOptions
+  ToastOptions,
+  ToastOptionsAndRequiredContent
 } from "../types";
 import { TYPE, POSITION, VT_NAMESPACE } from "./constants";
+import { RecordPropsDefinition } from "vue/types/options";
 
 const COMMON = {
   type: {
@@ -38,7 +40,7 @@ const CLOSE_BUTTON = {
     type: [String, Object, Function, Boolean] as PropType<
       NonNullable<CommonOptions["closeButton"]>
     >,
-    default: "button"
+    default: "button" as keyof HTMLElementTagNameMap
   },
   classNames: COMMON.classNames,
   showOnHover: Boolean,
@@ -72,7 +74,8 @@ const TRANSITION = {
   }
 };
 
-const CORE_TOAST = {
+type CommonOptionsType = Required<CommonOptions>;
+const CORE_TOAST: RecordPropsDefinition<CommonOptionsType> = {
   position: {
     type: String as PropType<POSITION>,
     default: POSITION.TOP_RIGHT
@@ -94,7 +97,7 @@ const CORE_TOAST = {
   closeButtonClassName: CLOSE_BUTTON.classNames,
   showCloseButtonOnHover: CLOSE_BUTTON.showOnHover,
   accessibility: {
-    type: Object as PropType<PluginOptions["accessibility"]>,
+    type: Object as PropType<NonNullable<PluginOptions["accessibility"]>>,
     default: () => ({
       toastRole: "alert",
       closeButtonLabel: "close"
@@ -103,7 +106,10 @@ const CORE_TOAST = {
   rtl: Boolean
 };
 
-const TOAST = {
+type ToastOptionsType = Required<
+  Omit<ToastOptionsAndRequiredContent, keyof CommonOptionsType>
+>;
+const TOAST: RecordPropsDefinition<ToastOptionsType> = {
   id: {
     type: [String, Number] as PropType<ToastID>,
     required: true
@@ -117,25 +123,32 @@ const TOAST = {
   onClose: Function as PropType<NonNullable<ToastOptions["onClose"]>>
 };
 
-const CONTAINER = {
-  newestOnTop: COMMON.trueBoolean,
-  maxToasts: {
-    type: Number,
-    default: 20
-  },
+type PluginOptionsType = Required<Omit<PluginOptions, keyof CommonOptionsType>>;
+const CONTAINER: RecordPropsDefinition<PluginOptionsType> = {
   container: {
     type: (Element as unknown) as PropType<
       NonNullable<PluginOptions["container"]>
     >,
     default: () => document.body
   },
+  newestOnTop: COMMON.trueBoolean,
+  maxToasts: {
+    type: Number,
+    default: 20
+  },
+  transition: TRANSITION.transition,
+  transitionDuration: TRANSITION.transitionDuration,
+  toastDefaults: Object as PropType<
+    NonNullable<PluginOptions["toastDefaults"]>
+  >,
   filterBeforeCreate: Function as PropType<
     NonNullable<PluginOptions["filterBeforeCreate"]>
   >,
   filterToasts: Function as PropType<
     NonNullable<PluginOptions["filterToasts"]>
   >,
-  containerClassName: COMMON.classNames
+  containerClassName: COMMON.classNames,
+  onMounted: Function as PropType<NonNullable<PluginOptions["onMounted"]>>
 };
 
 export default {
