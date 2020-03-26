@@ -121,6 +121,49 @@ describe("VtToastContainer", () => {
     });
     it("uses default filterBeforeCreate if defined", () => {
       const filterBeforeCreate = jest.fn(toast => toast);
+      const toastDefaults = {
+        [TYPE.SUCCESS]: {
+          timeout: 1000,
+          closeButton: false as false
+        }
+      };
+      const { containerWrapper } = loadPlugin({
+        filterBeforeCreate,
+        toastDefaults
+      });
+      const vm = (containerWrapper.vm as unknown) as {
+        addToast(params: ToastOptionsAndRequiredContent): void;
+        defaults: PluginOptions;
+      };
+      const toast: ToastOptionsAndRequiredContent & {
+        type: TYPE.SUCCESS;
+      } = {
+        type: TYPE.SUCCESS,
+        content: "abc"
+      };
+      expect(filterBeforeCreate).not.toHaveBeenCalled();
+      vm.addToast(toast);
+      expect(filterBeforeCreate).toHaveBeenCalledWith(
+        { ...vm.defaults, ...toastDefaults[toast.type], ...toast },
+        []
+      );
+    });
+    it("uses default filterBeforeCreate", () => {
+      const { containerWrapper } = loadPlugin();
+      const vm = (containerWrapper.vm as unknown) as {
+        addToast(params: ToastOptionsAndRequiredContent): void;
+        filterBeforeCreate(
+          toast: ToastOptionsAndRequiredContent
+        ): ToastOptionsAndRequiredContent;
+      };
+      const filterBeforeCreate = jest.spyOn(vm, "filterBeforeCreate");
+      const toast: ToastOptionsAndRequiredContent = { content: "abc" };
+      expect(filterBeforeCreate).not.toHaveBeenCalled();
+      vm.addToast(toast);
+      expect(filterBeforeCreate).toHaveBeenCalled();
+    });
+    it("uses custom filterBeforeCreate", () => {
+      const filterBeforeCreate = jest.fn(toast => toast);
       const { containerWrapper } = loadPlugin({ filterBeforeCreate });
       const vm = (containerWrapper.vm as unknown) as {
         addToast(params: ToastOptionsAndRequiredContent): void;
@@ -129,23 +172,6 @@ describe("VtToastContainer", () => {
       expect(filterBeforeCreate).not.toHaveBeenCalled();
       vm.addToast(toast);
       expect(filterBeforeCreate).toHaveBeenCalled();
-    });
-    it("uses fallback filterBeforeCreate if not defined", () => {
-      const filterBeforeCreate = jest.fn((): false => false);
-      const { containerWrapper, localVue } = loadPlugin({ filterBeforeCreate });
-      localVue.$toast.updateDefaults({ filterBeforeCreate: undefined });
-      const vm = (containerWrapper.vm as unknown) as {
-        setToast(params: ToastOptionsAndRequiredContent): void;
-        addToast(params: ToastOptionsAndRequiredContent): void;
-        defaults: PluginOptions;
-      };
-      const spySetToast = jest.spyOn(vm, "setToast");
-      const toast: ToastOptionsAndRequiredContent = { content: "abc" };
-      expect(filterBeforeCreate).not.toHaveBeenCalled();
-      expect(spySetToast).not.toHaveBeenCalled();
-      vm.addToast(toast);
-      expect(filterBeforeCreate).not.toHaveBeenCalled();
-      expect(spySetToast).toHaveBeenCalledWith({ ...vm.defaults, ...toast });
     });
     it("set toast if passes filterBeforeCreate", () => {
       const { containerWrapper } = loadPlugin();
@@ -462,24 +488,6 @@ describe("VtToastContainer", () => {
       expect(vm.filteredToasts).toEqual([]);
       expect(filterToasts).toHaveBeenCalledTimes(2);
       expect(filterToasts).toHaveBeenCalledWith(vm.toastArray);
-    });
-    it("returns all toasts if filterToasts is undefined", () => {
-      const filterToasts = jest.fn(() => []);
-      expect(filterToasts).not.toHaveBeenCalled();
-      const { containerWrapper } = loadPlugin({ filterToasts });
-      const vm = (containerWrapper.vm as unknown) as {
-        filteredToasts: ToastOptionsAndRequiredContent[];
-        setToast(params: ToastOptionsAndRequiredContent): void;
-        toastArray: ToastOptionsAndRequiredContent[];
-      };
-      expect(filterToasts).toHaveBeenCalledTimes(1);
-      expect(filterToasts).toHaveBeenCalledWith([]);
-      containerWrapper.vm.$toast.updateDefaults({ filterToasts: undefined });
-      vm.setToast({ id: "1", content: "abc" });
-      vm.setToast({ id: "2", content: "def" });
-      expect(filterToasts).toHaveBeenCalledTimes(1);
-      expect(vm.filteredToasts).toEqual(vm.toastArray);
-      expect(filterToasts).toHaveBeenCalledTimes(1);
     });
   });
 });
