@@ -348,9 +348,43 @@ describe("VtToast", () => {
       component.$mount();
       expect(spyOnDraggableSetup).not.toHaveBeenCalled();
     });
+    it("calls focusSetup if this.pauseOnFocusLoss is true", () => {
+      const localVue = createLocalVue();
+      const Constructor = localVue.extend(VtToast);
+      const component = new Constructor({
+        propsData: {
+          pauseOnFocusLoss: true,
+          id: 1,
+          content: "content"
+        }
+      });
+      const loadedComponent = component as { focusSetup(): void };
+      const spyOnFocusSetup = jest.spyOn(loadedComponent, "focusSetup");
+
+      expect(spyOnFocusSetup).not.toHaveBeenCalled();
+      component.$mount();
+      expect(spyOnFocusSetup).toHaveBeenCalled();
+    });
+    it("does not call focusSetup if this.pauseOnFocusLoss is false", () => {
+      const localVue = createLocalVue();
+      const Constructor = localVue.extend(VtToast);
+      const component = new Constructor({
+        propsData: {
+          pauseOnFocusLoss: false,
+          id: 1,
+          content: "content"
+        }
+      });
+      const loadedComponent = component as { focusSetup(): void };
+      const spyOnfocusSetup = jest.spyOn(loadedComponent, "focusSetup");
+
+      expect(spyOnfocusSetup).not.toHaveBeenCalled();
+      component.$mount();
+      expect(spyOnfocusSetup).not.toHaveBeenCalled();
+    });
   });
   describe("beforeDestroy", () => {
-    it("calls draggableSetup if this.draggable is true", () => {
+    it("calls draggableCleanup if this.draggable is true", () => {
       const wrapper = mountToast({ draggable: true });
       const vm = wrapper.vm as {
         draggableCleanup(): void;
@@ -360,7 +394,7 @@ describe("VtToast", () => {
       wrapper.destroy();
       expect(spyOnDraggableCleanup).toHaveBeenCalled();
     });
-    it("does not call draggableSetup if this.draggable is false", () => {
+    it("does not call draggableCleanup if this.draggable is false", () => {
       const wrapper = mountToast({ draggable: false });
       const vm = wrapper.vm as {
         draggableCleanup(): void;
@@ -369,6 +403,26 @@ describe("VtToast", () => {
       expect(spyOnDraggableCleanup).not.toHaveBeenCalled();
       wrapper.destroy();
       expect(spyOnDraggableCleanup).not.toHaveBeenCalled();
+    });
+    it("calls focusCleanup if this.pauseOnFocusLoss is true", () => {
+      const wrapper = mountToast({ pauseOnFocusLoss: true });
+      const vm = wrapper.vm as {
+        focusCleanup(): void;
+      };
+      const spyOnfocusCleanup = jest.spyOn(vm, "focusCleanup");
+      expect(spyOnfocusCleanup).not.toHaveBeenCalled();
+      wrapper.destroy();
+      expect(spyOnfocusCleanup).toHaveBeenCalled();
+    });
+    it("does not call focusCleanup if this.pauseOnFocusLoss is false", () => {
+      const wrapper = mountToast({ pauseOnFocusLoss: false });
+      const vm = wrapper.vm as {
+        focusCleanup(): void;
+      };
+      const spyOnfocusCleanup = jest.spyOn(vm, "focusCleanup");
+      expect(spyOnfocusCleanup).not.toHaveBeenCalled();
+      wrapper.destroy();
+      expect(spyOnfocusCleanup).not.toHaveBeenCalled();
     });
   });
   describe("destroyed", () => {
@@ -510,7 +564,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
-      wrapper.trigger("blur");
+      window.dispatchEvent(new window.FocusEvent("blur"));
       expect(vm.isRunning).toBe(false);
     });
     it("does not pause on blur if not pauseOnFocusLoss", () => {
@@ -519,7 +573,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
-      wrapper.trigger("blur");
+      window.dispatchEvent(new window.FocusEvent("blur"));
       expect(vm.isRunning).toBe(true);
     });
   });
@@ -531,7 +585,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
-      wrapper.trigger("focus");
+      window.dispatchEvent(new window.FocusEvent("focus"));
       expect(vm.isRunning).toBe(true);
     });
     it("does not resume on focus if not pauseOnFocusLoss", () => {
@@ -541,7 +595,7 @@ describe("VtToast", () => {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
-      wrapper.trigger("focus");
+      window.dispatchEvent(new window.FocusEvent("focus"));
       expect(vm.isRunning).toBe(false);
     });
   });

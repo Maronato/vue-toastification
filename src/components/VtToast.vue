@@ -5,8 +5,6 @@
     @click="clickHandler"
     @mouseenter="hoverPause"
     @mouseleave="hoverPlay"
-    @blur="focusPause"
-    @focus="focusPlay"
   >
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
     <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
@@ -144,10 +142,16 @@ export default Vue.extend({
     if (this.draggable) {
       this.draggableSetup();
     }
+    if (this.pauseOnFocusLoss) {
+      this.focusSetup();
+    }
   },
   beforeDestroy() {
     if (this.draggable) {
       this.draggableCleanup();
+    }
+    if (this.pauseOnFocusLoss) {
+      this.focusCleanup();
     }
   },
 
@@ -186,14 +190,19 @@ export default Vue.extend({
       }
     },
     focusPause() {
-      if (this.pauseOnFocusLoss) {
-        this.isRunning = false;
-      }
+      this.isRunning = false;
     },
     focusPlay() {
-      if (this.pauseOnFocusLoss) {
-        this.isRunning = true;
-      }
+      this.isRunning = true;
+    },
+
+    focusSetup() {
+      addEventListener("blur", this.focusPause);
+      addEventListener("focus", this.focusPlay);
+    },
+    focusCleanup() {
+      removeEventListener("blur", this.focusPause);
+      removeEventListener("focus", this.focusPlay);
     },
 
     draggableSetup() {
