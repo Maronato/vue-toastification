@@ -21,7 +21,7 @@ import Vue from "vue";
 
 import events from "../ts/events";
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants";
-import PROPS from "../ts/propValidators";
+import PROPS, { PluginOptionsType } from "../ts/propValidators";
 import {
   PluginOptions,
   ToastID,
@@ -46,12 +46,12 @@ export default Vue.extend({
         [toastId: number]: ToastOptionsAndRequiredContent;
         [toastId: string]: ToastOptionsAndRequiredContent;
       };
-      defaults: PluginOptions;
+      defaults: PluginOptionsType;
     } = {
       count: 0,
       positions: Object.values(POSITION),
       toasts: {},
-      defaults: {}
+      defaults: {} as PluginOptionsType
     };
     return data;
   },
@@ -61,10 +61,7 @@ export default Vue.extend({
       return Object.values(this.toasts);
     },
     filteredToasts(): ToastOptionsAndRequiredContent[] {
-      if (!isUndefined(this.defaults.filterToasts)) {
-        return this.defaults.filterToasts(this.toastArray);
-      }
-      return this.toastArray;
+      return this.defaults.filterToasts(this.toastArray);
     }
   },
 
@@ -75,7 +72,7 @@ export default Vue.extend({
     events.$on(EVENTS.DISMISS, this.dismissToast);
     events.$on(EVENTS.UPDATE, this.updateToast);
     events.$on(EVENTS.UPDATE_DEFAULTS, this.updateDefaults);
-    this.defaults = this.$props;
+    this.defaults = this.$props as PluginOptionsType;
   },
 
   methods: {
@@ -97,10 +94,7 @@ export default Vue.extend({
           this.defaults.toastDefaults[params.type],
         params
       );
-      const filterBeforeCreate = isUndefined(this.defaults.filterBeforeCreate)
-        ? (toast: ToastOptionsAndRequiredContent) => toast
-        : this.defaults.filterBeforeCreate;
-      const toast = filterBeforeCreate(props, this.toastArray);
+      const toast = this.defaults.filterBeforeCreate(props, this.toastArray);
       toast && this.setToast(toast);
     },
     dismissToast(id: ToastID) {
