@@ -14,7 +14,7 @@ assignees: ''
 
 ## Describe the bug
 <!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug -->
-When doing X, the pages breaks...
+When doing X, the page breaks...
 
 ## Expected behavior
 <!-- A clear and concise description of what you expected to happen.

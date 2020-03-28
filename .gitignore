@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
-/dist
-/demo
+dist
+demo
 coverage
 .nyc_output
 
