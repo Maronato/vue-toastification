@@ -1,43 +1,28 @@
----
-name: Bug report
-about: Create a report to help vue-toastification improve
-title: ''
-labels: bug
-assignees: ''
+<!--- Provide a general summary of your changes in the Title above -->
 
----
+## Description
+<!--- Describe your changes in detail -->
 
-## Versions
-<!-- List of versions known to be affected. -->
-- 1.0
-- 2.0
+## Related Issue
+<!--- This project only accepts pull requests related to open issues -->
+<!--- If suggesting a new feature or change, please discuss it in an issue first -->
+<!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
+<!--- Please link to the issue here: -->
 
-## Describe the bug
-<!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug -->
-When doing X, the page breaks...
+## Screenshots or GIFs (if appropriate):
 
-## Expected behavior
-<!-- A clear and concise description of what you expected to happen.
- -->
-Instead of breaking the page, Y should happen...
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
 
-## Steps to reproduce
-<!-- Clear steps to reproduce the bug. Include code if relevant. -->
-<!-- If possible, also include a live demo. Here are some CodeSandbox templates: -->
-<!-- Regular Vue: https://codesandbox.io/s/vue-toastification-3btg5 -->
-<!-- Nuxt: https://codesandbox.io/s/vue-toastification-nuxt-i2hv0 -->
-Reproduction [demo](link-to-demo).
-Steps:
-1. Install normally
-2. Set up plugin
-3. ...
-
-## Your Environment
-<!--- Include as many relevant details about the environment you experienced the bug in -->
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-## Additional context
-<!-- Add any other context about the problem here. -->
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [**CONTRIBUTING**](https://github.com/Maronato/vue-toastification/blob/master/CONTRIBUTING.md) document.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.

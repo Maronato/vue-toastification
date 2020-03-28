@@ -108,7 +108,7 @@ To start the demo page, run
 ```sh
 yarn dev
 ```
-You can now play with on [`localhost:8080`](http://localhost:8080) and see your changes being hot reloaded.
+You can now play with it on [`localhost:8080`](http://localhost:8080) and see your changes being hot reloaded.
 
 
 ### Running tests
