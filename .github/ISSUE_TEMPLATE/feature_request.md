@@ -2,12 +2,11 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: ''
+labels: "Type: Enhancement, Status: Available"
 assignees: ''
 
 ---
 <!--- Provide a general summary of the issue in the Title above -->
-I'd love if the plugin also supported...
 
 ## Detailed Description
 <!--- Provide a detailed description of the change or addition you are proposing -->
