@@ -8083,10 +8083,10 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue-toastification@1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.2.2.tgz#9fdd04bf3a30123b541ccc829e35c4f0212576be"
-  integrity sha512-GEfa9iHSImd6ahHo9QHGyW+HsE8hroatsm1kqiCZEtFDdt4LKxigOBDzHzx2dKUk7pPxMhoP/4FTy5tVK2aG8w==
+vue-toastification@^1:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.4.0.tgz#5ae211b2aabb4ffd80d5adaa83dc4e09a39d78b1"
+  integrity sha512-/53n4E99aKJJKnyHKs2T/bL/s+VhMmJLXWBpXOA3uKWRudpTi9w/5lNIWIGtplGSHbXu0bp6cJWIB8Th+mSRdw==
 
 vue@^2.6.11:
   version "2.6.11"
