@@ -105,11 +105,13 @@ export interface CommonOptions {
   rtl?: boolean;
 }
 
+type ContainerCallback = () => HTMLElement | Promise<HTMLElement>;
+
 export interface PluginOptions extends CommonOptions {
   /**
    * Container where the toasts are mounted.
    */
-  container?: HTMLElement;
+  container?: HTMLElement | ContainerCallback;
   /**
    *  Whether or not the newest toasts are placed on the top of the stack.
    */

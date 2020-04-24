@@ -120,7 +120,7 @@ export type PluginOptionsType = Required<
 >;
 const CONTAINER: RecordPropsDefinition<PluginOptionsType> = {
   container: {
-    type: HTMLElement,
+    type: [HTMLElement, Function],
     default: () => document.body
   } as PropOptions<NonNullable<PluginOptions["container"]>>,
   newestOnTop: COMMON.trueBoolean,

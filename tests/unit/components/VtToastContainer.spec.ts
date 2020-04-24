@@ -27,6 +27,28 @@ describe("VtToastContainer", () => {
       vm.setup(container);
       expect(containerWrapper.element.parentElement).toBe(container);
     });
+    it("accepts function container", async () => {
+      const { containerWrapper } = loadPlugin();
+      const container = document.createElement("div");
+      const vm = (containerWrapper.vm as unknown) as {
+        setup(container: () => HTMLElement): void;
+      };
+      expect(containerWrapper.element.parentElement).not.toBe(container);
+      vm.setup(() => container);
+      await containerWrapper.vm.$nextTick();
+      expect(containerWrapper.element.parentElement).toBe(container);
+    });
+    it("accepts async container", async () => {
+      const { containerWrapper } = loadPlugin();
+      const container = document.createElement("div");
+      const vm = (containerWrapper.vm as unknown) as {
+        setup(container: () => Promise<HTMLElement>): void;
+      };
+      expect(containerWrapper.element.parentElement).not.toBe(container);
+      vm.setup(() => new Promise(resolve => resolve(container)));
+      await containerWrapper.vm.$nextTick();
+      expect(containerWrapper.element.parentElement).toBe(container);
+    });
   });
   describe("setToast", () => {
     it("sets toast with id", () => {
