@@ -142,5 +142,6 @@ export {
   getVueComponentFromObj,
   hasProp,
   isUndefined,
-  isDOMRect
+  isDOMRect,
+  isFunction
 };

@@ -28,7 +28,7 @@ import {
   ToastOptionsAndContent,
   ToastOptionsAndRequiredContent
 } from "../types";
-import { removeElement, isUndefined } from "../ts/utils";
+import { removeElement, isUndefined, isFunction } from "../ts/utils";
 
 import Toast from "./VtToast.vue";
 import Transition from "./VtTransition.vue";
@@ -76,7 +76,10 @@ export default Vue.extend({
   },
 
   methods: {
-    setup(container: HTMLElement) {
+    async setup(container: PluginOptionsType["container"]) {
+      if (isFunction(container)) {
+        container = await container();
+      }
       removeElement(this.$el);
       container.appendChild(this.$el);
     },
