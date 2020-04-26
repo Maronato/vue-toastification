@@ -29,7 +29,8 @@
   "files": [
     "dist",
     "src",
-    "nuxt"
+    "nuxt",
+    "composition"
   ],
   "style": "dist/index.css",
   "dependencies": {},
@@ -44,6 +45,7 @@
     "@vue/cli-plugin-typescript": "~4.2.0",
     "@vue/cli-plugin-unit-jest": "~4.2.0",
     "@vue/cli-service": "~4.2.0",
+    "@vue/composition-api": "^0.5.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.1",
     "@vue/test-utils": "1.0.0-beta.31",
