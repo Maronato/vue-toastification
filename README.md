@@ -22,6 +22,8 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
     - [Plugin registration](#plugin-registration)
     - [Nuxt registration](#nuxt-registration)
       - [Injecting the Toast CSS](#injecting-the-toast-css)
+    - [Composition API registration](#composition-api-registration)
+    - [Generic registration](#generic-registration)
     - [Positioning the Toast](#positioning-the-toast)
     - [Toast types](#toast-types)
     - [Setting the toast timeout](#setting-the-toast-timeout)
@@ -72,6 +74,8 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 ## Features
 
 - Built-in Nuxt support
+- Support for the new [Composition API](https://composition-api.vuejs.org/api.html) and Vue 3
+- Generic registration allows it to be used inside any app, even React!
 - Fully written in Typescript with full types support
 - RTL support
 - Easy to set up for real, you can make it work in less than 10sec!
@@ -220,6 +224,69 @@ export default {
 ```
 
 If your CSS file is actually an SCSS or SASS file, just make sure that you have the correct loaders installed. See [Nuxt docs](https://nuxtjs.org/api/configuration-css) on that.
+
+### Composition API registration
+Vue Toastification comes with built-in support for the Composition API through the [@vue/composition-api](https://github.com/vuejs/composition-api) package. It is fully optional and won't interfere with your usage if you do not use composition.
+
+Composable plugins are a little different than regular Vue plugins as they rely on providers and injectors to work without access to the `this` keyword. Vue Toastification exposes two new functions to make that possible: `provideToast` and `useToast`.
+
+To access toasts inside `setup`, you first need to register the provider. To make the toasts available from anywhere within your application, set up the provider on the root component of your app:
+```js
+// App.vue
+
+// Import from vue-toastification/composition, not vue-toastification
+import { provideToast } from "vue-toastification/composition";
+
+// Then, on the setup method
+  setup() {
+    // Pass the Plugin Options here
+    provideToast({ timeout: 3000 });
+  }
+```
+This is similar to `Vue.use(Toast)`, but will **not** register `$toast` to the Vue instance.
+
+Then get access to the `toast` interface on your components with `useToast`:
+```js
+// MyComponent.vue
+
+import { useToast } from "vue-toastification/composition";
+// ...
+
+  setup() {
+    // Same interface as this.$toast
+    const toast = useToast();
+
+    const showToast = () => toast.success("I'm a toast!");
+    const clearToasts = () => toast.clear();
+    return { showToast, clearToasts };
+  }
+```
+
+> **Note**: Registering Vue Toastification with `provideToast` does **not** register it as a regular Vue Plugin, so you will **not** have access to it from `this.$toast`. Also, do not register with both `provideToast` and `Vue.use` at the same time, as that will register it twice leading to unpredictable behavior.
+
+### Generic registration
+Vue Toastification allows you to register it as a generic interface not bound to Vue as a plugin. That may be useful if you are using it on an app that does not use Vue.
+
+It still depends on Vue as a framework, but not on the root vue instance of your page.
+
+To register it, use the `createToastInterface` helper:
+```js
+import { createToastInterface } from "vue-toastification";
+
+const pluginOptions = {
+  timeout: 4000
+};
+
+// Create the interface
+const toast = createToastInterface(pluginOptions);
+
+// Use it
+toast.success("Standalone toasts!");
+```
+
+When calling `createToastInterface`, it will automatically mount the toast container as you would expect. It returns the `toast` interface and you can use it as you would with `this.$toast`.
+
+`createToastInterface` may take a second, optional, `Vue` instance parameter. Use it to specify an optional parent Vue instance to the interface.
 
 ### Positioning the Toast
 

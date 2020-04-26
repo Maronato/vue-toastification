@@ -23,7 +23,8 @@
   "include": [
     "src",
     "tests",
-    "nuxt"
+    "nuxt",
+    "composition"
   ],
   "exclude": ["node_modules", "./nuxt/plugin.js"]
 }

@@ -1,8 +1,6 @@
-import Vue from "vue";
-import Toast from "vue-toastification";
-
-Vue.use(Toast, <%= serialize(options) %>)
+import { createToastInterface } from "vue-toastification";
 
 export default function (ctx, inject) {
-  inject('toast', Vue.$toast)
+  const toast = createToastInterface(<%= serialize(options) %>);
+  inject('toast', toast);
 }
