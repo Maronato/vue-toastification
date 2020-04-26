@@ -236,6 +236,8 @@ To access toasts inside `setup`, you first need to register the provider. To mak
 
 // Import from vue-toastification/composition, not vue-toastification
 import { provideToast } from "vue-toastification/composition";
+// Also import the toast's css
+import "vue-toastification/dist/index.css";
 
 // Then, on the setup method
   setup() {
