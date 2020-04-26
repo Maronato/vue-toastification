@@ -230,6 +230,10 @@ Vue Toastification comes with built-in support for the Composition API through t
 
 Composable plugins are a little different than regular Vue plugins as they rely on providers and injectors to work without access to the `this` keyword. Vue Toastification exposes two new functions to make that possible: `provideToast` and `useToast`.
 
+Play with a live example here:
+
+[![Edit thirsty-brahmagupta-qslls](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/thirsty-brahmagupta-qslls?fontsize=14&hidenavigation=1&theme=dark)
+
 To access toasts inside `setup`, you first need to register the provider. To make the toasts available from anywhere within your application, set up the provider on the root component of your app:
 ```js
 // App.vue
@@ -270,6 +274,10 @@ import { useToast } from "vue-toastification/composition";
 Vue Toastification allows you to register it as a generic interface not bound to Vue as a plugin. That may be useful if you are using it on an app that does not use Vue.
 
 It still depends on Vue as a framework, but not on the root vue instance of your page.
+
+Play with a live **React.js** demo here:
+
+[![Edit dark-morning-3d9m0](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/dark-morning-3d9m0?fontsize=14&hidenavigation=1&theme=dark)
 
 To register it, use the `createToastInterface` helper:
 ```js

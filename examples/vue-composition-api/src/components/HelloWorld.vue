@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { useToast } from "vue-toastification";
+import { useToast } from "vue-toastification/composition";
 
 export default {
   name: "HelloWorld",

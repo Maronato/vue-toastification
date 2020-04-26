@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { provideToast } from "vue-toastification";
+import { provideToast } from "vue-toastification/composition";
 import "vue-toastification/dist/index.css";
 import HelloWorld from "./components/HelloWorld.vue";
 
