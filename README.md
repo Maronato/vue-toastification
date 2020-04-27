@@ -247,9 +247,9 @@ import "vue-toastification/dist/index.css";
   setup() {
     // Pass the Plugin Options here
     provideToast({ timeout: 3000 });
+    // This is similar to `Vue.use(Toast)`, but will not register `$toast` to the Vue instance.
   }
 ```
-This is similar to `Vue.use(Toast)`, but will **not** register `$toast` to the Vue instance.
 
 Then get access to the `toast` interface on your components with `useToast`:
 ```js
@@ -268,7 +268,7 @@ import { useToast } from "vue-toastification/composition";
   }
 ```
 
-> **Note**: Registering Vue Toastification with `provideToast` does **not** register it as a regular Vue Plugin, so you will **not** have access to it from `this.$toast`. Also, do not register with both `provideToast` and `Vue.use` at the same time, as that will register it twice leading to unpredictable behavior.
+Each call to `provideToast` will generate an independent version of the plugin available only to the descendants (through `useToast`) of the component that called `provideToast`. This means that if you call `provideToast` in multiple locations, each one will generate an independent `toast` interface and mount independent toast containers. `useToast` will always return the `toast` interface of the closest `provideToast` call in its parent component tree.
 
 ### Generic registration
 Vue Toastification allows you to register it as a generic interface not bound to Vue as a plugin. That may be useful if you are using it on an app that does not use Vue.

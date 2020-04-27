@@ -1,4 +1,4 @@
-import _Vue from "vue";
+import { VueConstructor } from "vue/types/umd";
 import ToastContainer from "../components/VtToastContainer.vue";
 import {
   ToastContent,
@@ -7,18 +7,24 @@ import {
   PluginOptions,
   ToastOptionsAndRequiredContent
 } from "../types";
-import events from "./events";
 import { TYPE, EVENTS } from "./constants";
 import { getId, isUndefined } from "./utils";
 
-const ToastInterface = (Vue: typeof _Vue, globalOptions?: PluginOptions) => {
-  const containerComponent = new (Vue.extend(ToastContainer))({
-    el: document.createElement("div"),
-    propsData: globalOptions
-  });
-  const onMounted = globalOptions?.onMounted;
-  if (!isUndefined(onMounted)) {
-    onMounted(containerComponent);
+const ToastInterface = (
+  Vue: VueConstructor,
+  globalOptions: PluginOptions = {},
+  mountContainer = true
+) => {
+  const events = new Vue();
+  if (mountContainer) {
+    const containerComponent = new (Vue.extend(ToastContainer))({
+      el: document.createElement("div"),
+      propsData: globalOptions
+    });
+    const onMounted = globalOptions.onMounted;
+    if (!isUndefined(onMounted)) {
+      onMounted(containerComponent);
+    }
   }
   /**
    * Display a toast

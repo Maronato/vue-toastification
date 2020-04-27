@@ -39,7 +39,6 @@
 <script lang="ts">
 import Vue from "vue";
 
-import events from "../ts/events";
 import { EVENTS, VT_NAMESPACE } from "../ts/constants";
 import PROPS from "../ts/propValidators";
 import {
@@ -164,7 +163,7 @@ export default Vue.extend({
   methods: {
     getVueComponentFromObj,
     closeToast() {
-      events.$emit(EVENTS.DISMISS, this.id);
+      this.eventBus.$emit(EVENTS.DISMISS, this.id);
     },
     clickHandler() {
       if (this.onClick) {

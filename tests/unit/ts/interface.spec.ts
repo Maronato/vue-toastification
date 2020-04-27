@@ -1,7 +1,6 @@
 import { createLocalVue } from "@vue/test-utils";
 import ToastInterface from "../../../src/ts/interface";
 import { EVENTS, TYPE } from "../../../src/ts/constants";
-import events from "../../../src/ts/events";
 import { loadPlugin } from "../../utils/plugin";
 import { ToastOptions } from "../../../src/types";
 
@@ -10,14 +9,16 @@ describe("ToastInterface", () => {
     wrappers: ReturnType<typeof loadPlugin>,
     toast: ReturnType<typeof ToastInterface>;
 
+  const eventBus = new (createLocalVue())();
+
   const eventsEmmited = Object.values(EVENTS).reduce((agg, eventName) => {
     const handler = jest.fn();
-    events.$on(eventName, handler);
+    eventBus.$on(eventName, handler);
     return { ...agg, [eventName]: handler };
   }, {} as { [eventName in EVENTS]: jest.Mock });
 
   beforeEach(() => {
-    wrappers = loadPlugin();
+    wrappers = loadPlugin({ eventBus });
     localVue = wrappers.localVue;
     toast = localVue.$toast;
     jest.clearAllMocks();
@@ -26,6 +27,7 @@ describe("ToastInterface", () => {
   it("calls onMounted", () => {
     const localVue = createLocalVue();
     const onMounted = jest.fn();
+    expect(onMounted).not.toHaveBeenCalled();
     toast = ToastInterface(localVue, { onMounted });
     expect(onMounted).toHaveBeenCalledWith(expect.any(localVue));
   });
@@ -35,6 +37,22 @@ describe("ToastInterface", () => {
     const onMounted = jest.fn();
     toast = ToastInterface(localVue);
     expect(onMounted).not.toHaveBeenCalled();
+  });
+
+  it("mounts if mountContainer is true", () => {
+    const localVue = createLocalVue();
+    const extendSpy = jest.spyOn(localVue, "extend");
+    expect(extendSpy).not.toHaveBeenCalled();
+    toast = ToastInterface(localVue, undefined, true);
+    expect(extendSpy).toHaveBeenCalled();
+  });
+
+  it("does not mount if mountContainer is false", () => {
+    const localVue = createLocalVue();
+    const extendSpy = jest.spyOn(localVue, "extend");
+    expect(extendSpy).not.toHaveBeenCalled();
+    toast = ToastInterface(localVue, undefined, false);
+    expect(extendSpy).not.toHaveBeenCalled();
   });
 
   it("calls regular toast function with defaults", () => {
