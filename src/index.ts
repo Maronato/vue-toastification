@@ -1,5 +1,5 @@
 import _Vue, { PluginFunction } from "vue";
-import { VueConstructor } from "vue/types/umd";
+import { VueConstructor } from "vue/types/vue";
 import ToastInterface from "./ts/interface";
 import { POSITION, TYPE } from "./ts/constants";
 import { PluginOptions } from "./types";

@@ -1,7 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Vue, { Component } from "vue";
-import { CombinedVueInstance } from "vue/types/vue";
-import { VueConstructor } from "vue/types/umd";
+import { CombinedVueInstance, VueConstructor } from "vue/types/vue";
 import ToastInterface from "../ts/interface";
 import { TYPE, POSITION } from "../ts/constants";
 

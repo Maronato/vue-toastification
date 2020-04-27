@@ -1,4 +1,5 @@
-import { VueConstructor } from "vue/types/umd";
+import _Vue from "vue";
+import { VueConstructor } from "vue/types";
 import ToastContainer from "../components/VtToastContainer.vue";
 import {
   ToastContent,
@@ -15,7 +16,7 @@ const ToastInterface = (
   globalOptions: PluginOptions = {},
   mountContainer = true
 ) => {
-  const events = new Vue();
+  const events = (globalOptions.eventBus = globalOptions.eventBus || new Vue());
   if (mountContainer) {
     const containerComponent = new (Vue.extend(ToastContainer))({
       el: document.createElement("div"),
