@@ -19,7 +19,6 @@
 <script lang="ts">
 import Vue from "vue";
 
-import events from "../ts/events";
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants";
 import PROPS, { PluginOptionsType } from "../ts/propValidators";
 import {
@@ -67,6 +66,7 @@ export default Vue.extend({
 
   beforeMount() {
     this.setup(this.container);
+    const events = this.eventBus;
     events.$on(EVENTS.ADD, this.addToast);
     events.$on(EVENTS.CLEAR, this.clearToasts);
     events.$on(EVENTS.DISMISS, this.dismissToast);

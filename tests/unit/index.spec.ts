@@ -1,5 +1,7 @@
+import Vue from "vue";
 import { createLocalVue } from "@vue/test-utils";
 import Toast, { createToastInterface } from "../../src/index";
+import * as ToastInterfaceModule from "../../src/ts/interface";
 
 describe("Toast Plugin", () => {
   it("Loads plugin", () => {
@@ -11,6 +13,9 @@ describe("Toast Plugin", () => {
 });
 
 describe("createToastInterface", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   it("registers interface", () => {
     const toast = createToastInterface();
     expect(typeof toast.success).toBe("function");
@@ -24,9 +29,28 @@ describe("createToastInterface", () => {
   });
   it("loads plugin options", () => {
     const onMounted = jest.fn();
+    const ToastInterfaceSpy = jest.spyOn(ToastInterfaceModule, "default");
     const localVue = createLocalVue();
     expect(onMounted).not.toHaveBeenCalled();
+    expect(ToastInterfaceSpy).not.toHaveBeenCalled();
     createToastInterface({ onMounted }, localVue);
     expect(onMounted).toHaveBeenCalled();
+    expect(ToastInterfaceSpy).toHaveBeenCalledWith(
+      localVue,
+      expect.objectContaining({ onMounted }),
+      true
+    );
+  });
+  it("accepts a single eventBus argument", () => {
+    const ToastInterfaceSpy = jest.spyOn(ToastInterfaceModule, "default");
+    const localVue = createLocalVue();
+    const eventBus = new localVue();
+    expect(ToastInterfaceSpy).not.toHaveBeenCalled();
+    createToastInterface(eventBus);
+    expect(ToastInterfaceSpy).toHaveBeenCalledWith(
+      Vue,
+      expect.objectContaining({ eventBus }),
+      false
+    );
   });
 });

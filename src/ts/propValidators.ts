@@ -95,7 +95,8 @@ const CORE_TOAST: RecordPropsDefinition<CommonOptionsType> = {
       closeButtonLabel: "close"
     })
   } as PropOptions<NonNullable<PluginOptions["accessibility"]>>,
-  rtl: Boolean as PropType<boolean>
+  rtl: Boolean as PropType<boolean>,
+  eventBus: Object as PropOptions<NonNullable<PluginOptions["eventBus"]>>
 };
 
 type ToastOptionsType = Required<

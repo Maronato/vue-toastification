@@ -4,7 +4,6 @@ import VtIcon from "../../../src/components/VtIcon.vue";
 import VtProgressBar from "../../../src/components/VtProgressBar.vue";
 import VtCloseButton from "../../../src/components/VtCloseButton.vue";
 import { ToastOptionsAndContent } from "../../../src/types";
-import events from "../../../src/ts/events";
 import {
   VT_NAMESPACE,
   TYPE,
@@ -18,14 +17,16 @@ const mountToast = ({ id, content, ...props }: ToastOptionsAndContent = {}) =>
     propsData: {
       id: id || 1,
       content: content || "content",
+      eventBus: new (createLocalVue())(),
       ...props
     }
   });
 
 describe("VtToast", () => {
+  const eventBus = new (createLocalVue())();
   const eventsEmmited = Object.values(EVENTS).reduce((agg, eventName) => {
     const handler = jest.fn();
-    events.$on(eventName, handler);
+    eventBus.$on(eventName, handler);
     return { ...agg, [eventName]: handler };
   }, {} as { [eventName in EVENTS]: jest.Mock });
 
@@ -438,7 +439,7 @@ describe("VtToast", () => {
   });
   describe("closeToast", () => {
     it("emits dismiss event", () => {
-      const wrapper = mountToast({ id: "myId" });
+      const wrapper = mountToast({ id: "myId", eventBus });
       const vm = wrapper.vm as {
         closeToast(): void;
       };

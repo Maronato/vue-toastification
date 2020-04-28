@@ -1,8 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Vue, { Component } from "vue";
+import { CombinedVueInstance, VueConstructor } from "vue/types/vue";
 import ToastInterface from "../ts/interface";
 import { TYPE, POSITION } from "../ts/constants";
-import { CombinedVueInstance } from "vue/types/vue";
 
 export type ToastID = string | number;
 
@@ -103,6 +102,12 @@ export interface CommonOptions {
    * If true, switches the toast contents from right to left. Defaults to false.
    */
   rtl?: boolean;
+  /**
+   * Vue instance used to pass events across the interface
+   *
+   * Created by default, but you can use your own if you want
+   */
+  eventBus?: InstanceType<VueConstructor>;
 }
 
 type ContainerCallback = () => HTMLElement | Promise<HTMLElement>;
