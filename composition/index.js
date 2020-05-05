@@ -1,12 +1,28 @@
-import Vue from "vue";
-import { inject, provide } from "@vue/composition-api";
-import { createToastInterface } from "vue-toastification";
+const Vue = require("vue"); // eslint-disable-line @typescript-eslint/no-var-requires
+const { inject, provide } = require("@vue/composition-api"); // eslint-disable-line @typescript-eslint/no-var-requires
 
 const toastSymbol = Symbol("Vue Toastification");
 
+let createToastInterface = () => {
+  const toast = () =>
+    console.warn("[Vue Toastification] This plugin does not support SSR!");
+  return new Proxy(toast, {
+    get: function() {
+      return toast;
+    }
+  });
+};
+
+if (typeof window !== "undefined") {
+  const toastification = require("vue-toastification"); // eslint-disable-line @typescript-eslint/no-var-requires
+  createToastInterface = toastification.createToastInterface;
+}
+
 /** @type {ReturnType<typeof createToastInterface>} */
-const interfaceFromBus = bus =>
-  bus instanceof Vue ? createToastInterface(bus) : undefined;
+const interfaceFromBus = bus => {
+  const VueClass = typeof Vue.prototype === "undefined" ? Vue.default : Vue;
+  return bus instanceof VueClass ? createToastInterface(bus) : undefined;
+};
 
 // Generate provider and consumer
 const provideToast = options =>
@@ -14,4 +30,4 @@ const provideToast = options =>
 const useToast = eventBus =>
   interfaceFromBus(eventBus) || inject(toastSymbol, interfaceFromBus(eventBus));
 
-export { provideToast, useToast };
+module.exports = { provideToast, useToast };
