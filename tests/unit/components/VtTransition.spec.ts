@@ -75,6 +75,7 @@ describe("VtTransition", () => {
     setAbsolutePosition(el);
     expect(el.style.left).toBe(el.offsetLeft + "px");
     expect(el.style.top).toBe(el.offsetTop + "px");
+    expect(el.style.width).toBe(el.offsetWidth + "px");
     expect(el.style.position).toBe("absolute");
   });
   it("afterEnter", () => {
