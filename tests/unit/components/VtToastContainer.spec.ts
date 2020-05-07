@@ -354,6 +354,21 @@ describe("VtToastContainer", () => {
       expect(spySetup).toHaveBeenCalledWith(container);
       expect(vm.defaults.container).toBe(container);
     });
+    it("applies new containerClassName", async () => {
+      const { containerWrapper } = loadPlugin({ timeout: 1000 });
+      const vm = (containerWrapper.vm as unknown) as {
+        updateDefaults(update: PluginOptions): void;
+        defaults: PluginOptions;
+      };
+      expect(vm.defaults.containerClassName).toEqual([]);
+      expect(containerWrapper.find(".my-class").exists()).toBeFalsy();
+      expect(containerWrapper.element).toMatchSnapshot();
+      vm.updateDefaults({ containerClassName: "my-class" });
+      await containerWrapper.vm.$nextTick();
+      expect(vm.defaults.containerClassName).toBe("my-class");
+      expect(containerWrapper.find(".my-class").exists()).toBeTruthy();
+      expect(containerWrapper.element).toMatchSnapshot();
+    });
   });
   describe("updateToast", () => {
     it("updates existing toast", () => {
