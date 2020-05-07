@@ -149,7 +149,7 @@ export default Vue.extend({
     },
     getClasses(position: POSITION) {
       const classes = [`${VT_NAMESPACE}__container`, position];
-      return classes.concat(this.containerClassName);
+      return classes.concat(this.defaults.containerClassName);
     }
   }
 });

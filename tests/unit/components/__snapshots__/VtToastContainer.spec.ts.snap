@@ -69,3 +69,73 @@ exports[`VtToastContainer snapshots with default value 1`] = `
   </div>
 </div>
 `;
+
+exports[`VtToastContainer updateDefaults applies new containerClassName 1`] = `
+<div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-left"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-center"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-right"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-left"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-center"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-right"
+    />
+  </div>
+</div>
+`;
+
+exports[`VtToastContainer updateDefaults applies new containerClassName 2`] = `
+<div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-left my-class"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-center my-class"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container top-right my-class"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-left my-class"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-center my-class"
+    />
+  </div>
+  <div>
+    <div
+      class="Vue-Toastification__container bottom-right my-class"
+    />
+  </div>
+</div>
+`;
