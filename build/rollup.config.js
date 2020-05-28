@@ -1,35 +1,35 @@
 import typescript from "rollup-plugin-typescript2";
 import commonjs from "rollup-plugin-commonjs";
 import vue from "rollup-plugin-vue";
-import scss from "rollup-plugin-scss";
+import sass from "rollup-plugin-sass";
 import filesize from "rollup-plugin-filesize";
 import configs from "./config";
 
 const externals = ["vue"];
 
-const genTsPlugin = configOpts =>
+const genTsPlugin = (configOpts) =>
   typescript({
     useTsconfigDeclarationDir: true,
     tsconfigOverride: {
       compilerOptions: {
         target: configOpts.target,
-        declaration: configOpts.genDts
-      }
-    }
+        declaration: configOpts.genDts,
+      },
+    },
   });
 
 const genCommonJsPlugin = () => commonjs();
 
 const genVuePlugin = () =>
   vue({
-    css: false
+    css: false,
   });
 
-const genScssPlugin = () => scss({ output: "dist/index.css" });
+const genScssPlugin = () => sass({ output: "dist/index.css" });
 
 const genFileSizePlugin = () => filesize();
 
-const genPlugins = configOpts => {
+const genPlugins = (configOpts) => {
   const plugins = [];
   if (configOpts.plugins && configOpts.plugins.pre) {
     plugins.push(...configOpts.plugins.pre);
@@ -47,7 +47,7 @@ const genPlugins = configOpts => {
   return plugins;
 };
 
-const genConfig = configOpts => ({
+const genConfig = (configOpts) => ({
   input: "src/index.ts",
   output: {
     file: configOpts.output,
@@ -55,13 +55,13 @@ const genConfig = configOpts => ({
     name: "VueToastification",
     sourcemap: true,
     exports: "named",
-    globals: configOpts.globals
+    globals: configOpts.globals,
   },
   external: externals,
-  plugins: genPlugins(configOpts)
+  plugins: genPlugins(configOpts),
 });
 
-const genAllConfigs = configs =>
-  Object.keys(configs).map(key => genConfig(configs[key]));
+const genAllConfigs = (configs) =>
+  Object.keys(configs).map((key) => genConfig(configs[key]));
 
 export default genAllConfigs(configs);

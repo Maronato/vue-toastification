@@ -7,57 +7,57 @@ describe("VtCloseButton", () => {
   it("matches default snapshot", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
-        component: false
-      }
+        component: false,
+      },
     });
     expect(wrapper.element).toMatchSnapshot();
   });
   it("has default class", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
-        component: false
-      }
+        component: false,
+      },
     });
     expect(wrapper.classes()).toContain(`${VT_NAMESPACE}__close-button`);
   });
   it("is a button by default", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
-        component: false
-      }
+        component: false,
+      },
     });
-    expect(wrapper.is("button")).toBe(true);
+    expect(wrapper.element.tagName).toEqual("BUTTON");
   });
   it("string custom component", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
-        component: "div"
-      }
+        component: "div",
+      },
     });
-    expect(wrapper.is("div")).toBe(true);
+    expect(wrapper.element.tagName).toEqual("DIV");
     expect(wrapper.element).toMatchSnapshot();
   });
   it("vue custom component", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
-        component: Simple
-      }
+        component: Simple,
+      },
     });
-    expect(wrapper.contains(Simple)).toBe(true);
+    expect(wrapper.findComponent(Simple).element).toBeTruthy();
     expect(wrapper.element).toMatchSnapshot();
   });
   it("adds 'show-on-hover' class", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
         component: false,
-        showOnHover: false
-      }
+        showOnHover: false,
+      },
     });
     const wrapper2 = mount(VtCloseButton, {
       propsData: {
         component: false,
-        showOnHover: true
-      }
+        showOnHover: true,
+      },
     });
     expect(wrapper.classes()).not.toContain("show-on-hover");
     expect(wrapper2.classes()).toContain("show-on-hover");
@@ -68,8 +68,8 @@ describe("VtCloseButton", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
         component: false,
-        classNames: "my-class"
-      }
+        classNames: "my-class",
+      },
     });
     expect(wrapper.classes()).toContain("my-class");
     expect(wrapper.element).toMatchSnapshot();
@@ -78,8 +78,8 @@ describe("VtCloseButton", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
         component: false,
-        classNames: ["my-class", "my-class2"]
-      }
+        classNames: ["my-class", "my-class2"],
+      },
     });
     expect(wrapper.classes()).toContain("my-class");
     expect(wrapper.classes()).toContain("my-class2");
@@ -89,9 +89,9 @@ describe("VtCloseButton", () => {
     const onClick = jest.fn();
     const wrapper = mount(VtCloseButton, {
       propsData: {
-        component: false
+        component: false,
       },
-      listeners: { click: onClick }
+      listeners: { click: onClick },
     });
     expect(onClick).not.toHaveBeenCalled();
     wrapper.trigger("click");
@@ -105,8 +105,8 @@ describe("VtCloseButton", () => {
   it("renders custom aria label", () => {
     const wrapper = mount(VtCloseButton, {
       propsData: {
-        ariaLabel: "text"
-      }
+        ariaLabel: "text",
+      },
     });
     expect(wrapper.find("button[aria-label='text']").exists()).toBe(true);
     expect(wrapper.element).toMatchSnapshot();

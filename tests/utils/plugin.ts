@@ -3,7 +3,7 @@ import {
   createLocalVue,
   createWrapper,
   Wrapper,
-  WrapperArray
+  WrapperArray,
 } from "@vue/test-utils";
 import Toast, { POSITION } from "../../src/index";
 import { PluginOptions } from "../../src/types";
@@ -23,15 +23,15 @@ const loadPlugin = (options?: PluginOptions) => {
   // Register the plugin and get the container component back
   localVue.use(Toast, {
     container,
-    onMounted: containerComponent => (containerComp = containerComponent),
-    ...options
+    onMounted: (containerComponent) => (containerComp = containerComponent),
+    ...options,
   });
   const containerWrapper = createWrapper(
     (containerComp as unknown) as CombinedVueInstance<
       Record<never, unknown> & Vue,
-      object,
-      object,
-      object,
+      unknown,
+      unknown,
+      unknown,
       Record<never, unknown>
     >
   );
@@ -48,7 +48,7 @@ const loadPlugin = (options?: PluginOptions) => {
     ),
     bottomRight: withGetToasts(
       containerWrapper.find(`.${POSITION.BOTTOM_RIGHT}`)
-    )
+    ),
   };
 
   return { localVue, containerWrapper, ...positionContainers };

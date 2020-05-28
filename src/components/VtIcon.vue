@@ -14,7 +14,7 @@ import {
   isToastContent,
   hasProp,
   isString,
-  getVueComponentFromObj
+  getVueComponentFromObj,
 } from "../ts/utils";
 import PROPS from "../ts/propValidators";
 import SuccessIcon from "./icons/VtSuccessIcon.vue";
@@ -63,7 +63,7 @@ export default Vue.extend({
         [TYPE.INFO]: InfoIcon,
         [TYPE.SUCCESS]: SuccessIcon,
         [TYPE.ERROR]: ErrorIcon,
-        [TYPE.WARNING]: WarningIcon
+        [TYPE.WARNING]: WarningIcon,
       };
       return types[this.type];
     },
@@ -73,13 +73,13 @@ export default Vue.extend({
         return classes.concat(this.customIconClass);
       }
       return classes;
-    }
+    },
   },
 
   methods: {
     trimValue(value: unknown, empty = "") {
       return isNonEmptyString(value) ? value.trim() : empty;
-    }
-  }
+    },
+  },
 });
 </script>

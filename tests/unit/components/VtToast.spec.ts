@@ -8,7 +8,7 @@ import {
   VT_NAMESPACE,
   TYPE,
   POSITION,
-  EVENTS
+  EVENTS,
 } from "../../../src/ts/constants";
 import Simple from "../../utils/components/Simple.vue";
 
@@ -18,8 +18,8 @@ const mountToast = ({ id, content, ...props }: ToastOptionsAndContent = {}) =>
       id: id || 1,
       content: content || "content",
       eventBus: new (createLocalVue())(),
-      ...props
-    }
+      ...props,
+    },
   });
 
 describe("VtToast", () => {
@@ -46,9 +46,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       );
-      expect(wrapper.contains(VtIcon)).toBe(true);
-      expect(wrapper.contains(VtCloseButton)).toBe(true);
-      expect(wrapper.contains(VtProgressBar)).toBe(true);
+      expect(wrapper.findComponent(VtIcon).element).toBeTruthy();
+      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy();
+      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy();
       expect(wrapper.element).toMatchSnapshot();
     });
     it("closeButton = false removes it", () => {
@@ -56,9 +56,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       );
-      expect(wrapper.contains(VtIcon)).toBe(true);
-      expect(wrapper.contains(VtCloseButton)).toBe(false);
-      expect(wrapper.contains(VtProgressBar)).toBe(true);
+      expect(wrapper.findComponent(VtIcon).element).toBeTruthy();
+      expect(wrapper.findComponent(VtCloseButton).element).toBeFalsy();
+      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy();
       expect(wrapper.element).toMatchSnapshot();
     });
     it("icon = false removes it", () => {
@@ -66,9 +66,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       );
-      expect(wrapper.contains(VtIcon)).toBe(false);
-      expect(wrapper.contains(VtCloseButton)).toBe(true);
-      expect(wrapper.contains(VtProgressBar)).toBe(true);
+      expect(wrapper.findComponent(VtIcon).element).toBeFalsy();
+      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy();
+      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy();
       expect(wrapper.element).toMatchSnapshot();
     });
     it("timeout = false removes progress bar", () => {
@@ -76,9 +76,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       );
-      expect(wrapper.contains(VtIcon)).toBe(true);
-      expect(wrapper.contains(VtCloseButton)).toBe(true);
-      expect(wrapper.contains(VtProgressBar)).toBe(false);
+      expect(wrapper.findComponent(VtIcon).element).toBeTruthy();
+      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy();
+      expect(wrapper.findComponent(VtProgressBar).element).toBeFalsy();
       expect(wrapper.element).toMatchSnapshot();
     });
     it("renders custom component", () => {
@@ -86,10 +86,10 @@ describe("VtToast", () => {
       expect(
         wrapper.find(`div.${VT_NAMESPACE}__toast-component-body`).exists()
       ).toBe(true);
-      expect(wrapper.contains(Simple)).toBe(true);
-      expect(wrapper.contains(VtIcon)).toBe(true);
-      expect(wrapper.contains(VtCloseButton)).toBe(true);
-      expect(wrapper.contains(VtProgressBar)).toBe(true);
+      expect(wrapper.findComponent(Simple).element).toBeTruthy();
+      expect(wrapper.findComponent(VtIcon).element).toBeTruthy();
+      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy();
+      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy();
       expect(wrapper.element).toMatchSnapshot();
     });
     it("renders default aria role and button aria label", () => {
@@ -100,7 +100,7 @@ describe("VtToast", () => {
     });
     it("renders custom aria role and button aria label", () => {
       const wrapper = mountToast({
-        accessibility: { toastRole: "status", closeButtonLabel: "text" }
+        accessibility: { toastRole: "status", closeButtonLabel: "text" },
       });
       expect(wrapper.find("[role='status']").exists()).toBe(true);
       expect(wrapper.find("button[aria-label='text']").exists()).toBe(true);
@@ -125,32 +125,32 @@ describe("VtToast", () => {
     it("returns default classes", () => {
       const wrapper = mountToast({
         type: TYPE.DEFAULT,
-        position: POSITION.TOP_RIGHT
+        position: POSITION.TOP_RIGHT,
       });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         classes: string[];
       };
       const classes = [
         `${VT_NAMESPACE}__toast`,
         `${VT_NAMESPACE}__toast--${TYPE.DEFAULT}`,
-        POSITION.TOP_RIGHT
+        POSITION.TOP_RIGHT,
       ];
       expect(vm.classes).toEqual(classes);
     });
     it("updates with type", () => {
       const wrapper = mountToast({
-        type: TYPE.SUCCESS
+        type: TYPE.SUCCESS,
       });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         classes: string[];
       };
       expect(vm.classes).toContain(`${VT_NAMESPACE}__toast--${TYPE.SUCCESS}`);
     });
     it("updates with position", () => {
       const wrapper = mountToast({
-        position: POSITION.BOTTOM_CENTER
+        position: POSITION.BOTTOM_CENTER,
       });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         classes: string[];
       };
       expect(vm.classes).toContain(POSITION.BOTTOM_CENTER);
@@ -158,25 +158,25 @@ describe("VtToast", () => {
     it("updates with disableTransitions", () => {
       const wrapper = mountToast();
       wrapper.setData({ disableTransitions: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         classes: string[];
       };
       expect(vm.classes).toContain("disable-transition");
     });
     it("updates with toastClassName as string", () => {
       const wrapper = mountToast({
-        toastClassName: "myclass"
+        toastClassName: "myclass",
       });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         classes: string[];
       };
       expect(vm.classes).toContain("myclass");
     });
     it("updates with toastClassName as array", () => {
       const wrapper = mountToast({
-        toastClassName: ["myclass", "myclass2"]
+        toastClassName: ["myclass", "myclass2"],
       });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         classes: string[];
       };
       expect(vm.classes).toContain("myclass");
@@ -186,7 +186,7 @@ describe("VtToast", () => {
   describe("bodyClasses", () => {
     it("returns default classes", () => {
       const wrapper = mountToast();
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         bodyClasses: string[];
       };
       const bodyClasses = [`${VT_NAMESPACE}__toast-body`];
@@ -194,7 +194,7 @@ describe("VtToast", () => {
     });
     it("returns component-body if custom component", () => {
       const wrapper = mountToast({ content: Simple });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         bodyClasses: string[];
       };
       const bodyClasses = [`${VT_NAMESPACE}__toast-component-body`];
@@ -202,14 +202,14 @@ describe("VtToast", () => {
     });
     it("appends bodyClassName as string", () => {
       const wrapper = mountToast({ bodyClassName: "myclass" });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         bodyClasses: string[];
       };
       expect(vm.bodyClasses).toContain("myclass");
     });
     it("appends bodyClassName as array", () => {
       const wrapper = mountToast({ bodyClassName: ["myclass", "myclass2"] });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         bodyClasses: string[];
       };
       expect(vm.bodyClasses).toContain("myclass");
@@ -219,7 +219,7 @@ describe("VtToast", () => {
   describe("draggableStyle", () => {
     it("returns empty if dragStart === dragPos.x", () => {
       const wrapper = mountToast();
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         draggableStyle: {
           transition?: string;
           opacity?: number;
@@ -231,7 +231,7 @@ describe("VtToast", () => {
     it("returns { transform, opacity } if beingDragged", () => {
       const wrapper = mountToast();
       wrapper.setData({ dragPos: { x: 10 }, beingDragged: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         draggableStyle: {
           transition?: string;
           opacity?: number;
@@ -242,13 +242,13 @@ describe("VtToast", () => {
       };
       expect(vm.draggableStyle).toEqual({
         transform: `translateX(${vm.dragDelta}px)`,
-        opacity: 1 - Math.abs(vm.dragDelta / vm.removalDistance)
+        opacity: 1 - Math.abs(vm.dragDelta / vm.removalDistance),
       });
     });
     it("Returns default values otherwise", () => {
       const wrapper = mountToast();
       wrapper.setData({ dragStart: 10 });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         draggableStyle: {
           transition?: string;
           opacity?: number;
@@ -258,7 +258,7 @@ describe("VtToast", () => {
       expect(vm.draggableStyle).toEqual({
         transition: "transform 0.2s, opacity 0.2s",
         transform: "translateX(0)",
-        opacity: 1
+        opacity: 1,
       });
     });
   });
@@ -266,7 +266,7 @@ describe("VtToast", () => {
     it("is being dragged", () => {
       const wrapper = mountToast();
       wrapper.setData({ beingDragged: true, dragPos: { x: 10 }, dragStart: 0 });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         dragDelta: number;
       };
       expect(vm.dragDelta).toBe(10);
@@ -276,9 +276,9 @@ describe("VtToast", () => {
       wrapper.setData({
         beingDragged: false,
         dragPos: { x: 10 },
-        dragStart: 0
+        dragStart: 0,
       });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         dragDelta: number;
       };
       expect(vm.dragDelta).toBe(0);
@@ -296,10 +296,10 @@ describe("VtToast", () => {
         left: 0,
         x: 10,
         y: 10,
-        toJSON: () => ({})
+        toJSON: () => ({}),
       };
       wrapper.setData({ dragRect, draggablePercent: 0.6 });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         removalDistance: number;
       };
       expect(vm.removalDistance).toBe(6);
@@ -308,7 +308,7 @@ describe("VtToast", () => {
       const wrapper = mountToast();
       const dragRect = {};
       wrapper.setData({ dragRect, draggablePercent: 0.6 });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         removalDistance: number;
       };
       expect(vm.removalDistance).toBe(0);
@@ -322,10 +322,12 @@ describe("VtToast", () => {
         propsData: {
           draggable: true,
           id: 1,
-          content: "content"
-        }
+          content: "content",
+        },
       });
-      const loadedComponent = component as { draggableSetup(): void };
+      const loadedComponent = (component as unknown) as {
+        draggableSetup(): void;
+      };
       const spyOnDraggableSetup = jest.spyOn(loadedComponent, "draggableSetup");
 
       expect(spyOnDraggableSetup).not.toHaveBeenCalled();
@@ -339,10 +341,12 @@ describe("VtToast", () => {
         propsData: {
           draggable: false,
           id: 1,
-          content: "content"
-        }
+          content: "content",
+        },
       });
-      const loadedComponent = component as { draggableSetup(): void };
+      const loadedComponent = (component as unknown) as {
+        draggableSetup(): void;
+      };
       const spyOnDraggableSetup = jest.spyOn(loadedComponent, "draggableSetup");
 
       expect(spyOnDraggableSetup).not.toHaveBeenCalled();
@@ -356,10 +360,10 @@ describe("VtToast", () => {
         propsData: {
           pauseOnFocusLoss: true,
           id: 1,
-          content: "content"
-        }
+          content: "content",
+        },
       });
-      const loadedComponent = component as { focusSetup(): void };
+      const loadedComponent = (component as unknown) as { focusSetup(): void };
       const spyOnFocusSetup = jest.spyOn(loadedComponent, "focusSetup");
 
       expect(spyOnFocusSetup).not.toHaveBeenCalled();
@@ -373,10 +377,10 @@ describe("VtToast", () => {
         propsData: {
           pauseOnFocusLoss: false,
           id: 1,
-          content: "content"
-        }
+          content: "content",
+        },
       });
-      const loadedComponent = component as { focusSetup(): void };
+      const loadedComponent = (component as unknown) as { focusSetup(): void };
       const spyOnfocusSetup = jest.spyOn(loadedComponent, "focusSetup");
 
       expect(spyOnfocusSetup).not.toHaveBeenCalled();
@@ -387,7 +391,7 @@ describe("VtToast", () => {
   describe("beforeDestroy", () => {
     it("calls draggableCleanup if this.draggable is true", () => {
       const wrapper = mountToast({ draggable: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         draggableCleanup(): void;
       };
       const spyOnDraggableCleanup = jest.spyOn(vm, "draggableCleanup");
@@ -397,7 +401,7 @@ describe("VtToast", () => {
     });
     it("does not call draggableCleanup if this.draggable is false", () => {
       const wrapper = mountToast({ draggable: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         draggableCleanup(): void;
       };
       const spyOnDraggableCleanup = jest.spyOn(vm, "draggableCleanup");
@@ -407,7 +411,7 @@ describe("VtToast", () => {
     });
     it("calls focusCleanup if this.pauseOnFocusLoss is true", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         focusCleanup(): void;
       };
       const spyOnfocusCleanup = jest.spyOn(vm, "focusCleanup");
@@ -417,7 +421,7 @@ describe("VtToast", () => {
     });
     it("does not call focusCleanup if this.pauseOnFocusLoss is false", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         focusCleanup(): void;
       };
       const spyOnfocusCleanup = jest.spyOn(vm, "focusCleanup");
@@ -433,14 +437,14 @@ describe("VtToast", () => {
       wrapper.destroy();
       parent.appendChild(wrapper.vm.$el);
       expect(parent.childElementCount).toBe(1);
-      await new Promise(resolve => setTimeout(() => resolve(), 1000));
+      await new Promise((resolve) => setTimeout(() => resolve(), 1000));
       expect(parent.childElementCount).toBe(0);
     });
   });
   describe("closeToast", () => {
     it("emits dismiss event", () => {
       const wrapper = mountToast({ id: "myId", eventBus });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         closeToast(): void;
       };
       expect(eventsEmmited.dismiss).not.toHaveBeenCalled();
@@ -452,7 +456,7 @@ describe("VtToast", () => {
     it("calls onClick if defined", () => {
       const onClick = jest.fn();
       const wrapper = mountToast({ onClick });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         closeToast(): void;
       };
       expect(onClick).not.toHaveBeenCalled();
@@ -462,7 +466,7 @@ describe("VtToast", () => {
     it("calls closeToast if closeOnClick and not beingDragged", () => {
       const wrapper = mountToast({ closeOnClick: true });
       wrapper.setData({ beingDragged: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         closeToast(): void;
       };
       const spyOnCloseToast = jest.spyOn(vm, "closeToast");
@@ -473,7 +477,7 @@ describe("VtToast", () => {
     it("calls closeToast if closeOnClick and at the drag start", () => {
       const wrapper = mountToast({ closeOnClick: true });
       wrapper.setData({ beingDragged: true, dragStart: 0, dragPos: { x: 0 } });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         closeToast(): void;
       };
       const spyOnCloseToast = jest.spyOn(vm, "closeToast");
@@ -483,7 +487,7 @@ describe("VtToast", () => {
     });
     it("does not call closeToast if closeOnClick is false", () => {
       const wrapper = mountToast({ closeOnClick: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         closeToast(): void;
       };
       const spyOnCloseToast = jest.spyOn(vm, "closeToast");
@@ -494,7 +498,7 @@ describe("VtToast", () => {
     it("does not call closeToast if beingDragged and dragStart is not dragPos.x", () => {
       const wrapper = mountToast({ closeOnClick: true });
       wrapper.setData({ beingDragged: true, dragStart: 1, dragPos: { x: 0 } });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         closeToast(): void;
       };
       const spyOnCloseToast = jest.spyOn(vm, "closeToast");
@@ -506,11 +510,11 @@ describe("VtToast", () => {
   describe("timeoutHandler", () => {
     it("calls closeToast if ProgressBar emits close-toast", () => {
       const wrapper = mountToast({ closeOnClick: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         closeToast(): void;
       };
       const spyOnCloseToast = jest.spyOn(vm, "closeToast");
-      const progressBar = wrapper.find(VtProgressBar);
+      const progressBar = wrapper.findComponent(VtProgressBar);
       expect(spyOnCloseToast).not.toHaveBeenCalled();
       progressBar.vm.$emit("close-toast");
       expect(spyOnCloseToast).toHaveBeenCalled();
@@ -519,7 +523,7 @@ describe("VtToast", () => {
   describe("hoverPause", () => {
     it("pauses on mouseenter if pauseOnHover", () => {
       const wrapper = mountToast({ pauseOnHover: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
@@ -528,7 +532,7 @@ describe("VtToast", () => {
     });
     it("does not pause on mouseenter if not pauseOnHover", () => {
       const wrapper = mountToast({ pauseOnHover: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
@@ -540,7 +544,7 @@ describe("VtToast", () => {
     it("resume on mouseleave if pauseOnHover", () => {
       const wrapper = mountToast({ pauseOnHover: true });
       wrapper.setData({ isRunning: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
@@ -550,7 +554,7 @@ describe("VtToast", () => {
     it("does not resume on mouseleave if not pauseOnHover", () => {
       const wrapper = mountToast({ pauseOnHover: false });
       wrapper.setData({ isRunning: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
@@ -561,7 +565,7 @@ describe("VtToast", () => {
   describe("focusPause", () => {
     it("pauses on blur if pauseOnFocusLoss", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
@@ -570,7 +574,7 @@ describe("VtToast", () => {
     });
     it("does not pause on blur if not pauseOnFocusLoss", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(true);
@@ -582,7 +586,7 @@ describe("VtToast", () => {
     it("resume on focus if pauseOnFocusLoss", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: true });
       wrapper.setData({ isRunning: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
@@ -592,7 +596,7 @@ describe("VtToast", () => {
     it("does not resume on focus if not pauseOnFocusLoss", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: false });
       wrapper.setData({ isRunning: false });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         isRunning: boolean;
       };
       expect(vm.isRunning).toBe(false);
@@ -607,9 +611,9 @@ describe("VtToast", () => {
         beingDragged: false,
         dragPos: { x: 0, y: 0 },
         dragStart: 0,
-        dragRect: {}
+        dragRect: {},
       });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean;
         dragPos: { x: number; y: number };
         dragStart: number;
@@ -621,7 +625,7 @@ describe("VtToast", () => {
       expect(vm.dragRect).toEqual({});
       wrapper.trigger("mousedown", {
         clientX: 10,
-        clientY: 15
+        clientY: 15,
       });
       expect(vm.beingDragged).toBe(true);
       expect(vm.dragPos).toEqual({ x: 10, y: 15 });
@@ -634,7 +638,7 @@ describe("VtToast", () => {
       const wrapper = mountToast({ draggable: true });
       const docWrapper = createWrapper(document.body);
       wrapper.setData({ beingDragged: false, isRunning: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean;
         dragPos: { x: number; y: number };
         isRunning: boolean;
@@ -642,12 +646,12 @@ describe("VtToast", () => {
       expect(vm.isRunning).toBe(true);
       wrapper.trigger("mousedown", {
         clientX: 10,
-        clientY: 15
+        clientY: 15,
       });
       expect(vm.isRunning).toBe(true);
       docWrapper.trigger("mousemove", {
         clientX: 20,
-        clientY: 25
+        clientY: 25,
       });
       expect(vm.beingDragged).toBe(true);
       expect(vm.isRunning).toBe(false);
@@ -658,7 +662,7 @@ describe("VtToast", () => {
       wrapper.setData({ beingDragged: false, isRunning: true });
       wrapper.trigger("mousedown", {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       });
       const event = new MouseEvent("mousemove", { clientX: 10, clientY: 15 });
       const spyPreventDefault = jest.spyOn(event, "preventDefault");
@@ -670,7 +674,7 @@ describe("VtToast", () => {
       const wrapper = mountToast({ draggable: true });
       const docWrapper = createWrapper(document.body);
       wrapper.setData({ beingDragged: false, isRunning: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean;
         dragPos: { x: number; y: number };
         isRunning: boolean;
@@ -678,7 +682,7 @@ describe("VtToast", () => {
       expect(vm.isRunning).toBe(true);
       docWrapper.trigger("mousemove", {
         clientX: 20,
-        clientY: 25
+        clientY: 25,
       });
       expect(vm.beingDragged).toBe(false);
       expect(vm.isRunning).toBe(true);
@@ -690,7 +694,7 @@ describe("VtToast", () => {
       const wrapper = mountToast({ draggable: true });
       const docWrapper = createWrapper(document.body);
       wrapper.setData({ beingDragged: false, isRunning: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean;
         dragPos: { x: number; y: number };
         isRunning: boolean;
@@ -702,11 +706,11 @@ describe("VtToast", () => {
       const spyCloseToast = jest.spyOn(vm, "closeToast");
       wrapper.trigger("mousedown", {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       });
       docWrapper.trigger("mousemove", {
         clientX: 1000,
-        clientY: 0
+        clientY: 0,
       });
       expect(Math.abs(vm.dragDelta)).toBeGreaterThanOrEqual(vm.removalDistance);
       expect(spyCloseToast).not.toHaveBeenCalled();
@@ -721,7 +725,7 @@ describe("VtToast", () => {
       const wrapper = mountToast({ draggable: true, pauseOnHover: true });
       const docWrapper = createWrapper(document.body);
       wrapper.setData({ beingDragged: false, isRunning: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean;
         dragPos: { x: number; y: number };
         isRunning: boolean;
@@ -732,21 +736,21 @@ describe("VtToast", () => {
       };
       wrapper.trigger("mousedown", {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       });
       docWrapper.trigger("mousemove", {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       });
       wrapper.setData({
-        dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 }
+        dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 },
       });
       expect(Math.abs(vm.dragDelta)).toBeLessThan(vm.removalDistance);
       expect(vm.disableTransitions).toBe(false);
       docWrapper.trigger("mouseup");
       expect(vm.disableTransitions).toBe(false);
       expect(vm.beingDragged).toBe(true);
-      await new Promise(resolve => setTimeout(() => resolve()));
+      await new Promise((resolve) => setTimeout(() => resolve()));
       expect(vm.beingDragged).toBe(false);
       expect(vm.isRunning).toBe(false);
     });
@@ -754,7 +758,7 @@ describe("VtToast", () => {
       const wrapper = mountToast({ draggable: true, pauseOnHover: false });
       const docWrapper = createWrapper(document.body);
       wrapper.setData({ beingDragged: false, isRunning: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean;
         dragPos: { x: number; y: number };
         isRunning: boolean;
@@ -765,21 +769,21 @@ describe("VtToast", () => {
       };
       wrapper.trigger("mousedown", {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       });
       docWrapper.trigger("mousemove", {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       });
       wrapper.setData({
-        dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 }
+        dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 },
       });
       expect(Math.abs(vm.dragDelta)).toBeLessThan(vm.removalDistance);
       expect(vm.disableTransitions).toBe(false);
       docWrapper.trigger("mouseup");
       expect(vm.disableTransitions).toBe(false);
       expect(vm.beingDragged).toBe(true);
-      await new Promise(resolve => setTimeout(() => resolve()));
+      await new Promise((resolve) => setTimeout(() => resolve()));
       expect(vm.beingDragged).toBe(false);
       expect(vm.isRunning).toBe(true);
     });
@@ -787,7 +791,7 @@ describe("VtToast", () => {
       const wrapper = mountToast({ draggable: true, pauseOnHover: true });
       const docWrapper = createWrapper(document.body);
       wrapper.setData({ beingDragged: false, isRunning: true });
-      const vm = wrapper.vm as {
+      const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean;
         dragPos: { x: number; y: number };
         isRunning: boolean;
@@ -798,21 +802,21 @@ describe("VtToast", () => {
       };
       wrapper.trigger("mousedown", {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       });
       docWrapper.trigger("mousemove", {
         clientX: 0,
-        clientY: 100
+        clientY: 100,
       });
       wrapper.setData({
-        dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 }
+        dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 },
       });
       expect(Math.abs(vm.dragDelta)).toBeLessThan(vm.removalDistance);
       expect(vm.disableTransitions).toBe(false);
       docWrapper.trigger("mouseup");
       expect(vm.disableTransitions).toBe(false);
       expect(vm.beingDragged).toBe(true);
-      await new Promise(resolve => setTimeout(() => resolve()));
+      await new Promise((resolve) => setTimeout(() => resolve()));
       expect(vm.beingDragged).toBe(false);
       expect(vm.isRunning).toBe(true);
     });

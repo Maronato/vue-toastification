@@ -10,7 +10,7 @@ import {
   getVueComponentFromObj,
   hasProp,
   isUndefined,
-  isDOMRect
+  isDOMRect,
 } from "../../../src/ts/utils";
 import Simple from "../../utils/components/Simple.vue";
 
@@ -121,9 +121,10 @@ describe("isToastContent", () => {
   it("has render function", () => {
     expect(
       isToastContent({
+        // eslint-disable-next-line @typescript-eslint/ban-types
         render(h: Function) {
           h();
-        }
+        },
       })
     ).toBe(true);
   });
@@ -159,7 +160,7 @@ describe("getVueComponentFromObj", () => {
   });
   it("get vue component", () => {
     const component = Vue.component("my-component", {
-      template: "<div>abc</div>"
+      template: "<div>abc</div>",
     });
     expect(getVueComponentFromObj(component)).toBe(component);
   });
@@ -220,7 +221,7 @@ describe("isDOMRect", () => {
         left: 10,
         right: 10,
         top: 10,
-        bottom: 10
+        bottom: 10,
       })
     ).toBe(true);
   });
@@ -252,7 +253,7 @@ describe("isDOMRect", () => {
         left: 10,
         right: 10,
         top: 10,
-        bottom: "abc"
+        bottom: "abc",
       })
     ).toBe(false);
     expect(
@@ -262,7 +263,7 @@ describe("isDOMRect", () => {
         left: 10,
         right: 10,
         top: "abc",
-        bottom: 10
+        bottom: 10,
       })
     ).toBe(false);
     expect(
@@ -272,7 +273,7 @@ describe("isDOMRect", () => {
         left: 10,
         right: "abc",
         top: 10,
-        bottom: 10
+        bottom: 10,
       })
     ).toBe(false);
     expect(
@@ -282,7 +283,7 @@ describe("isDOMRect", () => {
         left: "abc",
         right: 10,
         top: 10,
-        bottom: 10
+        bottom: 10,
       })
     ).toBe(false);
     expect(
@@ -292,7 +293,7 @@ describe("isDOMRect", () => {
         left: 10,
         right: 10,
         top: 10,
-        bottom: 10
+        bottom: 10,
       })
     ).toBe(false);
     expect(
@@ -302,7 +303,7 @@ describe("isDOMRect", () => {
         left: 10,
         right: 10,
         top: 10,
-        bottom: 10
+        bottom: 10,
       })
     ).toBe(false);
   });

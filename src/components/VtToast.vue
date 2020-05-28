@@ -47,7 +47,7 @@ import {
   isString,
   getX,
   getY,
-  isDOMRect
+  isDOMRect,
 } from "../ts/utils";
 
 import ProgressBar from "./VtProgressBar.vue";
@@ -62,7 +62,7 @@ export default Vue.extend({
 
   data() {
     const data: {
-      dragRect: DOMRect | {};
+      dragRect: DOMRect | Record<string, unknown>;
       isRunning: boolean;
       disableTransitions: boolean;
       beingDragged: boolean;
@@ -75,7 +75,7 @@ export default Vue.extend({
       beingDragged: false,
       dragStart: 0,
       dragPos: { x: 0, y: 0 },
-      dragRect: {}
+      dragRect: {},
     };
     return data;
   },
@@ -85,7 +85,7 @@ export default Vue.extend({
       const classes = [
         `${VT_NAMESPACE}__toast`,
         `${VT_NAMESPACE}__toast--${this.type}`,
-        `${this.position}`
+        `${this.position}`,
       ].concat(this.toastClassName);
       if (this.disableTransitions) {
         classes.push("disable-transition");
@@ -99,7 +99,7 @@ export default Vue.extend({
       const classes = [
         `${VT_NAMESPACE}__toast-${
           isString(this.content) ? "body" : "component-body"
-        }`
+        }`,
       ].concat(this.bodyClassName);
       return classes;
     },
@@ -115,13 +115,13 @@ export default Vue.extend({
       if (this.beingDragged) {
         return {
           transform: `translateX(${this.dragDelta}px)`,
-          opacity: 1 - Math.abs(this.dragDelta / this.removalDistance)
+          opacity: 1 - Math.abs(this.dragDelta / this.removalDistance),
         };
       }
       return {
         transition: "transform 0.2s, opacity 0.2s",
         transform: "translateX(0)",
-        opacity: 1
+        opacity: 1,
       };
     },
     dragDelta(): number {
@@ -134,7 +134,7 @@ export default Vue.extend({
         );
       }
       return 0;
-    }
+    },
   },
 
   mounted() {
@@ -261,7 +261,7 @@ export default Vue.extend({
           });
         }
       }
-    }
-  }
+    },
+  },
 });
 </script>

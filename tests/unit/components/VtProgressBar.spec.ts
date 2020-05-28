@@ -13,7 +13,7 @@ describe("VtProgressBar", () => {
   });
   it("has default style values", () => {
     const wrapper = mount(VtProgressBar);
-    const vm = wrapper.vm as { [index: string]: unknown };
+    const vm = (wrapper.vm as unknown) as { [index: string]: unknown };
     const style = vm.style as {
       animationDuration: string;
       animationPlayState: string;
@@ -22,16 +22,16 @@ describe("VtProgressBar", () => {
     expect(style).toEqual({
       animationDuration: "5000ms",
       animationPlayState: "paused",
-      opacity: 1
+      opacity: 1,
     });
   });
   it("sets style duration from timeout", () => {
     const wrapper = mount(VtProgressBar, {
       propsData: {
-        timeout: 1000
-      }
+        timeout: 1000,
+      },
     });
-    const vm = wrapper.vm as { [index: string]: unknown };
+    const vm = (wrapper.vm as unknown) as { [index: string]: unknown };
     const style = vm.style as {
       animationDuration: string;
       animationPlayState: string;
@@ -40,17 +40,17 @@ describe("VtProgressBar", () => {
     expect(style).toEqual({
       animationDuration: "1000ms",
       animationPlayState: "paused",
-      opacity: 1
+      opacity: 1,
     });
     expect(wrapper.element).toMatchSnapshot();
   });
   it("sets playstate from isRunning", () => {
     const wrapper = mount(VtProgressBar, {
       propsData: {
-        isRunning: true
-      }
+        isRunning: true,
+      },
     });
-    const vm = wrapper.vm as { [index: string]: unknown };
+    const vm = (wrapper.vm as unknown) as { [index: string]: unknown };
     const style = vm.style as {
       animationDuration: string;
       animationPlayState: string;
@@ -59,17 +59,17 @@ describe("VtProgressBar", () => {
     expect(style).toEqual({
       animationDuration: "5000ms",
       animationPlayState: "running",
-      opacity: 1
+      opacity: 1,
     });
     expect(wrapper.element).toMatchSnapshot();
   });
   it("sets opacity to 0 from from hideProgressBar", () => {
     const wrapper = mount(VtProgressBar, {
       propsData: {
-        hideProgressBar: true
-      }
+        hideProgressBar: true,
+      },
     });
-    const vm = wrapper.vm as { [index: string]: unknown };
+    const vm = (wrapper.vm as unknown) as { [index: string]: unknown };
     const style = vm.style as {
       animationDuration: string;
       animationPlayState: string;
@@ -78,7 +78,7 @@ describe("VtProgressBar", () => {
     expect(style).toEqual({
       animationDuration: "5000ms",
       animationPlayState: "paused",
-      opacity: 0
+      opacity: 0,
     });
     expect(wrapper.element).toMatchSnapshot();
   });

@@ -10,6 +10,7 @@ interface DictionaryLike {
  */
 type VueClass<V extends Vue> = (new (...args: unknown[]) => V) & typeof Vue;
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const isFunction = (value: unknown): value is Function =>
   typeof value === "function";
 
@@ -90,13 +91,14 @@ const hasProp = <O extends unknown, K extends PropertyKey>(
 
 const hasRenderFunction = <O extends unknown>(
   obj: O
+  // eslint-disable-next-line @typescript-eslint/ban-types
 ): obj is O & { render: Function } =>
   hasProp(obj, "render") && isFunction(obj.render);
 
 /**
  * ID generator
  */
-const getId = (i => () => i++)(0);
+const getId = ((i) => () => i++)(0);
 
 function getX(event: MouseEvent | TouchEvent) {
   return isTouchEvent(event) ? event.targetTouches[0].clientX : event.clientX;
@@ -124,7 +126,7 @@ const getVueComponentFromObj = (obj: ToastContent): RenderableToastContent => {
     return {
       render() {
         return obj;
-      }
+      },
     };
   }
   // Return the actual object if regular vue component
@@ -143,5 +145,5 @@ export {
   hasProp,
   isUndefined,
   isDOMRect,
-  isFunction
+  isFunction,
 };

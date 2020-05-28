@@ -3,7 +3,7 @@ export enum TYPE {
   ERROR = "error",
   WARNING = "warning",
   INFO = "info",
-  DEFAULT = "default"
+  DEFAULT = "default",
 }
 
 export enum POSITION {
@@ -12,7 +12,7 @@ export enum POSITION {
   TOP_RIGHT = "top-right",
   BOTTOM_LEFT = "bottom-left",
   BOTTOM_CENTER = "bottom-center",
-  BOTTOM_RIGHT = "bottom-right"
+  BOTTOM_RIGHT = "bottom-right",
 }
 
 export enum EVENTS {
@@ -20,7 +20,7 @@ export enum EVENTS {
   DISMISS = "dismiss",
   UPDATE = "update",
   CLEAR = "clear",
-  UPDATE_DEFAULTS = "update_defaults"
+  UPDATE_DEFAULTS = "update_defaults",
 }
 
 export const VT_NAMESPACE = "Vue-Toastification";

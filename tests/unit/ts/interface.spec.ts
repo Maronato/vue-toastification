@@ -63,7 +63,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.add).toBeCalledWith({
       id: expect.any(Number),
       type: TYPE.DEFAULT,
-      content
+      content,
     });
     expect(typeof id).toBe("number");
   });
@@ -77,7 +77,7 @@ describe("ToastInterface", () => {
       id: expect.any(Number),
       type: TYPE.DEFAULT,
       content,
-      ...options
+      ...options,
     });
     expect(typeof id).toBe("number");
   });
@@ -107,7 +107,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.update).toBeCalledWith({
       id,
       options: { content },
-      create: false
+      create: false,
     });
   });
   it("calls update with options", () => {
@@ -119,7 +119,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.update).toBeCalledWith({
       id,
       options: { ...options, content: undefined },
-      create: false
+      create: false,
     });
   });
   it("calls update with create", () => {
@@ -131,7 +131,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.update).toBeCalledWith({
       id,
       options: { content },
-      create: true
+      create: true,
     });
   });
   it("calls success", () => {
@@ -142,7 +142,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.add).toBeCalledWith({
       id: expect.any(Number),
       type: TYPE.SUCCESS,
-      content
+      content,
     });
   });
   it("calls info", () => {
@@ -153,7 +153,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.add).toBeCalledWith({
       id: expect.any(Number),
       type: TYPE.INFO,
-      content
+      content,
     });
   });
   it("calls error", () => {
@@ -164,7 +164,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.add).toBeCalledWith({
       id: expect.any(Number),
       type: TYPE.ERROR,
-      content
+      content,
     });
   });
   it("calls warning", () => {
@@ -175,7 +175,7 @@ describe("ToastInterface", () => {
     expect(eventsEmmited.add).toBeCalledWith({
       id: expect.any(Number),
       type: TYPE.WARNING,
-      content
+      content,
     });
   });
 });

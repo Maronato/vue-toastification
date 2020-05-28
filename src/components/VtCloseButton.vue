@@ -32,7 +32,7 @@ export default Vue.extend({
         classes.push("show-on-hover");
       }
       return classes.concat(this.classNames);
-    }
-  }
+    },
+  },
 });
 </script>

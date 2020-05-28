@@ -7,7 +7,7 @@ import {
   ToastOptions,
   ToastID,
   PluginOptions,
-  ToastOptionsAndRequiredContent
+  ToastOptionsAndRequiredContent,
 } from "../types";
 import { TYPE, EVENTS } from "./constants";
 import { getId, isUndefined } from "./utils";
@@ -21,7 +21,7 @@ const ToastInterface = (
   if (mountContainer) {
     const containerComponent = new (Vue.extend(ToastContainer))({
       el: document.createElement("div"),
-      propsData: globalOptions
+      propsData: globalOptions,
     });
     const onMounted = globalOptions.onMounted;
     if (!isUndefined(onMounted)) {
@@ -35,7 +35,7 @@ const ToastInterface = (
     const props: ToastOptionsAndRequiredContent & {
       id: ToastID;
     } = Object.assign({}, { id: getId(), type: TYPE.DEFAULT }, options, {
-      content
+      content,
     });
     events.$emit(EVENTS.ADD, props);
     return props.id;
@@ -77,7 +77,7 @@ const ToastInterface = (
     events.$emit(EVENTS.UPDATE, {
       id,
       options: Object.assign({}, options, { content }),
-      create
+      create,
     });
   }
   toast.update = updateToast;

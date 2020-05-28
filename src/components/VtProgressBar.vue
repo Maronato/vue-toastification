@@ -13,7 +13,7 @@ export default Vue.extend({
 
   data() {
     return {
-      hasClass: true
+      hasClass: true,
     };
   },
 
@@ -26,13 +26,13 @@ export default Vue.extend({
       return {
         animationDuration: `${this.timeout}ms`,
         animationPlayState: this.isRunning ? "running" : "paused",
-        opacity: this.hideProgressBar ? 0 : 1
+        opacity: this.hideProgressBar ? 0 : 1,
       };
     },
 
     cpClass(): string {
       return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : "";
-    }
+    },
   },
 
   mounted() {
@@ -46,14 +46,14 @@ export default Vue.extend({
   methods: {
     animationEnded() {
       this.$emit("close-toast");
-    }
+    },
   },
 
   watch: {
     timeout() {
       this.hasClass = false;
       this.$nextTick(() => (this.hasClass = true));
-    }
-  }
+    },
+  },
 });
 </script>
