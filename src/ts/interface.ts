@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _Vue from "vue";
 import { VueConstructor } from "vue/types";
 import ToastContainer from "../components/VtToastContainer.vue";
