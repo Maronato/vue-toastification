@@ -30,7 +30,7 @@ const isJSX = (obj: unknown): obj is JSX.Element =>
   hasProp(obj, "tag") && isNonEmptyString(obj.tag);
 
 const isTouchEvent = (event: Event): event is TouchEvent =>
-  event instanceof TouchEvent;
+  window.TouchEvent && event instanceof TouchEvent;
 
 const isToastComponent = (obj: unknown): obj is ToastComponent =>
   hasProp(obj, "component") && isToastContent(obj.component);
