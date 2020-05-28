@@ -34,7 +34,6 @@
   ],
   "style": "dist/index.css",
   "dependencies": {
-    "rollup-plugin-sass": "^1.2.2"
   },
   "devDependencies": {
     "@mdi/font": "^5.3.45",
@@ -67,6 +66,7 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-filesize": "^9.0.0",
     "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-typescript2": "^0.27.1",
     "rollup-plugin-vue": "<6.0.0",
     "sass": "^1.26.5",
