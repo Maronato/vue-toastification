@@ -174,9 +174,9 @@ export interface PluginOptions extends CommonOptions {
   onMounted?: (
     containerComponent: CombinedVueInstance<
       Record<never, unknown> & Vue,
-      object,
-      object,
-      object,
+      unknown,
+      unknown,
+      unknown,
       Record<never, unknown>
     >
   ) => void;
@@ -198,6 +198,7 @@ export interface ToastOptions extends CommonOptions {
    *
    *  A closeToast callback is passed as argument to onClick when it is called.
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: (closeToast: Function) => void;
   /**
    * 	Callback executed when the toast is closed.
@@ -221,6 +222,7 @@ export interface ToastComponent {
   /**
    * `eventName: eventHandler` pairs of events that the component can emit.
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   listeners?: { [listenerEvent: string]: Function };
 }
 

@@ -3,7 +3,7 @@ import {
   PluginOptions,
   ToastID,
   ToastOptionsAndContent,
-  ToastOptionsAndRequiredContent
+  ToastOptionsAndRequiredContent,
 } from "../../../src/types";
 import { POSITION, TYPE, VT_NAMESPACE } from "../../../src/ts/constants";
 
@@ -45,7 +45,7 @@ describe("VtToastContainer", () => {
         setup(container: () => Promise<HTMLElement>): void;
       };
       expect(containerWrapper.element.parentElement).not.toBe(container);
-      vm.setup(() => new Promise(resolve => resolve(container)));
+      vm.setup(() => new Promise((resolve) => resolve(container)));
       await containerWrapper.vm.$nextTick();
       expect(containerWrapper.element.parentElement).toBe(container);
     });
@@ -60,7 +60,7 @@ describe("VtToastContainer", () => {
       expect(vm.toasts).toEqual({});
       const toast: ToastOptionsAndRequiredContent = {
         content: "abc",
-        id: "id"
+        id: "id",
       };
       vm.setToast(toast);
       expect(vm.toasts).toEqual({ id: toast });
@@ -79,7 +79,7 @@ describe("VtToastContainer", () => {
   });
   describe("addToast", () => {
     it("uses default values if nothing was provided", () => {
-      const filterBeforeCreate = jest.fn(toast => toast);
+      const filterBeforeCreate = jest.fn((toast) => toast);
       const { containerWrapper } = loadPlugin({ filterBeforeCreate });
       const vm = (containerWrapper.vm as unknown) as {
         addToast(params: ToastOptionsAndRequiredContent): void;
@@ -94,7 +94,7 @@ describe("VtToastContainer", () => {
       );
     });
     it("merges default with params", () => {
-      const filterBeforeCreate = jest.fn(toast => toast);
+      const filterBeforeCreate = jest.fn((toast) => toast);
       const { containerWrapper } = loadPlugin({ filterBeforeCreate });
       const vm = (containerWrapper.vm as unknown) as {
         addToast(params: ToastOptionsAndRequiredContent): void;
@@ -103,7 +103,7 @@ describe("VtToastContainer", () => {
       const toast: ToastOptionsAndRequiredContent = {
         content: "abc",
         timeout: 1000,
-        closeButton: false
+        closeButton: false,
       };
       expect(filterBeforeCreate).not.toHaveBeenCalled();
       vm.addToast(toast);
@@ -113,16 +113,16 @@ describe("VtToastContainer", () => {
       );
     });
     it("merges default for toast type with params", () => {
-      const filterBeforeCreate = jest.fn(toast => toast);
+      const filterBeforeCreate = jest.fn((toast) => toast);
       const toastDefaults = {
         [TYPE.SUCCESS]: {
           timeout: 1000,
-          closeButton: false as false
-        }
+          closeButton: false as const,
+        },
       };
       const { containerWrapper } = loadPlugin({
         filterBeforeCreate,
-        toastDefaults
+        toastDefaults,
       });
       const vm = (containerWrapper.vm as unknown) as {
         addToast(params: ToastOptionsAndRequiredContent): void;
@@ -132,7 +132,7 @@ describe("VtToastContainer", () => {
         type: TYPE.SUCCESS;
       } = {
         type: TYPE.SUCCESS,
-        content: "abc"
+        content: "abc",
       };
       expect(filterBeforeCreate).not.toHaveBeenCalled();
       vm.addToast(toast);
@@ -142,16 +142,16 @@ describe("VtToastContainer", () => {
       );
     });
     it("uses default filterBeforeCreate if defined", () => {
-      const filterBeforeCreate = jest.fn(toast => toast);
+      const filterBeforeCreate = jest.fn((toast) => toast);
       const toastDefaults = {
         [TYPE.SUCCESS]: {
           timeout: 1000,
-          closeButton: false as false
-        }
+          closeButton: false as const,
+        },
       };
       const { containerWrapper } = loadPlugin({
         filterBeforeCreate,
-        toastDefaults
+        toastDefaults,
       });
       const vm = (containerWrapper.vm as unknown) as {
         addToast(params: ToastOptionsAndRequiredContent): void;
@@ -161,7 +161,7 @@ describe("VtToastContainer", () => {
         type: TYPE.SUCCESS;
       } = {
         type: TYPE.SUCCESS,
-        content: "abc"
+        content: "abc",
       };
       expect(filterBeforeCreate).not.toHaveBeenCalled();
       vm.addToast(toast);
@@ -185,7 +185,7 @@ describe("VtToastContainer", () => {
       expect(filterBeforeCreate).toHaveBeenCalled();
     });
     it("uses custom filterBeforeCreate", () => {
-      const filterBeforeCreate = jest.fn(toast => toast);
+      const filterBeforeCreate = jest.fn((toast) => toast);
       const { containerWrapper } = loadPlugin({ filterBeforeCreate });
       const vm = (containerWrapper.vm as unknown) as {
         addToast(params: ToastOptionsAndRequiredContent): void;
@@ -281,23 +281,25 @@ describe("VtToastContainer", () => {
       vm.setToast({
         id: 1,
         content: "content1",
-        position: POSITION.TOP_CENTER
+        position: POSITION.TOP_CENTER,
       });
       vm.setToast({ id: 2, content: "content1", position: POSITION.TOP_RIGHT });
       const topCenterIds = vm
         .getPositionToasts(POSITION.TOP_CENTER)
-        .map(t => t.id);
+        .map((t) => t.id);
       const topRightIds = vm
         .getPositionToasts(POSITION.TOP_RIGHT)
-        .map(t => t.id);
-      const topLeftIds = vm.getPositionToasts(POSITION.TOP_LEFT).map(t => t.id);
+        .map((t) => t.id);
+      const topLeftIds = vm
+        .getPositionToasts(POSITION.TOP_LEFT)
+        .map((t) => t.id);
       expect(topCenterIds).toEqual([1]);
       expect(topRightIds).toEqual([2]);
       expect(topLeftIds).toEqual([]);
     });
     it("regular ordering if newestOnTop is false", () => {
       const { containerWrapper: containerWrapper1 } = loadPlugin({
-        newestOnTop: false
+        newestOnTop: false,
       });
       const vm = (containerWrapper1.vm as unknown) as {
         getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[];
@@ -308,12 +310,12 @@ describe("VtToastContainer", () => {
       vm.setToast({ id: 3, content: "content3", position: POSITION.TOP_RIGHT });
       const topRightIds = vm
         .getPositionToasts(POSITION.TOP_RIGHT)
-        .map(t => t.id);
+        .map((t) => t.id);
       expect(topRightIds).toEqual([1, 2, 3]);
     });
     it("reverse ordering if newestOnTop is true", () => {
       const { containerWrapper: containerWrapper1 } = loadPlugin({
-        newestOnTop: true
+        newestOnTop: true,
       });
       const vm = (containerWrapper1.vm as unknown) as {
         getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[];
@@ -324,7 +326,7 @@ describe("VtToastContainer", () => {
       vm.setToast({ id: 3, content: "content3", position: POSITION.TOP_RIGHT });
       const topRightIds = vm
         .getPositionToasts(POSITION.TOP_RIGHT)
-        .map(t => t.id);
+        .map((t) => t.id);
       expect(topRightIds).toEqual([3, 2, 1]);
     });
   });
@@ -377,35 +379,7 @@ describe("VtToastContainer", () => {
         updateToast({
           id,
           options,
-          create
-        }: {
-          id: ToastID;
-          options: ToastOptionsAndContent;
-          create: boolean;
-        }): void;
-        setToast(params: ToastOptionsAndRequiredContent): void;
-        toasts: { [toastID: string]: ToastOptionsAndRequiredContent };
-      };
-      const toast: ToastOptionsAndRequiredContent = {
-        id: "id1",
-        content: "content"
-      };
-      vm.setToast(toast);
-      expect(vm.toasts["id1"].content).toBe("content");
-      vm.updateToast({
-        id: "id1",
-        options: { content: "other" },
-        create: false
-      });
-      expect(vm.toasts["id1"].content).toBe("other");
-    });
-    it("increases timeout if it is the same", () => {
-      const { containerWrapper } = loadPlugin();
-      const vm = (containerWrapper.vm as unknown) as {
-        updateToast({
-          id,
-          options,
-          create
+          create,
         }: {
           id: ToastID;
           options: ToastOptionsAndContent;
@@ -417,7 +391,35 @@ describe("VtToastContainer", () => {
       const toast: ToastOptionsAndRequiredContent = {
         id: "id1",
         content: "content",
-        timeout: 1000
+      };
+      vm.setToast(toast);
+      expect(vm.toasts["id1"].content).toBe("content");
+      vm.updateToast({
+        id: "id1",
+        options: { content: "other" },
+        create: false,
+      });
+      expect(vm.toasts["id1"].content).toBe("other");
+    });
+    it("increases timeout if it is the same", () => {
+      const { containerWrapper } = loadPlugin();
+      const vm = (containerWrapper.vm as unknown) as {
+        updateToast({
+          id,
+          options,
+          create,
+        }: {
+          id: ToastID;
+          options: ToastOptionsAndContent;
+          create: boolean;
+        }): void;
+        setToast(params: ToastOptionsAndRequiredContent): void;
+        toasts: { [toastID: string]: ToastOptionsAndRequiredContent };
+      };
+      const toast: ToastOptionsAndRequiredContent = {
+        id: "id1",
+        content: "content",
+        timeout: 1000,
       };
       vm.setToast(toast);
       expect(vm.toasts["id1"].timeout).toBe(1000);
@@ -430,7 +432,7 @@ describe("VtToastContainer", () => {
         updateToast({
           id,
           options,
-          create
+          create,
         }: {
           id: ToastID;
           options: ToastOptionsAndContent;
@@ -443,7 +445,7 @@ describe("VtToastContainer", () => {
       vm.updateToast({
         id: "id1",
         options: { content: "content" },
-        create: true
+        create: true,
       });
       expect(vm.toasts["id1"]).not.toBe(undefined);
       expect(vm.toasts["id1"].content).toBe("content");
@@ -454,7 +456,7 @@ describe("VtToastContainer", () => {
         updateToast({
           id,
           options,
-          create
+          create,
         }: {
           id: ToastID;
           options: ToastOptionsAndContent;
@@ -467,7 +469,7 @@ describe("VtToastContainer", () => {
       vm.updateToast({
         id: "id1",
         options: { content: "content" },
-        create: false
+        create: false,
       });
       expect(vm.toasts["id1"]).toBe(undefined);
     });
@@ -481,7 +483,7 @@ describe("VtToastContainer", () => {
       const position = POSITION.BOTTOM_RIGHT;
       expect(vm.getClasses(position)).toEqual([
         `${VT_NAMESPACE}__container`,
-        position
+        position,
       ]);
     });
   });
@@ -491,11 +493,11 @@ describe("VtToastContainer", () => {
       toastArray: ToastOptionsAndRequiredContent[];
       setToast(params: ToastOptionsAndRequiredContent): void;
     };
-    expect(vm.toastArray.map(t => t.id)).toEqual([]);
+    expect(vm.toastArray.map((t) => t.id)).toEqual([]);
     vm.setToast({ id: "1", content: "abc" });
-    expect(vm.toastArray.map(t => t.id)).toEqual(["1"]);
+    expect(vm.toastArray.map((t) => t.id)).toEqual(["1"]);
     vm.setToast({ id: "2", content: "def" });
-    expect(vm.toastArray.map(t => t.id)).toEqual(["1", "2"]);
+    expect(vm.toastArray.map((t) => t.id)).toEqual(["1", "2"]);
   });
   describe("filteredToasts", () => {
     it("filters toasts with default filterToasts", () => {
@@ -506,7 +508,7 @@ describe("VtToastContainer", () => {
       };
       vm.setToast({ id: "1", content: "abc" });
       vm.setToast({ id: "2", content: "def" });
-      expect(vm.filteredToasts.map(t => t.id)).toEqual(["1", "2"]);
+      expect(vm.filteredToasts.map((t) => t.id)).toEqual(["1", "2"]);
     });
     it("filters toasts with provided filterToasts", () => {
       const filterToasts = jest.fn(() => []);

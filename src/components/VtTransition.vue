@@ -53,6 +53,7 @@ export default Vue.extend({
       el.style.animationFillMode = "both";
       this.$emit("before-leave", el);
     },
+    // eslint-disable-next-line @typescript-eslint/ban-types
     leave(el: HTMLElement, done: Function) {
       this.setAbsolutePosition(el);
       this.$emit("leave", el, done);
@@ -66,7 +67,7 @@ export default Vue.extend({
     cleanUpStyles(el: HTMLElement) {
       el.style.animationFillMode = "";
       el.style.animationDuration = "";
-    }
-  }
+    },
+  },
 });
 </script>

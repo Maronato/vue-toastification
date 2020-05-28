@@ -20,9 +20,9 @@ describe("VtTransition", () => {
         transition: {
           enter: "enter-transition",
           move: "move-transition",
-          leave: "leave-transition"
-        }
-      }
+          leave: "leave-transition",
+        },
+      },
     });
     const componentProps = wrapper.vm.$children[0].$props;
     expect(componentProps.enterActiveClass).toBe("enter-transition");
@@ -45,8 +45,8 @@ describe("VtTransition", () => {
   it("beforeEnter with custom duration", () => {
     const wrapper = mount(VtTransition, {
       propsData: {
-        transitionDuration: { enter: 100 }
-      }
+        transitionDuration: { enter: 100 },
+      },
     });
     const vm = wrapper.vm as { beforeEnter(el: HTMLElement): void };
     const beforeEnter = vm.beforeEnter;
@@ -104,6 +104,7 @@ describe("VtTransition", () => {
   });
   it("leave", () => {
     const wrapper = mount(VtTransition);
+    // eslint-disable-next-line @typescript-eslint/ban-types
     const vm = wrapper.vm as { leave(el: HTMLElement, done: Function): void };
     const done = jest.fn();
     const leave = vm.leave;
@@ -129,8 +130,8 @@ describe("VtTransition", () => {
   it("beforeLeave with custom duration", () => {
     const wrapper = mount(VtTransition, {
       propsData: {
-        transitionDuration: { leave: 100 }
-      }
+        transitionDuration: { leave: 100 },
+      },
     });
     const vm = wrapper.vm as { beforeLeave(el: HTMLElement): void };
     const beforeLeave = vm.beforeLeave;

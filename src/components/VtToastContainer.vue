@@ -25,7 +25,7 @@ import {
   PluginOptions,
   ToastID,
   ToastOptionsAndContent,
-  ToastOptionsAndRequiredContent
+  ToastOptionsAndRequiredContent,
 } from "../types";
 import { removeElement, isUndefined, isFunction } from "../ts/utils";
 
@@ -50,7 +50,7 @@ export default Vue.extend({
       count: 0,
       positions: Object.values(POSITION),
       toasts: {},
-      defaults: {} as PluginOptionsType
+      defaults: {} as PluginOptionsType,
     };
     return data;
   },
@@ -61,7 +61,7 @@ export default Vue.extend({
     },
     filteredToasts(): ToastOptionsAndRequiredContent[] {
       return this.defaults.filterToasts(this.toastArray);
-    }
+    },
   },
 
   beforeMount() {
@@ -114,7 +114,7 @@ export default Vue.extend({
     },
     getPositionToasts(position: POSITION) {
       const toasts = this.filteredToasts
-        .filter(toast => toast.position === position)
+        .filter((toast) => toast.position === position)
         .slice(0, this.defaults.maxToasts);
       return this.defaults.newestOnTop ? toasts.reverse() : toasts;
     },
@@ -128,7 +128,7 @@ export default Vue.extend({
     updateToast({
       id,
       options,
-      create
+      create,
     }: {
       id: ToastID;
       options: ToastOptionsAndContent;
@@ -150,7 +150,7 @@ export default Vue.extend({
     getClasses(position: POSITION) {
       const classes = [`${VT_NAMESPACE}__container`, position];
       return classes.concat(this.defaults.containerClassName);
-    }
-  }
+    },
+  },
 });
 </script>
