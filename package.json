@@ -1,6 +1,6 @@
 {
   "name": "vue-toastification",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "private": false,
   "description": "Toasts for Vue made easy!",
   "author": "Gustavo Maronato",
@@ -33,8 +33,7 @@
     "composition"
   ],
   "style": "dist/index.css",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@mdi/font": "^5.3.45",
     "@nuxt/types": "^0.7.7",
@@ -65,8 +64,8 @@
     "rollup": "^2.11.2",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-filesize": "^9.0.0",
-    "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-sass": "^1.2.2",
+    "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.27.1",
     "rollup-plugin-vue": "<6.0.0",
     "sass": "^1.26.5",
