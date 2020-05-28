@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VtTransition snapshots default values 1`] = `<div />`;
+exports[`VtTransition snapshots default values 1`] = `
+<transition-group-stub
+  enteractiveclass="Vue-Toastification__bounce-enter-active"
+  leaveactiveclass="Vue-Toastification__bounce-leave-active"
+  moveclass="Vue-Toastification__bounce-move"
+  tag="div"
+/>
+`;
 
-exports[`VtTransition transition-group has custom classes 1`] = `<div />`;
+exports[`VtTransition transition-group has custom classes 1`] = `
+<transition-group-stub
+  enteractiveclass="enter-transition"
+  leaveactiveclass="leave-transition"
+  moveclass="move-transition"
+  tag="div"
+/>
+`;

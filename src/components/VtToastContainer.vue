@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="pos in positions" :key="pos">
-      <Transition
+      <VtTransition
         :transition="defaults.transition"
         :transition-duration="defaults.transitionDuration"
         :class="getClasses(pos)"
@@ -11,7 +11,7 @@
           :key="toast.id"
           v-bind="toast"
         />
-      </Transition>
+      </VtTransition>
     </div>
   </div>
 </template>
@@ -30,10 +30,10 @@ import {
 import { removeElement, isUndefined, isFunction } from "../ts/utils";
 
 import Toast from "./VtToast.vue";
-import Transition from "./VtTransition.vue";
+import VtTransition from "./VtTransition.vue";
 
 export default Vue.extend({
-  components: { Toast, Transition },
+  components: { Toast, VtTransition },
 
   props: Object.assign({}, PROPS.CORE_TOAST, PROPS.CONTAINER, PROPS.TRANSITION),
 

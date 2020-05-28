@@ -26,7 +26,7 @@ describe("VtCloseButton", () => {
         component: false,
       },
     });
-    expect(wrapper.is("button")).toBe(true);
+    expect(wrapper.element.tagName).toEqual("BUTTON");
   });
   it("string custom component", () => {
     const wrapper = mount(VtCloseButton, {
@@ -34,7 +34,7 @@ describe("VtCloseButton", () => {
         component: "div",
       },
     });
-    expect(wrapper.is("div")).toBe(true);
+    expect(wrapper.element.tagName).toEqual("DIV");
     expect(wrapper.element).toMatchSnapshot();
   });
   it("vue custom component", () => {
@@ -43,7 +43,7 @@ describe("VtCloseButton", () => {
         component: Simple,
       },
     });
-    expect(wrapper.contains(Simple)).toBe(true);
+    expect(wrapper.findComponent(Simple).element).toBeTruthy();
     expect(wrapper.element).toMatchSnapshot();
   });
   it("adds 'show-on-hover' class", () => {
