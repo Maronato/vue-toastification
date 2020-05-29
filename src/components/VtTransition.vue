@@ -61,7 +61,8 @@ export default Vue.extend({
     setAbsolutePosition(el: HTMLElement) {
       el.style.left = el.offsetLeft + "px";
       el.style.top = el.offsetTop + "px";
-      el.style.width = el.offsetWidth + "px";
+      el.style.width = el.getBoundingClientRect().width + "px";
+      el.style.height = el.getBoundingClientRect().height + "px";
       el.style.position = "absolute";
     },
     cleanUpStyles(el: HTMLElement) {
