@@ -225,6 +225,8 @@ export default {
 
 If your CSS file is actually an SCSS or SASS file, just make sure that you have the correct loaders installed. See [Nuxt docs](https://nuxtjs.org/api/configuration-css) on that.
 
+If you set `cssFile: false` it's important to notice that `timeout` won't work. See [#107.](https://github.com/Maronato/vue-toastification/issues/107) 
+
 ### Composition API registration
 Vue Toastification comes with built-in support for the [Composition API](https://github.com/vuejs/composition-api). It is fully optional and won't interfere with your usage if you do not use composition.
 
@@ -389,6 +391,8 @@ this.$toast("Persistent toast", { timeout: false })
 // Or set it when registering the plugin
 Vue.use(Toast, { timeout: 2000 });
 ```
+
+It's important to notice that `timeout` won't work if you set `cssFile: false`. See [#107.](https://github.com/Maronato/vue-toastification/issues/107) 
 
 ### Using a custom component
 Passing strings as the toast content is not enough? You can render anything inside the toast using custom components! Vue Toastification accepts both Vue Components and JSX templates as parameters.
