@@ -4058,9 +4058,9 @@ lodash.uniq@^4.5.0:
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
 lodash@^4.15.0, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.5:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 loose-envify@^1.0.0:
   version "1.4.0"
@@ -6838,10 +6838,10 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue-toastification@1:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.4.0.tgz#5ae211b2aabb4ffd80d5adaa83dc4e09a39d78b1"
-  integrity sha512-/53n4E99aKJJKnyHKs2T/bL/s+VhMmJLXWBpXOA3uKWRudpTi9w/5lNIWIGtplGSHbXu0bp6cJWIB8Th+mSRdw==
+vue-toastification@^1:
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.7.6.tgz#c720ed5a2e0182f1fd45c562a7858f45539a9918"
+  integrity sha512-+Nezz/mXglufIaZ+0EAUDYm4Qc4sRPKu7bOX1WMoc0PrYAOVGzEafN7xW7KlVERijk7wUbMtAP9dP1tSMWV4Yw==
 
 vue@^2.6.11:
   version "2.6.11"
