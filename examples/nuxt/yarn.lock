@@ -4392,9 +4392,9 @@ no-case@^2.2.0:
     lower-case "^1.1.1"
 
 node-fetch@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
-  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 node-libs-browser@^2.2.1:
   version "2.2.1"
@@ -6838,10 +6838,10 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue-toastification@1:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.4.0.tgz#5ae211b2aabb4ffd80d5adaa83dc4e09a39d78b1"
-  integrity sha512-/53n4E99aKJJKnyHKs2T/bL/s+VhMmJLXWBpXOA3uKWRudpTi9w/5lNIWIGtplGSHbXu0bp6cJWIB8Th+mSRdw==
+vue-toastification@^1:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.7.7.tgz#bbc431a9a9c73f565d42c1d3e5239d96e065f348"
+  integrity sha512-SWYy6ycw6D91nBWPoaJfwIAsmUsk0pZMZ3JjCgOdozEW/QyaVbX+XL0Z2iskNDCOqwA/znIhhBN/H10eURpxkQ==
 
 vue@^2.6.11:
   version "2.6.11"
