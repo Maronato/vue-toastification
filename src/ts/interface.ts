@@ -1,31 +1,35 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _Vue from "vue";
-import { VueConstructor } from "vue/types";
-import ToastContainer from "../components/VtToastContainer.vue";
+import { createApp } from "vue"
+import { EventBus } from "./eventBus"
+import ToastContainer from "../components/VtToastContainer.vue"
 import {
   ToastContent,
   ToastOptions,
   ToastID,
   PluginOptions,
   ToastOptionsAndRequiredContent,
-} from "../types";
-import { TYPE, EVENTS } from "./constants";
-import { getId, isUndefined } from "./utils";
+} from "../types"
+import { TYPE, EVENTS } from "./constants"
+import { getId, isUndefined } from "./utils"
 
-const ToastInterface = (
-  Vue: VueConstructor,
+export const buildInterface = (
   globalOptions: PluginOptions = {},
   mountContainer = true
 ) => {
-  const events = (globalOptions.eventBus = globalOptions.eventBus || new Vue());
+  const events = (globalOptions.eventBus =
+    globalOptions.eventBus || new EventBus())
   if (mountContainer) {
-    const containerComponent = new (Vue.extend(ToastContainer))({
-      el: document.createElement("div"),
-      propsData: globalOptions,
-    });
-    const onMounted = globalOptions.onMounted;
+    console.log("mounting toast container")
+    const app = createApp(ToastContainer, {
+      ...globalOptions,
+      name: "VueToastification",
+    })
+    console.log("created vnode")
+    const component = app.mount(document.createElement("div"))
+    console.log("rendered vnode")
+
+    const onMounted = globalOptions.onMounted
     if (!isUndefined(onMounted)) {
-      onMounted(containerComponent);
+      onMounted(component)
     }
   }
   /**
@@ -33,29 +37,29 @@ const ToastInterface = (
    */
   const toast = (content: ToastContent, options?: ToastOptions): ToastID => {
     const props: ToastOptionsAndRequiredContent & {
-      id: ToastID;
+      id: ToastID
     } = Object.assign({}, { id: getId(), type: TYPE.DEFAULT }, options, {
       content,
-    });
-    events.$emit(EVENTS.ADD, props);
-    return props.id;
-  };
+    })
+    events.emit(EVENTS.ADD, props)
+    return props.id
+  }
   /**
    * Clear all toasts
    */
-  toast.clear = () => events.$emit(EVENTS.CLEAR);
+  toast.clear = () => events.emit(EVENTS.CLEAR, undefined)
   /**
    * Update Plugin Defaults
    */
   toast.updateDefaults = (update: PluginOptions) => {
-    events.$emit(EVENTS.UPDATE_DEFAULTS, update);
-  };
+    events.emit(EVENTS.UPDATE_DEFAULTS, update)
+  }
   /**
    * Dismiss toast specified by an id
    */
   toast.dismiss = (id: ToastID) => {
-    events.$emit(EVENTS.DISMISS, id);
-  };
+    events.emit(EVENTS.DISMISS, id)
+  }
   /**
    * Update Toast
    */
@@ -63,31 +67,34 @@ const ToastInterface = (
     id: ToastID,
     { content, options }: { content?: ToastContent; options?: ToastOptions },
     create?: false
-  ): void;
+  ): void
   function updateToast(
     id: ToastID,
     { content, options }: { content: ToastContent; options?: ToastOptions },
     create?: true
-  ): void;
+  ): void
   function updateToast(
     id: ToastID,
     { content, options }: { content?: ToastContent; options?: ToastOptions },
     create = false
   ): void {
-    events.$emit(EVENTS.UPDATE, {
+    const opt = Object.assign({}, options, { content }) as ToastOptions & {
+      content: ToastContent
+    }
+    events.emit(EVENTS.UPDATE, {
       id,
-      options: Object.assign({}, options, { content }),
+      options: opt,
       create,
-    });
+    })
   }
-  toast.update = updateToast;
+  toast.update = updateToast
   /**
    * Display a success toast
    */
   toast.success = (
     content: ToastContent,
     options?: ToastOptions & { type?: TYPE.SUCCESS }
-  ) => toast(content, Object.assign({}, options, { type: TYPE.SUCCESS }));
+  ) => toast(content, Object.assign({}, options, { type: TYPE.SUCCESS }))
 
   /**
    * Display an info toast
@@ -95,7 +102,7 @@ const ToastInterface = (
   toast.info = (
     content: ToastContent,
     options?: ToastOptions & { type?: TYPE.INFO }
-  ) => toast(content, Object.assign({}, options, { type: TYPE.INFO }));
+  ) => toast(content, Object.assign({}, options, { type: TYPE.INFO }))
 
   /**
    * Display an error toast
@@ -103,7 +110,7 @@ const ToastInterface = (
   toast.error = (
     content: ToastContent,
     options?: ToastOptions & { type?: TYPE.ERROR }
-  ) => toast(content, Object.assign({}, options, { type: TYPE.ERROR }));
+  ) => toast(content, Object.assign({}, options, { type: TYPE.ERROR }))
 
   /**
    * Display a warning toast
@@ -111,9 +118,9 @@ const ToastInterface = (
   toast.warning = (
     content: ToastContent,
     options?: ToastOptions & { type?: TYPE.WARNING }
-  ) => toast(content, Object.assign({}, options, { type: TYPE.WARNING }));
+  ) => toast(content, Object.assign({}, options, { type: TYPE.WARNING }))
 
-  return toast;
-};
+  return toast
+}
 
-export default ToastInterface;
+export type ToastInterface = ReturnType<typeof buildInterface>

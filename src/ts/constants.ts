@@ -23,4 +23,4 @@ export enum EVENTS {
   UPDATE_DEFAULTS = "update_defaults",
 }
 
-export const VT_NAMESPACE = "Vue-Toastification";
+export const VT_NAMESPACE = "Vue-Toastification"

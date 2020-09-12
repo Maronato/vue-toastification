@@ -1,4 +1,4 @@
-import { terser } from "rollup-plugin-terser";
+import { terser } from "rollup-plugin-terser"
 
 export default {
   umd: {
@@ -6,37 +6,37 @@ export default {
     format: "umd",
     target: "es5",
     globals: {
-      vue: "Vue"
+      vue: "Vue",
     },
-    env: "development"
+    env: "development",
   },
   umdMin: {
     output: "dist/umd/index.min.js",
     format: "umd",
     target: "es5",
     globals: {
-      vue: "Vue"
+      vue: "Vue",
     },
     plugins: {
       post: [
         terser({
           output: {
-            comments: false
-          }
-        })
-      ]
+            comments: false,
+          },
+        }),
+      ],
     },
-    env: "production"
+    env: "production",
   },
   esm: {
     output: "dist/esm/index.js",
     format: "esm",
     target: "es2015",
-    genDts: true
+    genDts: true,
   },
   cjs: {
     output: "dist/cjs/index.js",
     format: "cjs",
-    target: "es2015"
-  }
-};
+    target: "es2015",
+  },
+}

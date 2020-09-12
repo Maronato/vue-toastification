@@ -1,82 +1,100 @@
-import { PropOptions, PropType } from "vue";
-import {
+/* eslint-disable @typescript-eslint/no-empty-function */
+import type { PropType, ComponentObjectPropsOptions } from "vue"
+import { EventBus } from "./eventBus"
+import type {
   ToastContent,
   CommonOptions,
   PluginOptions,
   ToastID,
   ToastOptions,
   ToastOptionsAndRequiredContent,
-} from "../types";
-import { TYPE, POSITION, VT_NAMESPACE } from "./constants";
-import { RecordPropsDefinition } from "vue/types/options";
+} from "../types"
+import { TYPE, POSITION, VT_NAMESPACE } from "./constants"
 
 const COMMON = {
   type: {
-    type: String,
+    type: String as PropType<TYPE>,
     default: TYPE.DEFAULT,
-  } as PropOptions<TYPE>,
+  },
   classNames: {
-    type: [String, Array],
+    type: [String, Array] as PropType<string | string[]>,
     default: () => [],
-  } as PropOptions<string | string[]>,
+  },
   trueBoolean: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true,
-  } as PropOptions<boolean>,
-};
+  },
+}
 
 const ICON = {
   type: COMMON.type,
   customIcon: {
-    type: [String, Boolean, Object, Function],
+    type: [String, Boolean, Object, Function] as PropType<
+      NonNullable<CommonOptions["icon"]>
+    >,
     default: true,
-  } as PropOptions<NonNullable<CommonOptions["icon"]>>,
-};
+  },
+}
 
 const CLOSE_BUTTON = {
   component: {
-    type: [String, Object, Function, Boolean],
+    type: [String, Object, Function, Boolean] as PropType<
+      NonNullable<CommonOptions["closeButton"]>
+    >,
     default: "button" as keyof HTMLElementTagNameMap,
-  } as PropOptions<NonNullable<CommonOptions["closeButton"]>>,
+  },
   classNames: COMMON.classNames,
-  showOnHover: Boolean as PropType<boolean>,
+  showOnHover: {
+    type: Boolean,
+    default: false,
+  },
   ariaLabel: {
-    type: String,
+    type: String as PropType<string>,
     default: "close",
-  } as PropOptions<string>,
-};
+  },
+}
 
 const PROGRESS_BAR = {
   timeout: {
-    type: [Number, Boolean],
+    type: [Number, Boolean] as PropType<number | false>,
     default: 5000,
-  } as PropOptions<number | false>,
-  hideProgressBar: Boolean as PropType<boolean>,
-  isRunning: Boolean as PropType<boolean>,
-};
+  },
+  hideProgressBar: {
+    type: Boolean,
+    default: false,
+  },
+  isRunning: {
+    type: Boolean,
+    default: false,
+  },
+}
 
 const TRANSITION = {
   transition: {
-    type: [Object, String],
+    type: [Object, String] as PropType<
+      NonNullable<PluginOptions["transition"]>
+    >,
     default: `${VT_NAMESPACE}__bounce`,
-  } as PropOptions<NonNullable<PluginOptions["transition"]>>,
+  },
   transitionDuration: {
-    type: [Number, Object],
+    type: [Number, Object] as PropType<
+      NonNullable<PluginOptions["transitionDuration"]>
+    >,
     default: 750,
-  } as PropOptions<NonNullable<PluginOptions["transitionDuration"]>>,
-};
+  },
+}
 
-type CommonOptionsType = Required<CommonOptions>;
-const CORE_TOAST: RecordPropsDefinition<CommonOptionsType> = {
+type CommonOptionsType = Required<CommonOptions>
+const CORE_TOAST = {
   position: {
-    type: String,
+    type: String as PropType<POSITION>,
     default: POSITION.TOP_RIGHT,
-  } as PropOptions<POSITION>,
+  },
   draggable: COMMON.trueBoolean,
   draggablePercent: {
-    type: Number,
+    type: Number as PropType<number>,
     default: 0.6,
-  } as PropOptions<number>,
+  },
   pauseOnFocusLoss: COMMON.trueBoolean,
   pauseOnHover: COMMON.trueBoolean,
   closeOnClick: COMMON.trueBoolean,
@@ -89,62 +107,78 @@ const CORE_TOAST: RecordPropsDefinition<CommonOptionsType> = {
   closeButtonClassName: CLOSE_BUTTON.classNames,
   showCloseButtonOnHover: CLOSE_BUTTON.showOnHover,
   accessibility: {
-    type: Object,
+    type: Object as PropType<NonNullable<PluginOptions["accessibility"]>>,
     default: () => ({
       toastRole: "alert",
       closeButtonLabel: "close",
     }),
-  } as PropOptions<NonNullable<PluginOptions["accessibility"]>>,
-  rtl: Boolean as PropType<boolean>,
-  eventBus: Object as PropOptions<NonNullable<PluginOptions["eventBus"]>>,
-};
-
-type ToastOptionsType = Required<
-  Omit<ToastOptionsAndRequiredContent, keyof CommonOptionsType>
->;
-const TOAST: RecordPropsDefinition<ToastOptionsType> = {
-  id: {
-    type: [String, Number],
+  },
+  rtl: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+  eventBus: {
+    type: Object as PropType<NonNullable<PluginOptions["eventBus"]>>,
     required: true,
-  } as PropOptions<ToastID>,
+    default: new EventBus(),
+  },
+}
+
+const TOAST = {
+  id: {
+    type: [String, Number] as PropType<ToastID>,
+    required: true,
+    default: 0,
+  },
   type: COMMON.type,
   content: {
-    type: [String, Object, Function],
+    type: [String, Object, Function] as PropType<ToastContent>,
     required: true,
-  } as PropOptions<ToastContent>,
-  onClick: Function as PropType<NonNullable<ToastOptions["onClick"]>>,
-  onClose: Function as PropType<NonNullable<ToastOptions["onClose"]>>,
-};
+    default: "",
+  },
+  onClick: {
+    type: Function as PropType<NonNullable<ToastOptions["onClick"]>>,
+    default: () => {},
+  },
+  onClose: {
+    type: Function as PropType<NonNullable<ToastOptions["onClose"]>>,
+    default: () => {},
+  },
+}
 
 export type PluginOptionsType = Required<
   Omit<PluginOptions, keyof CommonOptionsType>
->;
-const CONTAINER: RecordPropsDefinition<PluginOptionsType> = {
+>
+const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
   container: {
-    type: [HTMLElement, Function],
+    type: [HTMLElement, Function] as PropType<
+      NonNullable<PluginOptions["container"]>
+    >,
     default: () => document.body,
-  } as PropOptions<NonNullable<PluginOptions["container"]>>,
+  },
   newestOnTop: COMMON.trueBoolean,
   maxToasts: {
-    type: Number,
+    type: Number as PropType<number>,
     default: 20,
-  } as PropOptions<number>,
+  },
   transition: TRANSITION.transition,
   transitionDuration: TRANSITION.transitionDuration,
   toastDefaults: Object as PropType<
     NonNullable<PluginOptions["toastDefaults"]>
   >,
   filterBeforeCreate: {
-    type: Function,
+    type: Function as PropType<
+      NonNullable<PluginOptions["filterBeforeCreate"]>
+    >,
     default: (toast: ToastOptionsAndRequiredContent) => toast,
-  } as PropOptions<NonNullable<PluginOptions["filterBeforeCreate"]>>,
+  },
   filterToasts: {
-    type: Function,
+    type: Function as PropType<NonNullable<PluginOptions["filterToasts"]>>,
     default: (toasts: ToastOptionsAndRequiredContent[]) => toasts,
-  } as PropOptions<NonNullable<PluginOptions["filterToasts"]>>,
+  },
   containerClassName: COMMON.classNames,
   onMounted: Function as PropType<NonNullable<PluginOptions["onMounted"]>>,
-};
+}
 
 export default {
   CORE_TOAST,
@@ -154,4 +188,4 @@ export default {
   ICON,
   TRANSITION,
   CLOSE_BUTTON,
-};
+}

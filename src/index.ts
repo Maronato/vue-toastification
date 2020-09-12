@@ -1,38 +1,66 @@
-import _Vue, { PluginFunction } from "vue";
-import { VueConstructor } from "vue/types/vue";
-import ToastInterface from "./ts/interface";
-import { POSITION, TYPE } from "./ts/constants";
-import { PluginOptions } from "./types";
-import "./scss/index.scss";
+import { Plugin, InjectionKey, provide, inject } from "vue"
+import { buildInterface, ToastInterface } from "./ts/interface"
+import { POSITION, TYPE } from "./ts/constants"
+import { EventBusInterface, isEventBusInterface, EventBus } from "./ts/eventBus"
+import type { PluginOptions } from "./types"
+import "./scss/index.scss"
 
-function createToastInterface(
-  eventBus: InstanceType<VueConstructor>
-): ReturnType<typeof ToastInterface>;
-function createToastInterface(
-  options?: PluginOptions,
-  Vue?: VueConstructor
-): ReturnType<typeof ToastInterface>;
-function createToastInterface(
-  optionsOrEventBus?: PluginOptions | InstanceType<VueConstructor>,
-  Vue = _Vue
-) {
-  const isVueInstance = (obj: unknown): obj is InstanceType<VueConstructor> =>
-    obj instanceof Vue;
-  if (isVueInstance(optionsOrEventBus)) {
-    return ToastInterface(Vue, { eventBus: optionsOrEventBus }, false);
-  }
-  return ToastInterface(Vue, optionsOrEventBus, true);
+const createMockToastInterface = (): ToastInterface => {
+  const toast = () =>
+    console.warn("[Vue Toastification] This plugin does not support SSR!")
+  return (new Proxy(toast, {
+    get() {
+      return toast
+    },
+  }) as unknown) as ToastInterface
 }
 
-const VueToastificationPlugin: PluginFunction<PluginOptions> = (
-  Vue,
-  options?
-) => {
-  const toast = createToastInterface(options, Vue);
-  Vue.$toast = toast;
-  Vue.prototype.$toast = toast;
-};
+function createToastInterface(eventBus: EventBusInterface): ToastInterface
+function createToastInterface(options?: PluginOptions): ToastInterface
+function createToastInterface(
+  optionsOrEventBus?: PluginOptions | EventBusInterface
+): ToastInterface {
+  console.log("creating interface")
+  if (typeof window === "undefined") {
+    return createMockToastInterface()
+  }
+  if (isEventBusInterface(optionsOrEventBus)) {
+    console.log("created from bus")
+    return buildInterface({ eventBus: optionsOrEventBus }, false)
+  }
+  console.log("creating brand new interface")
+  return buildInterface(optionsOrEventBus, true)
+}
 
-export default VueToastificationPlugin;
+const toastInjectionKey: InjectionKey<ToastInterface> = Symbol(
+  "VueToastification"
+)
 
-export { POSITION, TYPE, createToastInterface };
+const VueToastificationPlugin: Plugin = (App, options?) => {
+  console.log("providing")
+  const inter = createToastInterface(options)
+  console.log(inter)
+  App.provide(toastInjectionKey, inter)
+}
+
+const provideToast = (options?: PluginOptions) => {
+  provide(toastInjectionKey, createToastInterface(options))
+}
+
+const useToast = (eventBus?: EventBusInterface): ToastInterface =>
+  eventBus
+    ? createToastInterface(eventBus)
+    : inject(toastInjectionKey, createToastInterface(new EventBus()))
+
+export default VueToastificationPlugin
+
+export {
+  POSITION,
+  TYPE,
+  createToastInterface,
+  toastInjectionKey,
+  EventBus,
+  useToast,
+  provideToast,
+  PluginOptions,
+}

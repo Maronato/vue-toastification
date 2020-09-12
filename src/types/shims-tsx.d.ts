@@ -1,9 +1,9 @@
-import Vue, { VNode } from "vue";
+/* eslint-disable */
+import type { VNode } from "vue";
 
 declare global {
   namespace JSX {
     interface Element extends VNode {}
-    interface ElementClass extends Vue {}
     interface IntrinsicElements {
       [elem: string]: any;
     }
