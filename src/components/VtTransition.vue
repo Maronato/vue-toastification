@@ -19,56 +19,64 @@
 </template>
 <script lang="ts">
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
-import Vue from "vue";
+import { defineComponent } from "vue"
 
-import PROPS from "../ts/propValidators";
+import PROPS from "../ts/propValidators"
 
-export default Vue.extend({
-  inheritAttrs: false,
+export default defineComponent({
   props: PROPS.TRANSITION,
+
+  emits: [
+    "before-enter",
+    "after-enter",
+    "before-leave",
+    "leave",
+    "after-leave",
+  ],
+
   methods: {
     beforeEnter(el: HTMLElement) {
       const enterDuration =
         typeof this.transitionDuration === "number"
           ? this.transitionDuration
-          : this.transitionDuration.enter;
-      el.style.animationDuration = `${enterDuration}ms`;
-      el.style.animationFillMode = "both";
-      this.$emit("before-enter", el);
+          : this.transitionDuration.enter
+      el.style.animationDuration = `${enterDuration}ms`
+      el.style.animationFillMode = "both"
+      this.$emit("before-enter", el)
     },
     afterEnter(el: HTMLElement) {
-      this.cleanUpStyles(el);
-      this.$emit("after-enter", el);
+      this.cleanUpStyles(el)
+      this.$emit("after-enter", el)
     },
     afterLeave(el: HTMLElement) {
-      this.cleanUpStyles(el);
-      this.$emit("after-leave", el);
+      this.cleanUpStyles(el)
+      this.$emit("after-leave", el)
     },
     beforeLeave(el: HTMLElement) {
       const leaveDuration =
         typeof this.transitionDuration === "number"
           ? this.transitionDuration
-          : this.transitionDuration.leave;
-      el.style.animationDuration = `${leaveDuration}ms`;
-      el.style.animationFillMode = "both";
-      this.$emit("before-leave", el);
+          : this.transitionDuration.leave
+      el.style.animationDuration = `${leaveDuration}ms`
+      el.style.animationFillMode = "both"
+      this.$emit("before-leave", el)
     },
     // eslint-disable-next-line @typescript-eslint/ban-types
     leave(el: HTMLElement, done: Function) {
-      this.setAbsolutePosition(el);
-      this.$emit("leave", el, done);
+      this.setAbsolutePosition(el)
+      this.$emit("leave", el, done)
     },
     setAbsolutePosition(el: HTMLElement) {
-      el.style.left = el.offsetLeft + "px";
-      el.style.top = el.offsetTop + "px";
-      el.style.width = getComputedStyle(el).width;
-      el.style.height = getComputedStyle(el).height;
-      el.style.position = "absolute";
+      el.style.left = el.offsetLeft + "px"
+      el.style.top = el.offsetTop + "px"
+      el.style.width = getComputedStyle(el).width
+      el.style.height = getComputedStyle(el).height
+      el.style.position = "absolute"
     },
     cleanUpStyles(el: HTMLElement) {
-      el.style.animationFillMode = "";
-      el.style.animationDuration = "";
+      el.style.animationFillMode = ""
+      el.style.animationDuration = ""
     },
   },
-});
+})
 </script>

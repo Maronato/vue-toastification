@@ -37,10 +37,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue"
 
-import { EVENTS, VT_NAMESPACE } from "../ts/constants";
-import PROPS from "../ts/propValidators";
+import { EVENTS, VT_NAMESPACE } from "../ts/constants"
+import PROPS from "../ts/propValidators"
 import {
   removeElement,
   getVueComponentFromObj,
@@ -48,13 +48,13 @@ import {
   getX,
   getY,
   isDOMRect,
-} from "../ts/utils";
+} from "../ts/utils"
 
-import ProgressBar from "./VtProgressBar.vue";
-import CloseButton from "./VtCloseButton.vue";
-import Icon from "./VtIcon.vue";
+import ProgressBar from "./VtProgressBar.vue"
+import CloseButton from "./VtCloseButton.vue"
+import Icon from "./VtIcon.vue"
 
-export default Vue.extend({
+export default defineComponent({
   components: { ProgressBar, CloseButton, Icon },
   inheritAttrs: false,
 
@@ -62,12 +62,12 @@ export default Vue.extend({
 
   data() {
     const data: {
-      dragRect: DOMRect | Record<string, unknown>;
-      isRunning: boolean;
-      disableTransitions: boolean;
-      beingDragged: boolean;
-      dragStart: number;
-      dragPos: { x: number; y: number };
+      dragRect: DOMRect | Record<string, unknown>
+      isRunning: boolean
+      disableTransitions: boolean
+      beingDragged: boolean
+      dragStart: number
+      dragPos: { x: number; y: number }
     } = {
       isRunning: true,
       disableTransitions: false,
@@ -76,8 +76,8 @@ export default Vue.extend({
       dragStart: 0,
       dragPos: { x: 0, y: 0 },
       dragRect: {},
-    };
-    return data;
+    }
+    return data
   },
 
   computed: {
@@ -86,166 +86,166 @@ export default Vue.extend({
         `${VT_NAMESPACE}__toast`,
         `${VT_NAMESPACE}__toast--${this.type}`,
         `${this.position}`,
-      ].concat(this.toastClassName);
+      ].concat(this.toastClassName)
       if (this.disableTransitions) {
-        classes.push("disable-transition");
+        classes.push("disable-transition")
       }
       if (this.rtl) {
-        classes.push(`${VT_NAMESPACE}__toast--rtl`);
+        classes.push(`${VT_NAMESPACE}__toast--rtl`)
       }
-      return classes;
+      return classes
     },
     bodyClasses(): string[] {
       const classes = [
         `${VT_NAMESPACE}__toast-${
           isString(this.content) ? "body" : "component-body"
         }`,
-      ].concat(this.bodyClassName);
-      return classes;
+      ].concat(this.bodyClassName)
+      return classes
     },
 
     draggableStyle(): {
-      transition?: string;
-      opacity?: number;
-      transform?: string;
+      transition?: string
+      opacity?: number
+      transform?: string
     } {
       if (this.dragStart === this.dragPos.x) {
-        return {};
+        return {}
       }
       if (this.beingDragged) {
         return {
           transform: `translateX(${this.dragDelta}px)`,
           opacity: 1 - Math.abs(this.dragDelta / this.removalDistance),
-        };
+        }
       }
       return {
         transition: "transform 0.2s, opacity 0.2s",
         transform: "translateX(0)",
         opacity: 1,
-      };
+      }
     },
     dragDelta(): number {
-      return this.beingDragged ? this.dragPos.x - this.dragStart : 0;
+      return this.beingDragged ? this.dragPos.x - this.dragStart : 0
     },
     removalDistance(): number {
       if (isDOMRect(this.dragRect)) {
         return (
           (this.dragRect.right - this.dragRect.left) * this.draggablePercent
-        );
+        )
       }
-      return 0;
+      return 0
     },
   },
 
   mounted() {
     if (this.draggable) {
-      this.draggableSetup();
+      this.draggableSetup()
     }
     if (this.pauseOnFocusLoss) {
-      this.focusSetup();
+      this.focusSetup()
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.draggable) {
-      this.draggableCleanup();
+      this.draggableCleanup()
     }
     if (this.pauseOnFocusLoss) {
-      this.focusCleanup();
+      this.focusCleanup()
     }
   },
 
-  destroyed() {
+  unmounted() {
     setTimeout(() => {
-      removeElement(this.$el);
-    }, 1000);
+      removeElement(this.$el)
+    }, 1000)
   },
 
   methods: {
     getVueComponentFromObj,
     closeToast() {
-      this.eventBus.$emit(EVENTS.DISMISS, this.id);
+      this.eventBus.emit(EVENTS.DISMISS, this.id)
     },
     clickHandler() {
       if (this.onClick) {
-        this.onClick(this.closeToast);
+        this.onClick(this.closeToast)
       }
       if (this.closeOnClick) {
         if (!this.beingDragged || this.dragStart === this.dragPos.x) {
-          this.closeToast();
+          this.closeToast()
         }
       }
     },
     timeoutHandler() {
-      this.closeToast();
+      this.closeToast()
     },
     hoverPause() {
       if (this.pauseOnHover) {
-        this.isRunning = false;
+        this.isRunning = false
       }
     },
     hoverPlay() {
       if (this.pauseOnHover) {
-        this.isRunning = true;
+        this.isRunning = true
       }
     },
     focusPause() {
-      this.isRunning = false;
+      this.isRunning = false
     },
     focusPlay() {
-      this.isRunning = true;
+      this.isRunning = true
     },
 
     focusSetup() {
-      addEventListener("blur", this.focusPause);
-      addEventListener("focus", this.focusPlay);
+      addEventListener("blur", this.focusPause)
+      addEventListener("focus", this.focusPlay)
     },
     focusCleanup() {
-      removeEventListener("blur", this.focusPause);
-      removeEventListener("focus", this.focusPlay);
+      removeEventListener("blur", this.focusPause)
+      removeEventListener("focus", this.focusPlay)
     },
 
     draggableSetup() {
-      const element = this.$el as HTMLElement;
-      element.addEventListener("touchstart", this.onDragStart);
-      element.addEventListener("mousedown", this.onDragStart);
-      addEventListener("touchmove", this.onDragMove, { passive: false });
-      addEventListener("mousemove", this.onDragMove);
-      addEventListener("touchend", this.onDragEnd);
-      addEventListener("mouseup", this.onDragEnd);
+      const element = this.$el as HTMLElement
+      element.addEventListener("touchstart", this.onDragStart)
+      element.addEventListener("mousedown", this.onDragStart)
+      addEventListener("touchmove", this.onDragMove, { passive: false })
+      addEventListener("mousemove", this.onDragMove)
+      addEventListener("touchend", this.onDragEnd)
+      addEventListener("mouseup", this.onDragEnd)
     },
     draggableCleanup() {
-      const element = this.$el as HTMLElement;
-      element.removeEventListener("touchstart", this.onDragStart);
-      element.removeEventListener("mousedown", this.onDragStart);
-      removeEventListener("touchmove", this.onDragMove);
-      removeEventListener("mousemove", this.onDragMove);
-      removeEventListener("touchend", this.onDragEnd);
-      removeEventListener("mouseup", this.onDragEnd);
+      const element = this.$el as HTMLElement
+      element.removeEventListener("touchstart", this.onDragStart)
+      element.removeEventListener("mousedown", this.onDragStart)
+      removeEventListener("touchmove", this.onDragMove)
+      removeEventListener("mousemove", this.onDragMove)
+      removeEventListener("touchend", this.onDragEnd)
+      removeEventListener("mouseup", this.onDragEnd)
     },
 
     onDragStart(event: TouchEvent | MouseEvent) {
-      this.beingDragged = true;
-      this.dragPos = { x: getX(event), y: getY(event) };
-      this.dragStart = getX(event);
-      this.dragRect = this.$el.getBoundingClientRect();
+      this.beingDragged = true
+      this.dragPos = { x: getX(event), y: getY(event) }
+      this.dragStart = getX(event)
+      this.dragRect = this.$el.getBoundingClientRect()
     },
     onDragMove(event: TouchEvent | MouseEvent) {
       if (this.beingDragged) {
-        event.preventDefault();
+        event.preventDefault()
         if (this.isRunning) {
-          this.isRunning = false;
+          this.isRunning = false
         }
-        this.dragPos = { x: getX(event), y: getY(event) };
+        this.dragPos = { x: getX(event), y: getY(event) }
       }
     },
     onDragEnd() {
       if (this.beingDragged) {
         if (Math.abs(this.dragDelta) >= this.removalDistance) {
-          this.disableTransitions = true;
-          this.$nextTick(() => this.closeToast());
+          this.disableTransitions = true
+          this.$nextTick(() => this.closeToast())
         } else {
           setTimeout(() => {
-            this.beingDragged = false;
+            this.beingDragged = false
             if (
               isDOMRect(this.dragRect) &&
               this.pauseOnHover &&
@@ -254,14 +254,14 @@ export default Vue.extend({
               this.dragRect.left <= this.dragPos.x &&
               this.dragPos.x <= this.dragRect.right
             ) {
-              this.isRunning = false;
+              this.isRunning = false
             } else {
-              this.isRunning = true;
+              this.isRunning = true
             }
-          });
+          })
         }
       }
     },
   },
-});
+})
 </script>

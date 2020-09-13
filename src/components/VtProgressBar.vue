@@ -3,57 +3,59 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue"
 
-import { VT_NAMESPACE } from "../ts/constants";
-import PROPS from "../ts/propValidators";
+import { VT_NAMESPACE } from "../ts/constants"
+import PROPS from "../ts/propValidators"
 
-export default Vue.extend({
+export default defineComponent({
   props: PROPS.PROGRESS_BAR,
+
+  emits: ["close-toast"],
 
   data() {
     return {
       hasClass: true,
-    };
+    }
   },
 
   computed: {
     style(): {
-      animationDuration: string;
-      animationPlayState: string;
-      opacity: number;
+      animationDuration: string
+      animationPlayState: string
+      opacity: number
     } {
       return {
         animationDuration: `${this.timeout}ms`,
         animationPlayState: this.isRunning ? "running" : "paused",
         opacity: this.hideProgressBar ? 0 : 1,
-      };
+      }
     },
 
     cpClass(): string {
-      return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : "";
-    },
-  },
-
-  mounted() {
-    this.$el.addEventListener("animationend", this.animationEnded);
-  },
-
-  beforeDestroy() {
-    this.$el.removeEventListener("animationend", this.animationEnded);
-  },
-
-  methods: {
-    animationEnded() {
-      this.$emit("close-toast");
+      return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : ""
     },
   },
 
   watch: {
     timeout() {
-      this.hasClass = false;
-      this.$nextTick(() => (this.hasClass = true));
+      this.hasClass = false
+      this.$nextTick(() => (this.hasClass = true))
     },
   },
-});
+
+  mounted() {
+    this.$el.addEventListener("animationend", this.animationEnded)
+  },
+
+  beforeUnmount() {
+    this.$el.removeEventListener("animationend", this.animationEnded)
+  },
+
+  methods: {
+    animationEnded() {
+      this.$emit("close-toast")
+    },
+  },
+})
 </script>
