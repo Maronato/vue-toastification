@@ -42,7 +42,6 @@ import { defineComponent } from "vue"
 import { EVENTS, VT_NAMESPACE } from "../ts/constants"
 import PROPS from "../ts/propValidators"
 import {
-  removeElement,
   getVueComponentFromObj,
   isString,
   getX,
@@ -152,12 +151,6 @@ export default defineComponent({
     if (this.pauseOnFocusLoss) {
       this.focusCleanup()
     }
-  },
-
-  unmounted() {
-    setTimeout(() => {
-      removeElement(this.$el)
-    }, 1000)
   },
 
   methods: {

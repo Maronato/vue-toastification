@@ -42,15 +42,12 @@ export default defineComponent({
           : this.transitionDuration.enter
       el.style.animationDuration = `${enterDuration}ms`
       el.style.animationFillMode = "both"
-      this.$emit("before-enter", el)
     },
     afterEnter(el: HTMLElement) {
       this.cleanUpStyles(el)
-      this.$emit("after-enter", el)
     },
     afterLeave(el: HTMLElement) {
       this.cleanUpStyles(el)
-      this.$emit("after-leave", el)
     },
     beforeLeave(el: HTMLElement) {
       const leaveDuration =
@@ -59,12 +56,9 @@ export default defineComponent({
           : this.transitionDuration.leave
       el.style.animationDuration = `${leaveDuration}ms`
       el.style.animationFillMode = "both"
-      this.$emit("before-leave", el)
     },
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    leave(el: HTMLElement, done: Function) {
+    leave(el: HTMLElement) {
       this.setAbsolutePosition(el)
-      this.$emit("leave", el, done)
     },
     setAbsolutePosition(el: HTMLElement) {
       el.style.left = el.offsetLeft + "px"
