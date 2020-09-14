@@ -196,7 +196,7 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
 
-.#{$vt-namespace}__bounce-leave-active {
+.#{$vt-namespace}__bounce-leave-active:not(.disable-transition) {
   &.top-left,
   &.bottom-left {
     animation-name: bounceOutLeft;
@@ -211,6 +211,12 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   &.bottom-center {
     animation-name: bounceOutDown;
   }
+}
+
+.#{$vt-namespace}__bounce-leave-active,
+.#{$vt-namespace}__bounce-enter-active {
+  animation-duration: 750ms;
+  animation-fill-mode: both;
 }
 
 .#{$vt-namespace}__bounce-move {

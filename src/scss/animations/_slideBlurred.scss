@@ -130,7 +130,6 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
 
-
 .#{$vt-namespace}__slideBlurred-enter-active {
   &.top-left,
   &.bottom-left {
@@ -148,7 +147,7 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
 
-.#{$vt-namespace}__slideBlurred-leave-active {
+.#{$vt-namespace}__slideBlurred-leave-active:not(.disable-transition) {
   &.top-left,
   &.bottom-left {
     animation-name: slideOutBlurredLeft;

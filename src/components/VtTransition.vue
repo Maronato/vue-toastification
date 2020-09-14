@@ -9,10 +9,6 @@
       transition.leave ? transition.leave : `${transition}-leave-active`
     "
     @leave="leave"
-    @before-enter="beforeEnter"
-    @before-leave="beforeLeave"
-    @after-enter="afterEnter"
-    @after-leave="afterLeave"
   >
     <slot></slot>
   </transition-group>
@@ -26,50 +22,14 @@ import PROPS from "../ts/propValidators"
 export default defineComponent({
   props: PROPS.TRANSITION,
 
-  emits: [
-    "before-enter",
-    "after-enter",
-    "before-leave",
-    "leave",
-    "after-leave",
-  ],
+  emits: ["leave"],
 
   methods: {
-    beforeEnter(el: HTMLElement) {
-      const enterDuration =
-        typeof this.transitionDuration === "number"
-          ? this.transitionDuration
-          : this.transitionDuration.enter
-      el.style.animationDuration = `${enterDuration}ms`
-      el.style.animationFillMode = "both"
-    },
-    afterEnter(el: HTMLElement) {
-      this.cleanUpStyles(el)
-    },
-    afterLeave(el: HTMLElement) {
-      this.cleanUpStyles(el)
-    },
-    beforeLeave(el: HTMLElement) {
-      const leaveDuration =
-        typeof this.transitionDuration === "number"
-          ? this.transitionDuration
-          : this.transitionDuration.leave
-      el.style.animationDuration = `${leaveDuration}ms`
-      el.style.animationFillMode = "both"
-    },
     leave(el: HTMLElement) {
-      this.setAbsolutePosition(el)
-    },
-    setAbsolutePosition(el: HTMLElement) {
       el.style.left = el.offsetLeft + "px"
       el.style.top = el.offsetTop + "px"
       el.style.width = getComputedStyle(el).width
-      el.style.height = getComputedStyle(el).height
       el.style.position = "absolute"
-    },
-    cleanUpStyles(el: HTMLElement) {
-      el.style.animationFillMode = ""
-      el.style.animationDuration = ""
     },
   },
 })

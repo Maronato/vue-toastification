@@ -1,27 +1,27 @@
 .#{$vt-namespace}__close-button {
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 24px;
-    background: transparent;
-    outline: none;
-    border: none;
-    padding: 0;
-    padding-left: 10px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    align-items: center;
-    color: #fff;
-    opacity: 0.3;
-    transition: visibility 0s, opacity 0.2s linear;
-    &:hover,
-    &:focus {
-      opacity: 1;
-    }
-    .#{$vt-namespace}__toast:not(:hover) &.show-on-hover {
-      opacity: 0;
-    }
-    .#{$vt-namespace}__toast--rtl & {
-      padding-left: unset;
-      padding-right: 10px;
-    }
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 24px;
+  background: transparent;
+  outline: none;
+  border: none;
+  padding: 0;
+  padding-left: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  align-items: center;
+  color: #fff;
+  opacity: 0.3;
+  transition: visibility 0s, opacity 0.2s linear;
+  &:hover,
+  &:focus {
+    opacity: 1;
   }
+  .#{$vt-namespace}__toast:not(:hover) &.show-on-hover {
+    opacity: 0;
+  }
+  .#{$vt-namespace}__toast--rtl & {
+    padding-left: unset;
+    padding-right: 10px;
+  }
+}
