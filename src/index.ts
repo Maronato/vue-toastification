@@ -20,15 +20,12 @@ function createToastInterface(options?: PluginOptions): ToastInterface
 function createToastInterface(
   optionsOrEventBus?: PluginOptions | EventBusInterface
 ): ToastInterface {
-  console.log("creating interface")
   if (typeof window === "undefined") {
     return createMockToastInterface()
   }
   if (isEventBusInterface(optionsOrEventBus)) {
-    console.log("created from bus")
     return buildInterface({ eventBus: optionsOrEventBus }, false)
   }
-  console.log("creating brand new interface")
   return buildInterface(optionsOrEventBus, true)
 }
 
@@ -37,9 +34,7 @@ const toastInjectionKey: InjectionKey<ToastInterface> = Symbol(
 )
 
 const VueToastificationPlugin: Plugin = (App, options?) => {
-  console.log("providing")
   const inter = createToastInterface(options)
-  console.log(inter)
   App.provide(toastInjectionKey, inter)
 }
 
@@ -47,10 +42,13 @@ const provideToast = (options?: PluginOptions) => {
   provide(toastInjectionKey, createToastInterface(options))
 }
 
-const useToast = (eventBus?: EventBusInterface): ToastInterface =>
-  eventBus
-    ? createToastInterface(eventBus)
-    : inject(toastInjectionKey, createToastInterface(new EventBus()))
+const useToast = (eventBus?: EventBus) => {
+  if (eventBus) {
+    return createToastInterface(eventBus)
+  }
+  const toast = inject(toastInjectionKey)
+  return toast ? toast : createToastInterface(new EventBus())
+}
 
 export default VueToastificationPlugin
 

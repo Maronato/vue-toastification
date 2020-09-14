@@ -18,14 +18,11 @@ export const buildInterface = (
   const events = (globalOptions.eventBus =
     globalOptions.eventBus || new EventBus())
   if (mountContainer) {
-    console.log("mounting toast container")
     const app = createApp(ToastContainer, {
       ...globalOptions,
       name: "VueToastification",
     })
-    console.log("created vnode")
     const component = app.mount(document.createElement("div"))
-    console.log("rendered vnode")
 
     const onMounted = globalOptions.onMounted
     if (!isUndefined(onMounted)) {
