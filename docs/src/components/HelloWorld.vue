@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-import { ref, inject } from "vue"
-import { useToast, toastInjectionKey } from "../vue-toastification"
+import { ref } from "vue"
+import { useToast } from "../vue-toastification"
 
 export default {
   name: "HelloWorld",
@@ -21,11 +21,13 @@ export default {
   setup() {
     const count = ref(0)
 
-    const toast = inject(toastInjectionKey)
+    const toast = useToast()
 
     const increment = () => {
       count.value += 1
-      toast?.success("hey")
+      toast.info(
+        "hey dsa dsadsa d asf ds a ag fdsg df gsdf gs fdg sdf g sd fg sdf gsdf g fdg sdf gsd fg df gdf g dfg df gdf g dfg sdf g fdg df gdf g g "
+      )
     }
 
     return { count, increment }
