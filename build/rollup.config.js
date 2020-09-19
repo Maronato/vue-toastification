@@ -1,13 +1,14 @@
-import typescript from "rollup-plugin-typescript2";
-import commonjs from "rollup-plugin-commonjs";
-import vue from "rollup-plugin-vue";
-import sass from "rollup-plugin-sass";
-import filesize from "rollup-plugin-filesize";
-import configs from "./config";
+import { DEFAULT_EXTENSIONS } from "@babel/core"
+import typescript from "rollup-plugin-typescript2"
+import vue from "rollup-plugin-vue"
+import sass from "rollup-plugin-sass"
+import filesize from "rollup-plugin-filesize"
+import babel from "@rollup/plugin-babel"
+import configs from "./config"
 
-const externals = ["vue"];
+const externals = ["vue"]
 
-const genTsPlugin = (configOpts) =>
+const genTsPlugin = configOpts =>
   typescript({
     useTsconfigDeclarationDir: true,
     tsconfigOverride: {
@@ -16,38 +17,42 @@ const genTsPlugin = (configOpts) =>
         declaration: configOpts.genDts,
       },
     },
-  });
+  })
 
-const genCommonJsPlugin = () => commonjs();
+const genBabelPlugin = () =>
+  babel({
+    babelHelpers: "bundled",
+    extensions: [...DEFAULT_EXTENSIONS, ".ts", ".tsx", ".vue"],
+  })
 
 const genVuePlugin = () =>
   vue({
     css: false,
-  });
+  })
 
-const genScssPlugin = () => sass({ output: "dist/index.css" });
+const genScssPlugin = () => sass({ output: "dist/index.css" })
 
-const genFileSizePlugin = () => filesize();
+const genFileSizePlugin = () => filesize()
 
-const genPlugins = (configOpts) => {
-  const plugins = [];
+const genPlugins = configOpts => {
+  const plugins = []
   if (configOpts.plugins && configOpts.plugins.pre) {
-    plugins.push(...configOpts.plugins.pre);
+    plugins.push(...configOpts.plugins.pre)
   }
 
-  plugins.push(genTsPlugin(configOpts));
-  plugins.push(genCommonJsPlugin(configOpts));
-  plugins.push(genScssPlugin(configOpts));
-  plugins.push(genVuePlugin(configOpts));
-  plugins.push(genFileSizePlugin(configOpts));
+  plugins.push(genTsPlugin(configOpts))
+  plugins.push(genScssPlugin(configOpts))
+  plugins.push(genVuePlugin(configOpts))
+  plugins.push(genBabelPlugin(configOpts))
+  plugins.push(genFileSizePlugin(configOpts))
 
   if (configOpts.plugins && configOpts.plugins.post) {
-    plugins.push(...configOpts.plugins.post);
+    plugins.push(...configOpts.plugins.post)
   }
-  return plugins;
-};
+  return plugins
+}
 
-const genConfig = (configOpts) => ({
+const genConfig = configOpts => ({
   input: "src/index.ts",
   output: {
     file: configOpts.output,
@@ -59,9 +64,9 @@ const genConfig = (configOpts) => ({
   },
   external: externals,
   plugins: genPlugins(configOpts),
-});
+})
 
-const genAllConfigs = (configs) =>
-  Object.keys(configs).map((key) => genConfig(configs[key]));
+const genAllConfigs = configs =>
+  Object.keys(configs).map(key => genConfig(configs[key]))
 
-export default genAllConfigs(configs);
+export default genAllConfigs(configs)
