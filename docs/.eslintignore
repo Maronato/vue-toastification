@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+dist
+*.local
+logs/
+acme.json
+.htpasswd
+.env
+commento.env
+ghost/*
+docker/*
