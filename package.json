@@ -5,10 +5,10 @@
   "description": "Toasts for Vue made easy!",
   "author": "Gustavo Maronato",
   "scripts": {
-    "dev": "cd docs && yarn dev",
+    "dev": "cd demo && yarn dev",
     "prebuild": "rimraf ./dist",
     "build": "rollup -c build/rollup.config.js",
-    "build:demo": "cd docs && yarn vite build --outDir demo",
+    "build:demo": "cd demo && yarn vite build",
     "test:unit": "jest",
     "test": "yarn test:unit",
     "test:watch": "yarn test --watch",
