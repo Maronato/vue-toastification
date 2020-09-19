@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "es2015",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "target": "es2015",
+    "target": "ESNext",
     "sourceMap": true,
     "strict": true,
     "outDir": "dist",
@@ -14,8 +14,8 @@
     "strictNullChecks": true,
     "jsx": "preserve",
     "types": ["@types/jest"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
-  "include": ["src", "tests", "nuxt"],
-  "exclude": ["node_modules", "./nuxt/plugin.js"]
+  "include": ["src"]
 }

@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`VtToastContainer snapshots with classes 1`] = `
-<div>
+<div
+  name="VueToastification"
+>
+  
   <div>
     <div
       class="Vue-Toastification__container top-left myclass"
@@ -32,11 +35,15 @@ exports[`VtToastContainer snapshots with classes 1`] = `
       class="Vue-Toastification__container bottom-right myclass"
     />
   </div>
+  
 </div>
 `;
 
 exports[`VtToastContainer snapshots with default value 1`] = `
-<div>
+<div
+  name="VueToastification"
+>
+  
   <div>
     <div
       class="Vue-Toastification__container top-left"
@@ -67,11 +74,15 @@ exports[`VtToastContainer snapshots with default value 1`] = `
       class="Vue-Toastification__container bottom-right"
     />
   </div>
+  
 </div>
 `;
 
 exports[`VtToastContainer updateDefaults applies new containerClassName 1`] = `
-<div>
+<div
+  name="VueToastification"
+>
+  
   <div>
     <div
       class="Vue-Toastification__container top-left"
@@ -102,11 +113,15 @@ exports[`VtToastContainer updateDefaults applies new containerClassName 1`] = `
       class="Vue-Toastification__container bottom-right"
     />
   </div>
+  
 </div>
 `;
 
 exports[`VtToastContainer updateDefaults applies new containerClassName 2`] = `
-<div>
+<div
+  name="VueToastification"
+>
+  
   <div>
     <div
       class="Vue-Toastification__container top-left my-class"
@@ -137,5 +152,6 @@ exports[`VtToastContainer updateDefaults applies new containerClassName 2`] = `
       class="Vue-Toastification__container bottom-right my-class"
     />
   </div>
+  
 </div>
 `;

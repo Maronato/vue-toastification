@@ -1,40 +1,39 @@
-import { CombinedVueInstance } from "vue/types/vue";
-import {
-  createLocalVue,
-  createWrapper,
-  Wrapper,
-  WrapperArray,
-} from "@vue/test-utils";
-import Toast, { POSITION } from "../../src/index";
-import { PluginOptions } from "../../src/types";
+import { App, ComponentPublicInstance, nextTick } from "vue"
+import { DOMWrapper, VueWrapper } from "@vue/test-utils"
+import { POSITION, createToastInterface } from "../../src/index"
+import { PluginOptions } from "../../src/types"
 
-const withGetToasts = <T extends Wrapper<Vue>>(wrapper: T) => {
-  /* istanbul ignore next */
-  (wrapper as T & { getToasts(): WrapperArray<Vue> }).getToasts = () =>
-    wrapper.findAll(".Vue-Toastification__toast");
-  return wrapper as T & { getToasts(): WrapperArray<Vue> };
-};
+type WithGetToasts<T extends DOMWrapper<Element>> = T & {
+  getToasts(): DOMWrapper<Element>[]
+}
 
-const loadPlugin = (options?: PluginOptions) => {
+/* istanbul ignore next */
+const withGetToasts = <T extends DOMWrapper<Element>>(wrapper: T) => {
+  ;(wrapper as WithGetToasts<T>).getToasts = () =>
+    wrapper.findAll(".Vue-Toastification__toast")
+  return wrapper as WithGetToasts<T>
+}
+
+const loadPlugin = async (options?: PluginOptions) => {
   // Isolate vue and container
-  const localVue = createLocalVue();
-  const container = document.createElement("div");
-  let containerComp;
-  // Register the plugin and get the container component back
-  localVue.use(Toast, {
+  const container = document.createElement("div")
+  let containerApp: App<Element> = {} as App<Element>
+  let containerComp: ComponentPublicInstance = {} as ComponentPublicInstance
+  const toastInterface = createToastInterface({
     container,
-    onMounted: (containerComponent) => (containerComp = containerComponent),
+    onMounted: (app, component) => {
+      containerApp = app
+      containerComp = component
+    },
     ...options,
-  });
-  const containerWrapper = createWrapper(
-    (containerComp as unknown) as CombinedVueInstance<
-      Record<never, unknown> & Vue,
-      unknown,
-      unknown,
-      unknown,
-      Record<never, unknown>
-    >
-  );
+  })
+  await nextTick()
+  const containerWrapper = new VueWrapper(
+    containerApp,
+    containerComp,
+    undefined,
+    { isFunctionalComponent: false }
+  )
 
   const positionContainers = {
     topLeft: withGetToasts(containerWrapper.find(`.${POSITION.TOP_LEFT}`)),
@@ -49,9 +48,9 @@ const loadPlugin = (options?: PluginOptions) => {
     bottomRight: withGetToasts(
       containerWrapper.find(`.${POSITION.BOTTOM_RIGHT}`)
     ),
-  };
+  }
 
-  return { localVue, containerWrapper, ...positionContainers };
-};
+  return { toastInterface, containerWrapper, ...positionContainers }
+}
 
-export { loadPlugin };
+export { loadPlugin }

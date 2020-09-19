@@ -1,4 +1,4 @@
-import type { Component, ComponentPublicInstance } from "vue"
+import type { App, Component, ComponentPublicInstance } from "vue"
 import type { EventBusInterface } from "../ts/eventBus"
 import type { TYPE, POSITION } from "../ts/constants"
 
@@ -170,7 +170,10 @@ export interface PluginOptions extends CommonOptions {
    *
    * Receives the Container vue instance as a parameter.
    */
-  onMounted?: (containerComponent: ComponentPublicInstance) => void
+  onMounted?: (
+    containerApp: App<Element>,
+    containerComponent: ComponentPublicInstance
+  ) => void
 }
 
 export interface ToastOptions extends CommonOptions {

@@ -1,5 +1,5 @@
 declare module "*.vue" {
-  import type { ComponentOptions } from "vue"
-  const component: ComponentOptions
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const component: any
   export default component
 }

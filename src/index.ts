@@ -1,9 +1,12 @@
 import { Plugin, InjectionKey, provide, inject } from "vue"
-import { buildInterface, ToastInterface } from "./ts/interface"
+import { buildInterface } from "./ts/interface"
+import type { ToastInterface } from "./ts/interface"
 import { POSITION, TYPE } from "./ts/constants"
 import { EventBusInterface, isEventBusInterface, EventBus } from "./ts/eventBus"
 import type { PluginOptions } from "./types"
+import * as ownExports from "./index"
 import "./scss/index.scss"
+import { isBrowser } from "./ts/utils"
 
 const createMockToastInterface = (): ToastInterface => {
   const toast = () =>
@@ -20,7 +23,7 @@ function createToastInterface(options?: PluginOptions): ToastInterface
 function createToastInterface(
   optionsOrEventBus?: PluginOptions | EventBusInterface
 ): ToastInterface {
-  if (typeof window === "undefined") {
+  if (!isBrowser()) {
     return createMockToastInterface()
   }
   if (isEventBusInterface(optionsOrEventBus)) {
@@ -39,26 +42,30 @@ const VueToastificationPlugin: Plugin = (App, options?) => {
 }
 
 const provideToast = (options?: PluginOptions) => {
-  provide(toastInjectionKey, createToastInterface(options))
+  const toast = ownExports.createToastInterface(options)
+  provide(toastInjectionKey, toast)
 }
 
 const useToast = (eventBus?: EventBus) => {
   if (eventBus) {
-    return createToastInterface(eventBus)
+    return ownExports.createToastInterface(eventBus)
   }
   const toast = inject(toastInjectionKey)
-  return toast ? toast : createToastInterface(new EventBus())
+  return toast ? toast : ownExports.createToastInterface(new EventBus())
 }
 
 export default VueToastificationPlugin
 
 export {
+  // Types
   POSITION,
   TYPE,
+  ToastInterface,
+  PluginOptions,
+  // Methods and objects
   createToastInterface,
   toastInjectionKey,
   EventBus,
   useToast,
   provideToast,
-  PluginOptions,
 }

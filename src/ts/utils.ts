@@ -35,12 +35,8 @@ const isTouchEvent = (event: Event): event is TouchEvent =>
 const isToastComponent = (obj: unknown): obj is ToastComponent =>
   hasProp(obj, "component") && isToastContent(obj.component)
 
-const isVueComponent = (c: unknown): c is Component => {
-  if (isFunction(c)) {
-    return true
-  }
-  return isObject(c)
-}
+const isVueComponent = (c: unknown): c is Component =>
+  isFunction(c) || isObject(c)
 
 const isToastContent = (obj: unknown): obj is ToastContent =>
   // Ignore undefined
@@ -62,7 +58,7 @@ const hasProp = <O extends unknown, K extends PropertyKey>(
   obj: O,
   propKey: K
 ): obj is O & { [key in K]: unknown } =>
-  Object.prototype.hasOwnProperty.call(obj, propKey)
+  (isObject(obj) || isFunction(obj)) && propKey in obj
 
 /**
  * ID generator
@@ -102,6 +98,8 @@ const getVueComponentFromObj = (obj: ToastContent): RenderableToastContent => {
   return obj
 }
 
+const isBrowser = () => typeof window !== "undefined"
+
 export {
   getId,
   getX,
@@ -115,4 +113,5 @@ export {
   isUndefined,
   isDOMRect,
   isFunction,
+  isBrowser,
 }

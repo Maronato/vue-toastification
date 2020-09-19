@@ -1,5 +1,12 @@
 module.exports = {
-  preset: "@vue/cli-plugin-unit-jest/presets/typescript-and-babel",
+  preset: "ts-jest",
+  clearMocks: true,
+  testEnvironment: "jsdom",
+  transform: {
+    "^.+\\.vue$": "vue-jest",
+    "^.+\\js$": "babel-jest",
+    "^.+\\.(css|less|scss)$": "./tests/utils/styleMock.js",
+  },
   snapshotSerializers: ["jest-serializer-vue"],
   collectCoverage: true,
   coverageThreshold: {
@@ -10,4 +17,4 @@ module.exports = {
       statements: 100,
     },
   },
-};
+}

@@ -1,4 +1,4 @@
-import { createApp } from "vue"
+import { createApp, nextTick } from "vue"
 import { EventBus } from "./eventBus"
 import ToastContainer from "../components/VtToastContainer.vue"
 import {
@@ -18,16 +18,18 @@ export const buildInterface = (
   const events = (globalOptions.eventBus =
     globalOptions.eventBus || new EventBus())
   if (mountContainer) {
-    const app = createApp(ToastContainer, {
-      ...globalOptions,
-      name: "VueToastification",
-    })
-    const component = app.mount(document.createElement("div"))
+    nextTick(() => {
+      const app = createApp(ToastContainer, {
+        ...globalOptions,
+        name: "VueToastification",
+      })
+      const component = app.mount(document.createElement("div"))
 
-    const onMounted = globalOptions.onMounted
-    if (!isUndefined(onMounted)) {
-      onMounted(component)
-    }
+      const onMounted = globalOptions.onMounted
+      if (!isUndefined(onMounted)) {
+        onMounted(app, component)
+      }
+    })
   }
   /**
    * Display a toast
