@@ -176,14 +176,16 @@ To create toasts, get a *toast interface* by calling `useToast` from within a co
         timeout: 2000
       });
       // These options will override the options defined in the "app.use" plugin registration for this specific toast
+
+      // Make it available inside methods
+      return { toast }
     },
 
     methods: {
       myMethod() {
-        const toast = useToast();
 
-        // They can be called from within methods, watchers and computed options too
-        toast.info("I'm an info toast!");
+        // Since you returned `toast` from setup(), you can access it now
+        this.toast.info("I'm an info toast!");
       }
     }
   }
