@@ -1,5 +1,6 @@
-# Vue Toastification
+# Vue Toastification (for Vue 3)
 [![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest)
+[![Vue 3](https://img.shields.io/badge/Vue-3-green)](https://img.shields.io/badge/Vue-3-green)
 
 [![Build Status](https://travis-ci.com/Maronato/vue-toastification.svg?branch=master)](https://travis-ci.com/Maronato/vue-toastification) [![codecov](https://codecov.io/gh/Maronato/vue-toastification/branch/master/graph/badge.svg)](https://codecov.io/gh/Maronato/vue-toastification) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d10315093b4c45a097ac10d1276015ce)](https://app.codacy.com/manual/Maronato/vue-toastification?utm_source=github.com&utm_medium=referral&utm_content=Maronato/vue-toastification&utm_campaign=Badge_Grade_Dashboard) [![Maintainability](https://api.codeclimate.com/v1/badges/8e2c16345047e8e03b58/maintainability)](https://codeclimate.com/github/Maronato/vue-toastification/maintainability)
 
@@ -14,16 +15,17 @@ Light, easy and beautiful toasts!
 Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toastification/)!
 
 
-- [Vue Toastification](#vue-toastification)
+**Attention!** These are the docs for Vue Toastification v2, which is **only** compatible with Vue 3+
+
+If you are using Vue 2, check out [Vue Toastification v1](https://github.com/Maronato/vue-toastification/tree/v1.x)
+
+- [Vue Toastification (for Vue 3)](#vue-toastification-for-vue-3)
   - [Features](#features)
   - [Demo](#demo)
   - [Installation](#installation)
   - [Usage](#usage)
     - [Plugin registration](#plugin-registration)
-    - [Nuxt registration](#nuxt-registration)
-      - [Injecting the Toast CSS](#injecting-the-toast-css)
-    - [Composition API registration](#composition-api-registration)
-    - [Generic registration](#generic-registration)
+    - [Creating toasts](#creating-toasts)
     - [Positioning the Toast](#positioning-the-toast)
     - [Toast types](#toast-types)
     - [Setting the toast timeout](#setting-the-toast-timeout)
@@ -44,7 +46,6 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
     - [Custom transitions](#custom-transitions)
       - [Named transitions](#named-transitions)
       - [Transition classes](#transition-classes)
-      - [Transition durations](#transition-durations)
     - [Toast Icons](#toast-icons)
       - [Disabling icons](#disabling-icons)
       - [Using custom icons](#using-custom-icons)
@@ -61,11 +62,19 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
     - [Custom toast containers](#custom-toast-containers)
       - [Existing nodes as toast containers](#existing-nodes-as-toast-containers)
       - [Async nodes as toast containers](#async-nodes-as-toast-containers)
+  - [Advanced patterns](#advanced-patterns)
+    - [Creating new instances](#creating-new-instances)
+    - [Creating interfaces to existing instances](#creating-interfaces-to-existing-instances)
+    - [Manually providing interfaces](#manually-providing-interfaces)
   - [API](#api)
-    - [Plugin registration (Vue.use)](#plugin-registration-vueuse)
-    - [Toast (this.$toast)](#toast-thistoast)
+    - [Plugin registration (app.use)](#plugin-registration-appuse)
+    - [Toast (toast)](#toast-toast)
       - [Toast Content Object](#toast-content-object)
       - [Toast Options Object](#toast-options-object)
+- [Updating from v1.x](#updating-from-v1x)
+  - [Creating toasts](#creating-toasts-1)
+  - [Deprecated options](#deprecated-options)
+  - [Nuxt and Vuex support](#nuxt-and-vuex-support)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
@@ -73,8 +82,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 
 ## Features
 
-- Built-in Nuxt support
-- Support for the new [Composition API](https://composition-api.vuejs.org/api.html) and Vue 3
+- **Vue 3** compatible!
 - Generic registration allows it to be used inside any app, even React!
 - Fully written in Typescript with full types support
 - RTL support
@@ -104,229 +112,82 @@ You can also check some [examples](https://github.com/Maronato/vue-toastificatio
 ## Installation
 
 ```
-$ yarn add vue-toastification
-$ npm install --save vue-toastification
+$ yarn add vue-toastification@^2
+$ npm install --save vue-toastification@^2
 ```
 
+> **Using Vue 2?** You should install [Vue Toastification v1](https://github.com/Maronato/vue-toastification/tree/v1.x) instead.
 
 
 ## Usage
 
 ### Plugin registration
 
-Add it as a Vue plugin:
-
+Add it as a plugin to your app:
 ```javascript
-import Vue from "vue";
+import { createApp } from "vue";
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
+
+const app = createApp(...);
 
 const options = {
     // You can set your default options here
 };
 
-
-Vue.use(Toast, options);
+app.use(Toast, options);
 ```
 
-And then just call it in your components with
-
+Or, if you are using Typescript:
 ```javascript
-this.$toast("I'm a toast!");
-
-// Or with options
-this.$toast("My toast content", {
-    timeout: 2000
-});
-// These options will override the options defined in the "Vue.use" plugin registration for this specific toast
-```
-
-Or reference in your Vuex store with
-
-```javascript
-this._vm.$toast("I'm a toast!");
-
-// Or with import
-import Vue from "vue";
-
-Vue.$toast("My toast content", {
-    timeout: 2000
-});
-```
-
-### Nuxt registration
-Vue Toastification comes with full Nuxt and Nuxt Typescript support.
-
-> **Note:** As a _client_ library, Vue Toastification does not support SSR, so the object `$toast` will **not** be available on the server, only on the client.
-
-To use it, register it as a Nuxt module:
-```js
-// nuxt.config.js
-
-export default {
-  // ...
-  modules: [
-    // With default plugin options
-    "vue-toastification/nuxt",
-
-    // You can also pass plugin options
-    ["vue-toastification/nuxt", {
-      timeout: 1000,
-      draggable: false
-    }]
-  ],
-
-  // Or pass options through the "toast" key
-  toast: {
-    timeout: 2000,
-    closeOnClick: false
-  }
-  // ...
-}
-```
-
-If you are using Typescript with Nuxt, you may need to add `"vue-toastification/nuxt"` to your external types list to fully load them. e.g.:
-```json
-// tsconfig.json
-
-{
-  "compilerOptions": {
-    "types": [
-      "vue-toastification/nuxt"
-    ]
-  }
-}
-```
-
-
-#### Injecting the Toast CSS
-By default, when you register the module within Nuxt it automatically injects the CSS required to display the toasts using the default `vue-toastification/dist/index.css` file.
-
-If you have your own CSS file, you can instruct the module to inject it instead by providing its absolute path through the `cssFile` option. You can also disable CSS injection by setting `cssFile: false`:
-```js
-// nuxt.config.js
-
-export default {
-  // ...
-  modules: [
-    "vue-toastification/nuxt",
-  ],
-
-  toast: {
-    // Use your own CSS file
-    cssFile: "path/to/your/file.scss",
-    // Or disable CSS injection
-    cssFile: false
-  }
-  // ...
-}
-```
-
-If your CSS file is actually an SCSS or SASS file, just make sure that you have the correct loaders installed. See [Nuxt docs](https://nuxtjs.org/api/configuration-css) on that.
-
-### Composition API registration
-Vue Toastification comes with built-in support for the [Composition API](https://github.com/vuejs/composition-api). It is fully optional and won't interfere with your usage if you do not use composition.
-
-Composable plugins are a little different than regular Vue plugins as they rely on providers and injectors to work without access to the `this` keyword. Vue Toastification exposes two new functions to make that possible: `provideToast` and `useToast`.
-
-Play with a live example here:
-
-[![Edit thirsty-brahmagupta-qslls](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/thirsty-brahmagupta-qslls?fontsize=14&hidenavigation=1&theme=dark)
-
-To access toasts inside `setup`, you first need to register the provider. To make the toasts available from anywhere within your application, set up the provider on the root component of your app:
-```js
-// App.vue
-
-// Import from vue-toastification/composition, not vue-toastification
-import { provideToast } from "vue-toastification/composition";
-// Also import the toast's css
+import { createApp } from "vue";
+import Toast, { PluginOptions } from "vue-toastification";
+// Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
 
-// Then, on the setup method
-  setup() {
-    // Pass the Plugin Options here
-    provideToast({ timeout: 3000 });
-    // This is similar to `Vue.use(Toast)`, but will not register `$toast` to the Vue instance.
-  }
-```
+const app = createApp(...);
 
-Then get access to the `toast` interface on your components with `useToast`:
-```js
-// MyComponent.vue
-
-import { useToast } from "vue-toastification/composition";
-// ...
-
-  setup() {
-    // Same interface as this.$toast
-    const toast = useToast();
-
-    const showToast = () => toast.success("I'm a toast!");
-    const clearToasts = () => toast.clear();
-    return { showToast, clearToasts };
-  }
-```
-
-Each call to `provideToast` will generate an independent version of the plugin available to its descendants through `useToast`. This means that if you call `provideToast` in multiple locations, each one will mount an independent toast container. `useToast` will always return the `toast` interface of the closest `provideToast` call in its parent component tree.
-
-The toast interface returned by `useToast` can, however, point to an arbitrary plugin instance if you provide an `eventBus` to it. Event buses are Vue instances used to carry events between the interface and the plugin. They are automatically generated for you, but you can also specify your own when calling `Vue.use(Toast)` or `provideToast()`:
-```js
-// Create a new event bus
-const eventBus = new Vue();
-
-// Pass it to provideToast as a plugin option
-provideToast({ eventBus });
-// Or register with Vue.use
-Vue.use(Toast, { eventBus });
-
-// Get the interface of the closes parent plugin instance
-const toast = useToast();
-// Get the interface of an arbitrary plugin instance
-const toast = useToast(eventBus);
-```
-
-### Generic registration
-Vue Toastification allows you to register it as a generic interface not bound to Vue as a plugin. That may be useful if you are using it in an app not written in Vue.
-
-It still depends on Vue as a framework, but not on the root vue instance of your page.
-
-Play with a live **React.js** demo here:
-
-[![Edit dark-morning-3d9m0](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/dark-morning-3d9m0?fontsize=14&hidenavigation=1&theme=dark)
-
-To register it, use the `createToastInterface` helper:
-```js
-import { createToastInterface } from "vue-toastification";
-
-const pluginOptions = {
-  timeout: 4000
+const options: PluginOptions = {
+    // You can set your default options here
 };
 
-// Create the interface
-const toast = createToastInterface(pluginOptions);
-
-// Use it
-toast.success("Standalone toasts!");
+app.use(Toast, options);
 ```
 
-When you call `createToastInterface`, it will automatically mount the toast container and sets everything for you. It returns a `toast` interface and you can use it as you would with `this.$toast`.
+### Creating toasts
 
-`createToastInterface` may take a second, optional, `Vue` instance parameter. Use it to specify an optional parent Vue instance to the interface.
+To create toasts, get a *toast interface* by calling `useToast` from within a component.
 
-You can also create just the toast interface without mounting the plugin by passing just an event bus instance to `createToastInterface`. Event buses are simple Vue instances used to pass events around the plugin. They are created automatically, but you can specify your own if you need to get access to the interface elsewhere.
-```js
-// Create a new event bus
-const eventBus = new Vue();
+```html
+<script>
+  import { useToast } from "vue-toastification";
 
-// Mount plugin and return an interface
-const toast1 = createToastInterface({ eventBus });
+  export default {
+    setup() {
+      // Get toast interface
+      const toast = useToast();
 
-// Later retrieve a copy of that interface without mounting the plugin again
-const toast2 = createToastInterface(eventBus);
+      // Use it!
+      toast("I'm a toast!");
 
-// Note that on the second call just the eventBus was passed, not as an object but as
-// a reference to the bus.
+      // or with options
+      toast.success("My toast content", {
+        timeout: 2000
+      });
+      // These options will override the options defined in the "app.use" plugin registration for this specific toast
+    },
+
+    methods: {
+      myMethod() {
+        const toast = useToast();
+
+        // They can be called from within methods, watchers and computed options too
+        toast.info("I'm an info toast!");
+      }
+    }
+  }
+</script>
 ```
 
 ### Positioning the Toast
@@ -338,14 +199,14 @@ You can use the type definitions or one of the allowed values: **top-right**, **
 ```javascript
 import Toast, { POSITION } from "vue-toastification";
 
-Vue.use(Toast, {
+app.use(Toast, {
     // Setting the global default position
     position: POSITION.TOP_LEFT
 });
 
 
 // Or set it per toast
-this.$toast("I'm a toast", { position: POSITION.BOTTOM_LEFT });
+toast("I'm a toast", { position: POSITION.BOTTOM_LEFT });
 ```
 
 
@@ -354,26 +215,22 @@ this.$toast("I'm a toast", { position: POSITION.BOTTOM_LEFT });
 
 Depending on the context, you may want to use toasts of different colors. You can easily do that by setting the type of toast to be displayed.
 
-
-
 ```javascript
-
-
-this.$toast("Default toast");
-this.$toast.info("Info toast");
-this.$toast.success("Success toast");
-this.$toast.error("Error toast");
-this.$toast.warning("Warning toast");
+toast("Default toast");
+toast.info("Info toast");
+toast.success("Success toast");
+toast.error("Error toast");
+toast.warning("Warning toast");
 
 // You can also set the type programmatically when calling the default toast
 import { TYPE } from "vue-toastification";
 
-this.$toast("Also a success toast", {
+toast("Also a success toast", {
     type: TYPE.SUCCESS  // or "success", "error", "default", "info" and "warning"
 });
 ```
 
-Setting the type only works when using `this.$toast`, it won't work when registering the plugin with `Vue.use`.
+Setting the type only works when using `toast`, it won't work when registering the plugin with `app.use`.
 
 ### Setting the toast timeout
 
@@ -381,13 +238,13 @@ You can set for how long the toast will remain on the screen (in milliseconds) u
 
 ```js
 // 1 second
-this.$toast("Quick toast", { timeout: 1000 });
+toast("Quick toast", { timeout: 1000 });
 
 // Or make the toast permanent until manually closed
-this.$toast("Persistent toast", { timeout: false })
+toast("Persistent toast", { timeout: false })
 
 // Or set it when registering the plugin
-Vue.use(Toast, { timeout: 2000 });
+app.use(Toast, { timeout: 2000 });
 ```
 
 ### Using a custom component
@@ -405,7 +262,8 @@ To use a Single File Component as content just pass it to the toast:
 ```js
 import MyComponent from "./MyComponent.vue";
 
-this.$toast(MyComponent);
+
+toast(MyComponent);
 ```
 
 #### Close the toast using a custom component
@@ -426,7 +284,7 @@ import MyComponent from "./MyComponent.vue";
 
 
 // This toast will be closed when the button inside it is clicked
-this.$toast(MyComponent);
+toast(MyComponent);
 ```
 
 
@@ -444,7 +302,7 @@ const myJSX = (
 );
 
 // Vue Toastification will generate the appropriate render function automatically.
-this.$toast(myJSX);
+toast(myJSX);
 ```
 
 
@@ -489,7 +347,7 @@ const content = {
 };
 
 
-this.$toast(content);
+toast(content);
 ```
 
 ### Dismiss toasts programmatically
@@ -501,14 +359,14 @@ You can also choose a custom ID (String or Number) for the toast during its crea
 
 ```js
 // Get the toast ID on creation
-const toastId = this.$toast("my toast");
+const toastId = toast("my toast");
 
 // Dismiss it later
-this.$toast.dismiss(toastId);
+toast.dismiss(toastId);
 
 // Pass your custom ID to the toast
-this.$toast("my other toast", { id: "my id" });
-this.$toast.dismiss("my id");
+toast("my other toast", { id: "my id" });
+toast.dismiss("my id");
 ```
 
 ### Update toasts programmatically
@@ -520,14 +378,14 @@ The method signature is `$toast.update(id, { content, options }, create)` with `
 
 ```js
 // Get the toast ID on creation
-const toastId = this.$toast("Loading...");
+const toastId = toast("Loading...");
 
 // Update it later
-this.$toast.update(toastId, { content: "Loaded!" });
+toast.update(toastId, { content: "Loaded!" });
 
 // Pass your custom ID to the toast
-this.$toast("my other toast", { id: "my id", timeout: false });
-this.$toast.update("my id", { content: "Finished!", options: { timeout: 5000 } });
+toast("my other toast", { id: "my id", timeout: false });
+toast.update("my id", { content: "Finished!", options: { timeout: 5000 } });
 ```
 
 > **Note**: The remaining timeout of the toast will be carried on updates. To reset the timeout, simply pass a `timeout` option during the update. It can be the same as the one set during the toast creation.
@@ -537,12 +395,12 @@ this.$toast.update("my id", { content: "Finished!", options: { timeout: 5000 } }
 You can also dismiss all toasts at once using `clear`.
 
 ```js
-this.$toast("my toast A");
-this.$toast("my toast B");
-this.$toast("my toast C");
+toast("my toast A");
+toast("my toast B");
+toast("my toast C");
 
 // Dismiss all toasts
-this.$toast.clear();
+toast.clear();
 ```
 
 ### Styling
@@ -550,7 +408,7 @@ There are two ways to style your toast components. You can either add custom cla
 
 #### Custom toast classes
 ```js
-this.$toast("my toast", {
+toast("my toast", {
     // For the actual toast, including different toast types:
     toastClassName: "my-custom-toast-class",
 
@@ -586,7 +444,7 @@ You can also add custom classes to the toast's **containers**. Keep in mind that
 
 These classes can be defined during plugin initialization.
 ```js
-Vue.use(Toast, {
+app.use(Toast, {
     // Can be either a string or an array of strings
     containerClassName: "my-container-class",
 });
@@ -631,23 +489,22 @@ $vt-text-color-success: #000;
 
 Then you import it when registering the plugin
 ```javascript
-import Vue from "vue";
 import Toast from "vue-toastification";
 
 // The magic is here
 import "./yourMainScssFile.scss";
 
-Vue.use(Toast);
+app.use(Toast);
 ```
 
 ### Right to left support
 Right to left layouts are also supported. It can be enabled per toast or globally through plugin options:
 ```js
 // Set RTL on individual toasts
-this.$toast.success("!detrevnI", { rtl: true });
+toast.success("!detrevnI", { rtl: true });
 
 // Or globally
-Vue.use(Toast, {
+app.use(Toast, {
   rtl: true
 });
 ```
@@ -658,7 +515,7 @@ Vue Toastification comes with built-in transitions, but you can also customize y
 
 Default Usage using the built-in bounce transition:
 ```js
-Vue.use(Toast, {
+app.use(Toast, {
   transition: "Vue-Toastification__bounce",
   maxToasts: 20,
   newestOnTop: true
@@ -698,9 +555,13 @@ We'll use the following transition in our examples:
 }
 .fade-enter-active {
   animation-name: fadeIn;
+  animation-duration: 750ms;
+  animation-fill-mode: both;
 }
 .fade-leave-active {
   animation-name: fadeOut;
+  animation-duration: 750ms;
+  animation-fill-mode: both;
 }
 .fade-move {
   transition-timing-function: ease-in-out;
@@ -714,41 +575,22 @@ To setup named transitions just pass the transition name.
 
 Using the transition defined above, we can use it like so:
 ```javascript
-Vue.use(Toast, {
+app.use(Toast, {
     transition: "fade"
 });
 ```
+
 #### Transition classes
 You can also specify which entering, leaving and moving transitions to use. Please note that if you use custom transition classes you'll need to specify all 3 classes for it to work.
 You can, however, use Vue Toastification's default "bounce" transition to fill the gaps. Its classes are `Vue-Toastification__bounce-enter-active`, `Vue-Toastification__bounce-leave-active` and `Vue-Toastification__bounce-move`.
 
 Example using a mix of `fade` and `bounce` transitions:
 ```javascript
-Vue.use(Toast, {
+app.use(Toast, {
     transition: {
         enter: "fade-enter-active",
         leave: "Vue-Toastification__bounce-leave-active",
         move: "fade-move"
-    }
-});
-```
-
-#### Transition durations
-You can change transition timings with the `transitionDuration` option.
-
-It can either be a number representing the transition duration for both enter and leave transitions, or you can specify both separately.
-
-```javascript
-// Set both entering and leaving transitions to 500 ms
-Vue.use(Toast, {
-    transitionDuration: 500
-});
-
-// Set entering to 100 and leaving to 700
-Vue.use(Toast, {
-    transitionDuration: {
-      enter: 100,
-      leave: 700
     }
 });
 ```
@@ -761,12 +603,12 @@ You can entirely disable the icon from the toast by setting `icon: false` when e
 
 ```javascript
 // Disable every toast's icon by default
-Vue.use(Toast, {
+app.use(Toast, {
     icon: false
 });
 
 // Disable icons per toast
-this.$toast('No icon!', { icon: false });
+toast('No icon!', { icon: false });
 ```
 
 #### Using custom icons
@@ -778,10 +620,10 @@ Using them varies between icon libraries. You can either override icon classes w
 
 ```javascript
 // Using Font Awesome icons
-this.$toast('Icons are awesome!', { icon: 'fas fa-rocket' });
+toast('Icons are awesome!', { icon: 'fas fa-rocket' });
 
 // Using Material Icons
-this.$toast('Material icons!', {
+toast('Material icons!', {
   icon: {
     iconClass: 'material-icons',  // Optional
     iconChildren: 'check_circle', // Optional
@@ -816,15 +658,16 @@ You can modify the toast close buttons in 3 ways:
 #### Hiding the close button
 To hide it, simply set `closeButton` to `false` when calling the toast or setting up the plugin
 ```js
-this.$toast('No close button', {
+toast('No close button', {
   closeButton: false
 });
 ```
 
 #### Only show the close button on hover
 You can also hide the close button unless the toast is being hovered. To do so, set `showCloseButtonOnHover` to `true` when calling the toast or setting up the plugin
+
 ```js
-this.$toast('No close button', {
+toast('No close button', {
   showCloseButtonOnHover: true
 });
 ```
@@ -832,21 +675,23 @@ this.$toast('No close button', {
 #### Custom close button component
 You can also use custom components as close buttons. It accepts Single File Components, JSX and tag names:
 ```js
-this.$toast('With a custom close component', {
+toast('With a custom close component', {
   closeButton: MyComponent
 });
 ```
 
 #### Custom close button classes
 The close button can be customized with custom classes. These can be either a single string or an array of strings
+
 ```js
-this.$toast('With custom classes', {
+toast('With custom classes', {
   closeButtonClassName: "my-button-class"
 });
 ```
 
 ### Presetting default toast options per type
 If you want to unify the behavior throughout the application and **D**on't **R**epeat **Y**ourself, you could extract the default behavior for each type of toast.
+
 ```javascript
 import Toast, { TYPE } from "vue-toastification";
 
@@ -865,7 +710,7 @@ const options = {
 };
 
 
-Vue.use(Toast, options);
+app.use(Toast, options);
 ```
 
 ### Updating default options
@@ -875,7 +720,7 @@ const update = {
     transition: "my-transition"
 };
 
-this.$toast.updateDefaults(update);
+toast.updateDefaults(update);
 ```
 > Note: `updateDefaults` will do a **shallow** update on your default options.
 
@@ -907,7 +752,7 @@ const filterBeforeCreate = (toast, toasts) => {
   return toast;
 }
 
-Vue.use(Toast, { filterBeforeCreate });
+app.use(Toast, { filterBeforeCreate });
 ```
 
 #### `filterToasts`
@@ -933,7 +778,7 @@ const filterToasts = (toasts) => {
   }, []);
 }
 
-Vue.use(Toast, { filterToasts });
+app.use(Toast, { filterToasts });
 ```
 
 ### Custom toast containers
@@ -947,7 +792,7 @@ To use an existing node, simply pass it as the argument:
 
 const myContainer = document.querySelector('#my-container');
 
-Vue.use(Toast, { container: myContainer });
+app.use(Toast, { container: myContainer });
 ```
 
 You may also use a function that returns the node:
@@ -957,7 +802,7 @@ You may also use a function that returns the node:
 
 const getContainer = () => document.querySelector('#my-container');
 
-Vue.use(Toast, { container: getContainer });
+app.use(Toast, { container: getContainer });
 ```
 
 #### Async nodes as toast containers
@@ -984,21 +829,97 @@ function asyncGetContainer() {
   });
 }
 
-Vue.use(Toast, { container: asyncGetContainer });
+app.use(Toast, { container: asyncGetContainer });
 ```
 
-When setting up a container this way, all calls to `this.$toast` will still be executed successfully and the toasts will be displayed all at once when it is mounted.
+When setting up a container this way, all calls to `toast` will still be executed successfully and the toasts will be displayed all at once when it is mounted.
+
+## Advanced patterns
+Vue Toastification works by creating a separate Vue App whenever you create a fresh instance of it. This means that you can create as many instances of it as you want and then interact with them independently.
+
+### Creating new instances
+To create a new instance, use `createToastInterface`:
+```js
+import { createToastInterface } from "vue-toastification";
+
+const myInterface = createToastInterface();
+```
+
+It accepts all of the regular PluginOptions too:
+```js
+import { createToastInterface } from "vue-toastification";
+
+const myInterface = createToastInterface({
+  timeout: 1000
+});
+```
+
+When called this way, a new Vue App is created and the Vue Toastification container is attached to it. All calls to the interface methods (`myInterface.success()`, etc), will trigger toasts to appear inside the new container.
+
+### Creating interfaces to existing instances
+If you want to reuse a Vue Toastification instance, you can provide its EventBus to `createToastInterface` and get an interface to the existing instance, without creating a new one.
+
+```js
+import { createToastInterface, EventBus } from "vue-toastification";
+
+// Create a new event bus
+const myEventBus = new EventBus();
+
+// Generate the first interface, passing your eventBus as a parameter
+const toast = createToastInterface({
+  timeout: 1000,
+  eventBus: myEventBus,
+});
+
+// Later, generate another interface to the same instance
+const otherToast = createToastInterface(myEventBus);
+```
+
+You can also create interfaces to existing instances using `useToast`:
+```js
+import { useToast } from "vue-toastification";
+import { myEventBus } from "./otherFile.js";
+
+const toast = useToast(myEventBus);
+```
+
+### Manually providing interfaces
+Sometimes you may need to create a new Vue Toastification instance and make it available only to a subtree of components. You can do that using `provideToast`, which takes PluginOptions, creates a new instance and provides an interface to it.
+```html
+<!-- Parent component -->
+<script>
+  import { provideToast } from "vue-toastification";
+
+  export default {
+    setup() {
+      provideToast({
+        timeout: 1000
+      })
+    }
+  }
+</script>
+
+<!-- Child components -->
+<script>
+  import { useToast } from "vue-toastification";
+
+  export default {
+    setup() {
+      const toast = useToast()
+    }
+  }
+</script>
+```
 
 ## API
 
-### Plugin registration (Vue.use)
+### Plugin registration (app.use)
 | Option                 | Type                                                              | Default                                             | Description                                                                                                                                                                                                               |
 | ---------------------- | ----------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | position               | String                                                            | `top-right`                                         | Position of the toast on the screen. Can be any of **top-right**, **top-center**, **top-left**, **bottom-right**, **bottom-center**, **bottom-left**.                                                                     |
 | newestOnTop            | Boolean                                                           | `true`                                              | Whether or not the newest toasts are placed on the top of the stack.                                                                                                                                                      |
 | maxToasts              | Number                                                            | `20`                                                | Maximum number of toasts on each stack at a time. Overflows wait until older toasts are dismissed to appear.                                                                                                              |
 | transition             | String or Object                                                  | `Vue-Toastification__bounce`                        | Name of the [Vue Transition](https://vuejs.org/v2/guide/transitions.html) or [object with classes](#transition-classes) to use. Only `enter-active`, `leave-active` and `move` are applied.                               |
-| transitionDuration     | Number or Object                                                  | `750`                                               | Duration of the transition. Can either be a positive integer for both enter and leave, or an object of shape `{enter: Number, leave: Number}`.                                                                            |
 | draggable              | Boolean                                                           | `true`                                              | Whether or not the toast can be dismissed by being dragged to the side.                                                                                                                                                   |
 | draggablePercent       | Positive Number                                                   | `0.6`                                               | By how much of the toast width in percent (`0` to `1`) it must be dragged before being dismissed.                                                                                                                         |
 | pauseOnFocusLoss       | Boolean                                                           | `true`                                              | Whether or not the toast is paused when the window loses focus.                                                                                                                                                           |
@@ -1017,12 +938,12 @@ When setting up a container this way, all calls to `this.$toast` will still be e
 | closeButton            | `false`, Vue Component, JSX or HTML Tag name                      | `"button"`                                          | Custom component that can be used as the close button.                                                                                                                                                                    |
 | showCloseButtonOnHover | Boolean                                                           | `false`                                             | Only shows the close button when hovering the toast.                                                                                                                                                                      |
 | containerClassName     | String or Array of Strings                                        | `[]`                                                | Extra CSS class or classes added to each of the Toast containers.                                                                                                                                                         |
-| onMounted              | Function `(containerComponent) => void`                           | `undefined`                                         | Callback executed when the Toast container is mounted. Receives the container vue instance as a parameter.                                                                                                                |
+| onMounted              | Function `(containerApp, containerComponent) => void`             | `undefined`                                         | Callback executed when the Toast container is mounted. Receives the app and container instances as parameters.                                                                                                            |
 | accessibility          | `{ toastRole?: string; closeButtonLabel?: string }`               | `{ toastRole: "alert", closeButtonLabel: "close" }` | Accessibility options. Define the `role` attribute of the toast body and the `aria-label` attribute of the close button.                                                                                                  |
 | rtl                    | Boolean                                                           | `false`                                             | Enables Right to Left layout.                                                                                                                                                                                             |
-| eventBus               | Vue Instance (`new Vue()`)                                        | auto generated                                      | Vue instance used to pass events between the interface and the plugin instance.                                                                                                                                           |
+| eventBus               | EventBus instance                                                 | auto-generated                                      | EventBus instance used to pass events between the interface and the plugin instance.                                                                                                                                      |
 
-### Toast (this.$toast)
+### Toast (toast)
 | Parameter | Type                                 | Required | Description                                                                                                                                                                     |
 | --------- | ------------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | content   | String, Vue Component, JSX or Object | Yes      | Toast contents. It can either be a string, a Vue Component, a JSX template or an Object. The shape of the object and its properties are described [here](#toast-content-object) |
@@ -1061,8 +982,21 @@ When setting up a container this way, all calls to `this.$toast` will still be e
 
 ⚠️️ _Toast options supersede Plugin Registration props_  ⚠️
 
+
+# Updating from v1.x
+Aside from dropping Vue 2 support in favor of Vue 3, not much has changed between v1.x and v2.x.
+
+## Creating toasts
+`this.$toast` is not available anymore. Use `useToast` to get a toast interface. The returning object is identical and has the same methods as `this.$toast`.
+
+## Deprecated options
+Due to some changes on Vue's transition system, `transitionDuration` has been deprecated. To change the duration of a transition, change or override the transition classes.
+
+## Nuxt and Vuex support
+Support for Nuxt and Vuex is still uncertain as their Vue 3-compatible versions have not been released yet.
+
 # Acknowledgements
 This project was heavily inspired by the beautiful [React Toastify](https://github.com/fkhadra/react-toastify) project and [other](https://github.com/shakee93/vue-toasted) [great](https://github.com/ankurk91/vue-toast-notification) Vue libraries.
 
 # License
-Copyright (C) 2019 [Maronato](https://github.com/Maronato). Licensed under MIT
+Copyright (C) 2020 [Maronato](https://github.com/Maronato). Licensed under MIT
