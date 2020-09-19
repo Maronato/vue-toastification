@@ -10,6 +10,7 @@ script:
   - yarn global add codecov
   - yarn lint:no-fix
   - yarn test
+  - yarn install:demo
   - yarn build:demo
 
 deploy:

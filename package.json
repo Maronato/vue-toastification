@@ -14,6 +14,7 @@
     "test:watch": "yarn test --watch",
     "lint": "yarn lint:no-fix --fix",
     "lint:no-fix": "eslint --ext .js,.vue,.ts",
+    "install:demo": "cd demo && yarn",
     "prepublishOnly": "yarn lint:no-fix && yarn test && yarn build"
   },
   "main": "dist/cjs/index.js",
