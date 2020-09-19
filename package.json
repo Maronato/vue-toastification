@@ -13,7 +13,7 @@
     "test": "yarn test:unit",
     "test:watch": "yarn test --watch",
     "lint": "yarn lint:no-fix --fix",
-    "lint:no-fix": "eslint --ext .js,.vue,.ts ./src/",
+    "lint:no-fix": "eslint --ext .js,.vue,.ts",
     "prepublishOnly": "yarn lint:no-fix && yarn test && yarn build"
   },
   "main": "dist/cjs/index.js",
