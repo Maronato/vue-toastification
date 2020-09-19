@@ -11,8 +11,7 @@ Please note we have a [code of conduct](./CODE_OF_CONDUCT.md). Follow it in all 
   - [Project structure](#project-structure)
     - [`src/`](#src)
     - [`tests/`](#tests)
-    - [`public/`](#public)
-  - [How does the plugin work](#how-does-the-plugin-work)
+    - [`demo/`](#demo)
   - [Developing](#developing)
     - [Pre-requisites](#pre-requisites)
     - [Install](#install)
@@ -35,13 +34,12 @@ Please note we have a [code of conduct](./CODE_OF_CONDUCT.md). Follow it in all 
 This project has 6 main folders:
 
 - `build/`: Production Rollup build configuration
-- `examples/`: Example projects showing regular Vue and Nuxt integration
-- `nuxt/`: Nuxt module files
-- `public/`: Demo page's code
+- `examples/`: Example projects
+- `demo/`: Demo page's code
 - `src/`: Vue Toastification's code
 - `tests/`: All of the tests
 
-The main folders you'll probably be working with will be `src/`, `tests/` and `public/`.
+The main folders you'll probably be working with will be `src/`, `tests/` and `demo/`.
 
 ### `src/`
 These are all the files used by the plugin. Its folders and files are separated by type:
@@ -60,21 +58,8 @@ We use [Jest](https://github.com/facebook/jest) and [Vue Test Utils](https://vue
 If you've never written tests for Vue, you may find this [guide](https://lmiller1990.github.io/vue-testing-handbook/) helpful. You may also check out our [testing guide](#writing-tests) to learn how to write effective tests for this plugin.
 
 
-### `public/`
+### `demo/`
 This folder contains the code for the demo.
-
-
-## How does the plugin work
-
-Most Vue plugins either add a new property to the Vue instance or make custom components available. Vue Toastification more or less does both by providing a series of methods to the Vue instance that manipulate dynamically generated components.
-
-When the user calls `Vue.use(Toast)`, Vue Toastification [creates](https://github.com/Maronato/vue-toastification/blob/da6c8c6d2f687efe033f50204ef288abd6d65cd6/src/ts/interface.ts#L15) a new Vue component tree on the HTML body's root (you may choose the location using the `container` plugin option) and creates a [`VtToastContainer`](./src/components/VtToastContainer.vue) on it. It automatically mounts itself and is passed all of the plugin options as props.
-
-The plugin [interface](./src/ts/interface.ts), which contains all of the plugin methods, is [injected](https://github.com/Maronato/vue-toastification/blob/da6c8c6d2f687efe033f50204ef288abd6d65cd6/src/index.ts#L12) as the `$toast` property available to all Vue instances.
-
-Whenever the user calls a plugin method using `$toast`, a custom event is triggered and passed to the created `VtToastContainer` using a [global event bus](./src/ts/events.ts). You can see all of the event handlers on `VtToastContainer`'s `beforeMount()` hook [here](https://github.com/Maronato/vue-toastification/blob/da6c8c6d2f687efe033f50204ef288abd6d65cd6/src/components/VtToastContainer.vue#L68).
-
-Beyond that everything is regular Vue and Vue components. All toasts created are added as children of the created `VtToastContainer` and inherit its props as their default values.
 
 ## Developing
 
@@ -131,12 +116,7 @@ If you make changes to the UI, it'll probably break some [snapshots](https://jes
 
 If you plan on changing behavior related to `VtToastContainer` or plugin initialization, you'll face issues because of the way the plugin injects the container onto the page.
 
-To solve that, the `loadPlugin` utility was created. You may import it from `tests/utils/plugin` and use it to simulate a `Vue.use(Toast)` call.
-
-It takes an optional `PluginOptions` object and returns an object with the following keys:
-- `localVue`: Vue instance that called `.use(Toast)`. You may use it to call plugin methods such as `localVue.$toast("hey")`
-- `containerWrapper`: A Vue Test Utils [Wrapper](https://vue-test-utils.vuejs.org/api/wrapper/) around the created `VtToastContainer`
-- `topLeft`,...,`bottomRight`: [Wrapper](https://vue-test-utils.vuejs.org/api/wrapper/)s for `div`s that contain visible toasts on each position.
+To solve that, the `loadPlugin` utility was created. You may import it from `tests/utils/plugin` and use it to simulate a `app.use(Toast)` call.
 
 Each of the position wrappers (`topLeft`, etc) also have a `getToasts` method that returns a [WrapperArray](https://vue-test-utils.vuejs.org/api/wrapper-array/) or its toasts.
 
@@ -151,7 +131,7 @@ describe("test plugin", () => {
     // Load plugin with default value for position
     const options = { position: POSITION.BOTTOM_LEFT };
     const {
-      localVue,
+      toastInterface,
       bottomLeft,
       containerWrapper
     } = loadPlugin(options);
@@ -167,7 +147,7 @@ describe("test plugin", () => {
 
     // Create a toast
     const content = "I'm a toast";
-    localVue.$toast(content);
+    toastInterface(content);
 
     // Wait for render
     await containerWrapper.vm.$nextTick();
