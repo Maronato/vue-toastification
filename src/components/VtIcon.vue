@@ -23,6 +23,8 @@ import WarningIcon from "./icons/VtWarningIcon.vue"
 import ErrorIcon from "./icons/VtErrorIcon.vue"
 
 export default defineComponent({
+  name: "VtIcon",
+
   props: PROPS.ICON,
 
   computed: {

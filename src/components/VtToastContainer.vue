@@ -33,6 +33,7 @@ import Toast from "./VtToast.vue"
 import VtTransition from "./VtTransition.vue"
 
 export default defineComponent({
+  name: "VtToastContainer",
   components: { Toast, VtTransition },
 
   props: Object.assign({}, PROPS.CORE_TOAST, PROPS.CONTAINER, PROPS.TRANSITION),

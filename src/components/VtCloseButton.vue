@@ -17,6 +17,8 @@ import { getVueComponentFromObj } from "../ts/utils"
 import { RenderableToastContent } from "../types"
 
 export default defineComponent({
+  name: "VtCloseButton",
+
   props: PROPS.CLOSE_BUTTON,
 
   computed: {

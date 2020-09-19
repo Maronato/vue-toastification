@@ -20,6 +20,7 @@ import { defineComponent } from "vue"
 import PROPS from "../ts/propValidators"
 
 export default defineComponent({
+  name: "VtTransition",
   props: PROPS.TRANSITION,
 
   emits: ["leave"],

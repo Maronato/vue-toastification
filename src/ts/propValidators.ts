@@ -142,7 +142,7 @@ const TOAST = {
   },
   onClose: {
     type: Function as PropType<NonNullable<ToastOptions["onClose"]>>,
-    default: () => {},
+    default: /* istanbul ignore next */ () => {},
   },
 }
 

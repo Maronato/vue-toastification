@@ -1,4 +1,6 @@
-import { mount } from "@vue/test-utils"
+import { ComponentPublicInstance, nextTick } from "vue"
+import { mount, VueWrapper, DOMWrapper } from "@vue/test-utils"
+import merge from "lodash.merge"
 import VtToast from "../../../src/components/VtToast.vue"
 import VtIcon from "../../../src/components/VtIcon.vue"
 import VtProgressBar from "../../../src/components/VtProgressBar.vue"
@@ -7,6 +9,13 @@ import { ToastOptionsAndContent } from "../../../src/types"
 import { VT_NAMESPACE, TYPE, POSITION, EVENTS } from "../../../src/ts/constants"
 import Simple from "../../utils/components/Simple.vue"
 import { EventBus } from "../../../src"
+
+const setData = (
+  wrapper: VueWrapper<ComponentPublicInstance>,
+  override: Record<string, unknown>
+) => {
+  merge(wrapper.vm.$data, override)
+}
 
 const mountToast = ({ id, content, ...props }: ToastOptionsAndContent = {}) =>
   mount(VtToast, {
@@ -42,9 +51,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       )
-      expect(wrapper.findComponent(VtIcon).element).toBeTruthy()
-      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy()
-      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy()
+      expect(wrapper.findComponent(VtIcon).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtCloseButton).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtProgressBar).exists()).toBeTruthy()
       expect(wrapper.element).toMatchSnapshot()
     })
     it("closeButton = false removes it", () => {
@@ -52,9 +61,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       )
-      expect(wrapper.findComponent(VtIcon).element).toBeTruthy()
-      expect(wrapper.findComponent(VtCloseButton).element).toBeFalsy()
-      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy()
+      expect(wrapper.findComponent(VtIcon).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtCloseButton).exists()).toBeFalsy()
+      expect(wrapper.findComponent(VtProgressBar).exists()).toBeTruthy()
       expect(wrapper.element).toMatchSnapshot()
     })
     it("icon = false removes it", () => {
@@ -62,9 +71,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       )
-      expect(wrapper.findComponent(VtIcon).element).toBeFalsy()
-      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy()
-      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy()
+      expect(wrapper.findComponent(VtIcon).exists()).toBeFalsy()
+      expect(wrapper.findComponent(VtCloseButton).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtProgressBar).exists()).toBeTruthy()
       expect(wrapper.element).toMatchSnapshot()
     })
     it("timeout = false removes progress bar", () => {
@@ -72,9 +81,9 @@ describe("VtToast", () => {
       expect(wrapper.find(`div.${VT_NAMESPACE}__toast-body`).text()).toEqual(
         "content"
       )
-      expect(wrapper.findComponent(VtIcon).element).toBeTruthy()
-      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy()
-      expect(wrapper.findComponent(VtProgressBar).element).toBeFalsy()
+      expect(wrapper.findComponent(VtIcon).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtCloseButton).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtProgressBar).exists()).toBeFalsy()
       expect(wrapper.element).toMatchSnapshot()
     })
     it("renders custom component", () => {
@@ -82,10 +91,10 @@ describe("VtToast", () => {
       expect(
         wrapper.find(`div.${VT_NAMESPACE}__toast-component-body`).exists()
       ).toBe(true)
-      expect(wrapper.findComponent(Simple).element).toBeTruthy()
-      expect(wrapper.findComponent(VtIcon).element).toBeTruthy()
-      expect(wrapper.findComponent(VtCloseButton).element).toBeTruthy()
-      expect(wrapper.findComponent(VtProgressBar).element).toBeTruthy()
+      expect(wrapper.findComponent(Simple).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtIcon).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtCloseButton).exists()).toBeTruthy()
+      expect(wrapper.findComponent(VtProgressBar).exists()).toBeTruthy()
       expect(wrapper.element).toMatchSnapshot()
     })
     it("renders default aria role and button aria label", () => {
@@ -153,7 +162,7 @@ describe("VtToast", () => {
     })
     it("updates with disableTransitions", () => {
       const wrapper = mountToast()
-      wrapper.setData({ disableTransitions: true })
+      setData(wrapper, { disableTransitions: true })
       const vm = (wrapper.vm as unknown) as {
         classes: string[]
       }
@@ -226,7 +235,7 @@ describe("VtToast", () => {
     })
     it("returns { transform, opacity } if beingDragged", () => {
       const wrapper = mountToast()
-      wrapper.setData({ dragPos: { x: 10 }, beingDragged: true })
+      setData(wrapper, { dragPos: { x: 10 }, beingDragged: true })
       const vm = (wrapper.vm as unknown) as {
         draggableStyle: {
           transition?: string
@@ -243,7 +252,7 @@ describe("VtToast", () => {
     })
     it("Returns default values otherwise", () => {
       const wrapper = mountToast()
-      wrapper.setData({ dragStart: 10 })
+      setData(wrapper, { dragStart: 10, dragPos: { x: 0 } })
       const vm = (wrapper.vm as unknown) as {
         draggableStyle: {
           transition?: string
@@ -261,7 +270,7 @@ describe("VtToast", () => {
   describe("dragDelta", () => {
     it("is being dragged", () => {
       const wrapper = mountToast()
-      wrapper.setData({ beingDragged: true, dragPos: { x: 10 }, dragStart: 0 })
+      setData(wrapper, { beingDragged: true, dragPos: { x: 10 }, dragStart: 0 })
       const vm = (wrapper.vm as unknown) as {
         dragDelta: number
       }
@@ -269,7 +278,7 @@ describe("VtToast", () => {
     })
     it("is being dragged", () => {
       const wrapper = mountToast()
-      wrapper.setData({
+      setData(wrapper, {
         beingDragged: false,
         dragPos: { x: 10 },
         dragStart: 0,
@@ -294,7 +303,7 @@ describe("VtToast", () => {
         y: 10,
         toJSON: () => ({}),
       }
-      wrapper.setData({ dragRect, draggablePercent: 0.6 })
+      setData(wrapper, { dragRect, draggablePercent: 0.6 })
       const vm = (wrapper.vm as unknown) as {
         removalDistance: number
       }
@@ -303,7 +312,7 @@ describe("VtToast", () => {
     it("dragRect is not a DOMRect", () => {
       const wrapper = mountToast()
       const dragRect = {}
-      wrapper.setData({ dragRect, draggablePercent: 0.6 })
+      setData(wrapper, { dragRect, draggablePercent: 0.6 })
       const vm = (wrapper.vm as unknown) as {
         removalDistance: number
       }
@@ -312,85 +321,74 @@ describe("VtToast", () => {
   })
   describe("mounted", () => {
     it("calls draggableSetup if this.draggable is true", () => {
-      const localVue = createLocalVue()
-      const Constructor = localVue.extend(VtToast)
-      const component = new Constructor({
-        propsData: {
+      const spyOnDraggableSetup = jest.spyOn(VtToast.methods, "draggableSetup")
+
+      expect(spyOnDraggableSetup).not.toHaveBeenCalled()
+
+      mount(VtToast, {
+        props: {
           draggable: true,
           id: 1,
           content: "content",
         },
       })
-      const loadedComponent = (component as unknown) as {
-        draggableSetup(): void
-      }
-      const spyOnDraggableSetup = jest.spyOn(loadedComponent, "draggableSetup")
 
-      expect(spyOnDraggableSetup).not.toHaveBeenCalled()
-      component.$mount()
       expect(spyOnDraggableSetup).toHaveBeenCalled()
     })
     it("does not call draggableSetup if this.draggable is false", () => {
-      const localVue = createLocalVue()
-      const Constructor = localVue.extend(VtToast)
-      const component = new Constructor({
-        propsData: {
+      const spyOnDraggableSetup = jest.spyOn(VtToast.methods, "draggableSetup")
+
+      expect(spyOnDraggableSetup).not.toHaveBeenCalled()
+
+      mount(VtToast, {
+        props: {
           draggable: false,
           id: 1,
           content: "content",
         },
       })
-      const loadedComponent = (component as unknown) as {
-        draggableSetup(): void
-      }
-      const spyOnDraggableSetup = jest.spyOn(loadedComponent, "draggableSetup")
 
-      expect(spyOnDraggableSetup).not.toHaveBeenCalled()
-      component.$mount()
       expect(spyOnDraggableSetup).not.toHaveBeenCalled()
     })
     it("calls focusSetup if this.pauseOnFocusLoss is true", () => {
-      const localVue = createLocalVue()
-      const Constructor = localVue.extend(VtToast)
-      const component = new Constructor({
-        propsData: {
+      const spy = jest.spyOn(VtToast.methods, "focusSetup")
+
+      expect(spy).not.toHaveBeenCalled()
+
+      mount(VtToast, {
+        props: {
           pauseOnFocusLoss: true,
           id: 1,
           content: "content",
         },
       })
-      const loadedComponent = (component as unknown) as { focusSetup(): void }
-      const spyOnFocusSetup = jest.spyOn(loadedComponent, "focusSetup")
 
-      expect(spyOnFocusSetup).not.toHaveBeenCalled()
-      component.$mount()
-      expect(spyOnFocusSetup).toHaveBeenCalled()
+      expect(spy).toHaveBeenCalled()
     })
     it("does not call focusSetup if this.pauseOnFocusLoss is false", () => {
-      const localVue = createLocalVue()
-      const Constructor = localVue.extend(VtToast)
-      const component = new Constructor({
-        propsData: {
+      const spy = jest.spyOn(VtToast.methods, "focusSetup")
+
+      expect(spy).not.toHaveBeenCalled()
+
+      mount(VtToast, {
+        props: {
           pauseOnFocusLoss: false,
           id: 1,
           content: "content",
         },
       })
-      const loadedComponent = (component as unknown) as { focusSetup(): void }
-      const spyOnfocusSetup = jest.spyOn(loadedComponent, "focusSetup")
 
-      expect(spyOnfocusSetup).not.toHaveBeenCalled()
-      component.$mount()
-      expect(spyOnfocusSetup).not.toHaveBeenCalled()
+      expect(spy).not.toHaveBeenCalled()
     })
   })
   describe("beforeunmount", () => {
-    it("calls draggableCleanup if this.draggable is true", () => {
+    it("calls draggableCleanup if this.draggable is true", async () => {
       const wrapper = mountToast({ draggable: true })
       const vm = (wrapper.vm as unknown) as {
         draggableCleanup(): void
       }
-      const spyOnDraggableCleanup = jest.spyOn(vm, "draggableCleanup")
+
+      const spyOnDraggableCleanup = (vm.draggableCleanup = jest.fn())
       expect(spyOnDraggableCleanup).not.toHaveBeenCalled()
       wrapper.unmount()
       expect(spyOnDraggableCleanup).toHaveBeenCalled()
@@ -400,7 +398,8 @@ describe("VtToast", () => {
       const vm = (wrapper.vm as unknown) as {
         draggableCleanup(): void
       }
-      const spyOnDraggableCleanup = jest.spyOn(vm, "draggableCleanup")
+
+      const spyOnDraggableCleanup = (vm.draggableCleanup = jest.fn())
       expect(spyOnDraggableCleanup).not.toHaveBeenCalled()
       wrapper.unmount()
       expect(spyOnDraggableCleanup).not.toHaveBeenCalled()
@@ -410,7 +409,8 @@ describe("VtToast", () => {
       const vm = (wrapper.vm as unknown) as {
         focusCleanup(): void
       }
-      const spyOnfocusCleanup = jest.spyOn(vm, "focusCleanup")
+
+      const spyOnfocusCleanup = (vm.focusCleanup = jest.fn())
       expect(spyOnfocusCleanup).not.toHaveBeenCalled()
       wrapper.unmount()
       expect(spyOnfocusCleanup).toHaveBeenCalled()
@@ -420,21 +420,11 @@ describe("VtToast", () => {
       const vm = (wrapper.vm as unknown) as {
         focusCleanup(): void
       }
-      const spyOnfocusCleanup = jest.spyOn(vm, "focusCleanup")
+
+      const spyOnfocusCleanup = (vm.focusCleanup = jest.fn())
       expect(spyOnfocusCleanup).not.toHaveBeenCalled()
       wrapper.unmount()
       expect(spyOnfocusCleanup).not.toHaveBeenCalled()
-    })
-  })
-  describe("unmounted", () => {
-    it("removes element after timeout", async () => {
-      const parent = document.createElement("div")
-      const wrapper = mountToast()
-      wrapper.unmount()
-      parent.appendChild(wrapper.vm.$el)
-      expect(parent.childElementCount).toBe(1)
-      await new Promise(resolve => setTimeout(() => resolve(), 1000))
-      expect(parent.childElementCount).toBe(0)
     })
   })
   describe("closeToast", () => {
@@ -461,22 +451,22 @@ describe("VtToast", () => {
     })
     it("calls closeToast if closeOnClick and not beingDragged", () => {
       const wrapper = mountToast({ closeOnClick: true })
-      wrapper.setData({ beingDragged: false })
+      setData(wrapper, { beingDragged: false })
       const vm = (wrapper.vm as unknown) as {
         closeToast(): void
       }
-      const spyOnCloseToast = jest.spyOn(vm, "closeToast")
+      const spyOnCloseToast = (vm.closeToast = jest.fn(vm.closeToast))
       expect(spyOnCloseToast).not.toHaveBeenCalled()
       wrapper.trigger("click")
       expect(spyOnCloseToast).toHaveBeenCalled()
     })
     it("calls closeToast if closeOnClick and at the drag start", () => {
       const wrapper = mountToast({ closeOnClick: true })
-      wrapper.setData({ beingDragged: true, dragStart: 0, dragPos: { x: 0 } })
+      setData(wrapper, { beingDragged: true, dragStart: 0, dragPos: { x: 0 } })
       const vm = (wrapper.vm as unknown) as {
         closeToast(): void
       }
-      const spyOnCloseToast = jest.spyOn(vm, "closeToast")
+      const spyOnCloseToast = (vm.closeToast = jest.fn(vm.closeToast))
       expect(spyOnCloseToast).not.toHaveBeenCalled()
       wrapper.trigger("click")
       expect(spyOnCloseToast).toHaveBeenCalled()
@@ -486,18 +476,18 @@ describe("VtToast", () => {
       const vm = (wrapper.vm as unknown) as {
         closeToast(): void
       }
-      const spyOnCloseToast = jest.spyOn(vm, "closeToast")
+      const spyOnCloseToast = (vm.closeToast = jest.fn(vm.closeToast))
       expect(spyOnCloseToast).not.toHaveBeenCalled()
       wrapper.trigger("click")
       expect(spyOnCloseToast).not.toHaveBeenCalled()
     })
     it("does not call closeToast if beingDragged and dragStart is not dragPos.x", () => {
       const wrapper = mountToast({ closeOnClick: true })
-      wrapper.setData({ beingDragged: true, dragStart: 1, dragPos: { x: 0 } })
+      setData(wrapper, { beingDragged: true, dragStart: 1, dragPos: { x: 0 } })
       const vm = (wrapper.vm as unknown) as {
         closeToast(): void
       }
-      const spyOnCloseToast = jest.spyOn(vm, "closeToast")
+      const spyOnCloseToast = (vm.closeToast = jest.fn(vm.closeToast))
       expect(spyOnCloseToast).not.toHaveBeenCalled()
       wrapper.trigger("click")
       expect(spyOnCloseToast).not.toHaveBeenCalled()
@@ -509,7 +499,7 @@ describe("VtToast", () => {
       const vm = (wrapper.vm as unknown) as {
         closeToast(): void
       }
-      const spyOnCloseToast = jest.spyOn(vm, "closeToast")
+      const spyOnCloseToast = (vm.closeToast = jest.fn(vm.closeToast))
       const progressBar = wrapper.findComponent(VtProgressBar)
       expect(spyOnCloseToast).not.toHaveBeenCalled()
       progressBar.vm.$emit("close-toast")
@@ -539,7 +529,7 @@ describe("VtToast", () => {
   describe("hoverPlay", () => {
     it("resume on mouseleave if pauseOnHover", () => {
       const wrapper = mountToast({ pauseOnHover: true })
-      wrapper.setData({ isRunning: false })
+      setData(wrapper, { isRunning: false })
       const vm = (wrapper.vm as unknown) as {
         isRunning: boolean
       }
@@ -549,7 +539,7 @@ describe("VtToast", () => {
     })
     it("does not resume on mouseleave if not pauseOnHover", () => {
       const wrapper = mountToast({ pauseOnHover: false })
-      wrapper.setData({ isRunning: false })
+      setData(wrapper, { isRunning: false })
       const vm = (wrapper.vm as unknown) as {
         isRunning: boolean
       }
@@ -581,7 +571,7 @@ describe("VtToast", () => {
   describe("focusPlay", () => {
     it("resume on focus if pauseOnFocusLoss", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: true })
-      wrapper.setData({ isRunning: false })
+      setData(wrapper, { isRunning: false })
       const vm = (wrapper.vm as unknown) as {
         isRunning: boolean
       }
@@ -591,7 +581,7 @@ describe("VtToast", () => {
     })
     it("does not resume on focus if not pauseOnFocusLoss", () => {
       const wrapper = mountToast({ pauseOnFocusLoss: false })
-      wrapper.setData({ isRunning: false })
+      setData(wrapper, { isRunning: false })
       const vm = (wrapper.vm as unknown) as {
         isRunning: boolean
       }
@@ -603,7 +593,7 @@ describe("VtToast", () => {
   describe("onDragStart", () => {
     it("sets correct values on drag start", () => {
       const wrapper = mountToast({ draggable: true })
-      wrapper.setData({
+      setData(wrapper, {
         beingDragged: false,
         dragPos: { x: 0, y: 0 },
         dragStart: 0,
@@ -632,8 +622,8 @@ describe("VtToast", () => {
   describe("onDragMove", () => {
     it("updates if beingDragged and isRunning", () => {
       const wrapper = mountToast({ draggable: true })
-      const docWrapper = createWrapper(document.body)
-      wrapper.setData({ beingDragged: false, isRunning: true })
+      const docWrapper = new DOMWrapper(document.body)
+      setData(wrapper, { beingDragged: false, isRunning: true })
       const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean
         dragPos: { x: number; y: number }
@@ -655,7 +645,7 @@ describe("VtToast", () => {
     })
     it("event.preventDefault is called if being dragged", () => {
       const wrapper = mountToast({ draggable: true })
-      wrapper.setData({ beingDragged: false, isRunning: true })
+      setData(wrapper, { beingDragged: false, isRunning: true })
       wrapper.trigger("mousedown", {
         clientX: 0,
         clientY: 0,
@@ -668,8 +658,8 @@ describe("VtToast", () => {
     })
     it("does nothing if not beingDragged", () => {
       const wrapper = mountToast({ draggable: true })
-      const docWrapper = createWrapper(document.body)
-      wrapper.setData({ beingDragged: false, isRunning: true })
+      const docWrapper = new DOMWrapper(document.body)
+      setData(wrapper, { beingDragged: false, isRunning: true })
       const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean
         dragPos: { x: number; y: number }
@@ -688,8 +678,8 @@ describe("VtToast", () => {
   describe("onDragEnd", () => {
     it("if drag ended after removalDistance, remove the component", async () => {
       const wrapper = mountToast({ draggable: true })
-      const docWrapper = createWrapper(document.body)
-      wrapper.setData({ beingDragged: false, isRunning: true })
+      const docWrapper = new DOMWrapper(document.body)
+      setData(wrapper, { beingDragged: false, isRunning: true })
       const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean
         dragPos: { x: number; y: number }
@@ -699,7 +689,7 @@ describe("VtToast", () => {
         closeToast(): void
         disableTransitions: boolean
       }
-      const spyCloseToast = jest.spyOn(vm, "closeToast")
+      const spyCloseToast = (vm.closeToast = jest.fn(vm.closeToast))
       wrapper.trigger("mousedown", {
         clientX: 0,
         clientY: 0,
@@ -719,8 +709,8 @@ describe("VtToast", () => {
     })
     it("if drag ended before removalDistance but the mouse remains and pauseOnHover, pause", async () => {
       const wrapper = mountToast({ draggable: true, pauseOnHover: true })
-      const docWrapper = createWrapper(document.body)
-      wrapper.setData({ beingDragged: false, isRunning: true })
+      const docWrapper = new DOMWrapper(document.body)
+      setData(wrapper, { beingDragged: false, isRunning: true })
       const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean
         dragPos: { x: number; y: number }
@@ -738,7 +728,7 @@ describe("VtToast", () => {
         clientX: 0,
         clientY: 0,
       })
-      wrapper.setData({
+      setData(wrapper, {
         dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 },
       })
       expect(Math.abs(vm.dragDelta)).toBeLessThan(vm.removalDistance)
@@ -752,8 +742,8 @@ describe("VtToast", () => {
     })
     it("if drag ended before removalDistance but the mouse remains and not pauseOnHover, resume", async () => {
       const wrapper = mountToast({ draggable: true, pauseOnHover: false })
-      const docWrapper = createWrapper(document.body)
-      wrapper.setData({ beingDragged: false, isRunning: true })
+      const docWrapper = new DOMWrapper(document.body)
+      setData(wrapper, { beingDragged: false, isRunning: true })
       const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean
         dragPos: { x: number; y: number }
@@ -771,7 +761,7 @@ describe("VtToast", () => {
         clientX: 0,
         clientY: 0,
       })
-      wrapper.setData({
+      setData(wrapper, {
         dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 },
       })
       expect(Math.abs(vm.dragDelta)).toBeLessThan(vm.removalDistance)
@@ -785,8 +775,8 @@ describe("VtToast", () => {
     })
     it("if drag ended before removalDistance and the mouse is outside, resume", async () => {
       const wrapper = mountToast({ draggable: true, pauseOnHover: true })
-      const docWrapper = createWrapper(document.body)
-      wrapper.setData({ beingDragged: false, isRunning: true })
+      const docWrapper = new DOMWrapper(document.body)
+      setData(wrapper, { beingDragged: false, isRunning: true })
       const vm = (wrapper.vm as unknown) as {
         beingDragged: boolean
         dragPos: { x: number; y: number }
@@ -804,7 +794,7 @@ describe("VtToast", () => {
         clientX: 0,
         clientY: 100,
       })
-      wrapper.setData({
+      setData(wrapper, {
         dragRect: { x: 0, y: 0, bottom: 10, top: -10, left: -10, right: 10 },
       })
       expect(Math.abs(vm.dragDelta)).toBeLessThan(vm.removalDistance)

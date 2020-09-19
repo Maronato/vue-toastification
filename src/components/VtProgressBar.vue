@@ -9,6 +9,8 @@ import { VT_NAMESPACE } from "../ts/constants"
 import PROPS from "../ts/propValidators"
 
 export default defineComponent({
+  name: "VtProgressBar",
+
   props: PROPS.PROGRESS_BAR,
 
   emits: ["close-toast"],

@@ -54,6 +54,8 @@ import CloseButton from "./VtCloseButton.vue"
 import Icon from "./VtIcon.vue"
 
 export default defineComponent({
+  name: "VtToast",
+
   components: { ProgressBar, CloseButton, Icon },
   inheritAttrs: false,
 
@@ -102,7 +104,7 @@ export default defineComponent({
       ].concat(this.bodyClassName)
       return classes
     },
-
+    /* istanbul ignore next */
     draggableStyle(): {
       transition?: string
       opacity?: number
@@ -110,17 +112,17 @@ export default defineComponent({
     } {
       if (this.dragStart === this.dragPos.x) {
         return {}
-      }
-      if (this.beingDragged) {
+      } else if (this.beingDragged) {
         return {
           transform: `translateX(${this.dragDelta}px)`,
           opacity: 1 - Math.abs(this.dragDelta / this.removalDistance),
         }
-      }
-      return {
-        transition: "transform 0.2s, opacity 0.2s",
-        transform: "translateX(0)",
-        opacity: 1,
+      } else {
+        return {
+          transition: "transform 0.2s, opacity 0.2s",
+          transform: "translateX(0)",
+          opacity: 1,
+        }
       }
     },
     dragDelta(): number {

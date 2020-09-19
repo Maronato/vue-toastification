@@ -39,6 +39,25 @@ const toastInterfaceLike = expect.objectContaining({
   warning: expect.any(Function),
 })
 
+describe("exports", () => {
+  it("exports constants", () => {
+    expect(typeof index.TYPE).toEqual("object")
+    expect(typeof index.POSITION).toEqual("object")
+    expect(typeof index.toastInjectionKey).toEqual("symbol")
+  })
+  it("exports classes", () => {
+    expect(typeof index.EventBus).toEqual("function")
+  })
+  it("exports functions", () => {
+    expect(typeof index.createToastInterface).toEqual("function")
+    expect(typeof index.provideToast).toEqual("function")
+    expect(typeof index.useToast).toEqual("function")
+  })
+  it("exports default", () => {
+    expect(typeof index.default).toEqual("function")
+  })
+})
+
 describe("Toast Plugin", () => {
   beforeEach(() => {
     jest.clearAllMocks()

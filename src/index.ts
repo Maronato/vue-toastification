@@ -58,14 +58,16 @@ export default VueToastificationPlugin
 
 export {
   // Types
-  POSITION,
-  TYPE,
   ToastInterface,
   PluginOptions,
-  // Methods and objects
-  createToastInterface,
+  // Consts
+  POSITION,
+  TYPE,
   toastInjectionKey,
-  EventBus,
+  // Functions
+  createToastInterface,
   useToast,
   provideToast,
+  // Classes
+  EventBus,
 }
