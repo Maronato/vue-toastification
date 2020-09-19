@@ -21,7 +21,7 @@ const loadPlugin = async (options?: PluginOptions) => {
   let containerComp: ComponentPublicInstance = {} as ComponentPublicInstance
   const toastInterface = createToastInterface({
     container,
-    onMounted: (app, component) => {
+    onMounted: (component, app) => {
       containerApp = app
       containerComp = component
     },

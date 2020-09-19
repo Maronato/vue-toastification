@@ -26,7 +26,7 @@ export const buildInterface = (
 
       const onMounted = globalOptions.onMounted
       if (!isUndefined(onMounted)) {
-        onMounted(app, component)
+        onMounted(component, app)
       }
     })
   }

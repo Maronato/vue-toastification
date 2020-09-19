@@ -165,8 +165,8 @@ export interface PluginOptions extends CommonOptions {
    * Receives the Container vue instance as a parameter.
    */
   onMounted?: (
-    containerApp: App<Element>,
-    containerComponent: ComponentPublicInstance
+    containerComponent: ComponentPublicInstance,
+    containerApp: App<Element>
   ) => void
 }
 
