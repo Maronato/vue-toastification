@@ -1,11 +1,7 @@
 <template>
   <div>
     <div v-for="pos in positions" :key="pos">
-      <VtTransition
-        :transition="defaults.transition"
-        :transition-duration="defaults.transitionDuration"
-        :class="getClasses(pos)"
-      >
+      <VtTransition :transition="defaults.transition" :class="getClasses(pos)">
         <Toast
           v-for="toast in getPositionToasts(pos)"
           :key="toast.id"

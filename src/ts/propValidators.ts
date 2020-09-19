@@ -76,12 +76,6 @@ const TRANSITION = {
     >,
     default: `${VT_NAMESPACE}__bounce`,
   },
-  transitionDuration: {
-    type: [Number, Object] as PropType<
-      NonNullable<PluginOptions["transitionDuration"]>
-    >,
-    default: 750,
-  },
 }
 
 type CommonOptionsType = Required<CommonOptions>
@@ -162,7 +156,6 @@ const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
     default: 20,
   },
   transition: TRANSITION.transition,
-  transitionDuration: TRANSITION.transitionDuration,
   toastDefaults: Object as PropType<
     NonNullable<PluginOptions["toastDefaults"]>
   >,

@@ -131,12 +131,6 @@ export interface PluginOptions extends CommonOptions {
    */
   transition?: string | Record<"enter" | "leave" | "move", string>
   /**
-   * Duration of the transition.
-   *
-   * Can either be a positive integer for both enter and leave, or an object of shape `{enter: number, leave: number}`.
-   */
-  transitionDuration?: number | Record<"enter" | "leave", number>
-  /**
    *  Toast's defaults object for configuring default toast options for each toast type.
    *
    *  Possible object properties can be any of `success error default info warning`
