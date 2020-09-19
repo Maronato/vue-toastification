@@ -21,7 +21,6 @@ export const buildInterface = (
     nextTick(() => {
       const app = createApp(ToastContainer, {
         ...globalOptions,
-        name: "VueToastification",
       })
       const component = app.mount(document.createElement("div"))
 

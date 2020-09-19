@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`VtToastContainer snapshots with classes 1`] = `
-<div
-  name="VueToastification"
->
+<div>
   
   <div>
     <div
@@ -40,9 +38,7 @@ exports[`VtToastContainer snapshots with classes 1`] = `
 `;
 
 exports[`VtToastContainer snapshots with default value 1`] = `
-<div
-  name="VueToastification"
->
+<div>
   
   <div>
     <div
@@ -79,9 +75,7 @@ exports[`VtToastContainer snapshots with default value 1`] = `
 `;
 
 exports[`VtToastContainer updateDefaults applies new containerClassName 1`] = `
-<div
-  name="VueToastification"
->
+<div>
   
   <div>
     <div
@@ -118,9 +112,7 @@ exports[`VtToastContainer updateDefaults applies new containerClassName 1`] = `
 `;
 
 exports[`VtToastContainer updateDefaults applies new containerClassName 2`] = `
-<div
-  name="VueToastification"
->
+<div>
   
   <div>
     <div
