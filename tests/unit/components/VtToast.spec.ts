@@ -1,4 +1,4 @@
-import { ComponentPublicInstance, nextTick } from "vue"
+import { ComponentPublicInstance } from "vue"
 import { mount, VueWrapper, DOMWrapper } from "@vue/test-utils"
 import merge from "lodash.merge"
 import VtToast from "../../../src/components/VtToast.vue"
