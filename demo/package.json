@@ -1,0 +1,32 @@
+{
+  "name": "vue3",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "yarn lint:no-fix --fix",
+    "lint:no-fix": "eslint --ext .js,.vue,.ts ."
+  },
+  "dependencies": {
+    "tailwindcss": "^1.8.5",
+    "vue": "^3.0.0-rc.1",
+    "vue-router": "^4.0.0-beta.9"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "@vue/compiler-sfc": "^3.0.0-rc.1",
+    "eslint": "^7.8.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-vue": "^7.0.0-beta.3",
+    "postcss-import": "^12.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.1.1",
+    "stylelint": "^13.7.0",
+    "stylelint-config-recommended": "^3.0.0",
+    "typescript": "^4.0.2",
+    "vite": "^1.0.0-rc.1"
+  }
+}
