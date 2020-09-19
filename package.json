@@ -56,6 +56,7 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.1.2",
     "fibers": "^5.0.0",
+    "husky": "^4.3.0",
     "jest-serializer-vue": "^2.0.2",
     "lint-staged": "10.3.0",
     "nuxt": "^2.12.2",

@@ -206,7 +206,9 @@ export default Vue.extend({
 
     draggableSetup() {
       const element = this.$el as HTMLElement;
-      element.addEventListener("touchstart", this.onDragStart);
+      element.addEventListener("touchstart", this.onDragStart, {
+        passive: true,
+      });
       element.addEventListener("mousedown", this.onDragStart);
       addEventListener("touchmove", this.onDragMove, { passive: false });
       addEventListener("mousemove", this.onDragMove);
