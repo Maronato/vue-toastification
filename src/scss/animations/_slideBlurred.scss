@@ -164,6 +164,12 @@ $trans-cubic-bezier: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
 
+.#{$vt-namespace}__slideBlurred-leave-active,
+.#{$vt-namespace}__slideBlurred-enter-active {
+  animation-duration: 750ms;
+  animation-fill-mode: both;
+}
+
 .#{$vt-namespace}__slideBlurred-move {
   transition-timing-function: ease-in-out;
   transition-property: all;
