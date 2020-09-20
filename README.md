@@ -17,7 +17,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
 
 **Attention!** These are the docs for Vue Toastification v2, which is **only** compatible with Vue 3+
 
-If you are using Vue 2, check out [Vue Toastification v1](https://github.com/Maronato/vue-toastification/tree/v1.x)
+If you are using Vue 2, check out [Vue Toastification v1](https://github.com/Maronato/vue-toastification/tree/master)
 
 - [Vue Toastification (for Vue 3)](#vue-toastification-for-vue-3)
   - [Features](#features)
@@ -116,7 +116,7 @@ $ yarn add vue-toastification@^2
 $ npm install --save vue-toastification@^2
 ```
 
-> **Using Vue 2?** You should install [Vue Toastification v1](https://github.com/Maronato/vue-toastification/tree/v1.x) instead.
+> **Using Vue 2?** You should install [Vue Toastification v1](https://github.com/Maronato/vue-toastification/tree/master) instead.
 
 
 ## Usage
