@@ -112,8 +112,8 @@ You can also check some [examples](https://github.com/Maronato/vue-toastificatio
 ## Installation
 
 ```
-$ yarn add vue-toastification@^2
-$ npm install --save vue-toastification@^2
+$ yarn add vue-toastification@next
+$ npm install --save vue-toastification@next
 ```
 
 > **Using Vue 2?** You should install [Vue Toastification v1](https://github.com/Maronato/vue-toastification/tree/master) instead.
