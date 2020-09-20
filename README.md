@@ -1,5 +1,8 @@
-# Vue Toastification
-[![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest)
+# Vue Toastification (for Vue 2)
+
+**Are you using Vue 3?** Check out [Vue Toastification v2](https://github.com/Maronato/vue-toastification/tree/next)!
+
+[![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest) [![Vue 2](https://img.shields.io/badge/Vue-2-green)](https://img.shields.io/badge/Vue-2-green)
 
 [![Build Status](https://travis-ci.com/Maronato/vue-toastification.svg?branch=master)](https://travis-ci.com/Maronato/vue-toastification) [![codecov](https://codecov.io/gh/Maronato/vue-toastification/branch/master/graph/badge.svg)](https://codecov.io/gh/Maronato/vue-toastification) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d10315093b4c45a097ac10d1276015ce)](https://app.codacy.com/manual/Maronato/vue-toastification?utm_source=github.com&utm_medium=referral&utm_content=Maronato/vue-toastification&utm_campaign=Badge_Grade_Dashboard) [![Maintainability](https://api.codeclimate.com/v1/badges/8e2c16345047e8e03b58/maintainability)](https://codeclimate.com/github/Maronato/vue-toastification/maintainability)
 
@@ -14,7 +17,7 @@ Light, easy and beautiful toasts!
 Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toastification/)!
 
 
-- [Vue Toastification](#vue-toastification)
+- [Vue Toastification (for Vue 2)](#vue-toastification-for-vue-2)
   - [Features](#features)
   - [Demo](#demo)
   - [Installation](#installation)
@@ -108,6 +111,7 @@ $ yarn add vue-toastification
 $ npm install --save vue-toastification
 ```
 
+> **Using Vue 3?** You should install [Vue Toastification v2](https://github.com/Maronato/vue-toastification/tree/next) instead.
 
 
 ## Usage
