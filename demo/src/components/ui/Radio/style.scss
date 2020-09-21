@@ -1,0 +1,13 @@
+input[type="radio"].v-radio + label span {
+  transition: background 0.2s, transform 0.2s;
+}
+
+input[type="radio"].v-radio + label span:hover,
+input[type="radio"].v-radio + label:hover span {
+  transform: scale(1.2);
+}
+
+input[type="radio"].v-radio:checked + label span {
+  @apply bg-green-500;
+  box-shadow: 0px 0px 0px 2px white inset;
+}

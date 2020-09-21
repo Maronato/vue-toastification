@@ -1,0 +1,56 @@
+@import "nouislider/distribute/nouislider.min.css";
+
+.noUi-horizontal {
+  height: 3px;
+}
+
+.noUi-tooltip {
+  display: none;
+}
+.noUi-active .noUi-tooltip {
+  display: block;
+}
+
+.noUi-target {
+  border: 0px;
+  border-radius: 0;
+  background: #cdcdcd;
+  box-shadow: none;
+  @apply transition-all duration-200;
+  &[disabled] {
+    @apply bg-gray-400;
+    .noUi-connect {
+      @apply bg-gray-400;
+    }
+    .noUi-handle {
+      @apply bg-gray-400 border-white border-4 border-solid;
+    }
+  }
+}
+
+.noUi-connect {
+  background: #48bb78;
+}
+
+.noUi-horizontal .noUi-handle,
+.noUi-vertical .noUi-handle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: none;
+  @apply bg-green-500;
+  border: none;
+  right: calc(-15px / 2);
+  top: -6px;
+  transition: width 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),
+    height 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),
+    left 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),
+    top 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &::before {
+    display: none;
+  }
+  &::after {
+    display: none;
+  }
+}
