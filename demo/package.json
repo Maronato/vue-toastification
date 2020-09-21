@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "NODE_ENV=production vite build",
     "lint": "yarn lint:no-fix --fix",
     "lint:no-fix": "eslint --ext .js,.vue,.ts ."
   },
