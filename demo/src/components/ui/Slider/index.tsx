@@ -6,6 +6,7 @@ import {
   onUnmounted,
   watch,
   toRefs,
+  computed,
 } from "vue"
 import nouislider from "nouislider"
 import "./style.scss"
@@ -75,6 +76,8 @@ export default defineComponent({
       }
     })
 
-    return () => <div ref={sliderRef} />
+    return () => (
+      <div {...(disabled.value ? { disabled: true } : {})} ref={sliderRef} />
+    )
   },
 })

@@ -16,7 +16,6 @@
   border-radius: 0;
   background: #cdcdcd;
   box-shadow: none;
-  @apply transition-all duration-200;
   &[disabled] {
     @apply bg-gray-400;
     .noUi-connect {

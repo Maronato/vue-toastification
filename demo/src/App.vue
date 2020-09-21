@@ -5,7 +5,10 @@
     <v-radio v-model="choice" :choices="choices" name="myradio" />
     <div class="my-4"></div>
     <div class="w-1/2 ml-5">
-      <v-slider v-model="slider" :range="[0, 100]" />
+      <v-slider v-model="slider" :range="[0, 100]" :disabled="disable" />
+      <div class="my-4">
+        <v-button @click="disable = !disable">Disable slider</v-button>
+      </div>
     </div>
     <div class="my-4"></div>
     <v-input v-model="input" />
@@ -102,6 +105,8 @@ export default {
 
     const input = ref("hey")
 
+    const disable = ref(false)
+
     const choices = ref([
       { text: "hey", value: "1" },
       { text: "oh", value: "2" },
@@ -109,7 +114,7 @@ export default {
 
     const choice = ref(choices.value[0])
 
-    return { toast, myData, choices, choice, slider, input }
+    return { toast, myData, choices, choice, slider, input, disable }
   },
   methods: {
     showToast() {
