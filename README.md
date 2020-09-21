@@ -9,6 +9,7 @@
 
 [![dependencies Status](https://david-dm.org/maronato/vue-toastification/status.svg)](https://david-dm.org/maronato/vue-toastification) [![devDependencies Status](https://david-dm.org/maronato/vue-toastification/dev-status.svg)](https://david-dm.org/maronato/vue-toastification?type=dev)
 
+![track](https://shrt.maronato.dev/z9Jg8/track)
 ![vt](https://i.imgur.com/i2PMcTq.gif)
 
 
