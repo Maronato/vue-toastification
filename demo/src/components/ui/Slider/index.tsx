@@ -22,6 +22,10 @@ export default defineComponent({
       type: Object as PropType<[number, number]>,
       required: true,
     },
+    step: {
+      type: Number,
+      default: 0.1,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -31,7 +35,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
 
   setup(props, { emit }) {
-    const { modelValue, range, disabled } = toRefs(props)
+    const { modelValue, range, disabled, step } = toRefs(props)
 
     const sliderRef = ref<HTMLElement | null>(null)
     const slider = ref<nouislider.noUiSlider | null>(null)
@@ -56,6 +60,7 @@ export default defineComponent({
           start: modelValue.value,
           connect: "lower",
           tooltips: true,
+          step: step.value,
           range: {
             min: range.value[0],
             max: range.value[1],
