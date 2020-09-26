@@ -25,13 +25,11 @@
   },
   "unpkg": "dist/umd/index.min.js",
   "jsdelivr": "dist/umd/index.min.js",
-  "typings": "dist/types/src/index.d.ts",
-  "types": "dist/types/src/index.d.ts",
+  "typings": "dist/types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist",
-    "src",
-    "nuxt",
-    "composition"
+    "src"
   ],
   "style": "dist/index.css",
   "dependencies": {},
