@@ -1,11 +1,6 @@
 import { TransitionGroup } from "vue"
-import { mount, config } from "@vue/test-utils"
+import { mount } from "@vue/test-utils"
 import VtTransition from "../../../src/components/VtTransition.vue"
-
-config.global.stubs = {
-  ...config.global.stubs,
-  TransitionGroup: true,
-}
 
 describe("VtTransition", () => {
   it("snapshots default values", () => {
@@ -14,7 +9,14 @@ describe("VtTransition", () => {
   })
   it("transition-group has default classes", () => {
     const wrapper = mount<typeof VtTransition, { transition: string }>(
-      VtTransition
+      VtTransition,
+      {
+        global: {
+          stubs: {
+            "transition-group": false,
+          },
+        },
+      }
     )
     const transition = wrapper.vm.$props.transition
     const componentProps = wrapper.findComponent(TransitionGroup).props()
@@ -34,6 +36,11 @@ describe("VtTransition", () => {
           leave: "leave-transition",
         },
       },
+      global: {
+        stubs: {
+          "transition-group": false,
+        },
+      },
     })
     const componentProps = wrapper.findComponent(TransitionGroup).props()
     expect(componentProps.enterActiveClass).toBe("enter-transition")
@@ -42,7 +49,13 @@ describe("VtTransition", () => {
     expect(wrapper.element).toMatchSnapshot()
   })
   it("leave", () => {
-    const wrapper = mount(VtTransition)
+    const wrapper = mount(VtTransition, {
+      global: {
+        stubs: {
+          "transition-group": false,
+        },
+      },
+    })
     const transition = wrapper.findComponent(TransitionGroup)
 
     const done = jest.fn()

@@ -2,4 +2,4 @@
 
 exports[`VtTransition snapshots default values 1`] = `<transition-group-stub></transition-group-stub>`;
 
-exports[`VtTransition transition-group has custom classes 1`] = `<transition-group-stub />`;
+exports[`VtTransition transition-group has custom classes 1`] = `<div />`;
