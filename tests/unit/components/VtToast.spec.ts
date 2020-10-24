@@ -494,7 +494,7 @@ describe("VtToast", () => {
     })
   })
   describe("timeoutHandler", () => {
-    it("calls closeToast if ProgressBar emits close-toast", () => {
+    it("calls closeToast if ProgressBar emits closeToast", () => {
       const wrapper = mountToast({ closeOnClick: false })
       const vm = (wrapper.vm as unknown) as {
         closeToast(): void
@@ -502,7 +502,7 @@ describe("VtToast", () => {
       const spyOnCloseToast = (vm.closeToast = jest.fn(vm.closeToast))
       const progressBar = wrapper.findComponent(VtProgressBar)
       expect(spyOnCloseToast).not.toHaveBeenCalled()
-      progressBar.vm.$emit("close-toast")
+      progressBar.vm.$emit("closeToast")
       expect(spyOnCloseToast).toHaveBeenCalled()
     })
   })

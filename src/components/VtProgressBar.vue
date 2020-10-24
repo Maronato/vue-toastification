@@ -13,7 +13,7 @@ export default defineComponent({
 
   props: PROPS.PROGRESS_BAR,
 
-  emits: ["close-toast"],
+  emits: ["closeToast"],
 
   data() {
     return {
@@ -56,7 +56,7 @@ export default defineComponent({
 
   methods: {
     animationEnded() {
-      this.$emit("close-toast")
+      this.$emit("closeToast")
     },
   },
 })

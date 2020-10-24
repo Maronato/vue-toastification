@@ -95,11 +95,11 @@ describe("VtProgressBar", () => {
     expect(wrapper.classes()).toContain(`${VT_NAMESPACE}__progress-bar`)
     expect(wrapper.element).toMatchSnapshot()
   })
-  it("emits close-toast on animationend", async () => {
+  it("emits closeToast on animationend", async () => {
     const wrapper = mount(VtProgressBar)
-    expect(wrapper.emitted("close-toast")).toBeFalsy()
+    expect(wrapper.emitted("closeToast")).toBeFalsy()
     wrapper.trigger("animationend")
-    expect(wrapper.emitted("close-toast")).toBeTruthy()
+    expect(wrapper.emitted("closeToast")).toBeTruthy()
   })
   it("removes listener on beforeDestroy", async () => {
     const wrapper = mount(VtProgressBar)

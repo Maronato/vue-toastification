@@ -15,7 +15,7 @@
         :toast-id="id"
         v-bind="content.props"
         v-on="content.listeners"
-        @close-toast="closeToast"
+        @closeToast="closeToast"
       />
     </div>
     <CloseButton
@@ -31,7 +31,7 @@
       :is-running="isRunning"
       :hide-progress-bar="hideProgressBar"
       :timeout="timeout"
-      @close-toast="timeoutHandler"
+      @closeToast="timeoutHandler"
     />
   </div>
 </template>
