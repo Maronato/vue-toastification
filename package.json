@@ -86,7 +86,7 @@
     ]
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.0.2"
   },
   "bugs": {
     "url": "https://github.com/Maronato/vue-toastification/issues"
