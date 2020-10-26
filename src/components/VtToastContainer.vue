@@ -23,7 +23,12 @@ import {
   ToastOptionsAndContent,
   ToastOptionsAndRequiredContent,
 } from "../types"
-import { removeElement, isUndefined, isFunction } from "../ts/utils"
+import {
+  removeElement,
+  isUndefined,
+  isFunction,
+  normalizeToastComponent,
+} from "../ts/utils"
 
 import Toast from "./VtToast.vue"
 import VtTransition from "./VtTransition.vue"
@@ -89,6 +94,7 @@ export default defineComponent({
       }
     },
     addToast(params: ToastOptionsAndRequiredContent) {
+      params.content = normalizeToastComponent(params.content)
       const props = Object.assign(
         {},
         this.defaults,

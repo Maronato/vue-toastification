@@ -1,5 +1,5 @@
 /* eslint-disable vue/one-component-per-file */
-import { defineComponent, h } from "vue"
+import { defineComponent, h, isProxy, isRef, reactive, ref } from "vue"
 import {
   getId,
   getX,
@@ -13,6 +13,7 @@ import {
   isUndefined,
   isDOMRect,
   isBrowser,
+  normalizeToastComponent,
 } from "../../../src/ts/utils"
 import Simple from "../../utils/components/Simple.vue"
 
@@ -158,6 +159,14 @@ describe("getVueComponentFromObj", () => {
     const component = defineComponent({})
     expect(getVueComponentFromObj(component)).toBe(component)
   })
+  it("get non reactive object", () => {
+    const component1 = reactive(defineComponent({}))
+    expect(isProxy(component1)).toBe(true)
+    expect(isProxy(getVueComponentFromObj(component1))).toBe(false)
+    const component2 = ref(defineComponent({}))
+    expect(isRef(component2)).toBe(true)
+    expect(isRef(getVueComponentFromObj(component2))).toBe(false)
+  })
   it("get functional component", () => {
     const component = () => h("div")
     expect(getVueComponentFromObj(component)).toBe(component)
@@ -174,6 +183,29 @@ describe("getVueComponentFromObj", () => {
   it("get toast component", () => {
     const component = { component: "my component string" }
     expect(getVueComponentFromObj(component)).toBe(component.component)
+  })
+})
+
+describe("normalizeToastComponent", () => {
+  it("normalizes regular string", () => {
+    const component = "my component string"
+    expect(normalizeToastComponent(component)).toBe(component)
+  })
+  it("normalizes shallow vue object", () => {
+    const component = Simple
+    expect(normalizeToastComponent(component)).toEqual({
+      component: getVueComponentFromObj(component),
+      props: {},
+      listeners: {},
+    })
+  })
+  it("normalizes composite vue object", () => {
+    const component = {
+      component: Simple,
+      props: { myProp: "prop" },
+      listeners: { myListener: () => ({}) },
+    }
+    expect(normalizeToastComponent(component)).toEqual(component)
   })
 })
 

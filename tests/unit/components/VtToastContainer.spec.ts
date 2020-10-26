@@ -7,6 +7,8 @@ import {
 } from "../../../src/types"
 import { POSITION, TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
 import { PluginOptionsType } from "../../../src/ts/propValidators"
+import Simple from "../../utils/components/Simple.vue"
+import { isProxy, isReactive, isRef, reactive, ref, toRaw } from "vue"
 
 describe("VtToastContainer", () => {
   it("snapshots with default value", async () => {
@@ -210,6 +212,26 @@ describe("VtToastContainer", () => {
       expect(spySetToast).not.toHaveBeenCalled()
       vm.addToast(toast)
       expect(spySetToast).toHaveBeenCalledWith({ ...vm.defaults, ...toast })
+    })
+    it("set toast is raw", async () => {
+      const { containerWrapper } = await loadPlugin()
+      const vm = (containerWrapper.vm as unknown) as {
+        setToast(params: ToastOptionsAndRequiredContent): void
+        addToast(params: ToastOptionsAndRequiredContent): void
+      }
+      let normalizedToast: ToastOptionsAndRequiredContent = {
+        content: "undefined",
+      }
+      const spySetToast = (vm.setToast = jest.fn(t => (normalizedToast = t)))
+      const toast: ToastOptionsAndRequiredContent = {
+        content: reactive(Simple),
+      }
+      expect(isProxy(toast.content)).toBe(true)
+      expect(spySetToast).not.toHaveBeenCalled()
+      expect(normalizedToast.content).not.toBe(toRaw(toast.content))
+      vm.addToast(toast)
+      expect(normalizedToast.content).toBe(toRaw(toast.content))
+      expect(isProxy(normalizedToast.content)).toBe(false)
     })
     it("does not set toast if fails filterBeforeCreate", async () => {
       const filterBeforeCreate = jest.fn((): false => false)
