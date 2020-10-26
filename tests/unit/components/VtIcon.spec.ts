@@ -6,6 +6,7 @@ import VtInfoIcon from "../../../src/components/icons/VtInfoIcon.vue"
 import VtWarningIcon from "../../../src/components/icons/VtWarningIcon.vue"
 import VtErrorIcon from "../../../src/components/icons/VtErrorIcon.vue"
 import Simple from "../../utils/components/Simple.vue"
+import { markRaw } from "vue"
 
 describe("VtIcon", () => {
   describe("snapshots", () => {
@@ -103,7 +104,7 @@ describe("VtIcon", () => {
     it("renders custom component as icon", () => {
       const wrapper = mount(VtIcon, {
         props: {
-          customIcon: Simple,
+          customIcon: markRaw(Simple),
         },
       })
       expect(wrapper.findComponent(Simple).exists()).toBeTruthy()

@@ -1,4 +1,4 @@
-import { Component, defineComponent } from "vue"
+import { Component, defineComponent, toRaw, unref } from "vue"
 import type {
   ToastComponent,
   ToastContent,
@@ -94,8 +94,19 @@ const getVueComponentFromObj = (obj: ToastContent): RenderableToastContent => {
       },
     })
   }
-  // Return the actual object if regular vue component
-  return obj
+  // Return regular string or raw object
+  return typeof obj === "string" ? obj : toRaw(unref(obj))
+}
+
+const normalizeToastComponent = (obj: ToastContent): ToastContent => {
+  if (typeof obj === "string") {
+    return obj
+  }
+  const props = hasProp(obj, "props") && isObject(obj.props) ? obj.props : {}
+  const listeners = (hasProp(obj, "listeners") && isObject(obj.listeners)
+    ? obj.listeners
+    : {}) as ToastComponent["listeners"]
+  return { component: getVueComponentFromObj(obj), props, listeners }
 }
 
 const isBrowser = () => typeof window !== "undefined"
@@ -109,6 +120,7 @@ export {
   isNonEmptyString,
   isToastContent,
   getVueComponentFromObj,
+  normalizeToastComponent,
   hasProp,
   isUndefined,
   isDOMRect,

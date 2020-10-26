@@ -9,6 +9,7 @@ import { ToastOptionsAndContent } from "../../../src/types"
 import { VT_NAMESPACE, TYPE, POSITION, EVENTS } from "../../../src/ts/constants"
 import Simple from "../../utils/components/Simple.vue"
 import { EventBus } from "../../../src"
+import { normalizeToastComponent } from "../../../src/ts/utils"
 
 const setData = (
   wrapper: VueWrapper<ComponentPublicInstance>,
@@ -21,7 +22,7 @@ const mountToast = ({ id, content, ...props }: ToastOptionsAndContent = {}) =>
   mount(VtToast, {
     props: {
       id: id || 1,
-      content: content || "content",
+      content: normalizeToastComponent(content || "content"),
       eventBus: new EventBus(),
       ...props,
     },

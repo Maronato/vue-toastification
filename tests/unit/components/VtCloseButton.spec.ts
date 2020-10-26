@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils"
+import { markRaw } from "vue"
 import VtCloseButton from "../../../src/components/VtCloseButton.vue"
 import { VT_NAMESPACE } from "../../../src/ts/constants"
 import Simple from "../../utils/components/Simple.vue"
@@ -40,7 +41,7 @@ describe("VtCloseButton", () => {
   it("vue custom component", () => {
     const wrapper = mount(VtCloseButton, {
       props: {
-        component: Simple,
+        component: markRaw(Simple),
       },
     })
     expect(wrapper.findComponent(Simple).element).toBeTruthy()
