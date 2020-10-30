@@ -26,11 +26,15 @@
                 </h1>
                 <span class="title">Light, easy and beautiful toasts</span>
               </v-col>
-              <ethical-ads
-                v-if="adId === 'text:above-social-buttons'"
-                adId="text:above-social-buttons"
-                type="text"
-              />
+              <v-col cols="12">
+                <v-col md="6" offset-md="3" xl="4" offset-xl="4">
+                  <ethical-ads
+                    v-if="adId === 'text:above-social-buttons'"
+                    adId="text:above-social-buttons"
+                    type="text"
+                  />
+                </v-col>
+              </v-col>
               <v-col cols="12">
                 <v-btn
                   outlined
@@ -58,7 +62,9 @@
               justify="center"
               class="text-center"
             >
-              <ethical-ads adId="text:below-social-buttons" type="text" />
+              <v-col md="6" xl="4">
+                <ethical-ads adId="text:below-social-buttons" type="text" />
+              </v-col>
             </v-row>
           </v-col>
         </v-row>
