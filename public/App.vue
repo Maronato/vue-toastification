@@ -262,7 +262,7 @@
                 >
               </v-col>
               <v-col cols="12" order="1" order-md="3" class="d-flex justify-center">
-                <div data-ea-publisher="maronato-github-iovue-toastification" data-ea-type="image" id="below-show-toast" data-ea-keywords="vue|frontend|design"></div>
+                <div data-ea-publisher="maronato-github-iovue-toastification" data-ea-type="image" id="below-show-toast" data-ea-keywords="vue|frontend|design|javascript|typescript"></div>
               </v-col>
             </v-row>
           </v-col>
