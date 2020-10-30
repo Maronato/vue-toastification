@@ -231,23 +231,23 @@
           </v-col>
           <v-col order="2" cols="12" sm="8" md="4">
             <v-row>
-              <v-col order="1" order-md="0" cols="12">
+              <v-col order="2" order-md="0" cols="12">
                 <h1 class="display-1 font-weight-light">Preview the code</h1>
               </v-col>
-              <v-col order="3" order-md="3" cols="12">
+              <v-col order="3" order-md="4" cols="12">
                 <v-card class="pa-5">
                   <Prism language="javascript">{{ pluginCode }}</Prism>
                 </v-card>
               </v-col>
-              <v-col cols="12" order="2" order-md="1">
+              <v-col cols="12" order="3" order-md="2">
                 <v-card class="pa-5">
                   <Prism language="javascript">{{ toastCode }}</Prism>
                 </v-card>
               </v-col>
               <v-col
                 v-show="contentType !== 'text'"
-                order="3"
-                order-md="3"
+                order="4"
+                order-md="4"
                 cols="12"
               >
                 <v-card class="pa-5">
@@ -261,6 +261,19 @@
                   >Show toast!</v-btn
                 >
               </v-col>
+              <v-col
+                cols="12"
+                order="1"
+                order-md="3"
+                class="d-flex justify-center"
+              >
+                <div
+                  data-ea-publisher="maronato-github-iovue-toastification"
+                  data-ea-type="image"
+                  id="below-show-toast"
+                  data-ea-keywords="vue|frontend|design|javascript|typescript"
+                />
+              </v-col>
             </v-row>
           </v-col>
         </v-row>
@@ -270,12 +283,13 @@
 </template>
 
 <script>
+import Prism from "vue-prism-component";
 import AltText from "./components/AltText.vue";
 import SimpleAction from "./components/SimpleAction.vue";
 import UpdateAction from "./components/UpdateAction.vue";
 import Events from "./components/Events.vue";
 import MyIconComponent from "./components/MyIconComponent.vue";
-import Prism from "vue-prism-component";
+import { trackEvent } from "./plausible";
 
 const altTextCode = `// Component.vue (style omitted)
 <template>
@@ -737,6 +751,7 @@ Vue.use(Toast, {
       if (options.timeout === 0) {
         options.timeout = false;
       }
+      trackEvent("show toast");
       this.$toast(content, {
         position: this.position,
         type: this.type,
