@@ -231,23 +231,23 @@
           </v-col>
           <v-col order="2" cols="12" sm="8" md="4">
             <v-row>
-              <v-col order="1" order-md="0" cols="12">
+              <v-col order="2" order-md="0" cols="12">
                 <h1 class="display-1 font-weight-light">Preview the code</h1>
               </v-col>
-              <v-col order="3" order-md="3" cols="12">
+              <v-col order="3" order-md="4" cols="12">
                 <v-card class="pa-5">
                   <Prism language="javascript">{{ pluginCode }}</Prism>
                 </v-card>
               </v-col>
-              <v-col cols="12" order="2" order-md="1">
+              <v-col cols="12" order="3" order-md="2">
                 <v-card class="pa-5">
                   <Prism language="javascript">{{ toastCode }}</Prism>
                 </v-card>
               </v-col>
               <v-col
                 v-show="contentType !== 'text'"
-                order="3"
-                order-md="3"
+                order="4"
+                order-md="4"
                 cols="12"
               >
                 <v-card class="pa-5">
@@ -260,6 +260,9 @@
                 <v-btn color="primary" block large rounded @click="launch"
                   >Show toast!</v-btn
                 >
+              </v-col>
+              <v-col cols="12" order="1" order-md="3" class="d-flex justify-center">
+                <div data-ea-publisher="maronato-github-iovue-toastification" data-ea-type="image" id="below-show-toast" data-ea-keywords="vue|frontend|design"></div>
               </v-col>
             </v-row>
           </v-col>
