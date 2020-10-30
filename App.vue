@@ -1,5 +1,12 @@
 <template>
   <v-app id="inspire">
+    <ethical-ads
+      v-if="adId === 'image:absolute-top'"
+      class="d-none d-md-block"
+      style="position: absolute"
+      adId="image:absolute-top"
+      type="image"
+    />
     <v-content>
       <v-container class="fill-height">
         <v-row>
@@ -19,6 +26,11 @@
                 </h1>
                 <span class="title">Light, easy and beautiful toasts</span>
               </v-col>
+              <ethical-ads
+                v-if="adId === 'text:above-social-buttons'"
+                adId="text:above-social-buttons"
+                type="text"
+              />
               <v-col cols="12">
                 <v-btn
                   outlined
@@ -40,6 +52,13 @@
                   <v-icon right>fas fa-star</v-icon>
                 </v-btn>
               </v-col>
+            </v-row>
+            <v-row
+              v-if="adId === 'text:below-social-buttons'"
+              justify="center"
+              class="text-center"
+            >
+              <ethical-ads adId="text:below-social-buttons" type="text" />
             </v-row>
           </v-col>
         </v-row>
@@ -256,23 +275,46 @@
                   }}</Prism>
                 </v-card>
               </v-col>
+              <v-col
+                v-if="adId === 'image:above-show-toast'"
+                cols="12"
+                order="0"
+                order-md="2"
+                class="d-flex justify-center"
+              >
+                <ethical-ads adId="image:above-show-toast" type="image" />
+              </v-col>
+              <v-col
+                v-if="adId === 'text:above-show-toast'"
+                cols="12"
+                order="0"
+                order-md="2"
+                class="d-flex justify-center"
+              >
+                <ethical-ads adId="text:above-show-toast" type="text" />
+              </v-col>
               <v-col cols="12" order="0" order-md="2">
                 <v-btn color="primary" block large rounded @click="launch"
                   >Show toast!</v-btn
                 >
               </v-col>
               <v-col
+                v-if="adId === 'image:below-show-toast'"
                 cols="12"
                 order="1"
                 order-md="3"
                 class="d-flex justify-center"
               >
-                <div
-                  data-ea-publisher="maronato-github-iovue-toastification"
-                  data-ea-type="image"
-                  id="below-show-toast"
-                  data-ea-keywords="vue|frontend|design|javascript|typescript"
-                />
+                <ethical-ads adId="image:below-show-toast" type="image" />
+              </v-col>
+              <v-col
+                v-if="adId === 'text:below-show-toast'"
+                cols="12"
+                order="1"
+                order-md="3"
+                class="d-flex justify-center"
+              >
+                <ethical-ads adId="text:below-show-toast" type="text" />
               </v-col>
             </v-row>
           </v-col>
@@ -289,6 +331,7 @@ import SimpleAction from "./components/SimpleAction.vue";
 import UpdateAction from "./components/UpdateAction.vue";
 import Events from "./components/Events.vue";
 import MyIconComponent from "./components/MyIconComponent.vue";
+import EthicalAds from "./components/EthicalAds.vue";
 import { trackEvent } from "./plausible";
 
 const altTextCode = `// Component.vue (style omitted)
@@ -371,7 +414,7 @@ export default {
 };
 <\/script>`;
 
-const filterToasts = toasts => {
+const filterToasts = (toasts) => {
   // Keep track of existing types
   const types = {};
   return toasts.reduce((aggToasts, toast) => {
@@ -398,7 +441,7 @@ const filterToastsCode = `filterToasts: toasts => {
   }`;
 
 const filterBeforeCreate = (toast, toasts) => {
-  if (toasts.filter(t => t.type === toast.type).length !== 0) {
+  if (toasts.filter((t) => t.type === toast.type).length !== 0) {
     // Returning false discards the toast
     return false;
   }
@@ -417,10 +460,33 @@ const filterBeforeCreateCode = `filterBeforeCreate: (toast, toasts) => {
     return toast;
   }`;
 
-const noop = x => x;
+const noop = (x) => x;
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  var expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(";");
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 export default {
-  components: { Prism },
+  components: { Prism, EthicalAds },
   data: () => ({
     title: "Vue Toastification",
     valid: false,
@@ -428,81 +494,81 @@ export default {
     types: [
       {
         text: "Default",
-        value: "default"
+        value: "default",
       },
       {
         text: "Success",
-        value: "success"
+        value: "success",
       },
       {
         text: "Info",
-        value: "info"
+        value: "info",
       },
       {
         text: "Warning",
-        value: "warning"
+        value: "warning",
       },
       {
         text: "Error",
-        value: "error"
-      }
+        value: "error",
+      },
     ],
     position: "top-right",
     positions: [
       {
         text: "Top right",
-        value: "top-right"
+        value: "top-right",
       },
       {
         text: "Top",
-        value: "top-center"
+        value: "top-center",
       },
       {
         text: "Top left",
-        value: "top-left"
+        value: "top-left",
       },
       {
         text: "Bottom right",
-        value: "bottom-right"
+        value: "bottom-right",
       },
       {
         text: "Bottom",
-        value: "bottom-center"
+        value: "bottom-center",
       },
       {
         text: "Bottom left",
-        value: "bottom-left"
-      }
+        value: "bottom-left",
+      },
     ],
     contentType: "text",
     contentTypes: [
       {
         text: "Text",
-        value: "text"
+        value: "text",
       },
       {
         text: "Component",
-        value: "component"
-      }
+        value: "component",
+      },
     ],
     content: "I'm a toast!",
     components: [
       {
         text: "Alternate text",
-        value: AltText
+        value: AltText,
       },
       {
         text: "Simple action",
-        value: SimpleAction
+        value: SimpleAction,
       },
       {
         text: "Updatable Toast",
-        value: UpdateAction
+        value: UpdateAction,
       },
       {
         text: "Action with events",
-        value: Events
-      }
+        value: Events,
+      },
     ],
     options: {
       closeButton: "button",
@@ -516,75 +582,84 @@ export default {
       hideProgressBar: false,
       icon: {
         text: "Default icons",
-        value: true
+        value: true,
       },
-      rtl: false
+      rtl: false,
     },
     transitionOptions: [
       {
         text: "Bounce (Default)",
-        value: "Vue-Toastification__bounce"
+        value: "Vue-Toastification__bounce",
       },
       {
         text: "Fade In / Out",
-        value: "Vue-Toastification__fade"
+        value: "Vue-Toastification__fade",
       },
       {
         text: "Slide In / Out Blurred",
-        value: "Vue-Toastification__slideBlurred"
+        value: "Vue-Toastification__slideBlurred",
       },
       {
         text: "Custom Fade",
-        value: "my-custom-fade"
-      }
+        value: "my-custom-fade",
+      },
     ],
     customFilter: false,
     customFilterOptions: [
       {
         text: "None",
-        value: false
+        value: false,
       },
       {
         text: "Discarding preventDuplicates",
-        value: "filterBeforeCreate"
+        value: "filterBeforeCreate",
       },
       {
         text: "Enqueueing preventDuplicates",
-        value: "filterToasts"
-      }
+        value: "filterToasts",
+      },
     ],
     pluginOptions: {
       transition: "Vue-Toastification__bounce",
       maxToasts: 20,
       newestOnTop: true,
       filterBeforeCreate: noop,
-      filterToasts: noop
+      filterToasts: noop,
     },
     iconSearch: "",
     iconOptions: [
       { header: "Select an option or type the name of a FontAwesome icon" },
       {
         text: "Default icons",
-        value: true
+        value: true,
       },
       {
         text: "Disable icon",
-        value: false
+        value: false,
       },
       "fas fa-rocket",
       {
         text: "Icon Component",
-        value: { component: { MyIconComponent } }
+        value: { component: { MyIconComponent } },
       },
       {
         text: "Material Icons code",
         value: {
           iconClass: "material-icons",
           iconChildren: "code",
-          iconTag: "span"
-        }
-      }
-    ]
+          iconTag: "span",
+        },
+      },
+    ],
+    adIds: [
+      "image:absolute-top",
+      "text:above-social-buttons",
+      "text:below-social-buttons",
+      "image:above-show-toast",
+      "text:above-show-toast",
+      "image:below-show-toast",
+      "text:below-show-toast",
+    ],
   }),
   computed: {
     computedTimeout() {
@@ -703,7 +778,15 @@ Vue.use(Toast, {
         return this.options.icon.value;
       }
       return this.options.icon;
-    }
+    },
+    adId() {
+      const key = "ad-placement";
+      const cookieAd = getCookie(key);
+      const randId = Math.floor(Math.random() * this.adIds.length);
+      const placement = cookieAd || this.adIds[randId];
+      setCookie(key, placement, 30);
+      return placement;
+    },
   },
   watch: {
     contentType(val) {
@@ -717,7 +800,7 @@ Vue.use(Toast, {
       handler(val) {
         this.$toast.updateDefaults(val);
       },
-      deep: true
+      deep: true,
     },
     customFilter(val) {
       this.pluginOptions.filterToasts = noop;
@@ -727,7 +810,7 @@ Vue.use(Toast, {
       } else if (val === "filterBeforeCreate") {
         this.pluginOptions.filterBeforeCreate = filterBeforeCreate;
       }
-    }
+    },
   },
   methods: {
     launch() {
@@ -737,8 +820,8 @@ Vue.use(Toast, {
         content = {
           component: content,
           listeners: {
-            click: () => this.$toast.success("Event received!")
-          }
+            click: () => this.$toast.success("Event received!"),
+          },
         };
       }
       const options = {
@@ -746,7 +829,7 @@ Vue.use(Toast, {
         draggablePercent: this.options.draggablePercent / 100,
         icon: this.toastIcon.component
           ? Object.values(this.toastIcon.component)[0]
-          : this.toastIcon
+          : this.toastIcon,
       };
       if (options.timeout === 0) {
         options.timeout = false;
@@ -755,22 +838,20 @@ Vue.use(Toast, {
       this.$toast(content, {
         position: this.position,
         type: this.type,
-        ...options
+        ...options,
       });
     },
     filterIcons(item, queryText, itemText) {
       if (item.header) return false;
 
-      const hasValue = val => (val != null ? val : "");
+      const hasValue = (val) => (val != null ? val : "");
 
       const text = hasValue(itemText);
       const query = hasValue(queryText);
 
       return (
-        text
-          .toString()
-          .toLowerCase()
-          .indexOf(query.toString().toLowerCase()) > -1
+        text.toString().toLowerCase().indexOf(query.toString().toLowerCase()) >
+        -1
       );
     },
     setHideCloseButton(v) {
@@ -779,8 +860,8 @@ Vue.use(Toast, {
       } else {
         this.options.closeButton = "button";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
