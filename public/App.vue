@@ -261,8 +261,18 @@
                   >Show toast!</v-btn
                 >
               </v-col>
-              <v-col cols="12" order="1" order-md="3" class="d-flex justify-center">
-                <div data-ea-publisher="maronato-github-iovue-toastification" data-ea-type="image" id="below-show-toast" data-ea-keywords="vue|frontend|design|javascript|typescript"></div>
+              <v-col
+                cols="12"
+                order="1"
+                order-md="3"
+                class="d-flex justify-center"
+              >
+                <div
+                  data-ea-publisher="maronato-github-iovue-toastification"
+                  data-ea-type="image"
+                  id="below-show-toast"
+                  data-ea-keywords="vue|frontend|design|javascript|typescript"
+                />
               </v-col>
             </v-row>
           </v-col>
@@ -279,7 +289,7 @@ import SimpleAction from "./components/SimpleAction.vue";
 import UpdateAction from "./components/UpdateAction.vue";
 import Events from "./components/Events.vue";
 import MyIconComponent from "./components/MyIconComponent.vue";
-import { trackEvent } from './plausible'
+import { trackEvent } from "./plausible";
 
 const altTextCode = `// Component.vue (style omitted)
 <template>
