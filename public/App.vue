@@ -270,12 +270,13 @@
 </template>
 
 <script>
+import Prism from "vue-prism-component";
 import AltText from "./components/AltText.vue";
 import SimpleAction from "./components/SimpleAction.vue";
 import UpdateAction from "./components/UpdateAction.vue";
 import Events from "./components/Events.vue";
 import MyIconComponent from "./components/MyIconComponent.vue";
-import Prism from "vue-prism-component";
+import { trackEvent } from './plausible'
 
 const altTextCode = `// Component.vue (style omitted)
 <template>
@@ -737,6 +738,7 @@ Vue.use(Toast, {
       if (options.timeout === 0) {
         options.timeout = false;
       }
+      trackEvent("show toast");
       this.$toast(content, {
         position: this.position,
         type: this.type,
