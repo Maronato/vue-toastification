@@ -60,7 +60,7 @@
     "jest-serializer-vue": "^2.0.2",
     "lint-staged": "10.3.0",
     "nuxt": "^2.12.2",
-    "plausible-tracker": "^0.2.2",
+    "plausible-tracker": "^0.3.1",
     "prettier": "^2.0.5",
     "prismjs": "^1.20.0",
     "rollup": "^2.11.2",
