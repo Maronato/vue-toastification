@@ -840,7 +840,15 @@ Vue.use(Toast, {
       if (options.timeout === 0) {
         options.timeout = false;
       }
-      trackEvent("show toast");
+      trackEvent("Show Toast", {
+        props: {
+          position: this.position,
+          type: this.type,
+          RTL: this.rtl ? "Yes" : "No",
+          transition: this.pluginOptions.transition,
+          content: this.contentType,
+        },
+      });
       this.$toast(content, {
         position: this.position,
         type: this.type,
