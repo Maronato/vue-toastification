@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { enableAutoPageviews } from "./plausible";
+import { enableAutoPageviews, enableAutoOutboundTracking } from "./plausible";
 import vuetify from "./vuetify";
 import App from "./App.vue";
 import Toast from "../src/index";
@@ -9,6 +9,7 @@ Vue.config.productionTip = false;
 Vue.use(Toast);
 
 enableAutoPageviews();
+enableAutoOutboundTracking();
 
 new Vue({
   vuetify,
