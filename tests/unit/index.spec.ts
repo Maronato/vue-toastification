@@ -208,6 +208,27 @@ describe("useToast", () => {
     expect(createToastInterfaceSpy).toHaveBeenCalledTimes(1)
   })
 
+  it("Works outside of components", async () => {
+    const useToastSpy = jest.spyOn(index, "useToast")
+    const injectSpy = jest.spyOn(vue, "inject")
+    const createToastInterfaceSpy = jest.spyOn(index, "createToastInterface")
+    const getCurrentInstanceSpy = jest.spyOn(vue, "getCurrentInstance")
+
+    expect(useToastSpy).not.toHaveBeenCalled()
+    expect(injectSpy).not.toHaveBeenCalled()
+    expect(createToastInterfaceSpy).not.toHaveBeenCalled()
+    expect(getCurrentInstanceSpy).not.toHaveBeenCalled()
+
+    const inter = index.useToast()
+
+    expect(useToastSpy).toHaveBeenCalledTimes(1)
+    expect(getCurrentInstanceSpy).toHaveBeenCalledTimes(1)
+    expect(getCurrentInstanceSpy).toHaveReturnedWith(null)
+    expect(injectSpy).not.toHaveBeenCalled()
+    expect(createToastInterfaceSpy).toHaveBeenCalledTimes(1)
+    expect(createToastInterfaceSpy).toHaveBeenCalledWith(index.globalEventBus)
+  })
+
   it("creates from eventBus", () => {
     const useToastSpy = jest.spyOn(index, "useToast")
     const injectSpy = jest.spyOn(vue, "inject")

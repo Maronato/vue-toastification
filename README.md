@@ -27,6 +27,7 @@ If you are using Vue 2, check out [Vue Toastification v1](https://github.com/Mar
   - [Usage](#usage)
     - [Plugin registration](#plugin-registration)
     - [Creating toasts](#creating-toasts)
+    - [Using with Vuex or outside components](#using-with-vuex-or-outside-components)
     - [Positioning the Toast](#positioning-the-toast)
     - [Toast types](#toast-types)
     - [Setting the toast timeout](#setting-the-toast-timeout)
@@ -75,7 +76,6 @@ If you are using Vue 2, check out [Vue Toastification v1](https://github.com/Mar
 - [Updating from v1.x](#updating-from-v1x)
   - [Creating toasts](#creating-toasts-1)
   - [Deprecated options](#deprecated-options)
-  - [Nuxt and Vuex support](#nuxt-and-vuex-support)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
@@ -191,6 +191,34 @@ To create toasts, get a *toast interface* by calling `useToast` from within a co
     }
   }
 </script>
+```
+
+### Using with Vuex or outside components
+By default, Vue Toastification creates the plugin using a global event bus, so all you need to do to use it outside your components is to call `useToast()`.
+
+```js
+// store.js
+import { createStore } from 'vuex'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
+
+const store = createStore({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  actions: {
+    increment (context) {
+      context.commit('increment')
+      toast.success("incremented!")
+    }
+  }
+})
 ```
 
 ### Positioning the Toast
@@ -994,9 +1022,6 @@ Aside from dropping Vue 2 support in favor of Vue 3, not much has changed betwee
 
 ## Deprecated options
 Due to some changes on Vue's transition system, `transitionDuration` has been deprecated. To change the duration of a transition, change or override the transition classes.
-
-## Nuxt and Vuex support
-Support for Nuxt and Vuex is still uncertain as their Vue 3-compatible versions have not been released yet.
 
 # Acknowledgements
 This project was heavily inspired by the beautiful [React Toastify](https://github.com/fkhadra/react-toastify) project and [other](https://github.com/shakee93/vue-toasted) [great](https://github.com/ankurk91/vue-toast-notification) Vue libraries.

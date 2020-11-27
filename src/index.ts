@@ -1,4 +1,4 @@
-import { Plugin, InjectionKey, provide, inject } from "vue"
+import { Plugin, InjectionKey, provide, inject, getCurrentInstance } from "vue"
 import { buildInterface } from "./ts/interface"
 import type { ToastInterface } from "./ts/interface"
 import { POSITION, TYPE } from "./ts/constants"
@@ -36,8 +36,10 @@ const toastInjectionKey: InjectionKey<ToastInterface> = Symbol(
   "VueToastification"
 )
 
-const VueToastificationPlugin: Plugin = (App, options?) => {
-  const inter = createToastInterface(options)
+const globalEventBus = new EventBus()
+
+const VueToastificationPlugin: Plugin = (App, options?: PluginOptions) => {
+  const inter = createToastInterface({ eventBus: globalEventBus, ...options })
   App.provide(toastInjectionKey, inter)
 }
 
@@ -50,8 +52,8 @@ const useToast = (eventBus?: EventBus) => {
   if (eventBus) {
     return ownExports.createToastInterface(eventBus)
   }
-  const toast = inject(toastInjectionKey)
-  return toast ? toast : ownExports.createToastInterface(new EventBus())
+  const toast = getCurrentInstance() ? inject(toastInjectionKey) : undefined
+  return toast ? toast : ownExports.createToastInterface(globalEventBus)
 }
 
 export default VueToastificationPlugin
@@ -70,4 +72,6 @@ export {
   provideToast,
   // Classes
   EventBus,
+  // Instances
+  globalEventBus,
 }
