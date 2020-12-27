@@ -2,6 +2,7 @@
   <div
     :id="adId"
     :data-ea-type="type"
+    class="ethical-ads-container"
     data-ea-publisher="maronato-github-iovue-toastification"
     data-ea-keywords="vue|frontend|design|javascript|typescript"
     @click="track()"
@@ -33,3 +34,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.ethical-ads-container {
+  z-index: 1;
+}
+</style>
