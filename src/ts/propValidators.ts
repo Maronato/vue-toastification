@@ -145,7 +145,7 @@ export type PluginOptionsType = Required<
 >
 const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
   container: {
-    type: [HTMLElement, Function] as PropType<
+    type: [(Object as unknown) as HTMLElement, Function] as PropType<
       NonNullable<PluginOptions["container"]>
     >,
     default: () => document.body,
