@@ -31,8 +31,6 @@ const loadPlugin = async (options?: PluginOptions) => {
   const containerWrapper = new VueWrapper(
     containerApp,
     containerComp,
-    undefined,
-    { isFunctionalComponent: false }
   )
 
   const positionContainers = {
