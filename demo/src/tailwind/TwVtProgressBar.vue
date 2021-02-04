@@ -1,5 +1,9 @@
 <template>
-  <div :style="style" :class="cpClass" />
+  <div
+    :style="style"
+    :class="cpClass"
+    class="absolute w-full h-1 origin-left bg-white b-0 l-0 bg-opacity-70"
+  />
 </template>
 
 <script lang="ts">
@@ -15,3 +19,15 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss">
+.Vue-Toastification_tw__progress-bar {
+  //  z-index: (1000);
+  animation: scale-x-frames linear 1 forwards;
+  .Vue-Toastification_tw__toast--rtl & {
+    right: 0;
+    left: unset;
+    transform-origin: right;
+  }
+}
+</style>

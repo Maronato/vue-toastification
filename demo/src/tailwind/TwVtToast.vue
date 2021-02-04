@@ -1,7 +1,7 @@
 <template>
   <div
     ref="root"
-    class="w-full max-w-sm mb-3 ml-auto overflow-hidden bg-white rounded-lg shadow-lg pointer-events-auto group ring-1 ring-black ring-opacity-5"
+    class="w-full max-w-sm mb-4 ml-auto overflow-hidden bg-green-500 rounded-lg shadow-md pointer-events-auto group ring-1 ring-black ring-opacity-5"
     :class="classes"
     :style="draggableStyle"
     @click="clickHandler"
@@ -13,16 +13,13 @@
         <div class="flex-shrink-0">
           <IconTw
             v-if="icon"
-            class="w-6 h-6 text-green-600"
+            class="w-6 h-6"
             :custom-icon="icon"
             :type="type"
           />
         </div>
-        <div class="ml-3 w-0 flex-1 pt-0.5">
-          <p class="text-sm font-medium text-gray-900">{{ content }}</p>
-          <p class="mt-1 text-sm text-gray-500">
-            Need to add a property for this line
-          </p>
+        <div class="ml-4 w-0 flex-1 pt-0.5">
+          <p class="text-sm font-medium text-white">{{ content }}</p>
         </div>
         <div class="flex flex-shrink-0 ml-4">
           <CloseButtonTw

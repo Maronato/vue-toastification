@@ -2,7 +2,7 @@
   <component
     :is="buttonComponent"
     :aria-label="ariaLabel"
-    class="inline-flex text-gray-400 transition-opacity bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    class="inline-flex text-gray-300 transition-opacity rounded-md hover:text-gray-100"
     :class="{
       'opacity-0 group-hover:opacity-50 hover:opacity-100': showOnHover,
     }"
