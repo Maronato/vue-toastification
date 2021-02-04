@@ -168,6 +168,12 @@ export interface PluginOptions extends CommonOptions {
     containerComponent: ComponentPublicInstance,
     containerApp: App<Element>
   ) => void
+  /**
+   * Allows replacing the root toast component, allowing for full customization of the HTML.
+   *
+   * This needs to be a component with useRootToastComponent() implemented.
+   */
+  rootToastComponent?: Component
 }
 
 export interface ToastOptions extends CommonOptions {

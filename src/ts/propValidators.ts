@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import type { PropType, ComponentObjectPropsOptions } from "vue"
+import type { PropType, ComponentObjectPropsOptions, Component } from "vue"
 import { EventBus } from "./eventBus"
 import type {
   ToastContent,
@@ -171,6 +171,7 @@ const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
   },
   containerClassName: COMMON.classNames,
   onMounted: Function as PropType<NonNullable<PluginOptions["onMounted"]>>,
+  rootToastComponent: Object as PropType<Component>,
 }
 
 export default {
