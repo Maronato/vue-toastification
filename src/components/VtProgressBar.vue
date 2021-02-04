@@ -19,6 +19,7 @@ export default defineComponent({
 
   data() {
     return {
+      nsExtension: "",
       hasClass: true,
     }
   },
@@ -37,7 +38,9 @@ export default defineComponent({
     },
 
     cpClass(): string {
-      return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : ""
+      return this.hasClass
+        ? `${VT_NAMESPACE}${this.nsExtension}__progress-bar`
+        : ""
     },
   },
 

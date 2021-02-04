@@ -27,6 +27,12 @@ export default defineComponent({
 
   props: PROPS.ICON,
 
+  data() {
+    return {
+      nsExtension: "",
+    }
+  },
+
   computed: {
     customIconChildren(): string {
       return hasProp(this.customIcon, "iconChildren")
@@ -70,7 +76,7 @@ export default defineComponent({
       return types[this.type]
     },
     iconClasses(): string[] {
-      const classes = [`${VT_NAMESPACE}__icon`]
+      const classes = [`${VT_NAMESPACE}${this.nsExtension}__icon`]
       if (this.hasCustomIcon) {
         return classes.concat(this.customIconClass)
       }

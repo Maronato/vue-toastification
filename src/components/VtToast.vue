@@ -69,10 +69,11 @@ export default defineComponent({
       beingDragged: boolean
       dragStart: number
       dragPos: { x: number; y: number }
+      nsExtension: string
     } = {
       isRunning: true,
       disableTransitions: false,
-
+      nsExtension: "",
       beingDragged: false,
       dragStart: 0,
       dragPos: { x: 0, y: 0 },
@@ -84,8 +85,8 @@ export default defineComponent({
   computed: {
     classes(): string[] {
       const classes = [
-        `${VT_NAMESPACE}__toast`,
-        `${VT_NAMESPACE}__toast--${this.type}`,
+        `${VT_NAMESPACE}${this.nsExtension}__toast`,
+        `${VT_NAMESPACE}${this.nsExtension}__toast--${this.type}`,
         `${this.position}`,
       ].concat(this.toastClassName)
       if (this.disableTransitions) {
