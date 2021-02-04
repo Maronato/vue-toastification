@@ -3,6 +3,11 @@ import { buildInterface } from "./ts/interface"
 import type { ToastInterface } from "./ts/interface"
 import { POSITION, TYPE } from "./ts/constants"
 import { EventBusInterface, isEventBusInterface, EventBus } from "./ts/eventBus"
+import VtToast from "./components/VtToast.vue"
+import VtIcon from "./components/VtIcon.vue"
+import VtProgressBar from "./components/VtProgressBar.vue"
+import VtCloseButton from "./components/VtCloseButton.vue"
+
 import type { PluginOptions } from "./types"
 import * as ownExports from "./index"
 import "./scss/index.scss"
@@ -59,6 +64,11 @@ const useToast = (eventBus?: EventBus) => {
 export default VueToastificationPlugin
 
 export {
+  // Components
+  VtToast,
+  VtIcon,
+  VtProgressBar,
+  VtCloseButton,
   // Types
   ToastInterface,
   PluginOptions,
