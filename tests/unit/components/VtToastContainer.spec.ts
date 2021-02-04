@@ -1,3 +1,4 @@
+import VtToast from "../../../src/components/VtToast.vue"
 import { loadPlugin } from "../../utils/plugin"
 import {
   PluginOptions,
@@ -8,7 +9,16 @@ import {
 import { POSITION, TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
 import { PluginOptionsType } from "../../../src/ts/propValidators"
 import Simple from "../../utils/components/Simple.vue"
-import { isProxy, isReactive, isRef, reactive, ref, toRaw } from "vue"
+import {
+  isProxy,
+  isReactive,
+  isRef,
+  reactive,
+  ref,
+  toRaw,
+  markRaw,
+  Component,
+} from "vue"
 
 describe("VtToastContainer", () => {
   it("snapshots with default value", async () => {
@@ -53,6 +63,22 @@ describe("VtToastContainer", () => {
       vm.setup(() => new Promise(resolve => resolve(container)))
       await containerWrapper.vm.$nextTick()
       expect(containerWrapper.element.parentElement).toBe(container)
+    })
+    it("uses default root toast component", async () => {
+      const { containerWrapper } = await loadPlugin()
+      const vm = (containerWrapper.vm as unknown) as {
+        getRootToastComponent: Component
+      }
+      expect(vm.getRootToastComponent).toBe(VtToast)
+    })
+    it("accepts custom root toast component", async () => {
+      const { containerWrapper } = await loadPlugin()
+      const vm = (containerWrapper.vm as unknown) as {
+        getRootToastComponent: Component
+        defaults: PluginOptions
+      }
+      vm.defaults.rootToastComponent = Simple
+      expect(vm.getRootToastComponent).toBe(Simple)
     })
   })
   describe("setToast", () => {
