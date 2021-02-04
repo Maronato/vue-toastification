@@ -19,9 +19,9 @@
           />
         </div>
         <div class="ml-3 w-0 flex-1 pt-0.5">
-          <p class="text-sm font-medium text-gray-900">Successfully saved!</p>
+          <p class="text-sm font-medium text-gray-900">{{ content }}</p>
           <p class="mt-1 text-sm text-gray-500">
-            Anyone with a link can now view this file.
+            Need to add a property for this line
           </p>
         </div>
         <div class="flex flex-shrink-0 ml-4">
