@@ -21,12 +21,6 @@ export default defineComponent({
 
   props: PROPS.CLOSE_BUTTON,
 
-  data() {
-    return {
-      nsExtension: "",
-    }
-  },
-
   computed: {
     buttonComponent(): RenderableToastContent {
       if (this.component !== false) {
@@ -35,7 +29,9 @@ export default defineComponent({
       return "button"
     },
     classes(): string[] {
-      const classes = [`${VT_NAMESPACE}${this.nsExtension}__close-button`]
+      const classes = [
+        `${VT_NAMESPACE}${this.classNameExtension}__close-button`,
+      ]
       if (this.showOnHover) {
         classes.push("show-on-hover")
       }

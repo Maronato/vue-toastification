@@ -7,6 +7,7 @@ import "./index.css"
 const app = createApp(App)
 const options = {
   rootToastComponent: TwToast,
+  classNameExtension: "_tw",
 }
 app.use(Toast, options)
 

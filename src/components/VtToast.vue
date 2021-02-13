@@ -6,7 +6,12 @@
     @mouseenter="hoverPause"
     @mouseleave="hoverPlay"
   >
-    <Icon v-if="icon" :custom-icon="icon" :type="type" />
+    <Icon
+      v-if="icon"
+      :custom-icon="icon"
+      :type="type"
+      :class-name-extension="classNameExtension"
+    />
     <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
       <template v-if="typeof content === 'string'">{{ content }}</template>
       <component
@@ -24,6 +29,7 @@
       :class-names="closeButtonClassName"
       :show-on-hover="showCloseButtonOnHover"
       :aria-label="accessibility.closeButtonLabel"
+      :class-name-extension="classNameExtension"
       @click.stop="closeToast"
     />
     <ProgressBar
@@ -31,6 +37,7 @@
       :is-running="isRunning"
       :hide-progress-bar="hideProgressBar"
       :timeout="timeout"
+      :class-name-extension="classNameExtension"
       @closeToast="timeoutHandler"
     />
   </div>
@@ -69,11 +76,9 @@ export default defineComponent({
       beingDragged: boolean
       dragStart: number
       dragPos: { x: number; y: number }
-      nsExtension: string
     } = {
       isRunning: true,
       disableTransitions: false,
-      nsExtension: "",
       beingDragged: false,
       dragStart: 0,
       dragPos: { x: 0, y: 0 },
@@ -85,8 +90,8 @@ export default defineComponent({
   computed: {
     classes(): string[] {
       const classes = [
-        `${VT_NAMESPACE}${this.nsExtension}__toast`,
-        `${VT_NAMESPACE}${this.nsExtension}__toast--${this.type}`,
+        `${VT_NAMESPACE}${this.classNameExtension}__toast`,
+        `${VT_NAMESPACE}${this.classNameExtension}__toast--${this.type}`,
         `${this.position}`,
       ].concat(this.toastClassName)
       if (this.disableTransitions) {
