@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import type { PropType, ComponentObjectPropsOptions } from "vue"
+import type { PropType, ComponentObjectPropsOptions, Component } from "vue"
 import { EventBus } from "./eventBus"
 import type {
   ToastContent,
@@ -34,6 +34,10 @@ const ICON = {
     >,
     default: true,
   },
+  classExtension: {
+    type: String as PropType<string>,
+    default: "",
+  },
 }
 
 const CLOSE_BUTTON = {
@@ -66,6 +70,10 @@ const PROGRESS_BAR = {
   isRunning: {
     type: Boolean,
     default: false,
+  },
+  classExtension: {
+    type: String as PropType<string>,
+    default: "",
   },
 }
 
@@ -171,6 +179,7 @@ const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
   },
   containerClassName: COMMON.classNames,
   onMounted: Function as PropType<NonNullable<PluginOptions["onMounted"]>>,
+  rootToastComponent: Object as PropType<Component>,
 }
 
 export default {

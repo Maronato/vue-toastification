@@ -1,10 +1,13 @@
 import { createApp } from "vue"
 import Toast from "./vue-toastification"
+import TwToast from "./tailwind/TwVtToast.vue"
 import App from "./App.vue"
 import "./index.css"
 
 const app = createApp(App)
-
-app.use(Toast)
+const options = {
+  // rootToastComponent: TwToast,
+}
+app.use(Toast, options)
 
 app.mount("#app")

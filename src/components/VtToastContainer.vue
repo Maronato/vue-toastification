@@ -2,18 +2,20 @@
   <div>
     <div v-for="pos in positions" :key="pos">
       <VtTransition :transition="defaults.transition" :class="getClasses(pos)">
-        <Toast
+        <component
+          :is="getRootToastComponent"
           v-for="toast in getPositionToasts(pos)"
           :key="toast.id"
           v-bind="toast"
-        />
+        >
+        </component>
       </VtTransition>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, Component } from "vue"
 
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants"
 import PROPS, { PluginOptionsType } from "../ts/propValidators"
@@ -63,6 +65,12 @@ export default defineComponent({
     },
     filteredToasts(): ToastOptionsAndRequiredContent[] {
       return this.defaults.filterToasts(this.toastArray)
+    },
+    getRootToastComponent(): Component {
+      if (this.defaults.rootToastComponent) {
+        return this.defaults.rootToastComponent
+      }
+      return Toast
     },
   },
 

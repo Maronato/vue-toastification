@@ -70,7 +70,7 @@ export default defineComponent({
       return types[this.type]
     },
     iconClasses(): string[] {
-      const classes = [`${VT_NAMESPACE}__icon`]
+      const classes = [`${VT_NAMESPACE}${this.classExtension}__icon`]
       if (this.hasCustomIcon) {
         return classes.concat(this.customIconClass)
       }
