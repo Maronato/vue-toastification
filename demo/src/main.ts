@@ -6,7 +6,7 @@ import "./index.css"
 
 const app = createApp(App)
 const options = {
-  // rootToastComponent: TwToast,
+  rootToastComponent: TwToast,
 }
 app.use(Toast, options)
 

@@ -188,6 +188,22 @@ describe("VtToast", () => {
       expect(vm.classes).toContain("myclass")
       expect(vm.classes).toContain("myclass2")
     })
+    // Because these props are defined outside the PROPS so they can be set by the component directly,
+    // have to instantiate this way rather than mountToast()
+    it("adds class name extension", () => {
+      const wrapper = mount(VtToast, {
+        props: {
+          id: 1,
+          content: normalizeToastComponent("content"),
+          eventBus: new EventBus(),
+          classExtension: "_tw",
+        },
+      })
+      const vm = (wrapper.vm as unknown) as {
+        classes: string[]
+      }
+      expect(vm.classes).toContain(`${VT_NAMESPACE}_tw__toast`)
+    })
   })
   describe("bodyClasses", () => {
     it("returns default classes", () => {

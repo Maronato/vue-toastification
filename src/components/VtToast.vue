@@ -44,7 +44,7 @@
       :is-running="isRunning"
       :hide-progress-bar="hideProgressBar"
       :timeout="timeout"
-      :class-name-extension="getClassExtension()"
+      :class-extension="getClassExtension()"
       @closeToast="timeoutHandler"
     />
   </div>
@@ -73,6 +73,7 @@ export default defineComponent({
   components: { ProgressBar, CloseButton, Icon },
   inheritAttrs: false,
 
+  // Have to put these here rather than PROPS because PROPS are overwritten entirely by the container
   props: Object.assign(
     {
       classExtension: {
