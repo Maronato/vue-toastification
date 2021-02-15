@@ -68,7 +68,7 @@ import CloseButton from "./VtCloseButton.vue"
 import Icon from "./VtIcon.vue"
 
 export default defineComponent({
-  name: "VtToast",
+  name: "VtToastBase",
 
   components: { ProgressBar, CloseButton, Icon },
   inheritAttrs: false,
