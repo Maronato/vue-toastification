@@ -1,36 +1,33 @@
 <template>
-  <div
-    ref="root"
-    class="w-full max-w-sm mb-4 ml-auto overflow-hidden bg-green-500 rounded-lg shadow-md pointer-events-auto group ring-1 ring-black ring-opacity-5"
-    :class="classes"
-    :style="draggableStyle"
-    @click="clickHandler"
-    @mouseenter="hoverPause"
-    @mouseleave="hoverPlay"
+  <VtToast
+    v-slot="slotProps"
+    class="w-full max-w-sm mb-4 ml-auto overflow-hidden bg-green-600 rounded-lg shadow-md pointer-events-auto group ring-1 ring-black ring-opacity-5"
+    class-extension="_tw"
+    progress-bar-class="relative w-full h-1 origin-left bg-white bg-opacity-25 b-0 l-0"
   >
     <div class="p-4">
       <div class="flex items-start">
         <div class="flex-shrink-0">
           <VtIcon
-            v-if="icon"
+            v-if="slotProps.icon"
             class="w-6 h-6"
-            :custom-icon="icon"
-            :type="type"
-            :class-name-extension="classNameExtension"
+            :custom-icon="slotProps.icon"
+            :type="slotProps.type"
+            class-extension="_tw"
           />
         </div>
         <div class="ml-4 w-0 flex-1 pt-0.5">
-          <p class="text-sm font-medium text-white">{{ content }}</p>
+          <p class="text-sm font-medium text-white">{{ slotProps.content }}</p>
         </div>
         <div class="flex flex-shrink-0 ml-4">
           <button
-            v-if="!!closeButton"
-            :aria-label="accessibility.closeButtonLabel"
+            v-if="!!slotProps.closeButton"
             class="inline-flex text-gray-300 transition-opacity rounded-md hover:text-gray-100"
             :class="{
-              'opacity-0 group-hover:opacity-50 hover:opacity-100': showCloseButtonOnHover,
+              'opacity-0 group-hover:opacity-50 hover:opacity-100':
+                slotProps.showOnHover,
             }"
-            @click.stop="closeToast"
+            @click.stop="slotProps.closeToast"
           >
             <span class="sr-only">Close</span>
             <!-- Heroicon name: solid/x -->
@@ -51,27 +48,17 @@
         </div>
       </div>
     </div>
-    <VtProgressBar
-      v-if="timeout"
-      class="relative w-full h-1 origin-left bg-white bg-opacity-25 b-0 l-0"
-      :is-running="isRunning"
-      :hide-progress-bar="hideProgressBar"
-      :timeout="timeout"
-      :class-name-extension="classNameExtension"
-      @closeToast="timeoutHandler"
-    />
-  </div>
+  </VtToast>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import { VtToast, VtProgressBar, VtIcon } from "../vue-toastification"
+import { VtToast, VtIcon } from "../vue-toastification"
 
 export default defineComponent({
   name: "TwVtToast",
-  components: { VtProgressBar, VtIcon },
-  extends: VtToast,
+  components: { VtToast, VtIcon },
 })
 </script>
 

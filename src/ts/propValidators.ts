@@ -34,7 +34,7 @@ const ICON = {
     >,
     default: true,
   },
-  classNameExtension: {
+  classExtension: {
     type: String as PropType<string>,
     default: "",
   },
@@ -56,10 +56,6 @@ const CLOSE_BUTTON = {
     type: String as PropType<string>,
     default: "close",
   },
-  classNameExtension: {
-    type: String as PropType<string>,
-    default: "",
-  },
 }
 
 const PROGRESS_BAR = {
@@ -75,7 +71,7 @@ const PROGRESS_BAR = {
     type: Boolean,
     default: false,
   },
-  classNameExtension: {
+  classExtension: {
     type: String as PropType<string>,
     default: "",
   },
@@ -127,10 +123,6 @@ const CORE_TOAST = {
     type: Object as PropType<NonNullable<PluginOptions["eventBus"]>>,
     required: true,
     default: new EventBus(),
-  },
-  classNameExtension: {
-    type: String as PropType<string>,
-    default: "",
   },
 }
 
@@ -188,10 +180,6 @@ const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
   containerClassName: COMMON.classNames,
   onMounted: Function as PropType<NonNullable<PluginOptions["onMounted"]>>,
   rootToastComponent: Object as PropType<Component>,
-  classNameExtension: {
-    type: String as PropType<string>,
-    default: "",
-  },
 }
 
 export default {

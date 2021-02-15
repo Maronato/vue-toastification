@@ -174,7 +174,6 @@ export interface PluginOptions extends CommonOptions {
    * This needs to be a component with useRootToastComponent() implemented.
    */
   rootToastComponent?: Component
-  classNameExtension?: string
 }
 
 export interface ToastOptions extends CommonOptions {

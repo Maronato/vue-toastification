@@ -38,7 +38,7 @@ export default defineComponent({
 
     cpClass(): string {
       return this.hasClass
-        ? `${VT_NAMESPACE}${this.classNameExtension}__progress-bar`
+        ? `${VT_NAMESPACE}${this.classExtension}__progress-bar`
         : ""
     },
   },

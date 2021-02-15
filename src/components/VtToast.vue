@@ -1,43 +1,50 @@
 <template>
   <div
+    v-bind="$attrs"
     :class="classes"
     :style="draggableStyle"
     @click="clickHandler"
     @mouseenter="hoverPause"
     @mouseleave="hoverPlay"
   >
-    <Icon
-      v-if="icon"
-      :custom-icon="icon"
+    <slot
       :type="type"
-      :class-name-extension="classNameExtension"
-    />
-    <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
-      <template v-if="typeof content === 'string'">{{ content }}</template>
-      <component
-        :is="getVueComponentFromObj(content)"
-        v-else
-        :toast-id="id"
-        v-bind="content.props"
-        v-on="content.listeners"
-        @closeToast="closeToast"
-      />
-    </div>
-    <CloseButton
-      v-if="!!closeButton"
-      :component="closeButton"
-      :class-names="closeButtonClassName"
+      :close-toast="closeToast"
+      :toast-id="id"
       :show-on-hover="showCloseButtonOnHover"
-      :aria-label="accessibility.closeButtonLabel"
-      :class-name-extension="classNameExtension"
-      @click.stop="closeToast"
-    />
+      :icon="icon"
+      :closeButton="closeButton"
+      :role="accessibility.toastRole"
+      :content="content"
+    >
+      <Icon v-if="icon" :custom-icon="icon" :type="type" />
+      <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
+        <template v-if="typeof content === 'string'">{{ content }}</template>
+        <component
+          :is="getVueComponentFromObj(content)"
+          v-else
+          :toast-id="id"
+          v-bind="content.props"
+          v-on="content.listeners"
+          @closeToast="closeToast"
+        />
+      </div>
+      <CloseButton
+        v-if="!!closeButton"
+        :component="closeButton"
+        :class-names="closeButtonClassName"
+        :show-on-hover="showCloseButtonOnHover"
+        :aria-label="accessibility.closeButtonLabel"
+        @click.stop="closeToast"
+      />
+    </slot>
     <ProgressBar
       v-if="timeout"
+      :class="progressBarClass"
       :is-running="isRunning"
       :hide-progress-bar="hideProgressBar"
       :timeout="timeout"
-      :class-name-extension="classNameExtension"
+      :class-name-extension="getClassExtension()"
       @closeToast="timeoutHandler"
     />
   </div>
@@ -61,12 +68,25 @@ import CloseButton from "./VtCloseButton.vue"
 import Icon from "./VtIcon.vue"
 
 export default defineComponent({
-  name: "VtToast",
+  name: "VtToastBase",
 
   components: { ProgressBar, CloseButton, Icon },
   inheritAttrs: false,
 
-  props: Object.assign({}, PROPS.CORE_TOAST, PROPS.TOAST),
+  props: Object.assign(
+    {
+      classExtension: {
+        type: String,
+        default: "",
+      },
+      progressBarClass: {
+        type: String,
+        default: "",
+      },
+    },
+    PROPS.CORE_TOAST,
+    PROPS.TOAST
+  ),
 
   data() {
     const data: {
@@ -90,8 +110,8 @@ export default defineComponent({
   computed: {
     classes(): string[] {
       const classes = [
-        `${VT_NAMESPACE}${this.classNameExtension}__toast`,
-        `${VT_NAMESPACE}${this.classNameExtension}__toast--${this.type}`,
+        `${VT_NAMESPACE}${this.getClassExtension()}__toast`,
+        `${VT_NAMESPACE}${this.getClassExtension()}__toast--${this.type}`,
         `${this.position}`,
       ].concat(this.toastClassName)
       if (this.disableTransitions) {
@@ -162,6 +182,10 @@ export default defineComponent({
   },
 
   methods: {
+    getClassExtension(): string {
+      if (this.classExtension) return this.classExtension
+      return ""
+    },
     getVueComponentFromObj,
     closeToast() {
       this.eventBus.emit(EVENTS.DISMISS, this.id)

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center m-64">
+  <div class="m-64 text-center">
     <v-switch v-model="myData" name="switch">My switch</v-switch>
     <div class="my-4"></div>
     <v-radio v-model="choice" :choices="choices" name="myradio" />
@@ -112,14 +112,13 @@ export default {
       { text: "oh", value: "2" },
     ])
 
+    const showToast = () => {
+      toast.success("Worked!")
+    }
+
     const choice = ref(choices.value[0])
 
-    return { toast, myData, choices, choice, slider, input, disable }
-  },
-  methods: {
-    showToast() {
-      this.toast.success("Worked!")
-    },
+    return { toast, myData, choices, choice, slider, input, disable, showToast }
   },
 }
 </script>
