@@ -38,7 +38,7 @@ export default defineComponent({
 
     cpClass(): string {
       return this.hasClass
-        ? `${VT_NAMESPACE}${this.classExtension}__progress-bar`
+        ? `${VT_NAMESPACE}${this.classExtension}__progress-bar ${VT_NAMESPACE}_animate__progress-bar`
         : ""
     },
   },
@@ -67,3 +67,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped lang="scss">
+.Vue-Toastification_animate__progress-bar {
+  animation: scale-x-frames linear 1 forwards;
+}
+</style>

@@ -29,7 +29,7 @@ export default defineComponent({
       return "button"
     },
     classes(): string[] {
-      const classes = [`${VT_NAMESPACE}${this.classExtension}__close-button`]
+      const classes = [`${VT_NAMESPACE}__close-button`]
       if (this.showOnHover) {
         classes.push("show-on-hover")
       }
