@@ -260,6 +260,10 @@ declare module "@nuxt/types" {
   interface NuxtAppOptions {
     $toast: ReturnType<typeof ToastInterface>;
   }
+
+  interface NuxtOptions {
+    toast?: NuxtModuleOptions;
+  }
 }
 
 declare module "vuex/types/index" {
