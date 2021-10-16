@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .#{$vt-namespace}__container {
   z-index: $vt-z-index;
   position: fixed;
@@ -51,7 +53,7 @@
     &.top-center,
     &.bottom-center {
       left: 50%;
-      margin-left: -($vt-toast-max-width / 2);
+      margin-left: - math.div($vt-toast-max-width, 2);
       .#{$vt-namespace}__toast {
         margin-left: auto;
         margin-right: auto;
