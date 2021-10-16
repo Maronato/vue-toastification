@@ -73,11 +73,11 @@ export default defineComponent({
     events.on(EVENTS.DISMISS, this.dismissToast)
     events.on(EVENTS.UPDATE, this.updateToast)
     events.on(EVENTS.UPDATE_DEFAULTS, this.updateDefaults)
-    this.defaults = this.$props as PluginOptionsType
+    this.defaults = this.$props as unknown as PluginOptionsType
   },
 
   mounted() {
-    this.setup(this.container)
+    this.setup(this.container as PluginOptionsType["container"])
   },
 
   methods: {
