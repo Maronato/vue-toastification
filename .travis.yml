@@ -8,7 +8,7 @@ cache:
 
 script:
   - yarn global add codecov
-  - yarn lint:no-fix
+  - yarn lint
   - yarn test
   - yarn install:demo
   - yarn build:demo
