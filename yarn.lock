@@ -2778,6 +2778,14 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+anymatch@~3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-3.1.2.tgz#c0557c096af32f106198f4f4e2a383537e378716"
+  integrity sha512-P43ePfOAIupkguHUycrc4qJ9kz8ZiuOUijaETwX7THt0Y/GNK7v0aa8rY816xWjZ7rJdA5XdMcpVFTKMq+RvWg==
+  dependencies:
+    normalize-path "^3.0.0"
+    picomatch "^2.0.4"
+
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -3094,7 +3102,7 @@ babel-preset-jest@^24.9.0:
     "@babel/plugin-syntax-object-rest-spread" "^7.0.0"
     babel-plugin-jest-hoist "^24.9.0"
 
-babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
+babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
@@ -3747,7 +3755,22 @@ check-types@^8.0.3:
   optionalDependencies:
     fsevents "~2.1.2"
 
-chokidar@^2.0.0, chokidar@^2.1.8:
+"chokidar@>=3.0.0 <4.0.0":
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.2.tgz#dba3976fcadb016f66fd365021d91600d01c1e75"
+  integrity sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==
+  dependencies:
+    anymatch "~3.1.2"
+    braces "~3.0.2"
+    glob-parent "~5.1.2"
+    is-binary-path "~2.1.0"
+    is-glob "~4.0.1"
+    normalize-path "~3.0.0"
+    readdirp "~3.6.0"
+  optionalDependencies:
+    fsevents "~2.3.2"
+
+chokidar@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
   integrity sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==
@@ -6016,17 +6039,6 @@ fs-extra@8.1.0, fs-extra@^8.1.0:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
-fs-extra@^0.30.0:
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-0.30.0.tgz#f233ffcc08d4da7d432daa449776989db1df93f0"
-  integrity sha1-8jP/zAjU2n1DLapEl3aYnbHfk/A=
-  dependencies:
-    graceful-fs "^4.1.2"
-    jsonfile "^2.1.0"
-    klaw "^1.0.0"
-    path-is-absolute "^1.0.0"
-    rimraf "^2.2.8"
-
 fs-extra@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.1.tgz#4f189c44aa123b895f722804f55ea23eadc348e9"
@@ -6097,6 +6109,11 @@ fsevents@~2.1.2:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.3.tgz#fb738703ae8d2f9fe900c33836ddebee8b97f23e"
   integrity sha512-Auw9a4AxqWpa9GUfj370BMPzzyncfBABW8Mab7BGWBYDj4Isgq+cDKtx0i6u9jcX9pQDnswsaaOTgTmA5pEjuQ==
+
+fsevents@~2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -6222,6 +6239,13 @@ glob-parent@^5.0.0, glob-parent@^5.1.0, glob-parent@~5.1.0:
   dependencies:
     is-glob "^4.0.1"
 
+glob-parent@~5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
+  integrity sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==
+  dependencies:
+    is-glob "^4.0.1"
+
 glob-to-regexp@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.3.0.tgz#8c5a1494d2066c570cc3bfe4496175acc4d502ab"
@@ -6312,7 +6336,7 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@^4.2.0, graceful-fs@^4.2.2:
+graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.2:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
@@ -8007,13 +8031,6 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-jsonfile@^2.1.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
-  integrity sha1-NzaitCi4e72gzIO1P6PWM6NcKug=
-  optionalDependencies:
-    graceful-fs "^4.1.6"
-
 jsonfile@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz#8771aae0799b64076b76640fca058f9c10e33ecb"
@@ -8081,13 +8098,6 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
-
-klaw@^1.0.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/klaw/-/klaw-1.3.1.tgz#4088433b46b3b1ba259d78785d8e96f73ba02439"
-  integrity sha1-QIhDO0azsbolnXh4XY6W9zugJDk=
-  optionalDependencies:
-    graceful-fs "^4.1.9"
 
 kleur@^3.0.3:
   version "3.0.3"
@@ -11074,6 +11084,13 @@ readdirp@~3.4.0:
   dependencies:
     picomatch "^2.2.1"
 
+readdirp@~3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-3.6.0.tgz#74a370bd857116e245b29cc97340cd431a02a6c7"
+  integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
+  dependencies:
+    picomatch "^2.2.1"
+
 realpath-native@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/realpath-native/-/realpath-native-1.1.0.tgz#2003294fea23fb0672f2476ebe22fcf498a2d65c"
@@ -11342,7 +11359,7 @@ rimraf@2.6.3:
   dependencies:
     glob "^7.1.3"
 
-rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3, rimraf@^2.7.1:
+rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3, rimraf@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec"
   integrity sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
@@ -11389,17 +11406,14 @@ rollup-plugin-filesize@^9.0.0:
     pacote "^11.1.10"
     terser "^4.8.0"
 
-rollup-plugin-sass@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-sass/-/rollup-plugin-sass-1.2.2.tgz#f03cd2b1bee497dc2cc845fae2c5749611fc008f"
-  integrity sha512-yvHQPg1JS4d23gwHTwTbokH+FV/0bPBVf5QmlvCOzfAhXe0luY0pUgVaWC2qfnoKetp2Oqh5lK7oW/4CXGWs1Q==
+rollup-plugin-sass@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-sass/-/rollup-plugin-sass-1.2.9.tgz#0c2609d0f813d68b79d9f3ccda2b96d4f0dc1f39"
+  integrity sha512-ShI0T6tQxvM0B/njgZ35/1RuiNZTo9LtrUYFRupNokmXbresGb6RvYnkQvWbq4a5UBIp57VJ+cjPcsJKthXV8Q==
   dependencies:
-    babel-runtime "^6.23.0"
-    fs-extra "^0.30.0"
-    pify "^3.0.0"
+    "@rollup/pluginutils" "^3.1.0"
     resolve "^1.5.0"
-    rollup-pluginutils ">= 1.3.1"
-    sass "1.7.2"
+    sass "^1.7.2"
 
 rollup-plugin-terser@^7.0.2:
   version "7.0.2"
@@ -11437,7 +11451,7 @@ rollup-plugin-vue@<6.0.0:
     source-map "0.7.3"
     vue-runtime-helpers "^1.1.2"
 
-"rollup-pluginutils@>= 1.3.1", rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
+rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz#72f2af0748b592364dbd3389e600e5a9444a351e"
   integrity sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
@@ -11528,19 +11542,19 @@ sass-loader@^10.0.2:
     schema-utils "^2.7.1"
     semver "^7.3.2"
 
-sass@1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.7.2.tgz#a8ff878ad9dcba65e226c1ccb2c2f3c7a1009578"
-  integrity sha512-zUm2NXL77WtQDbp4MKgysAxH41Fzs5BnBUogEPi8IKNQ1M5rKoFe46YBXfxr0I+cQX+xbSc//psSdq5eyYhJsg==
-  dependencies:
-    chokidar "^2.0.0"
-
-sass@^1.18.0, sass@^1.26.5:
+sass@^1.18.0:
   version "1.26.10"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.26.10.tgz#851d126021cdc93decbf201d1eca2a20ee434760"
   integrity sha512-bzN0uvmzfsTvjz0qwccN1sPm2HxxpNI/Xa+7PlUEMS+nQvbyuEK7Y0qFqxlPHhiNHb1Ze8WQJtU31olMObkAMw==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
+
+sass@^1.43.2, sass@^1.7.2:
+  version "1.43.2"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.43.2.tgz#c02501520c624ad6622529a8b3724eb08da82d65"
+  integrity sha512-DncYhjl3wBaPMMJR0kIUaH3sF536rVrOcqqVGmTZHQRRzj7LQlyGV7Mb8aCKFyILMr5VsPHwRYtyKpnKYlmQSQ==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
 
 sax@^1.2.4, sax@~1.2.4:
   version "1.2.4"
