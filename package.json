@@ -71,9 +71,6 @@
     "*.{js,jsx,vue,ts,tsx}": [
       "eslint --ext .js,.vue,.ts --fix",
       "git add"
-    ],
-    "*.{vue,ts,tsx}": [
-      "tsc --noEmit"
     ]
   },
   "peerDependencies": {
