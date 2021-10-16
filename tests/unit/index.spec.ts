@@ -219,7 +219,7 @@ describe("useToast", () => {
     expect(createToastInterfaceSpy).not.toHaveBeenCalled()
     expect(getCurrentInstanceSpy).not.toHaveBeenCalled()
 
-    const inter = index.useToast()
+    index.useToast()
 
     expect(useToastSpy).toHaveBeenCalledTimes(1)
     expect(getCurrentInstanceSpy).toHaveBeenCalledTimes(1)
