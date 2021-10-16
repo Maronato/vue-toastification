@@ -113,8 +113,8 @@ const CORE_TOAST = {
   },
   eventBus: {
     type: Object as PropType<NonNullable<PluginOptions["eventBus"]>>,
-    required: true,
-    default: new EventBus(),
+    required: false,
+    default: () => new EventBus(),
   },
 }
 
@@ -131,12 +131,12 @@ const TOAST = {
     default: "",
   },
   onClick: {
-    type: Function as PropType<NonNullable<ToastOptions["onClick"]>>,
-    default: () => {},
+    type: Function as PropType<ToastOptions["onClick"]>,
+    default: undefined,
   },
   onClose: {
-    type: Function as PropType<NonNullable<ToastOptions["onClose"]>>,
-    default: /* istanbul ignore next */ () => {},
+    type: Function as PropType<ToastOptions["onClose"]>,
+    default: undefined,
   },
 }
 
@@ -145,9 +145,10 @@ export type PluginOptionsType = Required<
 >
 const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
   container: {
-    type: [(Object as unknown) as HTMLElement, Function] as PropType<
-      NonNullable<PluginOptions["container"]>
-    >,
+    type: [
+      Object as unknown as PluginOptions["container"],
+      Function,
+    ] as PropType<NonNullable<PluginOptions["container"]>>,
     default: () => document.body,
   },
   newestOnTop: COMMON.trueBoolean,
