@@ -3,15 +3,14 @@ module.exports = {
   clearMocks: true,
   testEnvironment: "jsdom",
   transform: {
-    "^.+\\.vue$": "vue-jest",
-    "^.+\\js$": "babel-jest",
+    "^.+\\.vue$": "@vue/vue3-jest",
     "^.+\\.(css|less|scss)$": "./tests/utils/styleMock.js",
   },
-  snapshotSerializers: ["jest-serializer-vue"],
   collectCoverage: true,
+  collectCoverageFrom: ["src/**/*"],
   coverageThreshold: {
     global: {
-      branches: 99,
+      branches: 100,
       functions: 100,
       lines: 100,
       statements: 100,
