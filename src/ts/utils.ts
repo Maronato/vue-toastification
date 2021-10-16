@@ -54,7 +54,7 @@ const isDOMRect = (obj: unknown): obj is DOMRect =>
     isNumber(obj[p])
   )
 
-const hasProp = <O extends unknown, K extends PropertyKey>(
+const hasProp = <O, K extends PropertyKey>(
   obj: O,
   propKey: K
 ): obj is O & { [key in K]: unknown } =>
@@ -63,7 +63,10 @@ const hasProp = <O extends unknown, K extends PropertyKey>(
 /**
  * ID generator
  */
-const getId = (i => () => i++)(0)
+const getId = (
+  i => () =>
+    i++
+)(0)
 
 function getX(event: MouseEvent | TouchEvent) {
   return isTouchEvent(event) ? event.targetTouches[0].clientX : event.clientX
@@ -103,9 +106,9 @@ const normalizeToastComponent = (obj: ToastContent): ToastContent => {
     return obj
   }
   const props = hasProp(obj, "props") && isObject(obj.props) ? obj.props : {}
-  const listeners = (hasProp(obj, "listeners") && isObject(obj.listeners)
-    ? obj.listeners
-    : {}) as ToastComponent["listeners"]
+  const listeners = (
+    hasProp(obj, "listeners") && isObject(obj.listeners) ? obj.listeners : {}
+  ) as ToastComponent["listeners"]
   return { component: getVueComponentFromObj(obj), props, listeners }
 }
 

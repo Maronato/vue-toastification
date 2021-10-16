@@ -14,7 +14,7 @@ describe("VtProgressBar", () => {
   })
   it("has default style values", () => {
     const wrapper = mount(VtProgressBar)
-    const vm = (wrapper.vm as unknown) as { [index: string]: unknown }
+    const vm = wrapper.vm as unknown as { [index: string]: unknown }
     const style = vm.style as {
       animationDuration: string
       animationPlayState: string
@@ -32,7 +32,7 @@ describe("VtProgressBar", () => {
         timeout: 1000,
       },
     })
-    const vm = (wrapper.vm as unknown) as { [index: string]: unknown }
+    const vm = wrapper.vm as unknown as { [index: string]: unknown }
     const style = vm.style as {
       animationDuration: string
       animationPlayState: string
@@ -51,7 +51,7 @@ describe("VtProgressBar", () => {
         isRunning: true,
       },
     })
-    const vm = (wrapper.vm as unknown) as { [index: string]: unknown }
+    const vm = wrapper.vm as unknown as { [index: string]: unknown }
     const style = vm.style as {
       animationDuration: string
       animationPlayState: string
@@ -70,7 +70,7 @@ describe("VtProgressBar", () => {
         hideProgressBar: true,
       },
     })
-    const vm = (wrapper.vm as unknown) as { [index: string]: unknown }
+    const vm = wrapper.vm as unknown as { [index: string]: unknown }
     const style = vm.style as {
       animationDuration: string
       animationPlayState: string

@@ -148,7 +148,7 @@ describe("VtIcon", () => {
   })
   it("trimValue trims string", () => {
     const wrapper = mount(VtIcon)
-    const vm = (wrapper.vm as unknown) as {
+    const vm = wrapper.vm as unknown as {
       trimValue(value: unknown, empty?: string): string
     }
     const trimValue = vm.trimValue
@@ -156,7 +156,7 @@ describe("VtIcon", () => {
   })
   it("trimValue does nothing to trimmed string", () => {
     const wrapper = mount(VtIcon)
-    const vm = (wrapper.vm as unknown) as {
+    const vm = wrapper.vm as unknown as {
       trimValue(value: unknown, empty?: string): string
     }
     const trimValue = vm.trimValue
@@ -164,7 +164,7 @@ describe("VtIcon", () => {
   })
   it("trimValue returns default if empty", () => {
     const wrapper = mount(VtIcon)
-    const vm = (wrapper.vm as unknown) as {
+    const vm = wrapper.vm as unknown as {
       trimValue(value: unknown, empty?: string): string
     }
     const trimValue = vm.trimValue
@@ -172,7 +172,7 @@ describe("VtIcon", () => {
   })
   it("trimValue returns given default if empty", () => {
     const wrapper = mount(VtIcon)
-    const vm = (wrapper.vm as unknown) as {
+    const vm = wrapper.vm as unknown as {
       trimValue(value: unknown, empty?: string): string
     }
     const trimValue = vm.trimValue
@@ -180,7 +180,7 @@ describe("VtIcon", () => {
   })
   it("trimValue returns default if not string", () => {
     const wrapper = mount(VtIcon)
-    const vm = (wrapper.vm as unknown) as {
+    const vm = wrapper.vm as unknown as {
       trimValue(value: unknown, empty?: string): string
     }
     const trimValue = vm.trimValue
