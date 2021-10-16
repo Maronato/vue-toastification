@@ -16,7 +16,7 @@
 <script lang="ts">
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
 import { defineComponent } from "vue"
-
+import { hasProp } from "../ts/utils"
 import PROPS from "../ts/propValidators"
 
 export default defineComponent({
@@ -26,11 +26,14 @@ export default defineComponent({
   emits: ["leave"],
 
   methods: {
-    leave(el: HTMLElement) {
-      el.style.left = el.offsetLeft + "px"
-      el.style.top = el.offsetTop + "px"
-      el.style.width = getComputedStyle(el).width
-      el.style.position = "absolute"
+    hasProp,
+    leave(el: Element) {
+      if (el instanceof HTMLElement) {
+        el.style.left = el.offsetLeft + "px"
+        el.style.top = el.offsetTop + "px"
+        el.style.width = getComputedStyle(el).width
+        el.style.position = "absolute"
+      }
     },
   },
 })
