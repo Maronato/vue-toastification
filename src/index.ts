@@ -11,11 +11,11 @@ import { isBrowser } from "./ts/utils"
 const createMockToastInterface = (): ToastInterface => {
   const toast = () =>
     console.warn("[Vue Toastification] This plugin does not support SSR!")
-  return (new Proxy(toast, {
+  return new Proxy(toast, {
     get() {
       return toast
     },
-  }) as unknown) as ToastInterface
+  }) as unknown as ToastInterface
 }
 
 function createToastInterface(eventBus: EventBusInterface): ToastInterface
@@ -32,9 +32,8 @@ function createToastInterface(
   return buildInterface(optionsOrEventBus, true)
 }
 
-const toastInjectionKey: InjectionKey<ToastInterface> = Symbol(
-  "VueToastification"
-)
+const toastInjectionKey: InjectionKey<ToastInterface> =
+  Symbol("VueToastification")
 
 const globalEventBus = new EventBus()
 

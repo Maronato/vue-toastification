@@ -74,4 +74,25 @@ describe("VtTransition", () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(events![0]).toEqual([el, done])
   })
+  it("leave not HTMLElement", () => {
+    const wrapper = mount(VtTransition, {
+      global: {
+        stubs: {
+          "transition-group": false,
+        },
+      },
+    })
+    const transition = wrapper.findComponent(TransitionGroup)
+
+    const done = jest.fn()
+    const el = document.implementation.createDocument("xml", "element")
+
+    transition.vm.$emit("leave", el, done)
+
+    const events = transition.emitted("leave")
+
+    expect(events).toBeTruthy()
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(events![0]).toEqual([el, done])
+  })
 })

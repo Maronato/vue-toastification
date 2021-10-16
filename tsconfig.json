@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "node",
-    "target": "ESNext",
+    "target": "ES2017",
     "sourceMap": true,
     "strict": true,
     "outDir": "dist",
@@ -17,5 +17,5 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }

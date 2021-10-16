@@ -7,7 +7,6 @@ type WithGetToasts<T extends DOMWrapper<Element>> = T & {
   getToasts(): DOMWrapper<Element>[]
 }
 
-/* istanbul ignore next */
 const withGetToasts = <T extends DOMWrapper<Element>>(wrapper: T) => {
   ;(wrapper as WithGetToasts<T>).getToasts = () =>
     wrapper.findAll(".Vue-Toastification__toast")
@@ -28,10 +27,7 @@ const loadPlugin = async (options?: PluginOptions) => {
     ...options,
   })
   await nextTick()
-  const containerWrapper = new VueWrapper(
-    containerApp,
-    containerComp,
-  )
+  const containerWrapper = new VueWrapper(containerApp, containerComp)
 
   const positionContainers = {
     topLeft: withGetToasts(containerWrapper.find(`.${POSITION.TOP_LEFT}`)),

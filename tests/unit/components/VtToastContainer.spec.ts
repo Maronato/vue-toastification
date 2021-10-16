@@ -8,7 +8,7 @@ import {
 import { POSITION, TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
 import { PluginOptionsType } from "../../../src/ts/propValidators"
 import Simple from "../../utils/components/Simple.vue"
-import { isProxy, isReactive, isRef, reactive, ref, toRaw } from "vue"
+import { isProxy, reactive, toRaw } from "vue"
 
 describe("VtToastContainer", () => {
   it("snapshots with default value", async () => {
@@ -25,7 +25,7 @@ describe("VtToastContainer", () => {
     it("removes element and reassigns", async () => {
       const { containerWrapper } = await loadPlugin()
       const container = document.createElement("div")
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setup(container: HTMLElement): void
       }
       expect(containerWrapper.element.parentElement).not.toBe(container)
@@ -35,7 +35,7 @@ describe("VtToastContainer", () => {
     it("accepts function container", async () => {
       const { containerWrapper } = await loadPlugin()
       const container = document.createElement("div")
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setup(container: () => HTMLElement): void
       }
       expect(containerWrapper.element.parentElement).not.toBe(container)
@@ -46,7 +46,7 @@ describe("VtToastContainer", () => {
     it("accepts async container", async () => {
       const { containerWrapper } = await loadPlugin()
       const container = document.createElement("div")
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setup(container: () => Promise<HTMLElement>): void
       }
       expect(containerWrapper.element.parentElement).not.toBe(container)
@@ -58,7 +58,7 @@ describe("VtToastContainer", () => {
   describe("setToast", () => {
     it("sets toast with id", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setToast(props: ToastOptionsAndRequiredContent): void
         toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
       }
@@ -72,7 +72,7 @@ describe("VtToastContainer", () => {
     })
     it("ignores toast without id", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setToast(props: ToastOptionsAndRequiredContent): void
         toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
       }
@@ -86,7 +86,7 @@ describe("VtToastContainer", () => {
     it("uses default values if nothing was provided", async () => {
       const filterBeforeCreate = jest.fn(toast => toast)
       const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         addToast(params: ToastOptionsAndRequiredContent): void
         defaults: PluginOptions
       }
@@ -101,7 +101,7 @@ describe("VtToastContainer", () => {
     it("merges default with params", async () => {
       const filterBeforeCreate = jest.fn(toast => toast)
       const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         addToast(params: ToastOptionsAndRequiredContent): void
         defaults: PluginOptions
       }
@@ -129,7 +129,7 @@ describe("VtToastContainer", () => {
         filterBeforeCreate,
         toastDefaults,
       })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         addToast(params: ToastOptionsAndRequiredContent): void
         defaults: PluginOptions
       }
@@ -158,7 +158,7 @@ describe("VtToastContainer", () => {
         filterBeforeCreate,
         toastDefaults,
       })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         addToast(params: ToastOptionsAndRequiredContent): void
         defaults: PluginOptions
       }
@@ -177,7 +177,7 @@ describe("VtToastContainer", () => {
     })
     it("uses default filterBeforeCreate", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         addToast(params: ToastOptionsAndRequiredContent): void
         defaults: PluginOptionsType
       }
@@ -191,7 +191,7 @@ describe("VtToastContainer", () => {
     it("uses custom filterBeforeCreate", async () => {
       const filterBeforeCreate = jest.fn(toast => toast)
       const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         addToast(params: ToastOptionsAndRequiredContent): void
       }
       const toast: ToastOptionsAndRequiredContent = { content: "abc" }
@@ -201,7 +201,7 @@ describe("VtToastContainer", () => {
     })
     it("set toast if passes filterBeforeCreate", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setToast(params: ToastOptionsAndRequiredContent): void
         addToast(params: ToastOptionsAndRequiredContent): void
         defaults: PluginOptions
@@ -215,7 +215,7 @@ describe("VtToastContainer", () => {
     })
     it("set toast is raw", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setToast(params: ToastOptionsAndRequiredContent): void
         addToast(params: ToastOptionsAndRequiredContent): void
       }
@@ -236,7 +236,7 @@ describe("VtToastContainer", () => {
     it("does not set toast if fails filterBeforeCreate", async () => {
       const filterBeforeCreate = jest.fn((): false => false)
       const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         setToast(params: ToastOptionsAndRequiredContent): void
         addToast(params: ToastOptionsAndRequiredContent): void
       }
@@ -250,7 +250,7 @@ describe("VtToastContainer", () => {
   describe("dismissToast", () => {
     it("dismisses toast", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         dismissToast(id: ToastID): void
         setToast(params: ToastOptionsAndRequiredContent): void
         toasts: { [toastId: string]: ToastOptionsAndRequiredContent }
@@ -264,7 +264,7 @@ describe("VtToastContainer", () => {
     })
     it("calls onClose if set", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         dismissToast(id: ToastID): void
         setToast(params: ToastOptionsAndRequiredContent): void
         toasts: { [toastId: string]: ToastOptionsAndRequiredContent }
@@ -284,7 +284,7 @@ describe("VtToastContainer", () => {
   describe("clearToasts", () => {
     it("clears toasts", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         dismissToast(id: ToastID): void
         clearToasts(): void
         setToast(params: ToastOptionsAndRequiredContent): void
@@ -310,7 +310,7 @@ describe("VtToastContainer", () => {
   describe("getPositionToasts", () => {
     it("gets toast from position", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[]
         setToast(params: ToastOptionsAndRequiredContent): void
       }
@@ -335,7 +335,7 @@ describe("VtToastContainer", () => {
       const { containerWrapper: containerWrapper1 } = await loadPlugin({
         newestOnTop: false,
       })
-      const vm = (containerWrapper1.vm as unknown) as {
+      const vm = containerWrapper1.vm as unknown as {
         getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[]
         setToast(params: ToastOptionsAndRequiredContent): void
       }
@@ -351,7 +351,7 @@ describe("VtToastContainer", () => {
       const { containerWrapper: containerWrapper1 } = await loadPlugin({
         newestOnTop: true,
       })
-      const vm = (containerWrapper1.vm as unknown) as {
+      const vm = containerWrapper1.vm as unknown as {
         getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[]
         setToast(params: ToastOptionsAndRequiredContent): void
       }
@@ -367,7 +367,7 @@ describe("VtToastContainer", () => {
   describe("updateDefaults", () => {
     it("updates defaults", async () => {
       const { containerWrapper } = await loadPlugin({ timeout: 1000 })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         updateDefaults(update: PluginOptions): void
         defaults: PluginOptions
       }
@@ -377,7 +377,7 @@ describe("VtToastContainer", () => {
     })
     it("calls setup if container is present", async () => {
       const { containerWrapper } = await loadPlugin({ timeout: 1000 })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         updateDefaults(update: PluginOptions): void
         defaults: PluginOptions
         setup(container: HTMLElement): void
@@ -392,7 +392,7 @@ describe("VtToastContainer", () => {
     })
     it("applies new containerClassName", async () => {
       const { containerWrapper } = await loadPlugin({ timeout: 1000 })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         updateDefaults(update: PluginOptions): void
         defaults: PluginOptions
       }
@@ -409,7 +409,7 @@ describe("VtToastContainer", () => {
   describe("updateToast", () => {
     it("updates existing toast", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         updateToast({
           id,
           options,
@@ -437,7 +437,7 @@ describe("VtToastContainer", () => {
     })
     it("increases timeout if it is the same", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         updateToast({
           id,
           options,
@@ -462,7 +462,7 @@ describe("VtToastContainer", () => {
     })
     it("creates new toast if create is true", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         updateToast({
           id,
           options,
@@ -486,7 +486,7 @@ describe("VtToastContainer", () => {
     })
     it("ignores if missing toast and not create", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         updateToast({
           id,
           options,
@@ -511,7 +511,7 @@ describe("VtToastContainer", () => {
   describe("getClasses", () => {
     it("returns classes", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         getClasses(position: POSITION): string[]
       }
       const position = POSITION.BOTTOM_RIGHT
@@ -524,7 +524,7 @@ describe("VtToastContainer", () => {
   describe("toastArray", () => {
     it("maps array", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         toastArray: ToastOptionsAndRequiredContent[]
         setToast(params: ToastOptionsAndRequiredContent): void
       }
@@ -538,7 +538,7 @@ describe("VtToastContainer", () => {
   describe("filteredToasts", () => {
     it("filters toasts with default filterToasts", async () => {
       const { containerWrapper } = await loadPlugin()
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         filteredToasts: ToastOptionsAndRequiredContent[]
         setToast(params: ToastOptionsAndRequiredContent): void
       }
@@ -550,7 +550,7 @@ describe("VtToastContainer", () => {
       const filterToasts = jest.fn(() => [])
       expect(filterToasts).not.toHaveBeenCalled()
       const { containerWrapper } = await loadPlugin({ filterToasts })
-      const vm = (containerWrapper.vm as unknown) as {
+      const vm = containerWrapper.vm as unknown as {
         filteredToasts: ToastOptionsAndRequiredContent[]
         setToast(params: ToastOptionsAndRequiredContent): void
         toastArray: ToastOptionsAndRequiredContent[]

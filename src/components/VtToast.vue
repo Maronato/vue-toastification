@@ -13,8 +13,8 @@
         :is="getVueComponentFromObj(content)"
         v-else
         :toast-id="id"
-        v-bind="content.props"
-        v-on="content.listeners"
+        v-bind="hasProp(content, 'props') ? content.props : {}"
+        v-on="hasProp(content, 'listeners') ? content.listeners : {}"
         @closeToast="closeToast"
       />
     </div>
@@ -47,6 +47,7 @@ import {
   getX,
   getY,
   isDOMRect,
+  hasProp,
 } from "../ts/utils"
 
 import ProgressBar from "./VtProgressBar.vue"
@@ -104,7 +105,6 @@ export default defineComponent({
       ].concat(this.bodyClassName)
       return classes
     },
-    /* istanbul ignore next */
     draggableStyle(): {
       transition?: string
       opacity?: number
@@ -156,6 +156,7 @@ export default defineComponent({
   },
 
   methods: {
+    hasProp,
     getVueComponentFromObj,
     closeToast() {
       this.eventBus.emit(EVENTS.DISMISS, this.id)
