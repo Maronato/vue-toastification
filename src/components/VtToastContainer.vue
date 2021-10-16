@@ -35,6 +35,9 @@ import VtTransition from "./VtTransition.vue"
 
 export default defineComponent({
   name: "VueToastification",
+  devtools: {
+    hide: true,
+  },
   components: { Toast, VtTransition },
 
   props: Object.assign({}, PROPS.CORE_TOAST, PROPS.CONTAINER, PROPS.TRANSITION),
