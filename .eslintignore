@@ -1,2 +1,8 @@
 examples/
 nuxt/plugin.js
+node_modules/
+dist/
+coverage/
+.github/
+.vscode/
+

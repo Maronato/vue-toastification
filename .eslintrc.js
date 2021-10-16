@@ -10,19 +10,16 @@ module.exports = {
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:prettier/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "prettier/vue",
+    "plugin:prettier/recommended",
   ],
   parser: "vue-eslint-parser",
   parserOptions: {
-    ecmaVersion: 11,
     parser: "@typescript-eslint/parser",
     sourceType: "module",
   },
-  plugins: ["vue", "@typescript-eslint", "prettier"],
+  plugins: ["vue", "@typescript-eslint"],
   rules: {
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -41,4 +38,4 @@ module.exports = {
       },
     },
   ],
-};
+}
