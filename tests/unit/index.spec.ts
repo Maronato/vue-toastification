@@ -15,12 +15,15 @@ const Consumer = {
   },
 }
 
-const Provider = defineComponent({
-  setup() {
-    index.provideToast()
-    return () => vue.h(Consumer)
-  },
-})
+const createProvider = (options?: index.PluginOptions) =>
+  defineComponent({
+    setup() {
+      index.provideToast(options)
+      return () => vue.h(Consumer)
+    },
+  })
+
+const Provider = createProvider()
 
 const Middle = {
   render: () => vue.h(Consumer),
@@ -123,7 +126,7 @@ describe("createToastInterface", () => {
   })
   it("uses mock if not in browser", () => {
     const isBrowserSpy = jest.spyOn(utils, "isBrowser")
-    const consoleSpy = jest.spyOn(console, "warn")
+    const consoleSpy = jest.spyOn(console, "warn").mockImplementation()
     isBrowserSpy.mockReturnValueOnce(false)
 
     const toast = index.createToastInterface()
@@ -149,7 +152,7 @@ describe("provideToast", () => {
     expect(provideSpy).not.toHaveBeenCalled()
     expect(createToastInterfaceSpy).not.toHaveBeenCalled()
 
-    index.provideToast()
+    mount(Provider)
 
     expect(provideSpy).toHaveBeenCalledTimes(1)
     expect(provideSpy).toHaveBeenCalledWith(
@@ -167,7 +170,7 @@ describe("provideToast", () => {
     expect(provideSpy).not.toHaveBeenCalled()
     expect(createToastInterfaceSpy).not.toHaveBeenCalled()
 
-    index.provideToast({ maxToasts: 10, timeout: 100 })
+    mount(createProvider({ maxToasts: 10, timeout: 100 }))
 
     expect(provideSpy).toHaveBeenCalledTimes(1)
     expect(provideSpy).toHaveBeenCalledWith(
@@ -181,6 +184,20 @@ describe("provideToast", () => {
         timeout: 100,
       })
     )
+  })
+
+  it("does not provide if not in setup", () => {
+    const provideSpy = jest.spyOn(vue, "provide")
+    const createToastInterfaceSpy = jest.spyOn(index, "createToastInterface")
+
+    expect(provideSpy).not.toHaveBeenCalled()
+    expect(createToastInterfaceSpy).not.toHaveBeenCalled()
+
+    index.provideToast()
+
+    expect(provideSpy).toHaveBeenCalledTimes(0)
+    expect(createToastInterfaceSpy).toHaveBeenCalledTimes(1)
+    expect(createToastInterfaceSpy).toHaveBeenCalledWith(undefined)
   })
 })
 

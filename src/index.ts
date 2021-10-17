@@ -44,14 +44,18 @@ const VueToastificationPlugin: Plugin = (App, options?: PluginOptions) => {
 
 const provideToast = (options?: PluginOptions) => {
   const toast = ownExports.createToastInterface(options)
-  provide(toastInjectionKey, toast)
+  if (getCurrentInstance()) {
+    provide(toastInjectionKey, toast)
+  }
 }
 
 const useToast = (eventBus?: EventBus) => {
   if (eventBus) {
     return ownExports.createToastInterface(eventBus)
   }
-  const toast = getCurrentInstance() ? inject(toastInjectionKey) : undefined
+  const toast = getCurrentInstance()
+    ? inject(toastInjectionKey, undefined)
+    : undefined
   return toast ? toast : ownExports.createToastInterface(globalEventBus)
 }
 
