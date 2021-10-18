@@ -25,6 +25,7 @@ Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toast
   - [Usage](#usage)
     - [Plugin registration](#plugin-registration)
     - [Nuxt registration](#nuxt-registration)
+      - [Nuxt and Composition API](#nuxt-and-composition-api)
       - [Injecting the Toast CSS](#injecting-the-toast-css)
     - [Composition API registration](#composition-api-registration)
     - [Generic registration](#generic-registration)
@@ -204,6 +205,22 @@ If you are using Typescript with Nuxt, you may need to add `"vue-toastification/
 }
 ```
 
+#### Nuxt and Composition API
+Since Vue Toastification is auto installed with nuxt, we need not provide it a second time.
+
+To access your `$toast` instance from within `setup()`, import from `vue-toastification/composition/nuxt` like so:
+```ts
+// MyComponent.vue
+
+// Import from vue-toastification/composition/nuxt, not vue-toastification/composition
+import { useToast } from "vue-toastification/composition/nuxt";
+
+// Then, in the setup method
+  setup() {
+    const toast = useToast()
+    // Use it like you would use this.$toast
+  }
+```
 
 #### Injecting the Toast CSS
 By default, when you register the module within Nuxt it automatically injects the CSS required to display the toasts using the default `vue-toastification/dist/index.css` file.
