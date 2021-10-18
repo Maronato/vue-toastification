@@ -1,7 +1,7 @@
 import { Plugin, InjectionKey, provide, inject, getCurrentInstance } from "vue"
 import { buildInterface } from "./ts/interface"
 import type { ToastInterface } from "./ts/interface"
-import { POSITION, TYPE } from "./ts/constants"
+import { POSITION, TYPE, VT_NAMESPACE } from "./ts/constants"
 import { EventBusInterface, isEventBusInterface, EventBus } from "./ts/eventBus"
 import type { PluginOptions } from "./types"
 import * as ownExports from "./index"
@@ -10,7 +10,7 @@ import { isBrowser } from "./ts/utils"
 
 const createMockToastInterface = (): ToastInterface => {
   const toast = () =>
-    console.warn("[Vue Toastification] This plugin does not support SSR!")
+    console.warn(`[${VT_NAMESPACE}] This plugin does not support SSR!`)
   return new Proxy(toast, {
     get() {
       return toast
@@ -38,7 +38,13 @@ const toastInjectionKey: InjectionKey<ToastInterface> =
 const globalEventBus = new EventBus()
 
 const VueToastificationPlugin: Plugin = (App, options?: PluginOptions) => {
-  const inter = createToastInterface({ eventBus: globalEventBus, ...options })
+  if (options?.shareAppContext === true) {
+    options.shareAppContext = App
+  }
+  const inter = ownExports.createToastInterface({
+    eventBus: globalEventBus,
+    ...options,
+  })
   App.provide(toastInjectionKey, inter)
 }
 

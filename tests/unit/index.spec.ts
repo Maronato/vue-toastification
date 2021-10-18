@@ -4,6 +4,7 @@ import * as index from "../../src/index"
 import * as ToastInterfaceModule from "../../src/ts/interface"
 import * as utils from "../../src/ts/utils"
 import { defineComponent, nextTick } from "vue"
+import { VT_NAMESPACE } from "../../src/ts/constants"
 
 const consumerInjected = jest.fn()
 
@@ -86,6 +87,19 @@ describe("Toast Plugin", () => {
     expect(consumerInjected).toHaveBeenCalledTimes(1)
     expect(consumerInjected).toHaveBeenCalledWith(toastInterfaceLike)
   })
+  it("Sends `app` to interface if shareAppContext", () => {
+    const app = vue.createApp(Parent)
+    const interfaceSpy = jest.spyOn(index, "createToastInterface")
+
+    expect(interfaceSpy).toHaveBeenCalledTimes(0)
+
+    app.use(index.default, { shareAppContext: true })
+
+    expect(interfaceSpy).toHaveBeenCalledTimes(1)
+    expect(interfaceSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ shareAppContext: app })
+    )
+  })
 })
 
 describe("createToastInterface", () => {
@@ -136,7 +150,7 @@ describe("createToastInterface", () => {
     toast.success("hey")
     expect(consoleSpy).toHaveBeenCalledTimes(2)
     expect(consoleSpy).toHaveBeenCalledWith(
-      "[Vue Toastification] This plugin does not support SSR!"
+      `[${VT_NAMESPACE}] This plugin does not support SSR!`
     )
   })
 })

@@ -36,6 +36,7 @@ If you are using Vue 2, check out [Vue Toastification v1](https://github.com/Mar
       - [Close the toast using a custom component](#close-the-toast-using-a-custom-component)
       - [Render a JSX component](#render-a-jsx-component)
       - [Render a component with props and events](#render-a-component-with-props-and-events)
+      - [Access global components and plugins inside toasts](#access-global-components-and-plugins-inside-toasts)
     - [Dismiss toasts programmatically](#dismiss-toasts-programmatically)
     - [Update toasts programmatically](#update-toasts-programmatically)
     - [Clear all toasts](#clear-all-toasts)
@@ -381,6 +382,21 @@ const content = {
 toast(content);
 ```
 
+#### Access global components and plugins inside toasts
+When building custom toast components, it may be useful to access the context of your main app to use stuff that is shared globally inside it. These include things like: 
+- global components such as `RouterLink`, `NuxtLink`, etc
+- global state and properties
+- custom directives
+- custom mixins
+- data from other plugins
+
+To give Vue Toastification access to your app's context, you can set `shareAppContext` to `true` during registration.
+```ts
+app.use(Toast, {
+    shareAppContext: true,
+});
+```
+
 ### Dismiss toasts programmatically
 When a toast is created, an ID is assigned to it. You can use it later to programmatically dismiss the toast.
 
@@ -449,7 +465,7 @@ toast("my toast", {
 ```
 ```css
 <style>
-/* When setting CSS, remember that priority increases with specificity, so don't forget to select the exisiting classes as well */
+/* When setting CSS, remember that priority increases with specificity, so don't forget to select the existing classes as well */
 
     .Vue-Toastification__toast--default.my-custom-toast-class {
         background-color: red;
@@ -482,7 +498,7 @@ app.use(Toast, {
 ```
 ```css
 <style>
-/* When setting CSS, remember that priority increases with specificity, so don't forget to select the exisiting classes as well */
+/* When setting CSS, remember that priority increases with specificity, so don't forget to select the existing classes as well */
 
     /* This will only affect the top-right container */
     .Vue-Toastification__container.top-right.my-container-class{
@@ -973,6 +989,7 @@ Sometimes you may need to create a new Vue Toastification instance and make it a
 | accessibility          | `{ toastRole?: string; closeButtonLabel?: string }`               | `{ toastRole: "alert", closeButtonLabel: "close" }` | Accessibility options. Define the `role` attribute of the toast body and the `aria-label` attribute of the close button.                                                                                                  |
 | rtl                    | Boolean                                                           | `false`                                             | Enables Right to Left layout.                                                                                                                                                                                             |
 | eventBus               | EventBus instance                                                 | auto-generated                                      | EventBus instance used to pass events between the interface and the plugin instance.                                                                                                                                      |
+| shareAppContext        | Boolean or App instance                                           | `false`                                             | Whether or not to share your main app's context with Vue Toastification.                                                                                                                                                  |
 
 ### Toast (toast)
 | Parameter | Type                                 | Required | Description                                                                                                                                                                     |

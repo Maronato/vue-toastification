@@ -8,7 +8,7 @@ import {
   PluginOptions,
   ToastOptionsAndRequiredContent,
 } from "../types"
-import { TYPE, EVENTS } from "./constants"
+import { TYPE, EVENTS, VT_NAMESPACE } from "./constants"
 import { getId, isUndefined } from "./utils"
 
 export const buildInterface = (
@@ -27,6 +27,21 @@ export const buildInterface = (
       const onMounted = globalOptions.onMounted
       if (!isUndefined(onMounted)) {
         onMounted(component, app)
+      }
+
+      if (globalOptions.shareAppContext) {
+        const baseApp = globalOptions.shareAppContext
+        if (baseApp === true) {
+          console.warn(
+            `[${VT_NAMESPACE}] App to share context with was not provided. Context won't be shared.`
+          )
+        } else {
+          app._context.components = baseApp._context.components
+          app._context.directives = baseApp._context.directives
+          app._context.mixins = baseApp._context.mixins
+          app._context.provides = baseApp._context.provides
+          app.config.globalProperties = baseApp.config.globalProperties
+        }
       }
     })
   }

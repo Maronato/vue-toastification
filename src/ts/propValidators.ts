@@ -172,6 +172,9 @@ const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
   },
   containerClassName: COMMON.classNames,
   onMounted: Function as PropType<NonNullable<PluginOptions["onMounted"]>>,
+  shareAppContext: [Boolean, Object] as PropType<
+    NonNullable<PluginOptions["shareAppContext"]>
+  >,
 }
 
 export default {
