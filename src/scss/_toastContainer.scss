@@ -31,9 +31,13 @@
       .#{$vt-namespace}__toast {
         margin-right: auto;
       }
-      .#{$vt-namespace}__toast--rtl {
-        margin-right: unset;
-        margin-left: auto;
+      // Firefox does not apply rtl rules to containers and margins, it appears.
+      // See https://github.com/Maronato/vue-toastification/issues/179
+      @supports not (-moz-appearance:none) {
+        .#{$vt-namespace}__toast--rtl {
+          margin-right: unset;
+          margin-left: auto;
+        }
       }
     }
 
@@ -43,9 +47,13 @@
       .#{$vt-namespace}__toast {
         margin-left: auto;
       }
-      .#{$vt-namespace}__toast--rtl {
-        margin-left: unset;
-        margin-right: auto;
+      // Firefox does not apply rtl rules to containers and margins, it appears.
+      // See https://github.com/Maronato/vue-toastification/issues/179
+      @supports not (-moz-appearance:none) {
+        .#{$vt-namespace}__toast--rtl {
+          margin-left: unset;
+          margin-right: auto;
+        }
       }
     }
 
