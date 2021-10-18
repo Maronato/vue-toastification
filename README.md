@@ -1,15 +1,11 @@
-# Vue Toastification (for Vue 2)
+# Vue Toastification
 
 **Are you using Vue 3?** Check out [Vue Toastification v2](https://github.com/Maronato/vue-toastification/tree/next)!
 
 [![NPM](https://flat.badgen.net/npm/v/vue-toastification)](https://www.npmjs.com/package/vue-toastification)  [![Bundle](https://flat.badgen.net/bundlephobia/minzip/vue-toastification)](https://bundlephobia.com/result?p=vue-toastification@latest) [![Vue 2](https://img.shields.io/badge/Vue-2-green)](https://img.shields.io/badge/Vue-2-green)
 
-[![Build Status](https://travis-ci.com/Maronato/vue-toastification.svg?branch=master)](https://travis-ci.com/Maronato/vue-toastification) [![codecov](https://codecov.io/gh/Maronato/vue-toastification/branch/master/graph/badge.svg)](https://codecov.io/gh/Maronato/vue-toastification) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d10315093b4c45a097ac10d1276015ce)](https://app.codacy.com/manual/Maronato/vue-toastification?utm_source=github.com&utm_medium=referral&utm_content=Maronato/vue-toastification&utm_campaign=Badge_Grade_Dashboard) [![Maintainability](https://api.codeclimate.com/v1/badges/8e2c16345047e8e03b58/maintainability)](https://codeclimate.com/github/Maronato/vue-toastification/maintainability)
+[![Build Status](https://travis-ci.com/Maronato/vue-toastification.svg?branch=master)](https://travis-ci.com/Maronato/vue-toastification) [![codecov](https://codecov.io/gh/Maronato/vue-toastification/branch/master/graph/badge.svg)](https://codecov.io/gh/Maronato/vue-toastification)
 
-
-[![dependencies Status](https://david-dm.org/maronato/vue-toastification/status.svg)](https://david-dm.org/maronato/vue-toastification) [![devDependencies Status](https://david-dm.org/maronato/vue-toastification/dev-status.svg)](https://david-dm.org/maronato/vue-toastification?type=dev)
-
-![track](https://shrt.maronato.dev/z9Jg8/track)
 ![vt](https://i.imgur.com/i2PMcTq.gif)
 
 
@@ -17,8 +13,12 @@ Light, easy and beautiful toasts!
 
 Wanna try it out? Check out the [live demo](https://maronato.github.io/vue-toastification/)!
 
+**Attention!** These are the docs for Vue Toastification v1, which is **only** compatible with Vue 2+
 
-- [Vue Toastification (for Vue 2)](#vue-toastification-for-vue-2)
+If you are using Vue 3, check out [Vue Toastification v2](https://github.com/Maronato/vue-toastification/tree/next)
+
+
+- [Vue Toastification](#vue-toastification)
   - [Features](#features)
   - [Demo](#demo)
   - [Installation](#installation)
