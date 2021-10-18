@@ -33,7 +33,7 @@ export const buildInterface = (
         const baseApp = globalOptions.shareAppContext
         if (baseApp === true) {
           console.warn(
-            `[${VT_NAMESPACE}] App to share context with was not provided. Context won't be shared.`
+            `[${VT_NAMESPACE}] App to share context with was not provided.`
           )
         } else {
           app._context.components = baseApp._context.components
