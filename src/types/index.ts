@@ -168,6 +168,15 @@ export interface PluginOptions extends CommonOptions {
     containerComponent: ComponentPublicInstance,
     containerApp: App<Element>
   ) => void
+  /**
+   * Shares the context of your app with your toasts
+   *
+   * This allows toasts to use your app's plugins, mixins, global components, etc.
+   *
+   * If you set it to `true`, the app wherein the plugin is installed will be used.
+   * You may also provide the app instance you wish to use.
+   */
+  shareAppContext?: boolean | App
 }
 
 export interface ToastOptions extends CommonOptions {
