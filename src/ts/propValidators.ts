@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import type { PropType, ComponentObjectPropsOptions } from "vue"
-import { EventBus } from "./eventBus"
 import type {
   ToastContent,
   CommonOptions,
@@ -8,6 +7,7 @@ import type {
   ToastID,
   ToastOptions,
   ToastOptionsAndRequiredContent,
+  ContainerOptions,
 } from "../types"
 import { TYPE, POSITION, VT_NAMESPACE } from "./constants"
 
@@ -111,11 +111,6 @@ const CORE_TOAST = {
     type: Boolean as PropType<boolean>,
     default: false,
   },
-  eventBus: {
-    type: Object as PropType<NonNullable<PluginOptions["eventBus"]>>,
-    required: false,
-    default: () => new EventBus(),
-  },
 }
 
 const TOAST = {
@@ -140,10 +135,10 @@ const TOAST = {
   },
 }
 
-export type PluginOptionsType = Required<
-  Omit<PluginOptions, keyof CommonOptionsType>
+export type ContainerOptionsType = Required<
+  Omit<ContainerOptions, keyof CommonOptionsType>
 >
-const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
+const CONTAINER: ComponentObjectPropsOptions<ContainerOptionsType> = {
   container: {
     type: [
       Object as unknown as PluginOptions["container"],
@@ -171,10 +166,6 @@ const CONTAINER: ComponentObjectPropsOptions<PluginOptionsType> = {
     default: (toasts: ToastOptionsAndRequiredContent[]) => toasts,
   },
   containerClassName: COMMON.classNames,
-  onMounted: Function as PropType<NonNullable<PluginOptions["onMounted"]>>,
-  shareAppContext: [Boolean, Object] as PropType<
-    NonNullable<PluginOptions["shareAppContext"]>
-  >,
 }
 
 export default {

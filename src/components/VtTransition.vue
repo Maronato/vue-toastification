@@ -2,11 +2,11 @@
   <transition-group
     tag="div"
     :enter-active-class="
-      transition.enter ? transition.enter : `${transition}-enter-active`
+      getProp(transition, 'enter', `${transition}-enter-active`)
     "
-    :move-class="transition.move ? transition.move : `${transition}-move`"
+    :move-class="getProp(transition, 'move', `${transition}-move`)"
     :leave-active-class="
-      transition.leave ? transition.leave : `${transition}-leave-active`
+      getProp(transition, 'leave', `${transition}-leave-active`)
     "
     @leave="leave"
   >
@@ -16,7 +16,7 @@
 <script lang="ts">
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
 import { defineComponent } from "vue"
-import { hasProp } from "../ts/utils"
+import { getProp } from "../ts/utils"
 import PROPS from "../ts/propValidators"
 
 export default defineComponent({
@@ -26,7 +26,7 @@ export default defineComponent({
   emits: ["leave"],
 
   methods: {
-    hasProp,
+    getProp,
     leave(el: Element) {
       if (el instanceof HTMLElement) {
         el.style.left = el.offsetLeft + "px"
