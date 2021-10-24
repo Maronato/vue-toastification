@@ -111,7 +111,7 @@ export interface CommonOptions {
 
 type ContainerCallback = () => HTMLElement | Promise<HTMLElement>
 
-export interface PluginOptions extends CommonOptions {
+export interface ContainerOptions extends CommonOptions {
   /**
    * Container where the toasts are mounted.
    */
@@ -159,6 +159,9 @@ export interface PluginOptions extends CommonOptions {
    * Keep in mind that there is one container for each possible toast position.
    */
   containerClassName?: string | string[]
+}
+
+export interface PluginOptions extends ContainerOptions {
   /**
    * Callback executed when the toast container is mounted.
    *
