@@ -7,11 +7,10 @@
     @mouseleave="hoverPlay"
   >
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
-    <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
-      <template v-if="typeof content === 'string'">{{ content }}</template>
+    <div v-if="typeof content === 'string'" v-html="content" :role="accessibility.toastRole || 'alert'" :class="bodyClasses"></div>
+    <div v-else :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
       <component
         :is="getVueComponentFromObj(content)"
-        v-else
         :toast-id="id"
         v-bind="hasProp(content, 'props') ? content.props : {}"
         v-on="hasProp(content, 'listeners') ? content.listeners : {}"
