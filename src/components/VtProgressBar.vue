@@ -13,9 +13,7 @@ export default defineComponent({
 
   props: PROPS.PROGRESS_BAR,
 
-  // TODO: The typescript compiler is not playing nice with emit types
-  // Rollback this change once ts is able to infer emit types
-  // emits: ["close-toast"],
+  emits: ["close-toast"],
 
   data() {
     return {
@@ -58,8 +56,6 @@ export default defineComponent({
 
   methods: {
     animationEnded() {
-      // See TODO on line 16
-      // eslint-disable-next-line vue/require-explicit-emits
       this.$emit("close-toast")
     },
   },
