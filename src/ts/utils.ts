@@ -60,6 +60,15 @@ const hasProp = <O, K extends PropertyKey>(
 ): obj is O & { [key in K]: unknown } =>
   (isObject(obj) || isFunction(obj)) && propKey in obj
 
+const getProp = <O, K extends PropertyKey, D>(
+  obj: O,
+  propKey: K,
+  fallback: D
+): K extends keyof O ? O[K] : D =>
+  (hasProp(obj, propKey) ? obj[propKey] : fallback) as K extends keyof O
+    ? O[K]
+    : D
+
 /**
  * ID generator
  */
@@ -129,4 +138,5 @@ export {
   isDOMRect,
   isFunction,
   isBrowser,
+  getProp,
 }
