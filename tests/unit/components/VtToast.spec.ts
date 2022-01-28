@@ -1,4 +1,4 @@
-import { ComponentPublicInstance } from "vue"
+import { ComponentPublicInstance, nextTick } from "vue"
 import { mount, VueWrapper, DOMWrapper } from "@vue/test-utils"
 import merge from "lodash.merge"
 import VtToast from "../../../src/components/VtToast.vue"
@@ -351,36 +351,6 @@ describe("VtToast", () => {
 
       expect(spyOnDraggableSetup).not.toHaveBeenCalled()
     })
-    it("calls focusSetup if this.pauseOnFocusLoss is true", () => {
-      const spy = jest.spyOn(VtToast.methods, "focusSetup")
-
-      expect(spy).not.toHaveBeenCalled()
-
-      mount(VtToast, {
-        props: {
-          pauseOnFocusLoss: true,
-          id: 1,
-          content: "content",
-        },
-      })
-
-      expect(spy).toHaveBeenCalled()
-    })
-    it("does not call focusSetup if this.pauseOnFocusLoss is false", () => {
-      const spy = jest.spyOn(VtToast.methods, "focusSetup")
-
-      expect(spy).not.toHaveBeenCalled()
-
-      mount(VtToast, {
-        props: {
-          pauseOnFocusLoss: false,
-          id: 1,
-          content: "content",
-        },
-      })
-
-      expect(spy).not.toHaveBeenCalled()
-    })
   })
   describe("beforeunmount", () => {
     it("calls draggableCleanup if this.draggable is true", async () => {
@@ -404,28 +374,6 @@ describe("VtToast", () => {
       expect(spyOnDraggableCleanup).not.toHaveBeenCalled()
       wrapper.unmount()
       expect(spyOnDraggableCleanup).not.toHaveBeenCalled()
-    })
-    it("calls focusCleanup if this.pauseOnFocusLoss is true", () => {
-      const wrapper = mountToast({ pauseOnFocusLoss: true })
-      const vm = wrapper.vm as unknown as {
-        focusCleanup(): void
-      }
-
-      const spyOnfocusCleanup = (vm.focusCleanup = jest.fn())
-      expect(spyOnfocusCleanup).not.toHaveBeenCalled()
-      wrapper.unmount()
-      expect(spyOnfocusCleanup).toHaveBeenCalled()
-    })
-    it("does not call focusCleanup if this.pauseOnFocusLoss is false", () => {
-      const wrapper = mountToast({ pauseOnFocusLoss: false })
-      const vm = wrapper.vm as unknown as {
-        focusCleanup(): void
-      }
-
-      const spyOnfocusCleanup = (vm.focusCleanup = jest.fn())
-      expect(spyOnfocusCleanup).not.toHaveBeenCalled()
-      wrapper.unmount()
-      expect(spyOnfocusCleanup).not.toHaveBeenCalled()
     })
   })
   describe("closeToast", () => {
@@ -529,46 +477,29 @@ describe("VtToast", () => {
       expect(vm.isRunning).toBe(true)
     })
   })
-  describe("focusPause", () => {
-    it("pauses on blur if pauseOnFocusLoss", () => {
+  describe("focus", () => {
+    it("pauses/resumes if pauseOnFocusLoss", async () => {
       const wrapper = mountToast({ pauseOnFocusLoss: true })
       const vm = wrapper.vm as unknown as {
         isRunning: boolean
       }
       expect(vm.isRunning).toBe(true)
       window.dispatchEvent(new window.FocusEvent("blur"))
+      await nextTick()
       expect(vm.isRunning).toBe(false)
+      window.dispatchEvent(new window.FocusEvent("focus"))
+      await nextTick()
+      expect(vm.isRunning).toBe(true)
     })
-    it("does not pause on blur if not pauseOnFocusLoss", () => {
+    it("does not pause/resume if not pauseOnFocusLoss", async () => {
       const wrapper = mountToast({ pauseOnFocusLoss: false })
       const vm = wrapper.vm as unknown as {
         isRunning: boolean
       }
       expect(vm.isRunning).toBe(true)
       window.dispatchEvent(new window.FocusEvent("blur"))
+      await nextTick()
       expect(vm.isRunning).toBe(true)
-    })
-  })
-  describe("focusPlay", () => {
-    it("resume on focus if pauseOnFocusLoss", () => {
-      const wrapper = mountToast({ pauseOnFocusLoss: true })
-      setData(wrapper, { isRunning: false })
-      const vm = wrapper.vm as unknown as {
-        isRunning: boolean
-      }
-      expect(vm.isRunning).toBe(false)
-      window.dispatchEvent(new window.FocusEvent("focus"))
-      expect(vm.isRunning).toBe(true)
-    })
-    it("does not resume on focus if not pauseOnFocusLoss", () => {
-      const wrapper = mountToast({ pauseOnFocusLoss: false })
-      setData(wrapper, { isRunning: false })
-      const vm = wrapper.vm as unknown as {
-        isRunning: boolean
-      }
-      expect(vm.isRunning).toBe(false)
-      window.dispatchEvent(new window.FocusEvent("focus"))
-      expect(vm.isRunning).toBe(false)
     })
   })
   describe("onDragStart", () => {

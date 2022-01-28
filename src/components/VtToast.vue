@@ -48,6 +48,7 @@ import ProgressBar from "./VtProgressBar.vue"
 import CloseButton from "./VtCloseButton.vue"
 import Icon from "./VtIcon.vue"
 import { useHoverable } from "../ts/composables/useHoverable"
+import { useFocusable } from "../ts/composables/useFocusable"
 
 export default defineComponent({
   name: "VtToast",
@@ -61,11 +62,12 @@ export default defineComponent({
     const el = ref<HTMLElement>()
 
     const { hovering } = useHoverable(el, props)
+    const { focused } = useFocusable(el, props)
 
     const isRunning = ref(true)
 
-    watch(hovering, () => {
-      isRunning.value = !hovering.value
+    watch([hovering, focused], () => {
+      isRunning.value = !hovering.value && focused.value
     })
 
     return {
@@ -152,16 +154,10 @@ export default defineComponent({
     if (this.draggable) {
       this.draggableSetup()
     }
-    if (this.pauseOnFocusLoss) {
-      this.focusSetup()
-    }
   },
   beforeUnmount() {
     if (this.draggable) {
       this.draggableCleanup()
-    }
-    if (this.pauseOnFocusLoss) {
-      this.focusCleanup()
     }
   },
 
@@ -183,21 +179,6 @@ export default defineComponent({
     },
     timeoutHandler() {
       this.closeToast()
-    },
-    focusPause() {
-      this.isRunning = false
-    },
-    focusPlay() {
-      this.isRunning = true
-    },
-
-    focusSetup() {
-      addEventListener("blur", this.focusPause)
-      addEventListener("focus", this.focusPlay)
-    },
-    focusCleanup() {
-      removeEventListener("blur", this.focusPause)
-      removeEventListener("focus", this.focusPlay)
     },
 
     draggableSetup() {
