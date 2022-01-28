@@ -31,7 +31,7 @@
       :is-running="isRunning"
       :hide-progress-bar="hideProgressBar"
       :timeout="timeout"
-      @closeToast="timeoutHandler"
+      @close-toast="timeoutHandler"
     />
   </div>
 </template>
