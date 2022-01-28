@@ -15,7 +15,7 @@ const setData = (
   wrapper: VueWrapper<ComponentPublicInstance>,
   override: Record<string, unknown>
 ) => {
-  merge(wrapper.vm.$data, override)
+  merge(wrapper.vm, override)
 }
 
 const mountToast = ({ id, content, ...props }: ToastOptionsAndContent = {}) =>
@@ -507,17 +507,19 @@ describe("VtToast", () => {
       expect(spyOnCloseToast).toHaveBeenCalled()
     })
   })
-  describe("hoverPause", () => {
-    it("pauses on mouseenter if pauseOnHover", () => {
+  describe("hover", () => {
+    it("pauses/resumes if pauseOnHover", async () => {
       const wrapper = mountToast({ pauseOnHover: true })
       const vm = wrapper.vm as unknown as {
         isRunning: boolean
       }
       expect(vm.isRunning).toBe(true)
-      wrapper.trigger("mouseenter")
+      await wrapper.trigger("mouseenter")
       expect(vm.isRunning).toBe(false)
+      await wrapper.trigger("mouseleave")
+      expect(vm.isRunning).toBe(true)
     })
-    it("does not pause on mouseenter if not pauseOnHover", () => {
+    it("does not pause/resume if not pauseOnHover", () => {
       const wrapper = mountToast({ pauseOnHover: false })
       const vm = wrapper.vm as unknown as {
         isRunning: boolean
@@ -525,28 +527,6 @@ describe("VtToast", () => {
       expect(vm.isRunning).toBe(true)
       wrapper.trigger("mouseenter")
       expect(vm.isRunning).toBe(true)
-    })
-  })
-  describe("hoverPlay", () => {
-    it("resume on mouseleave if pauseOnHover", () => {
-      const wrapper = mountToast({ pauseOnHover: true })
-      setData(wrapper, { isRunning: false })
-      const vm = wrapper.vm as unknown as {
-        isRunning: boolean
-      }
-      expect(vm.isRunning).toBe(false)
-      wrapper.trigger("mouseleave")
-      expect(vm.isRunning).toBe(true)
-    })
-    it("does not resume on mouseleave if not pauseOnHover", () => {
-      const wrapper = mountToast({ pauseOnHover: false })
-      setData(wrapper, { isRunning: false })
-      const vm = wrapper.vm as unknown as {
-        isRunning: boolean
-      }
-      expect(vm.isRunning).toBe(false)
-      wrapper.trigger("mouseleave")
-      expect(vm.isRunning).toBe(false)
     })
   })
   describe("focusPause", () => {

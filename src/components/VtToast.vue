@@ -1,11 +1,5 @@
 <template>
-  <div
-    :class="classes"
-    :style="draggableStyle"
-    @click="clickHandler"
-    @mouseenter="hoverPause"
-    @mouseleave="hoverPlay"
-  >
+  <div ref="el" :class="classes" :style="draggableStyle" @click="clickHandler">
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
     <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
       <template v-if="typeof content === 'string'">{{ content }}</template>
@@ -37,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, ref, watch } from "vue"
 
 import { EVENTS, VT_NAMESPACE } from "../ts/constants"
 import PROPS from "../ts/propValidators"
@@ -53,6 +47,7 @@ import {
 import ProgressBar from "./VtProgressBar.vue"
 import CloseButton from "./VtCloseButton.vue"
 import Icon from "./VtIcon.vue"
+import { useHoverable } from "../ts/composables/useHoverable"
 
 export default defineComponent({
   name: "VtToast",
@@ -62,16 +57,31 @@ export default defineComponent({
 
   props: Object.assign({}, PROPS.CORE_TOAST, PROPS.TOAST),
 
+  setup(props) {
+    const el = ref<HTMLElement>()
+
+    const { hovering } = useHoverable(el, props)
+
+    const isRunning = ref(true)
+
+    watch(hovering, () => {
+      isRunning.value = !hovering.value
+    })
+
+    return {
+      isRunning,
+      el,
+    }
+  },
+
   data() {
     const data: {
       dragRect: DOMRect | Record<string, unknown>
-      isRunning: boolean
       disableTransitions: boolean
       beingDragged: boolean
       dragStart: number
       dragPos: { x: number; y: number }
     } = {
-      isRunning: true,
       disableTransitions: false,
 
       beingDragged: false,
@@ -173,16 +183,6 @@ export default defineComponent({
     },
     timeoutHandler() {
       this.closeToast()
-    },
-    hoverPause() {
-      if (this.pauseOnHover) {
-        this.isRunning = false
-      }
-    },
-    hoverPlay() {
-      if (this.pauseOnHover) {
-        this.isRunning = true
-      }
     },
     focusPause() {
       this.isRunning = false
