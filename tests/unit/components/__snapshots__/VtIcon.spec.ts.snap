@@ -16,6 +16,14 @@ exports[`VtIcon renders custom components renders custom icon children 1`] = `
 </i>
 `;
 
+exports[`VtIcon renders custom components renders custom icon children if empty 1`] = `
+<i
+  class="Vue-Toastification__icon my-class"
+>
+  
+</i>
+`;
+
 exports[`VtIcon renders custom components renders custom icon class string 1`] = `
 <i
   class="Vue-Toastification__icon my-class"
