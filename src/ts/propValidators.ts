@@ -10,6 +10,40 @@ import type {
   ToastOptionsAndRequiredContent,
 } from "../types"
 import { TYPE, POSITION, VT_NAMESPACE } from "./constants"
+import { InferDefaults } from "../types/vue-helper"
+
+export const PLUGIN_DEFAULTS: Required<InferDefaults<PluginOptions>> = {
+  accessibility: () => ({
+    toastRole: "alert",
+    closeButtonLabel: "close",
+  }),
+  bodyClassName: () => [],
+  closeButton: () => "button",
+  closeButtonClassName: () => [],
+  closeOnClick: true,
+  container: () => document.body,
+  containerClassName: () => [],
+  draggable: true,
+  draggablePercent: 0.6,
+  eventBus: () => new EventBus(),
+  filterBeforeCreate: toast => toast,
+  filterToasts: toasts => toasts,
+  hideProgressBar: false,
+  icon: () => true,
+  maxToasts: 20,
+  newestOnTop: true,
+  onMounted: () => {},
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  position: POSITION.TOP_RIGHT,
+  rtl: false,
+  shareAppContext: () => false,
+  showCloseButtonOnHover: false,
+  timeout: 5000,
+  toastClassName: () => [],
+  toastDefaults: () => ({}),
+  transition: () => `${VT_NAMESPACE}__bounce`,
+}
 
 const COMMON = {
   type: {
