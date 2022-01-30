@@ -114,7 +114,7 @@ const CORE_TOAST = {
   eventBus: {
     type: Object as PropType<NonNullable<PluginOptions["eventBus"]>>,
     required: false,
-    default: () => new EventBus(),
+    default: /* istanbul ignore next */ () => new EventBus(),
   },
 }
 

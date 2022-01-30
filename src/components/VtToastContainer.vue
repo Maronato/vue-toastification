@@ -1,9 +1,12 @@
 <template>
-  <div>
+  <div ref="el">
     <div v-for="pos in positions" :key="pos">
-      <VtTransition :transition="defaults.transition" :class="getClasses(pos)">
+      <VtTransition
+        :transition="defaults.transition"
+        :class="toastClasses[pos]"
+      >
         <Toast
-          v-for="toast in getPositionToasts(pos)"
+          v-for="toast in positionToasts[pos]"
           :key="toast.id"
           v-bind="toast"
         />
@@ -13,7 +16,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import {
+  computed,
+  defineComponent,
+  onBeforeMount,
+  onMounted,
+  reactive,
+  ref,
+} from "vue"
 
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants"
 import PROPS, { PluginOptionsType } from "../ts/propValidators"
@@ -25,13 +35,14 @@ import {
 } from "../types"
 import {
   removeElement,
-  isUndefined,
   isFunction,
   normalizeToastComponent,
+  isUndefined,
 } from "../ts/utils"
 
 import Toast from "./VtToast.vue"
 import VtTransition from "./VtTransition.vue"
+import { ToastInterface } from ".."
 
 export default defineComponent({
   name: "VueToastification",
@@ -42,124 +53,152 @@ export default defineComponent({
 
   props: Object.assign({}, PROPS.CORE_TOAST, PROPS.CONTAINER, PROPS.TRANSITION),
 
-  data() {
-    const data: {
-      count: number
-      positions: POSITION[]
-      toasts: {
-        [toastId: number]: ToastOptionsAndRequiredContent
-        [toastId: string]: ToastOptionsAndRequiredContent
-      }
-      defaults: PluginOptionsType
-    } = {
-      count: 0,
-      positions: Object.values(POSITION),
-      toasts: {},
-      defaults: {} as PluginOptionsType,
-    }
-    return data
-  },
+  setup(props) {
+    const positions = Object.values(POSITION)
+    const asPositionRecord = <T>(getValues: (position: POSITION) => T) =>
+      positions.reduce(
+        (agg, position) => ({
+          ...agg,
+          [position]: getValues(position),
+        }),
+        {} as Record<POSITION, T>
+      )
 
-  computed: {
-    toastArray(): ToastOptionsAndRequiredContent[] {
-      return Object.values(this.toasts)
-    },
-    filteredToasts(): ToastOptionsAndRequiredContent[] {
-      return this.defaults.filterToasts(this.toastArray)
-    },
-  },
+    const el = ref<HTMLElement>()
+    const defaults = reactive({ ...props })
+    const toasts = reactive<{
+      [toastID: ToastID]: ToastOptionsAndRequiredContent
+    }>({})
 
-  beforeMount() {
-    const events = this.eventBus
-    events.on(EVENTS.ADD, this.addToast)
-    events.on(EVENTS.CLEAR, this.clearToasts)
-    events.on(EVENTS.DISMISS, this.dismissToast)
-    events.on(EVENTS.UPDATE, this.updateToast)
-    events.on(EVENTS.UPDATE_DEFAULTS, this.updateDefaults)
-    this.defaults = this.$props as unknown as PluginOptionsType
-  },
+    const toastArray = computed(() => Object.values(toasts))
+    const filteredToasts = computed(() => {
+      const filter = defaults.filterToasts as NonNullable<
+        PluginOptions["filterToasts"]
+      >
 
-  mounted() {
-    this.setup(this.container as PluginOptionsType["container"])
-  },
+      return filter(toastArray.value)
+    })
 
-  methods: {
-    async setup(container: PluginOptionsType["container"]) {
+    const setup = async (container: PluginOptionsType["container"]) => {
       if (isFunction(container)) {
         container = await container()
       }
-      removeElement(this.$el)
-      container.appendChild(this.$el)
-    },
-    setToast(props: ToastOptionsAndRequiredContent) {
-      if (!isUndefined(props.id)) {
-        this.toasts[props.id] = props
+      /* istanbul ignore else  */
+      if (el.value) {
+        removeElement(el.value)
+        container.appendChild(el.value)
       }
-    },
-    addToast(params: ToastOptionsAndRequiredContent) {
-      params.content = normalizeToastComponent(params.content)
-      const props = Object.assign(
-        {},
-        this.defaults,
-        params.type &&
-          this.defaults.toastDefaults &&
-          this.defaults.toastDefaults[params.type],
-        params
-      )
-      const toast = this.defaults.filterBeforeCreate(props, this.toastArray)
-      toast && this.setToast(toast)
-    },
-    dismissToast(id: ToastID) {
-      const toast = this.toasts[id]
-      if (!isUndefined(toast) && !isUndefined(toast.onClose)) {
+    }
+
+    const setToast = (props: ToastOptionsAndRequiredContent) => {
+      if (!isUndefined(props.id)) {
+        toasts[props.id] = props
+      }
+    }
+
+    const addToast = (toastProps: ToastOptionsAndRequiredContent) => {
+      toastProps.content = normalizeToastComponent(toastProps.content)
+      const typeProps =
+        (toastProps.type &&
+          defaults.toastDefaults &&
+          (
+            defaults.toastDefaults as NonNullable<
+              PluginOptions["toastDefaults"]
+            >
+          )[toastProps.type]) ||
+        {}
+      let toast: ToastOptionsAndRequiredContent | false = {
+        ...defaults,
+        ...typeProps,
+        ...toastProps,
+      }
+      const filterBeforeCreate = defaults.filterBeforeCreate as NonNullable<
+        PluginOptions["filterBeforeCreate"]
+      >
+
+      toast = filterBeforeCreate(toast, toastArray.value)
+      toast && setToast(toast)
+    }
+
+    const dismissToast: ToastInterface["dismiss"] = id => {
+      const toast = toasts[id]
+      if (toast && toast.onClose) {
         toast.onClose()
       }
-      delete this.toasts[id]
-    },
-    clearToasts() {
-      Object.keys(this.toasts).forEach((id: ToastID) => {
-        this.dismissToast(id)
-      })
-    },
-    getPositionToasts(position: POSITION) {
-      const toasts = this.filteredToasts
-        .filter(toast => toast.position === position)
-        .slice(0, this.defaults.maxToasts)
-      return this.defaults.newestOnTop ? toasts.reverse() : toasts
-    },
-    updateDefaults(update: PluginOptions) {
-      // Update container if changed
-      if (!isUndefined(update.container)) {
-        this.setup(update.container)
+      delete toasts[id]
+    }
+
+    const clearToasts: ToastInterface["clear"] = () => {
+      Object.keys(toasts).forEach(dismissToast)
+    }
+
+    const positionToasts = computed(() => {
+      const getPositionToasts = (position: POSITION) => {
+        const toasts = filteredToasts.value
+          .filter(toast => toast.position === position)
+          .slice(0, defaults.maxToasts as number)
+        return defaults.newestOnTop ? toasts.reverse() : toasts
       }
-      this.defaults = Object.assign({}, this.defaults, update)
-    },
-    updateToast({
-      id,
-      options,
-      create,
-    }: {
+      return asPositionRecord(getPositionToasts)
+    })
+
+    const updateDefaults: ToastInterface["updateDefaults"] = update => {
+      if (update.container) {
+        setup(update.container)
+      }
+      Object.assign(defaults, update)
+    }
+
+    const updateToast = (params: {
       id: ToastID
       options: ToastOptionsAndContent
       create: boolean
-    }) {
-      if (this.toasts[id]) {
+    }) => {
+      const { id, create, options } = params
+      if (toasts[id]) {
         // If a timeout is defined, and is equal to the one before, change it
         // a little so the progressBar is reset
-        if (options.timeout && options.timeout === this.toasts[id].timeout) {
+        if (options.timeout && options.timeout === toasts[id].timeout) {
           options.timeout++
         }
-        this.setToast(Object.assign({}, this.toasts[id], options))
+        setToast({ ...toasts[id], ...options })
       } else if (create) {
-        this.addToast(
-          Object.assign({}, { id }, options as ToastOptionsAndRequiredContent)
-        )
+        addToast({ id, ...(options as ToastOptionsAndRequiredContent) })
       }
-    },
-    getClasses(position: POSITION) {
-      const classes = [`${VT_NAMESPACE}__container`, position]
-      return classes.concat(this.defaults.containerClassName)
-    },
+    }
+
+    const toastClasses = computed(() => {
+      const getClasses = (position: POSITION) => {
+        const classes = [`${VT_NAMESPACE}__container`, position]
+        return classes.concat(defaults.containerClassName as string | string[])
+      }
+      return asPositionRecord(getClasses)
+    })
+
+    onBeforeMount(() => {
+      props.eventBus.on(EVENTS.ADD, addToast)
+      props.eventBus.on(EVENTS.CLEAR, clearToasts)
+      props.eventBus.on(EVENTS.DISMISS, dismissToast)
+      props.eventBus.on(EVENTS.UPDATE, updateToast)
+      props.eventBus.on(EVENTS.UPDATE_DEFAULTS, updateDefaults)
+      Object.assign(defaults, props)
+    })
+
+    onMounted(() => {
+      const container = defaults.container as PluginOptions["container"]
+      /* istanbul ignore else  */
+      if (container) {
+        setup(container)
+      }
+    })
+
+    return {
+      el,
+      positions,
+      defaults,
+      toastClasses,
+      positionToasts,
+    }
   },
 })
 </script>
