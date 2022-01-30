@@ -12,6 +12,9 @@ import type {
 import { TYPE, POSITION, VT_NAMESPACE } from "./constants"
 import { InferDefaults } from "../types/vue-helper"
 
+// This wraps a method to be returned as a factory function
+const asFactory = <T>(f: T) => (() => f) as unknown as T
+
 export const PLUGIN_DEFAULTS: Required<InferDefaults<Readonly<PluginOptions>>> =
   {
     accessibility: () => ({
@@ -27,8 +30,8 @@ export const PLUGIN_DEFAULTS: Required<InferDefaults<Readonly<PluginOptions>>> =
     draggable: true,
     draggablePercent: 0.6,
     eventBus: () => new EventBus(),
-    filterBeforeCreate: toast => toast,
-    filterToasts: toasts => toasts,
+    filterBeforeCreate: asFactory(toast => toast),
+    filterToasts: asFactory(toasts => toasts),
     hideProgressBar: false,
     icon: () => true,
     maxToasts: 20,
