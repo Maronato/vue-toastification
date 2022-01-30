@@ -2,6 +2,11 @@ import { TransitionGroup } from "vue"
 import { mount } from "@vue/test-utils"
 import VtTransition from "../../../src/components/VtTransition.vue"
 
+const asEmitter = (arg: unknown) =>
+  arg as {
+    $emit: (event: string, el: Element | XMLDocument, done: () => void) => void
+  }
+
 describe("VtTransition", () => {
   it("snapshots default values", () => {
     const wrapper = mount(VtTransition)
@@ -61,7 +66,7 @@ describe("VtTransition", () => {
     const done = jest.fn()
     const el = document.createElement("div")
 
-    transition.vm.$emit("leave", el, done)
+    asEmitter(transition.vm).$emit("leave", el, done)
 
     expect(el.style.left).toBe(el.offsetLeft + "px")
     expect(el.style.top).toBe(el.offsetTop + "px")
@@ -87,7 +92,7 @@ describe("VtTransition", () => {
     const done = jest.fn()
     const el = document.implementation.createDocument("xml", "element")
 
-    transition.vm.$emit("leave", el, done)
+    asEmitter(transition.vm).$emit("leave", el, done)
 
     const events = transition.emitted("leave")
 

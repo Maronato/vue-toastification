@@ -3,14 +3,14 @@ import { EVENTS, POSITION, TYPE } from "../../../src/ts/constants"
 import VtToastContainer from "../../../src/components/VtToastContainer.vue"
 import VtToast from "../../../src/components/VtToast.vue"
 import VtProgressBar from "../../../src/components/VtProgressBar.vue"
-import { h, nextTick } from "vue"
-import { mount } from "@vue/test-utils"
+import { ComponentPublicInstance, DefineComponent, h, nextTick } from "vue"
+import { mount, VueWrapper } from "@vue/test-utils"
 import { createToastInterface, EventBus } from "../../../src"
 
 const mountToastContainer = async (props: PluginOptions = {}) => {
   const eventBus = new EventBus()
   const toast = createToastInterface(eventBus)
-  const wrapper = mount(VtToastContainer, {
+  const wrapper = mount(VtToastContainer as DefineComponent, {
     props: { container: undefined, eventBus, ...props },
   })
   await nextTick()
@@ -231,14 +231,16 @@ describe("VtToastContainer", () => {
       list.forEach(([i, position]) => toast(getMessage(i), { position }))
       await nextTick()
 
-      const toasts = wrapper.findAllComponents(VtToast)
+      const toasts = wrapper.findAllComponents(VtToast as DefineComponent)
       expect(toasts.length).toBe(list.length)
 
       type MessagePosition = [string, POSITION]
 
       const toastTexts = Object.values(POSITION)
         .map(position => {
-          const toasts = wrapper.find(`.${position}`).findAllComponents(VtToast)
+          const toasts = wrapper
+            .find(`.${position}`)
+            .findAllComponents(VtToast) as VueWrapper<ComponentPublicInstance>[]
           return toasts.map(toast => [
             toast.text(),
             position,
