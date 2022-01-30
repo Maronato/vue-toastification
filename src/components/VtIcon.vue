@@ -5,9 +5,8 @@
 </template>
 
 <script lang="ts">
-import { Component as VueComponent, defineComponent } from "vue"
+import { computed, defineComponent } from "vue"
 
-import { RenderableToastContent } from "../types"
 import { TYPE, VT_NAMESPACE } from "../ts/constants"
 import {
   isNonEmptyString,
@@ -27,39 +26,42 @@ export default defineComponent({
 
   props: PROPS.ICON,
 
-  computed: {
-    customIconChildren(): string {
-      return hasProp(this.customIcon, "iconChildren")
-        ? this.trimValue(this.customIcon.iconChildren)
+  setup(props) {
+    const trimValue = (value: unknown, empty = "") => {
+      return isNonEmptyString(value) ? value.trim() : empty
+    }
+    const customIconChildren = computed(() => {
+      return hasProp(props.customIcon, "iconChildren")
+        ? trimValue(props.customIcon.iconChildren)
         : ""
-    },
-    customIconClass(): string {
-      if (isString(this.customIcon)) {
-        return this.trimValue(this.customIcon)
-      } else if (hasProp(this.customIcon, "iconClass")) {
-        return this.trimValue(this.customIcon.iconClass)
+    })
+    const customIconClass = computed(() => {
+      if (isString(props.customIcon)) {
+        return trimValue(props.customIcon)
+      } else if (hasProp(props.customIcon, "iconClass")) {
+        return trimValue(props.customIcon.iconClass)
       }
       return ""
-    },
-    customIconTag(): string {
-      if (hasProp(this.customIcon, "iconTag")) {
-        return this.trimValue(this.customIcon.iconTag, "i")
+    })
+    const customIconTag = computed(() => {
+      if (hasProp(props.customIcon, "iconTag")) {
+        return trimValue(props.customIcon.iconTag, "i")
       }
       return "i"
-    },
-    hasCustomIcon(): boolean {
-      return this.customIconClass.length > 0
-    },
-    component(): RenderableToastContent {
-      if (this.hasCustomIcon) {
-        return this.customIconTag
+    })
+    const hasCustomIcon = computed(() => {
+      return customIconClass.value.length > 0
+    })
+    const component = computed(() => {
+      if (hasCustomIcon.value) {
+        return customIconTag.value
       }
-      if (isToastContent(this.customIcon)) {
-        return getVueComponentFromObj(this.customIcon)
+      if (isToastContent(props.customIcon)) {
+        return getVueComponentFromObj(props.customIcon)
       }
-      return this.iconTypeComponent
-    },
-    iconTypeComponent(): VueComponent {
+      return iconTypeComponent.value
+    })
+    const iconTypeComponent = computed(() => {
       const types = {
         [TYPE.DEFAULT]: InfoIcon,
         [TYPE.INFO]: InfoIcon,
@@ -67,21 +69,20 @@ export default defineComponent({
         [TYPE.ERROR]: ErrorIcon,
         [TYPE.WARNING]: WarningIcon,
       }
-      return types[this.type]
-    },
-    iconClasses(): string[] {
+      return types[props.type]
+    })
+    const iconClasses = computed(() => {
       const classes = [`${VT_NAMESPACE}__icon`]
-      if (this.hasCustomIcon) {
-        return classes.concat(this.customIconClass)
+      if (hasCustomIcon.value) {
+        return classes.concat(customIconClass.value)
       }
       return classes
-    },
-  },
-
-  methods: {
-    trimValue(value: unknown, empty = "") {
-      return isNonEmptyString(value) ? value.trim() : empty
-    },
+    })
+    return {
+      component,
+      iconClasses,
+      customIconChildren,
+    }
   },
 })
 </script>

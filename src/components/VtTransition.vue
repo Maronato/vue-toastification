@@ -25,16 +25,19 @@ export default defineComponent({
 
   emits: ["leave"],
 
-  methods: {
-    getProp,
-    leave(el: Element) {
+  setup() {
+    const leave = (el: unknown) => {
       if (el instanceof HTMLElement) {
         el.style.left = el.offsetLeft + "px"
         el.style.top = el.offsetTop + "px"
         el.style.width = getComputedStyle(el).width
         el.style.position = "absolute"
       }
-    },
+    }
+    return {
+      getProp,
+      leave,
+    }
   },
 })
 </script>

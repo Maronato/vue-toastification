@@ -1,9 +1,17 @@
 <template>
-  <div :style="style" :class="cpClass" />
+  <div ref="el" :style="style" :class="cpClass" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import {
+  computed,
+  defineComponent,
+  ref,
+  watch,
+  nextTick,
+  onMounted,
+  onBeforeUnmount,
+} from "vue"
 
 import { VT_NAMESPACE } from "../ts/constants"
 import PROPS from "../ts/propValidators"
@@ -15,49 +23,50 @@ export default defineComponent({
 
   emits: ["close-toast"],
 
-  data() {
-    return {
-      hasClass: true,
-    }
-  },
+  setup(props, { emit }) {
+    const el = ref<HTMLElement>()
+    const hasClass = ref(true)
 
-  computed: {
-    style(): {
-      animationDuration: string
-      animationPlayState: string
-      opacity: number
-    } {
+    const style = computed(() => {
       return {
-        animationDuration: `${this.timeout}ms`,
-        animationPlayState: this.isRunning ? "running" : "paused",
-        opacity: this.hideProgressBar ? 0 : 1,
+        animationDuration: `${props.timeout}ms`,
+        animationPlayState: props.isRunning ? "running" : "paused",
+        opacity: props.hideProgressBar ? 0 : 1,
       }
-    },
+    })
 
-    cpClass(): string {
-      return this.hasClass ? `${VT_NAMESPACE}__progress-bar` : ""
-    },
-  },
+    const cpClass = computed(() =>
+      hasClass.value ? `${VT_NAMESPACE}__progress-bar` : ""
+    )
 
-  watch: {
-    timeout() {
-      this.hasClass = false
-      this.$nextTick(() => (this.hasClass = true))
-    },
-  },
+    watch(
+      () => props.timeout,
+      () => {
+        hasClass.value = false
+        nextTick(() => (hasClass.value = true))
+      }
+    )
 
-  mounted() {
-    this.$el.addEventListener("animationend", this.animationEnded)
-  },
+    const animationEnded = () => emit("close-toast")
 
-  beforeUnmount() {
-    this.$el.removeEventListener("animationend", this.animationEnded)
-  },
+    onMounted(() => {
+      /* istanbul ignore else  */
+      if (el.value) {
+        el.value.addEventListener("animationend", animationEnded)
+      }
+    })
+    onBeforeUnmount(() => {
+      /* istanbul ignore else  */
+      if (el.value) {
+        el.value.removeEventListener("animationend", animationEnded)
+      }
+    })
 
-  methods: {
-    animationEnded() {
-      this.$emit("close-toast")
-    },
+    return {
+      el,
+      style,
+      cpClass,
+    }
   },
 })
 </script>

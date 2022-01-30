@@ -9,32 +9,35 @@
   </component>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue"
+import { computed, defineComponent } from "vue"
 
 import { VT_NAMESPACE } from "../ts/constants"
 import PROPS from "../ts/propValidators"
 import { getVueComponentFromObj } from "../ts/utils"
-import { RenderableToastContent } from "../types"
 
 export default defineComponent({
   name: "VtCloseButton",
 
   props: PROPS.CLOSE_BUTTON,
 
-  computed: {
-    buttonComponent(): RenderableToastContent {
-      if (this.component !== false) {
-        return getVueComponentFromObj(this.component)
+  setup(props) {
+    const buttonComponent = computed(() => {
+      if (props.component !== false) {
+        return getVueComponentFromObj(props.component)
       }
       return "button"
-    },
-    classes(): string[] {
+    })
+    const classes = computed(() => {
       const classes = [`${VT_NAMESPACE}__close-button`]
-      if (this.showOnHover) {
+      if (props.showOnHover) {
         classes.push("show-on-hover")
       }
-      return classes.concat(this.classNames)
-    },
+      return classes.concat(props.classNames)
+    })
+    return {
+      buttonComponent,
+      classes,
+    }
   },
 })
 </script>
