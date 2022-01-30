@@ -4,6 +4,8 @@ import type { TYPE, POSITION } from "../ts/constants"
 
 export type ToastID = string | number
 
+export type ClassNames = string | string[]
+
 export interface CommonOptions {
   /**
    *  Position of the toast on the screen.
@@ -40,11 +42,11 @@ export interface CommonOptions {
   /**
    * 	Custom classes applied to the toast.
    */
-  toastClassName?: string | string[]
+  toastClassName?: ClassNames
   /**
    * 	Custom classes applied to the body of the toast.
    */
-  bodyClassName?: string | string[]
+  bodyClassName?: ClassNames
   /**
    * Whether or not the progress bar is hidden.
    */
@@ -77,7 +79,7 @@ export interface CommonOptions {
   /**
    * 	Custom classes applied to the close button of the toast.
    */
-  closeButtonClassName?: string | string[]
+  closeButtonClassName?: ClassNames
   /**
    * Accessibility options
    */
@@ -158,7 +160,7 @@ export interface PluginOptions extends CommonOptions {
    *
    * Keep in mind that there is one container for each possible toast position.
    */
-  containerClassName?: string | string[]
+  containerClassName?: ClassNames
   /**
    * Callback executed when the toast container is mounted.
    *

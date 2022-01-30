@@ -13,60 +13,64 @@ import {
   onBeforeUnmount,
 } from "vue"
 
-import { VT_NAMESPACE } from "../ts/constants"
-import PROPS from "../ts/propValidators"
-
 export default defineComponent({
   name: "VtProgressBar",
+})
+</script>
 
-  props: PROPS.PROGRESS_BAR,
+<script lang="ts" setup>
+import { PluginOptions } from ".."
+import { VT_NAMESPACE } from "../ts/constants"
+import { PLUGIN_DEFAULTS } from "../ts/propValidators"
 
-  emits: ["close-toast"],
+interface ProgressBarProps {
+  timeout?: PluginOptions["timeout"]
+  hideProgressBar?: PluginOptions["hideProgressBar"]
+  isRunning?: boolean
+}
 
-  setup(props, { emit }) {
-    const el = ref<HTMLElement>()
-    const hasClass = ref(true)
+const emit = defineEmits(["close-toast"])
+const props = withDefaults(defineProps<ProgressBarProps>(), {
+  hideProgressBar: PLUGIN_DEFAULTS.hideProgressBar,
+  isRunning: false,
+  timeout: PLUGIN_DEFAULTS.timeout,
+})
 
-    const style = computed(() => {
-      return {
-        animationDuration: `${props.timeout}ms`,
-        animationPlayState: props.isRunning ? "running" : "paused",
-        opacity: props.hideProgressBar ? 0 : 1,
-      }
-    })
+const el = ref<HTMLElement>()
+const hasClass = ref(true)
 
-    const cpClass = computed(() =>
-      hasClass.value ? `${VT_NAMESPACE}__progress-bar` : ""
-    )
+const style = computed(() => {
+  return {
+    animationDuration: `${props.timeout}ms`,
+    animationPlayState: props.isRunning ? "running" : "paused",
+    opacity: props.hideProgressBar ? 0 : 1,
+  }
+})
 
-    watch(
-      () => props.timeout,
-      () => {
-        hasClass.value = false
-        nextTick(() => (hasClass.value = true))
-      }
-    )
+const cpClass = computed(() =>
+  hasClass.value ? `${VT_NAMESPACE}__progress-bar` : ""
+)
 
-    const animationEnded = () => emit("close-toast")
+watch(
+  () => props.timeout,
+  () => {
+    hasClass.value = false
+    nextTick(() => (hasClass.value = true))
+  }
+)
 
-    onMounted(() => {
-      /* istanbul ignore else  */
-      if (el.value) {
-        el.value.addEventListener("animationend", animationEnded)
-      }
-    })
-    onBeforeUnmount(() => {
-      /* istanbul ignore else  */
-      if (el.value) {
-        el.value.removeEventListener("animationend", animationEnded)
-      }
-    })
+const animationEnded = () => emit("close-toast")
 
-    return {
-      el,
-      style,
-      cpClass,
-    }
-  },
+onMounted(() => {
+  /* istanbul ignore else  */
+  if (el.value) {
+    el.value.addEventListener("animationend", animationEnded)
+  }
+})
+onBeforeUnmount(() => {
+  /* istanbul ignore else  */
+  if (el.value) {
+    el.value.removeEventListener("animationend", animationEnded)
+  }
 })
 </script>
