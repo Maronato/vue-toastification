@@ -4,16 +4,11 @@
   }}</component>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from "vue"
-
-export default defineComponent({
-  name: "VtIcon",
-})
-</script>
-
 <script lang="ts" setup>
+import { computed } from "vue"
+
 import { TYPE, VT_NAMESPACE } from "../ts/constants"
+import { TOAST_DEFAULTS } from "../ts/propValidators"
 import {
   isNonEmptyString,
   isToastContent,
@@ -21,20 +16,21 @@ import {
   isString,
   getVueComponentFromObj,
 } from "../ts/utils"
-import { PLUGIN_DEFAULTS } from "../ts/propValidators"
-import SuccessIcon from "./icons/VtSuccessIcon.vue"
-import InfoIcon from "./icons/VtInfoIcon.vue"
-import WarningIcon from "./icons/VtWarningIcon.vue"
+
+import type { Icon } from "../types/common"
+
 import ErrorIcon from "./icons/VtErrorIcon.vue"
-import { PluginOptions } from ".."
+import InfoIcon from "./icons/VtInfoIcon.vue"
+import SuccessIcon from "./icons/VtSuccessIcon.vue"
+import WarningIcon from "./icons/VtWarningIcon.vue"
 
 interface IconProps {
   type?: TYPE
-  customIcon?: PluginOptions["icon"]
+  customIcon?: Icon
 }
 
 const props = withDefaults(defineProps<IconProps>(), {
-  customIcon: PLUGIN_DEFAULTS.icon,
+  customIcon: TOAST_DEFAULTS.icon,
   type: TYPE.DEFAULT,
 })
 

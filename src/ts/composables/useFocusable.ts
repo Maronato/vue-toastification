@@ -1,9 +1,10 @@
 import { toRefs, ref, Ref, onMounted, onBeforeUnmount } from "vue"
-import { ToastOptions } from "../../types"
+
+import type { Focusable } from "../../types/common"
 
 export const useFocusable = (
   el: Ref<HTMLElement | undefined>,
-  props: Required<Pick<ToastOptions, "pauseOnFocusLoss">>
+  props: Required<Focusable>
 ) => {
   const { pauseOnFocusLoss } = toRefs(props)
   const focused = ref(true)

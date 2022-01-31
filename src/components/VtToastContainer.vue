@@ -2,7 +2,7 @@
   <div ref="el">
     <div v-for="pos in positions" :key="pos">
       <VtTransition
-        :transition="defaults.transition"
+        :transition="containerProps.transition"
         :class="toastClasses[pos]"
       >
         <Toast
@@ -15,37 +15,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onBeforeMount,
-  onMounted,
-  reactive,
-  ref,
-} from "vue"
-
-import Toast from "./VtToast.vue"
-import VtTransition from "./VtTransition.vue"
-
-export default defineComponent({
-  name: "VueToastification",
-  devtools: {
-    hide: true,
-  },
-  components: { Toast, VtTransition },
-})
-</script>
-
 <script lang="ts" setup>
+import { computed, onBeforeMount, onMounted, reactive, ref } from "vue"
+
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants"
-import { PLUGIN_DEFAULTS } from "../ts/propValidators"
-import {
-  PluginOptions,
-  ToastID,
-  ToastOptionsAndContent,
-  ToastOptionsAndRequiredContent,
-} from "../types"
+import { ToastInterface } from "../ts/interface"
+import { TOAST_CONTAINER_DEFAULTS } from "../ts/propValidators"
 import {
   removeElement,
   isFunction,
@@ -53,66 +28,39 @@ import {
   isUndefined,
 } from "../ts/utils"
 
-import { ToastInterface } from ".."
+import type { ToastID } from "../types/common"
+import type { ToastOptionsAndContent } from "../types/toast"
+import type { ToastContainerOptions } from "../types/toastContainer"
+
+import Toast from "./VtToast.vue"
+import VtTransition from "./VtTransition.vue"
 
 interface ToastContainerProps {
-  accessibility?: PluginOptions["accessibility"]
-  bodyClassName?: PluginOptions["bodyClassName"]
-  closeButton?: PluginOptions["closeButton"]
-  closeButtonClassName?: PluginOptions["closeButtonClassName"]
-  closeOnClick?: PluginOptions["closeOnClick"]
-  container?: PluginOptions["container"]
-  containerClassName?: PluginOptions["containerClassName"]
-  draggable?: PluginOptions["draggable"]
-  draggablePercent?: PluginOptions["draggablePercent"]
-  eventBus?: PluginOptions["eventBus"]
-  filterBeforeCreate?: PluginOptions["filterBeforeCreate"]
-  filterToasts?: PluginOptions["filterToasts"]
-  hideProgressBar?: PluginOptions["hideProgressBar"]
-  icon?: PluginOptions["icon"]
-  maxToasts?: PluginOptions["maxToasts"]
-  newestOnTop?: PluginOptions["newestOnTop"]
-  onMounted?: PluginOptions["onMounted"]
-  pauseOnFocusLoss?: PluginOptions["pauseOnFocusLoss"]
-  pauseOnHover?: PluginOptions["pauseOnHover"]
-  position?: PluginOptions["position"]
-  rtl?: PluginOptions["rtl"]
-  shareAppContext?: PluginOptions["shareAppContext"]
-  showCloseButtonOnHover?: PluginOptions["showCloseButtonOnHover"]
-  timeout?: PluginOptions["timeout"]
-  toastClassName?: PluginOptions["toastClassName"]
-  toastDefaults?: PluginOptions["toastDefaults"]
-  transition?: PluginOptions["transition"]
+  position?: ToastContainerOptions["position"]
+  container?: ToastContainerOptions["container"]
+  containerClassName?: ToastContainerOptions["containerClassName"]
+  defaultToastProps?: ToastContainerOptions["defaultToastProps"]
+  eventBus?: ToastContainerOptions["eventBus"]
+  filterBeforeCreate?: ToastContainerOptions["filterBeforeCreate"]
+  filterToasts?: ToastContainerOptions["filterToasts"]
+  maxToasts?: ToastContainerOptions["maxToasts"]
+  newestOnTop?: ToastContainerOptions["newestOnTop"]
+  toastDefaults?: ToastContainerOptions["toastDefaults"]
+  transition?: ToastContainerOptions["transition"]
 }
 
 const props = withDefaults(defineProps<ToastContainerProps>(), {
-  accessibility: PLUGIN_DEFAULTS.accessibility,
-  bodyClassName: PLUGIN_DEFAULTS.bodyClassName,
-  closeButton: PLUGIN_DEFAULTS.closeButton,
-  closeButtonClassName: PLUGIN_DEFAULTS.closeButtonClassName,
-  closeOnClick: PLUGIN_DEFAULTS.closeOnClick,
-  container: PLUGIN_DEFAULTS.container,
-  containerClassName: PLUGIN_DEFAULTS.containerClassName,
-  draggable: PLUGIN_DEFAULTS.draggable,
-  draggablePercent: PLUGIN_DEFAULTS.draggablePercent,
-  eventBus: PLUGIN_DEFAULTS.eventBus,
-  filterBeforeCreate: PLUGIN_DEFAULTS.filterBeforeCreate,
-  filterToasts: PLUGIN_DEFAULTS.filterToasts,
-  hideProgressBar: PLUGIN_DEFAULTS.hideProgressBar,
-  icon: PLUGIN_DEFAULTS.icon,
-  maxToasts: PLUGIN_DEFAULTS.maxToasts,
-  newestOnTop: PLUGIN_DEFAULTS.newestOnTop,
-  onMounted: PLUGIN_DEFAULTS.onMounted,
-  pauseOnFocusLoss: PLUGIN_DEFAULTS.pauseOnFocusLoss,
-  pauseOnHover: PLUGIN_DEFAULTS.pauseOnHover,
-  position: PLUGIN_DEFAULTS.position,
-  rtl: PLUGIN_DEFAULTS.rtl,
-  shareAppContext: PLUGIN_DEFAULTS.shareAppContext,
-  showCloseButtonOnHover: PLUGIN_DEFAULTS.showCloseButtonOnHover,
-  timeout: PLUGIN_DEFAULTS.timeout,
-  toastClassName: PLUGIN_DEFAULTS.toastClassName,
-  toastDefaults: PLUGIN_DEFAULTS.toastDefaults,
-  transition: PLUGIN_DEFAULTS.transition,
+  position: TOAST_CONTAINER_DEFAULTS.position,
+  container: TOAST_CONTAINER_DEFAULTS.container,
+  containerClassName: TOAST_CONTAINER_DEFAULTS.containerClassName,
+  defaultToastProps: () => ({}),
+  eventBus: TOAST_CONTAINER_DEFAULTS.eventBus,
+  filterBeforeCreate: TOAST_CONTAINER_DEFAULTS.filterBeforeCreate,
+  filterToasts: TOAST_CONTAINER_DEFAULTS.filterToasts,
+  maxToasts: TOAST_CONTAINER_DEFAULTS.maxToasts,
+  newestOnTop: TOAST_CONTAINER_DEFAULTS.newestOnTop,
+  toastDefaults: TOAST_CONTAINER_DEFAULTS.toastDefaults,
+  transition: TOAST_CONTAINER_DEFAULTS.transition,
 })
 
 const positions = Object.values(POSITION)
@@ -126,21 +74,35 @@ const asPositionRecord = <T>(getValues: (position: POSITION) => T) =>
   )
 
 const el = ref<HTMLElement>()
-const defaults = reactive({ ...props })
+
+const overrideContainerProps = reactive<ToastContainerProps>({})
+const containerProps = computed(() => ({
+  ...props,
+  ...overrideContainerProps,
+}))
+const defaultToastProps = computed(() => ({
+  eventBus: containerProps.value.eventBus,
+  position: containerProps.value.position,
+  ...containerProps.value.defaultToastProps,
+}))
+const defaultToastTypeProps = computed(() => containerProps.value.toastDefaults)
+
 const toasts = reactive<{
-  [toastID: ToastID]: ToastOptionsAndRequiredContent
+  [toastID: ToastID]: ToastOptionsAndContent
 }>({})
 
 const toastArray = computed(() => Object.values(toasts))
 const filteredToasts = computed(() => {
-  const filter = defaults.filterToasts as NonNullable<
-    PluginOptions["filterToasts"]
+  const filter = containerProps.value.filterToasts as NonNullable<
+    ToastContainerOptions["filterToasts"]
   >
 
   return filter(toastArray.value)
 })
 
-const setup = async (container: NonNullable<PluginOptions["container"]>) => {
+const setup = async (
+  container: NonNullable<ToastContainerOptions["container"]>
+) => {
   if (isFunction(container)) {
     container = await container()
   }
@@ -151,28 +113,24 @@ const setup = async (container: NonNullable<PluginOptions["container"]>) => {
   }
 }
 
-const setToast = (props: ToastOptionsAndRequiredContent) => {
+const setToast = (props: ToastOptionsAndContent) => {
   if (!isUndefined(props.id)) {
     toasts[props.id] = props
   }
 }
 
-const addToast = (toastProps: ToastOptionsAndRequiredContent) => {
+const addToast = (toastProps: ToastOptionsAndContent) => {
   toastProps.content = normalizeToastComponent(toastProps.content)
   const typeProps =
-    (toastProps.type &&
-      defaults.toastDefaults &&
-      (defaults.toastDefaults as NonNullable<PluginOptions["toastDefaults"]>)[
-        toastProps.type
-      ]) ||
-    {}
-  let toast: ToastOptionsAndRequiredContent | false = {
-    ...defaults,
+    (toastProps.type && defaultToastTypeProps.value[toastProps.type]) || {}
+  let toast: ToastOptionsAndContent | false = {
+    ...defaultToastProps.value,
     ...typeProps,
     ...toastProps,
   }
-  const filterBeforeCreate = defaults.filterBeforeCreate as NonNullable<
-    PluginOptions["filterBeforeCreate"]
+  const filterBeforeCreate = containerProps.value
+    .filterBeforeCreate as NonNullable<
+    ToastContainerOptions["filterBeforeCreate"]
   >
 
   toast = filterBeforeCreate(toast, toastArray.value)
@@ -195,8 +153,8 @@ const positionToasts = computed(() => {
   const getPositionToasts = (position: POSITION) => {
     const toasts = filteredToasts.value
       .filter(toast => toast.position === position)
-      .slice(0, defaults.maxToasts as number)
-    return defaults.newestOnTop ? toasts.reverse() : toasts
+      .slice(0, containerProps.value.maxToasts as number)
+    return containerProps.value.newestOnTop ? toasts.reverse() : toasts
   }
   return asPositionRecord(getPositionToasts)
 })
@@ -205,12 +163,12 @@ const updateDefaults: ToastInterface["updateDefaults"] = update => {
   if (update.container) {
     setup(update.container)
   }
-  Object.assign(defaults, update)
+  Object.assign(overrideContainerProps, update)
 }
 
 const updateToast = (params: {
   id: ToastID
-  options: ToastOptionsAndContent
+  options: Partial<ToastOptionsAndContent>
   create: boolean
 }) => {
   const { id, create, options } = params
@@ -222,14 +180,16 @@ const updateToast = (params: {
     }
     setToast({ ...toasts[id], ...options })
   } else if (create) {
-    addToast({ id, ...(options as ToastOptionsAndRequiredContent) })
+    addToast({ id, ...(options as ToastOptionsAndContent) })
   }
 }
 
 const toastClasses = computed(() => {
   const getClasses = (position: POSITION) => {
     const classes = [`${VT_NAMESPACE}__container`, position]
-    return classes.concat(defaults.containerClassName as string | string[])
+    return classes.concat(
+      containerProps.value.containerClassName as string | string[]
+    )
   }
   return asPositionRecord(getClasses)
 })
@@ -240,14 +200,22 @@ onBeforeMount(() => {
   props.eventBus.on(EVENTS.DISMISS, dismissToast)
   props.eventBus.on(EVENTS.UPDATE, updateToast)
   props.eventBus.on(EVENTS.UPDATE_DEFAULTS, updateDefaults)
-  Object.assign(defaults, props)
 })
 
 onMounted(() => {
-  const container = defaults.container as PluginOptions["container"]
+  const container = containerProps.value
+    .container as ToastContainerOptions["container"]
   /* istanbul ignore else  */
   if (container) {
     setup(container)
   }
 })
+</script>
+
+<script lang="ts">
+export default {
+  devtools: {
+    hide: true,
+  },
+}
 </script>

@@ -1,7 +1,9 @@
 /* eslint-disable vue/one-component-per-file */
 
-import { mount } from "@vue/test-utils"
 import { computed, defineComponent, h, nextTick, reactive, ref } from "vue"
+
+import { mount } from "@vue/test-utils"
+
 import { useFocusable } from "../../../../src/ts/composables/useFocusable"
 
 const activeText = "things"

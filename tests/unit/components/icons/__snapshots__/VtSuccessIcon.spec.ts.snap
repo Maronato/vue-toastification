@@ -3,9 +3,6 @@
 exports[`VtSuccessIcon matches snapshot 1`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-check-circle fa-w-16"
-  data-icon="check-circle"
-  data-prefix="fas"
   focusable="false"
   role="img"
   viewBox="0 0 512 512"

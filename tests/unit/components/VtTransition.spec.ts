@@ -1,5 +1,7 @@
 import { TransitionGroup } from "vue"
+
 import { mount } from "@vue/test-utils"
+
 import VtTransition from "../../../src/components/VtTransition.vue"
 
 const asEmitter = (arg: unknown) =>

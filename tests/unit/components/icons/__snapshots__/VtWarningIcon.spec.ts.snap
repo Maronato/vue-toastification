@@ -3,9 +3,6 @@
 exports[`VtWarningIcon matches snapshot 1`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-exclamation-circle fa-w-16"
-  data-icon="exclamation-circle"
-  data-prefix="fas"
   focusable="false"
   role="img"
   viewBox="0 0 512 512"

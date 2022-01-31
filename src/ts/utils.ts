@@ -1,9 +1,12 @@
 import { Component, defineComponent, toRaw, unref } from "vue"
+
+import type { BasePluginOptions } from "../types/plugin"
 import type {
   ToastComponent,
   ToastContent,
   RenderableToastContent,
-} from "../types"
+} from "../types/toast"
+import type { ToastContainerOptions } from "../types/toastContainer"
 
 interface DictionaryLike {
   [index: string]: unknown
@@ -123,6 +126,43 @@ const normalizeToastComponent = (obj: ToastContent): ToastContent => {
 
 const isBrowser = () => typeof window !== "undefined"
 
+const asContainerProps = (
+  options: BasePluginOptions
+): ToastContainerOptions => {
+  const {
+    position,
+    container,
+    newestOnTop,
+    maxToasts,
+    transition,
+    toastDefaults,
+    eventBus,
+    filterBeforeCreate,
+    filterToasts,
+    containerClassName,
+    ...defaultToastProps
+  } = options
+  const containerProps = {
+    position,
+    container,
+    newestOnTop,
+    maxToasts,
+    transition,
+    toastDefaults,
+    eventBus,
+    filterBeforeCreate,
+    filterToasts,
+    containerClassName,
+    defaultToastProps,
+  }
+  const keys = Object.keys(containerProps) as (keyof ToastContainerOptions)[]
+  keys.forEach(
+    key =>
+      typeof containerProps[key] === "undefined" && delete containerProps[key]
+  )
+  return containerProps
+}
+
 export {
   getId,
   getX,
@@ -139,4 +179,5 @@ export {
   isFunction,
   isBrowser,
   getProp,
+  asContainerProps,
 }

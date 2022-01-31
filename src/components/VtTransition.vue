@@ -14,27 +14,22 @@
   </transition-group>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue"
-import { PluginOptions } from ".."
-import { PLUGIN_DEFAULTS } from "../ts/propValidators"
-export default defineComponent({
-  name: "VtTransition",
-})
-</script>
-
 <script lang="ts" setup>
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
+
+import { TOAST_CONTAINER_DEFAULTS } from "../ts/propValidators"
 import { getProp } from "../ts/utils"
 
+import type { BaseToastContainerOptions } from "../types/toastContainer"
+
 interface TransitionProps {
-  transition?: PluginOptions["transition"]
+  transition?: BaseToastContainerOptions["transition"]
 }
 
 defineEmits(["leave"])
 
 withDefaults(defineProps<TransitionProps>(), {
-  transition: PLUGIN_DEFAULTS.transition,
+  transition: TOAST_CONTAINER_DEFAULTS.transition,
 })
 
 const leave = (el: unknown) => {

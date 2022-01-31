@@ -2,38 +2,25 @@
   <div ref="el" :style="style" :class="cpClass" />
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  watch,
-  nextTick,
-  onMounted,
-  onBeforeUnmount,
-} from "vue"
-
-export default defineComponent({
-  name: "VtProgressBar",
-})
-</script>
-
 <script lang="ts" setup>
-import { PluginOptions } from ".."
+import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue"
+
 import { VT_NAMESPACE } from "../ts/constants"
-import { PLUGIN_DEFAULTS } from "../ts/propValidators"
+import { TOAST_DEFAULTS } from "../ts/propValidators"
+
+import type { BaseToastOptions } from "../types/toast"
 
 interface ProgressBarProps {
-  timeout?: PluginOptions["timeout"]
-  hideProgressBar?: PluginOptions["hideProgressBar"]
+  timeout?: BaseToastOptions["timeout"]
+  hideProgressBar?: BaseToastOptions["hideProgressBar"]
   isRunning?: boolean
 }
 
 const emit = defineEmits(["close-toast"])
 const props = withDefaults(defineProps<ProgressBarProps>(), {
-  hideProgressBar: PLUGIN_DEFAULTS.hideProgressBar,
+  hideProgressBar: TOAST_DEFAULTS.hideProgressBar,
   isRunning: false,
-  timeout: PLUGIN_DEFAULTS.timeout,
+  timeout: TOAST_DEFAULTS.timeout,
 })
 
 const el = ref<HTMLElement>()

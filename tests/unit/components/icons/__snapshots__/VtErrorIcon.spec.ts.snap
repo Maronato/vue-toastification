@@ -3,9 +3,6 @@
 exports[`VtErrorIcon matches snapshot 1`] = `
 <svg
   aria-hidden="true"
-  class="svg-inline--fa fa-exclamation-triangle fa-w-18"
-  data-icon="exclamation-triangle"
-  data-prefix="fas"
   focusable="false"
   role="img"
   viewBox="0 0 576 512"

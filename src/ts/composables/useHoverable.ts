@@ -1,9 +1,10 @@
 import { toRefs, ref, Ref, onMounted, onBeforeUnmount } from "vue"
-import { ToastOptions } from "../../types"
+
+import type { Hoverable } from "../../types/common"
 
 export const useHoverable = (
   el: Ref<HTMLElement | undefined>,
-  props: Required<Pick<ToastOptions, "pauseOnHover">>
+  props: Required<Hoverable>
 ) => {
   const { pauseOnHover } = toRefs(props)
   const hovering = ref(false)

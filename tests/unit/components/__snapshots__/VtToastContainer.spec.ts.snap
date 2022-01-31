@@ -141,9 +141,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-          data-icon="info-circle"
-          data-prefix="fas"
+          class="Vue-Toastification__icon"
           focusable="false"
           role="img"
           viewBox="0 0 512 512"
@@ -179,9 +177,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-          data-icon="info-circle"
-          data-prefix="fas"
+          class="Vue-Toastification__icon"
           focusable="false"
           role="img"
           viewBox="0 0 512 512"
@@ -243,9 +239,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="svg-inline--fa fa-exclamation-triangle fa-w-18 Vue-Toastification__icon"
-          data-icon="exclamation-triangle"
-          data-prefix="fas"
+          class="Vue-Toastification__icon"
           focusable="false"
           role="img"
           viewBox="0 0 576 512"

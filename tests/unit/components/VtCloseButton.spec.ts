@@ -1,5 +1,7 @@
-import { mount } from "@vue/test-utils"
 import { markRaw } from "vue"
+
+import { mount } from "@vue/test-utils"
+
 import VtCloseButton from "../../../src/components/VtCloseButton.vue"
 import { VT_NAMESPACE } from "../../../src/ts/constants"
 import Simple from "../../utils/components/Simple.vue"

@@ -9,34 +9,27 @@
   </component>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from "vue"
-
-export default defineComponent({
-  name: "VtCloseButton",
-})
-</script>
-
 <script lang="ts" setup>
-import { PluginOptions } from ".."
+import { computed } from "vue"
 
 import { VT_NAMESPACE } from "../ts/constants"
-import { PLUGIN_DEFAULTS } from "../ts/propValidators"
+import { TOAST_DEFAULTS } from "../ts/propValidators"
 import { getVueComponentFromObj } from "../ts/utils"
-import { ClassNames } from "../types"
+
+import type { ClassNames, Button } from "../types/common"
 
 interface CloseButtonProps {
-  component?: NonNullable<PluginOptions["closeButton"]>
+  component?: Button
   classNames?: ClassNames
   showOnHover?: boolean
   ariaLabel?: string
 }
 
 const props = withDefaults(defineProps<CloseButtonProps>(), {
-  component: PLUGIN_DEFAULTS.closeButton,
-  classNames: PLUGIN_DEFAULTS.closeButtonClassName,
-  ariaLabel: PLUGIN_DEFAULTS.accessibility()["closeButtonLabel"],
-  showOnHover: PLUGIN_DEFAULTS.showCloseButtonOnHover,
+  component: TOAST_DEFAULTS.closeButton,
+  classNames: TOAST_DEFAULTS.closeButtonClassName,
+  ariaLabel: TOAST_DEFAULTS.accessibility()["closeButtonLabel"],
+  showOnHover: TOAST_DEFAULTS.showCloseButtonOnHover,
 })
 
 const buttonComponent = computed(() => {

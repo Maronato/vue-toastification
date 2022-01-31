@@ -7,12 +7,14 @@ import {
   computed,
   watch,
 } from "vue"
-import { ToastOptions } from "../../types"
+
 import { isDOMRect, getX, getY } from "../utils"
+
+import type { Draggable } from "../../types/common"
 
 export const useDraggable = (
   el: Ref<HTMLElement | undefined>,
-  props: Required<Pick<ToastOptions, "draggablePercent" | "draggable">>
+  props: Required<Draggable>
 ) => {
   // Extract used props
   const { draggablePercent, draggable } = toRefs(props)
