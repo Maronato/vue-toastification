@@ -41,9 +41,8 @@ export default defineComponent({
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants"
 import { PLUGIN_DEFAULTS } from "../ts/propValidators"
 import {
-  PluginOptions,
+  ToastContainerOptions,
   ToastID,
-  ToastOptionsAndContent,
   ToastOptionsAndRequiredContent,
 } from "../types"
 import {
@@ -53,36 +52,34 @@ import {
   isUndefined,
 } from "../ts/utils"
 
-import { ToastInterface } from ".."
+import { ToastInterface } from "../ts/interface"
 
 interface ToastContainerProps {
-  accessibility?: PluginOptions["accessibility"]
-  bodyClassName?: PluginOptions["bodyClassName"]
-  closeButton?: PluginOptions["closeButton"]
-  closeButtonClassName?: PluginOptions["closeButtonClassName"]
-  closeOnClick?: PluginOptions["closeOnClick"]
-  container?: PluginOptions["container"]
-  containerClassName?: PluginOptions["containerClassName"]
-  draggable?: PluginOptions["draggable"]
-  draggablePercent?: PluginOptions["draggablePercent"]
-  eventBus?: PluginOptions["eventBus"]
-  filterBeforeCreate?: PluginOptions["filterBeforeCreate"]
-  filterToasts?: PluginOptions["filterToasts"]
-  hideProgressBar?: PluginOptions["hideProgressBar"]
-  icon?: PluginOptions["icon"]
-  maxToasts?: PluginOptions["maxToasts"]
-  newestOnTop?: PluginOptions["newestOnTop"]
-  onMounted?: PluginOptions["onMounted"]
-  pauseOnFocusLoss?: PluginOptions["pauseOnFocusLoss"]
-  pauseOnHover?: PluginOptions["pauseOnHover"]
-  position?: PluginOptions["position"]
-  rtl?: PluginOptions["rtl"]
-  shareAppContext?: PluginOptions["shareAppContext"]
-  showCloseButtonOnHover?: PluginOptions["showCloseButtonOnHover"]
-  timeout?: PluginOptions["timeout"]
-  toastClassName?: PluginOptions["toastClassName"]
-  toastDefaults?: PluginOptions["toastDefaults"]
-  transition?: PluginOptions["transition"]
+  accessibility?: ToastContainerOptions["accessibility"]
+  bodyClassName?: ToastContainerOptions["bodyClassName"]
+  closeButton?: ToastContainerOptions["closeButton"]
+  closeButtonClassName?: ToastContainerOptions["closeButtonClassName"]
+  closeOnClick?: ToastContainerOptions["closeOnClick"]
+  container?: ToastContainerOptions["container"]
+  containerClassName?: ToastContainerOptions["containerClassName"]
+  draggable?: ToastContainerOptions["draggable"]
+  draggablePercent?: ToastContainerOptions["draggablePercent"]
+  eventBus?: ToastContainerOptions["eventBus"]
+  filterBeforeCreate?: ToastContainerOptions["filterBeforeCreate"]
+  filterToasts?: ToastContainerOptions["filterToasts"]
+  hideProgressBar?: ToastContainerOptions["hideProgressBar"]
+  icon?: ToastContainerOptions["icon"]
+  maxToasts?: ToastContainerOptions["maxToasts"]
+  newestOnTop?: ToastContainerOptions["newestOnTop"]
+  pauseOnFocusLoss?: ToastContainerOptions["pauseOnFocusLoss"]
+  pauseOnHover?: ToastContainerOptions["pauseOnHover"]
+  position?: ToastContainerOptions["position"]
+  rtl?: ToastContainerOptions["rtl"]
+  showCloseButtonOnHover?: ToastContainerOptions["showCloseButtonOnHover"]
+  timeout?: ToastContainerOptions["timeout"]
+  toastClassName?: ToastContainerOptions["toastClassName"]
+  toastDefaults?: ToastContainerOptions["toastDefaults"]
+  transition?: ToastContainerOptions["transition"]
 }
 
 const props = withDefaults(defineProps<ToastContainerProps>(), {
@@ -102,12 +99,10 @@ const props = withDefaults(defineProps<ToastContainerProps>(), {
   icon: PLUGIN_DEFAULTS.icon,
   maxToasts: PLUGIN_DEFAULTS.maxToasts,
   newestOnTop: PLUGIN_DEFAULTS.newestOnTop,
-  onMounted: PLUGIN_DEFAULTS.onMounted,
   pauseOnFocusLoss: PLUGIN_DEFAULTS.pauseOnFocusLoss,
   pauseOnHover: PLUGIN_DEFAULTS.pauseOnHover,
   position: PLUGIN_DEFAULTS.position,
   rtl: PLUGIN_DEFAULTS.rtl,
-  shareAppContext: PLUGIN_DEFAULTS.shareAppContext,
   showCloseButtonOnHover: PLUGIN_DEFAULTS.showCloseButtonOnHover,
   timeout: PLUGIN_DEFAULTS.timeout,
   toastClassName: PLUGIN_DEFAULTS.toastClassName,
@@ -134,13 +129,15 @@ const toasts = reactive<{
 const toastArray = computed(() => Object.values(toasts))
 const filteredToasts = computed(() => {
   const filter = defaults.filterToasts as NonNullable<
-    PluginOptions["filterToasts"]
+    ToastContainerOptions["filterToasts"]
   >
 
   return filter(toastArray.value)
 })
 
-const setup = async (container: NonNullable<PluginOptions["container"]>) => {
+const setup = async (
+  container: NonNullable<ToastContainerOptions["container"]>
+) => {
   if (isFunction(container)) {
     container = await container()
   }
@@ -162,9 +159,11 @@ const addToast = (toastProps: ToastOptionsAndRequiredContent) => {
   const typeProps =
     (toastProps.type &&
       defaults.toastDefaults &&
-      (defaults.toastDefaults as NonNullable<PluginOptions["toastDefaults"]>)[
-        toastProps.type
-      ]) ||
+      (
+        defaults.toastDefaults as NonNullable<
+          ToastContainerOptions["toastDefaults"]
+        >
+      )[toastProps.type]) ||
     {}
   let toast: ToastOptionsAndRequiredContent | false = {
     ...defaults,
@@ -172,7 +171,7 @@ const addToast = (toastProps: ToastOptionsAndRequiredContent) => {
     ...toastProps,
   }
   const filterBeforeCreate = defaults.filterBeforeCreate as NonNullable<
-    PluginOptions["filterBeforeCreate"]
+    ToastContainerOptions["filterBeforeCreate"]
   >
 
   toast = filterBeforeCreate(toast, toastArray.value)
@@ -210,7 +209,7 @@ const updateDefaults: ToastInterface["updateDefaults"] = update => {
 
 const updateToast = (params: {
   id: ToastID
-  options: ToastOptionsAndContent
+  options: Partial<ToastOptionsAndRequiredContent>
   create: boolean
 }) => {
   const { id, create, options } = params
@@ -244,7 +243,7 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-  const container = defaults.container as PluginOptions["container"]
+  const container = defaults.container as ToastContainerOptions["container"]
   /* istanbul ignore else  */
   if (container) {
     setup(container)
