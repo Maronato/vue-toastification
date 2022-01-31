@@ -6,7 +6,7 @@ import { EventBus } from "../../../src/index"
 import { EVENTS, TYPE } from "../../../src/ts/constants"
 import * as inter from "../../../src/ts/interface"
 import VtToastContainer from "../../../src/components/VtToastContainer.vue"
-import { PluginOptions } from "../../../src/types"
+import type { PluginOptions } from "../../../src/types/plugin"
 
 describe("interface", () => {
   beforeEach(() => {
@@ -64,7 +64,10 @@ describe("interface", () => {
 
       await nextTick()
 
-      expect(createAppSpy).toHaveBeenCalledWith(VtToastContainer, { eventBus })
+      expect(createAppSpy).toHaveBeenCalledWith(VtToastContainer, {
+        eventBus,
+        defaultToastProps: {},
+      })
     })
 
     it("mounts container by default", async () => {
@@ -79,13 +82,16 @@ describe("interface", () => {
       expect(createAppSpy).not.toHaveBeenCalled()
       await nextTick()
 
-      expect(createAppSpy).toHaveBeenCalledWith(VtToastContainer, {
-        eventBus: expect.any(EventBus),
-      })
+      expect(createAppSpy).toHaveBeenCalledWith(
+        VtToastContainer,
+        expect.objectContaining({
+          eventBus: expect.any(EventBus),
+        })
+      )
       expect(mockApp.mount).toHaveBeenCalled()
     })
 
-    it("passes props to mouted container", async () => {
+    it("passes props to mounted container", async () => {
       const mockApp = { mount: jest.fn() } as unknown as App
       const createAppSpy = jest
         .spyOn(vue, "createApp")
@@ -100,7 +106,7 @@ describe("interface", () => {
 
       expect(createAppSpy).toHaveBeenCalledWith(VtToastContainer, {
         eventBus: expect.any(EventBus),
-        ...options,
+        defaultToastProps: { ...options },
       })
       expect(mockApp.mount).toHaveBeenCalled()
     })

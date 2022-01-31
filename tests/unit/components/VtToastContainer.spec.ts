@@ -1,4 +1,4 @@
-import { PluginOptions } from "../../../src/types"
+import type { PluginOptions } from "../../../src/types/plugin"
 import { EVENTS, POSITION, TYPE } from "../../../src/ts/constants"
 import VtToastContainer from "../../../src/components/VtToastContainer.vue"
 import VtToast from "../../../src/components/VtToast.vue"
@@ -6,12 +6,17 @@ import VtProgressBar from "../../../src/components/VtProgressBar.vue"
 import { ComponentPublicInstance, h, nextTick } from "vue"
 import { mount, VueWrapper } from "@vue/test-utils"
 import { createToastInstance, EventBus } from "../../../src"
+import { asContainerProps } from "../../../src/ts/utils"
 
 const mountToastContainer = async (props: PluginOptions = {}) => {
   const eventBus = new EventBus()
   const toast = createToastInstance(eventBus)
+  const options: PluginOptions = {
+    eventBus,
+    ...props,
+  }
   const wrapper = mount(VtToastContainer, {
-    props: { container: undefined, eventBus, ...props },
+    props: { container: undefined, ...asContainerProps(options) },
   })
   await nextTick()
   return {

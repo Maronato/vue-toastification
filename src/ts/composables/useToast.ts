@@ -8,7 +8,7 @@ import {
 import { buildInterface } from "../interface"
 import { VT_NAMESPACE } from "../constants"
 import { isBrowser } from "../utils"
-import type { PluginOptions } from "../../types"
+import type { PluginOptions } from "../../types/plugin"
 import type { ToastInterface } from "../interface"
 import * as ownExports from "./useToast"
 

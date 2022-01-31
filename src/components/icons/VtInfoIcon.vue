@@ -2,9 +2,6 @@
   <svg
     aria-hidden="true"
     focusable="false"
-    data-prefix="fas"
-    data-icon="info-circle"
-    class="svg-inline--fa fa-info-circle fa-w-16"
     role="img"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
@@ -15,8 +12,3 @@
     ></path>
   </svg>
 </template>
-<script lang="ts">
-export default {
-  name: "VtInfoIcon",
-}
-</script>

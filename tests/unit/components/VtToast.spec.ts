@@ -5,7 +5,7 @@ import VtToast from "../../../src/components/VtToast.vue"
 import VtIcon from "../../../src/components/VtIcon.vue"
 import VtProgressBar from "../../../src/components/VtProgressBar.vue"
 import VtCloseButton from "../../../src/components/VtCloseButton.vue"
-import { ToastOptionsAndRequiredContent } from "../../../src/types"
+import type { ToastOptionsAndContent } from "../../../src/types/toast"
 import { VT_NAMESPACE, TYPE, POSITION, EVENTS } from "../../../src/ts/constants"
 import Simple from "../../utils/components/Simple.vue"
 import { EventBus } from "../../../src"
@@ -23,7 +23,7 @@ const mountToast = ({
   id,
   content,
   ...props
-}: Partial<ToastOptionsAndRequiredContent> = {}) =>
+}: Partial<ToastOptionsAndContent> = {}) =>
   mount(VtToast, {
     props: {
       id: id || 1,

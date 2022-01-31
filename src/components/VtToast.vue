@@ -30,78 +30,70 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from "vue"
+<script lang="ts" setup>
+import { computed, nextTick, ref, watch } from "vue"
 import ProgressBar from "./VtProgressBar.vue"
 import CloseButton from "./VtCloseButton.vue"
 import Icon from "./VtIcon.vue"
 
-export default defineComponent({
-  name: "VtToast",
-  components: { ProgressBar, CloseButton, Icon },
-  inheritAttrs: false,
-})
-</script>
-
-<script lang="ts" setup>
 import { EVENTS, VT_NAMESPACE, TYPE } from "../ts/constants"
-import { PLUGIN_DEFAULTS } from "../ts/propValidators"
+import { TOAST_DEFAULTS } from "../ts/propValidators"
 import { getVueComponentFromObj, isString, getProp } from "../ts/utils"
 import { useHoverable } from "../ts/composables/useHoverable"
 import { useFocusable } from "../ts/composables/useFocusable"
 import { useDraggable } from "../ts/composables/useDraggable"
-import { ToastOptions, ToastOptionsAndRequiredContent } from "../types"
+import type { ToastOptionsAndContent } from "../types/toast"
 
 interface ToastProps {
-  content: ToastOptionsAndRequiredContent["content"]
-  id?: ToastOptions["id"]
-  accessibility?: ToastOptions["accessibility"]
-  bodyClassName?: ToastOptions["bodyClassName"]
-  closeButton?: ToastOptions["closeButton"]
-  closeButtonClassName?: ToastOptions["closeButtonClassName"]
-  closeOnClick?: ToastOptions["closeOnClick"]
-  draggable?: ToastOptions["draggable"]
-  draggablePercent?: ToastOptions["draggablePercent"]
-  eventBus?: ToastOptions["eventBus"]
-  hideProgressBar?: ToastOptions["hideProgressBar"]
-  icon?: ToastOptions["icon"]
-  //?  PluginOptions[ToastOptions
-  onClick?: ToastOptions["onClick"]
-  //?  PluginOptions[ToastOptions
-  onClose?: ToastOptions["onClose"]
-  pauseOnFocusLoss?: ToastOptions["pauseOnFocusLoss"]
-  pauseOnHover?: ToastOptions["pauseOnHover"]
-  position?: ToastOptions["position"]
-  rtl?: ToastOptions["rtl"]
-  showCloseButtonOnHover?: ToastOptions["showCloseButtonOnHover"]
-  timeout?: ToastOptions["timeout"]
-  toastClassName?: ToastOptions["toastClassName"]
-  type?: ToastOptions["type"]
+  content: ToastOptionsAndContent["content"]
+  id?: ToastOptionsAndContent["id"]
+  accessibility?: ToastOptionsAndContent["accessibility"]
+  bodyClassName?: ToastOptionsAndContent["bodyClassName"]
+  closeButton?: ToastOptionsAndContent["closeButton"]
+  closeButtonClassName?: ToastOptionsAndContent["closeButtonClassName"]
+  closeOnClick?: ToastOptionsAndContent["closeOnClick"]
+  draggable?: ToastOptionsAndContent["draggable"]
+  draggablePercent?: ToastOptionsAndContent["draggablePercent"]
+  eventBus?: ToastOptionsAndContent["eventBus"]
+  hideProgressBar?: ToastOptionsAndContent["hideProgressBar"]
+  icon?: ToastOptionsAndContent["icon"]
+  //?  PluginOptions[ToastOptionsAndContent
+  onClick?: ToastOptionsAndContent["onClick"]
+  //?  PluginOptions[ToastOptionsAndContent
+  onClose?: ToastOptionsAndContent["onClose"]
+  pauseOnFocusLoss?: ToastOptionsAndContent["pauseOnFocusLoss"]
+  pauseOnHover?: ToastOptionsAndContent["pauseOnHover"]
+  position?: ToastOptionsAndContent["position"]
+  rtl?: ToastOptionsAndContent["rtl"]
+  showCloseButtonOnHover?: ToastOptionsAndContent["showCloseButtonOnHover"]
+  timeout?: ToastOptionsAndContent["timeout"]
+  toastClassName?: ToastOptionsAndContent["toastClassName"]
+  type?: ToastOptionsAndContent["type"]
 }
 
 const props = withDefaults(defineProps<ToastProps>(), {
   id: 0,
-  accessibility: PLUGIN_DEFAULTS.accessibility,
-  bodyClassName: PLUGIN_DEFAULTS.bodyClassName,
-  closeButton: PLUGIN_DEFAULTS.closeButton,
-  closeButtonClassName: PLUGIN_DEFAULTS.closeButtonClassName,
-  closeOnClick: PLUGIN_DEFAULTS.closeOnClick,
-  draggable: PLUGIN_DEFAULTS.draggable,
-  draggablePercent: PLUGIN_DEFAULTS.draggablePercent,
-  eventBus: PLUGIN_DEFAULTS.eventBus,
-  hideProgressBar: PLUGIN_DEFAULTS.hideProgressBar,
-  icon: PLUGIN_DEFAULTS.icon,
+  accessibility: TOAST_DEFAULTS.accessibility,
+  bodyClassName: TOAST_DEFAULTS.bodyClassName,
+  closeButton: TOAST_DEFAULTS.closeButton,
+  closeButtonClassName: TOAST_DEFAULTS.closeButtonClassName,
+  closeOnClick: TOAST_DEFAULTS.closeOnClick,
+  draggable: TOAST_DEFAULTS.draggable,
+  draggablePercent: TOAST_DEFAULTS.draggablePercent,
+  eventBus: TOAST_DEFAULTS.eventBus,
+  hideProgressBar: TOAST_DEFAULTS.hideProgressBar,
+  icon: TOAST_DEFAULTS.icon,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClick: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClose: () => {},
-  pauseOnFocusLoss: PLUGIN_DEFAULTS.pauseOnFocusLoss,
-  pauseOnHover: PLUGIN_DEFAULTS.pauseOnHover,
-  position: PLUGIN_DEFAULTS.position,
-  rtl: PLUGIN_DEFAULTS.rtl,
-  showCloseButtonOnHover: PLUGIN_DEFAULTS.showCloseButtonOnHover,
-  timeout: PLUGIN_DEFAULTS.timeout,
-  toastClassName: PLUGIN_DEFAULTS.toastClassName,
+  pauseOnFocusLoss: TOAST_DEFAULTS.pauseOnFocusLoss,
+  pauseOnHover: TOAST_DEFAULTS.pauseOnHover,
+  position: TOAST_DEFAULTS.position,
+  rtl: TOAST_DEFAULTS.rtl,
+  showCloseButtonOnHover: TOAST_DEFAULTS.showCloseButtonOnHover,
+  timeout: TOAST_DEFAULTS.timeout,
+  toastClassName: TOAST_DEFAULTS.toastClassName,
   type: TYPE.DEFAULT,
 })
 

@@ -1,15 +1,15 @@
 import type { EVENTS } from "./constants"
 import { hasProp, isFunction } from "./utils"
 import type {
-  ToastOptionsAndRequiredContent,
-  ToastID,
+  ToastOptionsAndContent,
   ToastContent,
   ToastOptions,
-  PluginOptions,
-} from "../types/index"
+} from "../types/toast"
+import type { ToastContainerOptions } from "../types/toastContainer"
+import type { ToastID } from "../types/common"
 
 type EventData = {
-  [EVENTS.ADD]: ToastOptionsAndRequiredContent & {
+  [EVENTS.ADD]: ToastOptionsAndContent & {
     id: ToastID
   }
   [EVENTS.CLEAR]: undefined
@@ -25,7 +25,7 @@ type EventData = {
         options: Partial<ToastOptions> & { content: ToastContent }
         create: true
       }
-  [EVENTS.UPDATE_DEFAULTS]: PluginOptions
+  [EVENTS.UPDATE_DEFAULTS]: ToastContainerOptions
 }
 
 type Handler<E extends EVENTS> = (event: EventData[E]) => void

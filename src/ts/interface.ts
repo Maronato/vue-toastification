@@ -1,15 +1,15 @@
 import { createApp, nextTick } from "vue"
 import { EventBus, EventBusInterface } from "./eventBus"
 import ToastContainer from "../components/VtToastContainer.vue"
-import {
+import type {
   ToastContent,
   ToastOptions,
-  ToastID,
-  PluginOptions,
-  ToastOptionsAndRequiredContent,
-} from "../types"
+  ToastOptionsAndContent,
+} from "../types/toast"
+import type { ToastID } from "../types/common"
+import type { BasePluginOptions, PluginOptions } from "../types/plugin"
 import { TYPE, EVENTS } from "./constants"
-import { getId, isUndefined } from "./utils"
+import { asContainerProps, getId, isUndefined } from "./utils"
 
 /**
  * Display a toast
@@ -62,7 +62,7 @@ interface UpdateDefaults {
    *
    * For details, see https://github.com/Maronato/vue-toastification#updating-default-options
    */
-  (update: PluginOptions): void
+  (update: BasePluginOptions): void
 }
 
 interface UpdateToast {
@@ -130,10 +130,12 @@ export interface ToastInterface extends ToastMethod {
  * @param options Plugin options passed during init
  */
 function mountPlugin(options: PluginOptions) {
-  const { shareAppContext, onMounted, ...containerOptions } = options
+  const { shareAppContext, onMounted, ...basePluginOptions } = options
+
+  const containerProps = asContainerProps(basePluginOptions)
 
   const app = createApp(ToastContainer, {
-    ...containerOptions,
+    ...containerProps,
   })
 
   if (shareAppContext && shareAppContext !== true) {
@@ -157,7 +159,7 @@ const createInterface = (events: EventBusInterface): ToastInterface => {
     type: T
   ): ToastMethod<T> => {
     const method: ToastMethod<T> = (content, options) => {
-      const props: ToastOptionsAndRequiredContent & {
+      const props: ToastOptionsAndContent & {
         id: ToastID
       } = Object.assign({ id: getId(), type, content }, options)
       events.emit(EVENTS.ADD, props)
@@ -169,7 +171,7 @@ const createInterface = (events: EventBusInterface): ToastInterface => {
   const dismiss: DismissToast = toastID => events.emit(EVENTS.DISMISS, toastID)
   const clear: ClearToasts = () => events.emit(EVENTS.CLEAR, undefined)
   const updateDefaults: UpdateDefaults = update =>
-    events.emit(EVENTS.UPDATE_DEFAULTS, update)
+    events.emit(EVENTS.UPDATE_DEFAULTS, asContainerProps(update))
   const update: UpdateToast = (toastID, update, create) => {
     const { content, options } = update
     events.emit(EVENTS.UPDATE, {
@@ -195,11 +197,11 @@ export const buildInterface = (
   globalOptions: PluginOptions = {},
   mountContainer = true
 ): ToastInterface => {
-  const events = (globalOptions.eventBus =
-    globalOptions.eventBus || new EventBus())
+  const options = { ...globalOptions }
+  const events = (options.eventBus = options.eventBus || new EventBus())
 
   if (mountContainer) {
-    nextTick(() => mountPlugin(globalOptions))
+    nextTick(() => mountPlugin(options))
   }
   return createInterface(events)
 }

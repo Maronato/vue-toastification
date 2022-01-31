@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import type { ToastContainerOptions } from "../types"
+import type { ToastContainerOptions } from "../types/toastContainer"
 import { EventBus } from "./eventBus"
-import { POSITION, VT_NAMESPACE } from "./constants"
+import { POSITION, VT_NAMESPACE, TYPE } from "./constants"
 import { InferDefaults } from "../types/vue-helper"
+import type { ToastOptions } from "../types/toast"
+
+const defaultEventBus = /* istanbul ignore next */ () => new EventBus()
+const emptyFunction = /* istanbul ignore next */ () => {}
 
 // This wraps a method to be returned as a factory function
 const asFactory = <T>(f: T) => (() => f) as unknown as T
 
-export const PLUGIN_DEFAULTS: Required<
-  InferDefaults<Readonly<ToastContainerOptions>>
-> = {
+export const TOAST_DEFAULTS: Required<InferDefaults<Readonly<ToastOptions>>> = {
+  id: 0,
   accessibility: () => ({
     toastRole: "alert",
     closeButtonLabel: "close",
@@ -18,17 +21,11 @@ export const PLUGIN_DEFAULTS: Required<
   closeButton: () => "button",
   closeButtonClassName: () => [],
   closeOnClick: true,
-  container: () => document.body,
-  containerClassName: () => [],
   draggable: true,
   draggablePercent: 0.6,
-  eventBus: /* istanbul ignore next */ () => new EventBus(),
-  filterBeforeCreate: asFactory(toast => toast),
-  filterToasts: asFactory(toasts => toasts),
+  eventBus: defaultEventBus,
   hideProgressBar: false,
   icon: () => true,
-  maxToasts: 20,
-  newestOnTop: true,
   pauseOnFocusLoss: true,
   pauseOnHover: true,
   position: POSITION.TOP_RIGHT,
@@ -36,6 +33,23 @@ export const PLUGIN_DEFAULTS: Required<
   showCloseButtonOnHover: false,
   timeout: 5000,
   toastClassName: () => [],
+  onClick: emptyFunction,
+  onClose: emptyFunction,
+  type: TYPE.DEFAULT,
+}
+
+export const TOAST_CONTAINER_DEFAULTS: Required<
+  InferDefaults<Readonly<ToastContainerOptions>>
+> = {
+  position: TOAST_DEFAULTS.position,
+  container: () => document.body,
+  containerClassName: () => [],
+  eventBus: defaultEventBus,
+  filterBeforeCreate: asFactory(toast => toast),
+  filterToasts: asFactory(toasts => toasts),
+  maxToasts: 20,
+  newestOnTop: true,
   toastDefaults: () => ({}),
   transition: `${VT_NAMESPACE}__bounce`,
+  defaultToastProps: /* istanbul ignore next */ () => ({}),
 }

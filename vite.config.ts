@@ -4,6 +4,9 @@ import vue from "@vitejs/plugin-vue"
 
 const commonConfig = defineConfig({
   plugins: [vue()],
+  define: {
+    __VUE_OPTIONS_API__: false,
+  },
 })
 
 const libConfig = defineConfig({
