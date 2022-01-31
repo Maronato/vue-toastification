@@ -1,18 +1,15 @@
-import "./scss/index.scss"
-import { VueToastificationPlugin } from "./ts/plugin"
+import type { ToastInterface } from "./ts/interface"
+import type { PluginOptions } from "./types/plugin"
 
+import "./scss/index.scss"
 import {
   createToastInstance,
   provideToast,
   useToast,
 } from "./ts/composables/useToast"
-
-import { EventBus } from "./ts/eventBus"
-
 import { POSITION, TYPE } from "./ts/constants"
-
-import type { PluginOptions } from "./types/plugin"
-import type { ToastInterface } from "./ts/interface"
+import { EventBus } from "./ts/eventBus"
+import { VueToastificationPlugin } from "./ts/plugin"
 
 export default VueToastificationPlugin
 

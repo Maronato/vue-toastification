@@ -1,4 +1,6 @@
 import { InjectionKey, provide, inject, getCurrentInstance } from "vue"
+
+import { VT_NAMESPACE } from "../constants"
 import {
   EventBusInterface,
   isEventBusInterface,
@@ -6,11 +8,12 @@ import {
   globalEventBus,
 } from "../eventBus"
 import { buildInterface } from "../interface"
-import { VT_NAMESPACE } from "../constants"
 import { isBrowser } from "../utils"
+
 import type { PluginOptions } from "../../types/plugin"
 import type { ToastInterface } from "../interface"
-import * as ownExports from "./useToast"
+
+import { createToastInstance as ownExports_createToastInstance } from "./useToast"
 
 const toastInjectionKey: InjectionKey<ToastInterface> =
   Symbol("VueToastification")
@@ -32,6 +35,7 @@ interface CreateToastInstance {
 
 const createMockToastInstance: CreateToastInstance = () => {
   const toast = () =>
+    // eslint-disable-next-line no-console
     console.warn(`[${VT_NAMESPACE}] This plugin does not support SSR!`)
   return new Proxy(toast, {
     get() {
@@ -52,19 +56,19 @@ const createToastInstance: CreateToastInstance = optionsOrEventBus => {
 
 const provideToast = (options?: PluginOptions) => {
   if (getCurrentInstance()) {
-    const toast = ownExports.createToastInstance(options)
+    const toast = ownExports_createToastInstance(options)
     provide(toastInjectionKey, toast)
   }
 }
 
 const useToast = (eventBus?: EventBus) => {
   if (eventBus) {
-    return ownExports.createToastInstance(eventBus)
+    return ownExports_createToastInstance(eventBus)
   }
   const toast = getCurrentInstance()
     ? inject(toastInjectionKey, undefined)
     : undefined
-  return toast ? toast : ownExports.createToastInstance(globalEventBus)
+  return toast ? toast : ownExports_createToastInstance(globalEventBus)
 }
 
 export { useToast, provideToast, toastInjectionKey, createToastInstance }

@@ -1,6 +1,7 @@
 import path from "path"
-import { defineConfig } from "vite"
+
 import vue from "@vitejs/plugin-vue"
+import { defineConfig } from "vite"
 
 const commonConfig = defineConfig({
   plugins: [vue()],
@@ -44,9 +45,15 @@ const demoConfig = defineConfig({
 })
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  if (mode === "demo") {
-    return { ...demoConfig }
+export default defineConfig(({ command }) => {
+  const executionMode: "lib" | "demo" =
+    (process.env.MODE as "lib" | "demo") || "lib"
+
+  const mode = command === "build" ? "production" : "development"
+
+  if (executionMode === "demo") {
+    return { ...demoConfig, mode }
+  } else if (executionMode === "lib") {
+    return { ...libConfig, mode }
   }
-  return { ...libConfig }
 })

@@ -1,5 +1,7 @@
-import { isFunction } from "@vue/shared"
 import { App } from "vue"
+
+import { isFunction } from "@vue/shared"
+
 import { PluginOptions, ToastInterface, EventBus } from "../../../src"
 import * as useToast from "../../../src/ts/composables/useToast"
 import { globalEventBus } from "../../../src/ts/eventBus"

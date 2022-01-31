@@ -4,9 +4,11 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue"
-import type { BaseToastOptions } from "../types/toast"
+
 import { VT_NAMESPACE } from "../ts/constants"
 import { TOAST_DEFAULTS } from "../ts/propValidators"
+
+import type { BaseToastOptions } from "../types/toast"
 
 interface ProgressBarProps {
   timeout?: BaseToastOptions["timeout"]

@@ -1,4 +1,5 @@
 import { toRefs, ref, Ref, onMounted, onBeforeUnmount } from "vue"
+
 import type { Focusable } from "../../types/common"
 
 export const useFocusable = (

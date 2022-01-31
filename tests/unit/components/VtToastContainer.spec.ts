@@ -1,12 +1,15 @@
-import type { PluginOptions } from "../../../src/types/plugin"
-import { EVENTS, POSITION, TYPE } from "../../../src/ts/constants"
-import VtToastContainer from "../../../src/components/VtToastContainer.vue"
-import VtToast from "../../../src/components/VtToast.vue"
-import VtProgressBar from "../../../src/components/VtProgressBar.vue"
 import { ComponentPublicInstance, h, nextTick } from "vue"
+
 import { mount, VueWrapper } from "@vue/test-utils"
+
 import { createToastInstance, EventBus } from "../../../src"
+import VtProgressBar from "../../../src/components/VtProgressBar.vue"
+import VtToast from "../../../src/components/VtToast.vue"
+import VtToastContainer from "../../../src/components/VtToastContainer.vue"
+import { EVENTS, POSITION, TYPE } from "../../../src/ts/constants"
 import { asContainerProps } from "../../../src/ts/utils"
+
+import type { PluginOptions } from "../../../src/types/plugin"
 
 const mountToastContainer = async (props: PluginOptions = {}) => {
   const eventBus = new EventBus()

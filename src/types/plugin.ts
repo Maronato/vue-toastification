@@ -1,4 +1,5 @@
 import type { App, ComponentPublicInstance } from "vue"
+
 import type { BaseToastOptions } from "./toast"
 import type { BaseToastContainerOptions } from "./toastContainer"
 

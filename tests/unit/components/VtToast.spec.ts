@@ -1,16 +1,19 @@
 import { ComponentPublicInstance, nextTick, ref } from "vue"
+
 import { mount, VueWrapper } from "@vue/test-utils"
 import merge from "lodash.merge"
-import VtToast from "../../../src/components/VtToast.vue"
+
+import { EventBus } from "../../../src"
+import VtCloseButton from "../../../src/components/VtCloseButton.vue"
 import VtIcon from "../../../src/components/VtIcon.vue"
 import VtProgressBar from "../../../src/components/VtProgressBar.vue"
-import VtCloseButton from "../../../src/components/VtCloseButton.vue"
-import type { ToastOptionsAndContent } from "../../../src/types/toast"
-import { VT_NAMESPACE, TYPE, POSITION, EVENTS } from "../../../src/ts/constants"
-import Simple from "../../utils/components/Simple.vue"
-import { EventBus } from "../../../src"
-import { normalizeToastComponent } from "../../../src/ts/utils"
+import VtToast from "../../../src/components/VtToast.vue"
 import * as useDraggableModule from "../../../src/ts/composables/useDraggable"
+import { VT_NAMESPACE, TYPE, POSITION, EVENTS } from "../../../src/ts/constants"
+import { normalizeToastComponent } from "../../../src/ts/utils"
+import Simple from "../../utils/components/Simple.vue"
+
+import type { ToastOptionsAndContent } from "../../../src/types/toast"
 
 const setData = (
   wrapper: VueWrapper<ComponentPublicInstance>,

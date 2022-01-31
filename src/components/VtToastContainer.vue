@@ -15,31 +15,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onBeforeMount,
-  onMounted,
-  reactive,
-  ref,
-} from "vue"
-
-export default defineComponent({
-  devtools: {
-    hide: true,
-  },
-})
-</script>
-
 <script lang="ts" setup>
-import Toast from "./VtToast.vue"
-import VtTransition from "./VtTransition.vue"
+import { computed, onBeforeMount, onMounted, reactive, ref } from "vue"
+
 import { EVENTS, POSITION, VT_NAMESPACE } from "../ts/constants"
+import { ToastInterface } from "../ts/interface"
 import { TOAST_CONTAINER_DEFAULTS } from "../ts/propValidators"
-import type { ToastID } from "../types/common"
-import type { ToastContainerOptions } from "../types/toastContainer"
-import type { ToastOptionsAndContent } from "../types/toast"
 import {
   removeElement,
   isFunction,
@@ -47,7 +28,12 @@ import {
   isUndefined,
 } from "../ts/utils"
 
-import { ToastInterface } from "../ts/interface"
+import type { ToastID } from "../types/common"
+import type { ToastOptionsAndContent } from "../types/toast"
+import type { ToastContainerOptions } from "../types/toastContainer"
+
+import Toast from "./VtToast.vue"
+import VtTransition from "./VtTransition.vue"
 
 interface ToastContainerProps {
   position?: ToastContainerOptions["position"]
@@ -224,4 +210,12 @@ onMounted(() => {
     setup(container)
   }
 })
+</script>
+
+<script lang="ts">
+export default {
+  devtools: {
+    hide: true,
+  },
+}
 </script>

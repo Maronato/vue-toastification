@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils"
+
 import VtErrorIcon from "../../../../src/components/icons/VtErrorIcon.vue"
 
 describe("VtErrorIcon", () => {

@@ -1,4 +1,5 @@
 import type { Component } from "vue"
+
 import type { EventBusInterface } from "../ts/eventBus"
 
 export declare type ToastID = string | number

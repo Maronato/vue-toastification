@@ -17,9 +17,10 @@
 <script lang="ts" setup>
 // Transition methods taken from https://github.com/BinarCode/vue2-transitions
 
-import type { BaseToastContainerOptions } from "../types/toastContainer"
 import { TOAST_CONTAINER_DEFAULTS } from "../ts/propValidators"
 import { getProp } from "../ts/utils"
+
+import type { BaseToastContainerOptions } from "../types/toastContainer"
 
 interface TransitionProps {
   transition?: BaseToastContainerOptions["transition"]

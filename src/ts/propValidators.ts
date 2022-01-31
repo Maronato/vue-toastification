@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import type { ToastContainerOptions } from "../types/toastContainer"
-import { EventBus } from "./eventBus"
-import { POSITION, VT_NAMESPACE, TYPE } from "./constants"
 import { InferDefaults } from "../types/vue-helper"
+
 import type { ToastOptions } from "../types/toast"
+import type { ToastContainerOptions } from "../types/toastContainer"
+
+import { POSITION, VT_NAMESPACE, TYPE } from "./constants"
+import { EventBus } from "./eventBus"
 
 const defaultEventBus = /* istanbul ignore next */ () => new EventBus()
 const emptyFunction = /* istanbul ignore next */ () => {}

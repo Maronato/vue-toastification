@@ -1,11 +1,14 @@
 /* eslint-disable vue/one-component-per-file */
-import { isFunction } from "@vue/shared"
 import * as vue from "vue"
 import { App, nextTick } from "vue"
+
+import { isFunction } from "@vue/shared"
+
+import VtToastContainer from "../../../src/components/VtToastContainer.vue"
 import { EventBus } from "../../../src/index"
 import { EVENTS, TYPE } from "../../../src/ts/constants"
-import * as inter from "../../../src/ts/interface"
-import VtToastContainer from "../../../src/components/VtToastContainer.vue"
+import { buildInterface } from "../../../src/ts/interface"
+
 import type { PluginOptions } from "../../../src/types/plugin"
 
 describe("interface", () => {
@@ -30,7 +33,7 @@ describe("interface", () => {
     it("creates valid interface by default", async () => {
       const mockApp = { mount: jest.fn() } as unknown as App
       jest.spyOn(vue, "createApp").mockImplementation(() => mockApp)
-      const toast = inter.buildInterface()
+      const toast = buildInterface()
       await nextTick()
 
       expect(isFunction(toast)).toBe(true)
@@ -49,7 +52,7 @@ describe("interface", () => {
       const createAppSpy = jest
         .spyOn(vue, "createApp")
         .mockImplementation(() => mockApp)
-      const toast = inter.buildInterface({ eventBus })
+      const toast = buildInterface({ eventBus })
 
       expect(eventsEmmited.add).not.toHaveBeenCalled()
 
@@ -76,7 +79,7 @@ describe("interface", () => {
         .spyOn(vue, "createApp")
         .mockImplementation(() => mockApp)
 
-      inter.buildInterface()
+      buildInterface()
 
       expect(mockApp.mount).not.toHaveBeenCalled()
       expect(createAppSpy).not.toHaveBeenCalled()
@@ -101,7 +104,7 @@ describe("interface", () => {
         timeout: 1000,
         bodyClassName: "myclass",
       }
-      inter.buildInterface(options)
+      buildInterface(options)
       await nextTick()
 
       expect(createAppSpy).toHaveBeenCalledWith(VtToastContainer, {
@@ -117,7 +120,7 @@ describe("interface", () => {
       jest.spyOn(vue, "createApp").mockImplementation(() => mockApp)
 
       const onMounted = jest.fn()
-      inter.buildInterface({ onMounted })
+      buildInterface({ onMounted })
 
       expect(onMounted).not.toHaveBeenCalled()
       await nextTick()
@@ -144,7 +147,7 @@ describe("interface", () => {
           globalProperties: "globalProperties",
         },
       } as unknown as App
-      inter.buildInterface({ shareAppContext: userApp })
+      buildInterface({ shareAppContext: userApp })
 
       await nextTick()
 

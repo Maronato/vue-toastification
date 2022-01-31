@@ -11,9 +11,11 @@
 
 <script lang="ts" setup>
 import { computed } from "vue"
+
 import { VT_NAMESPACE } from "../ts/constants"
 import { TOAST_DEFAULTS } from "../ts/propValidators"
 import { getVueComponentFromObj } from "../ts/utils"
+
 import type { ClassNames, Button } from "../types/common"
 
 interface CloseButtonProps {

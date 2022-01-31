@@ -7,8 +7,10 @@ import {
   computed,
   watch,
 } from "vue"
-import type { Draggable } from "../../types/common"
+
 import { isDOMRect, getX, getY } from "../utils"
+
+import type { Draggable } from "../../types/common"
 
 export const useDraggable = (
   el: Ref<HTMLElement | undefined>,

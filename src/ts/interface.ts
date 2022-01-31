@@ -1,14 +1,17 @@
 import { createApp, nextTick } from "vue"
-import { EventBus, EventBusInterface } from "./eventBus"
+
 import ToastContainer from "../components/VtToastContainer.vue"
+
+import type { ToastID } from "../types/common"
+import type { BasePluginOptions, PluginOptions } from "../types/plugin"
 import type {
   ToastContent,
   ToastOptions,
   ToastOptionsAndContent,
 } from "../types/toast"
-import type { ToastID } from "../types/common"
-import type { BasePluginOptions, PluginOptions } from "../types/plugin"
+
 import { TYPE, EVENTS } from "./constants"
+import { EventBus, EventBusInterface } from "./eventBus"
 import { asContainerProps, getId, isUndefined } from "./utils"
 
 /**

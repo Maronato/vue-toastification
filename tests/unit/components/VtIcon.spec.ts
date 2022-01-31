@@ -1,12 +1,14 @@
-import { mount } from "@vue/test-utils"
-import { TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
-import VtIcon from "../../../src/components/VtIcon.vue"
-import VtSuccessIcon from "../../../src/components/icons/VtSuccessIcon.vue"
-import VtInfoIcon from "../../../src/components/icons/VtInfoIcon.vue"
-import VtWarningIcon from "../../../src/components/icons/VtWarningIcon.vue"
-import VtErrorIcon from "../../../src/components/icons/VtErrorIcon.vue"
-import Simple from "../../utils/components/Simple.vue"
 import { markRaw } from "vue"
+
+import { mount } from "@vue/test-utils"
+
+import VtErrorIcon from "../../../src/components/icons/VtErrorIcon.vue"
+import VtInfoIcon from "../../../src/components/icons/VtInfoIcon.vue"
+import VtSuccessIcon from "../../../src/components/icons/VtSuccessIcon.vue"
+import VtWarningIcon from "../../../src/components/icons/VtWarningIcon.vue"
+import VtIcon from "../../../src/components/VtIcon.vue"
+import { TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
+import Simple from "../../utils/components/Simple.vue"
 
 describe("VtIcon", () => {
   describe("snapshots", () => {

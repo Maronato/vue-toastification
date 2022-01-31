@@ -1,6 +1,5 @@
 /* eslint-disable vue/one-component-per-file */
 
-import { mount } from "@vue/test-utils"
 import {
   computed,
   defineComponent,
@@ -11,6 +10,9 @@ import {
   onMounted,
   Ref,
 } from "vue"
+
+import { mount } from "@vue/test-utils"
+
 import { useDraggable } from "../../../../src/ts/composables/useDraggable"
 
 const activeText = "dragging"

@@ -32,17 +32,19 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch } from "vue"
-import ProgressBar from "./VtProgressBar.vue"
-import CloseButton from "./VtCloseButton.vue"
-import Icon from "./VtIcon.vue"
 
+import { useDraggable } from "../ts/composables/useDraggable"
+import { useFocusable } from "../ts/composables/useFocusable"
+import { useHoverable } from "../ts/composables/useHoverable"
 import { EVENTS, VT_NAMESPACE, TYPE } from "../ts/constants"
 import { TOAST_DEFAULTS } from "../ts/propValidators"
 import { getVueComponentFromObj, isString, getProp } from "../ts/utils"
-import { useHoverable } from "../ts/composables/useHoverable"
-import { useFocusable } from "../ts/composables/useFocusable"
-import { useDraggable } from "../ts/composables/useDraggable"
+
 import type { ToastOptionsAndContent } from "../types/toast"
+
+import CloseButton from "./VtCloseButton.vue"
+import Icon from "./VtIcon.vue"
+import ProgressBar from "./VtProgressBar.vue"
 
 interface ToastProps {
   content: ToastOptionsAndContent["content"]

@@ -1,4 +1,5 @@
 import type { Component } from "vue"
+
 import type { TYPE, POSITION } from "../ts/constants"
 import type {
   Button,

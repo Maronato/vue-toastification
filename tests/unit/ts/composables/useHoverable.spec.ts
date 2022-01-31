@@ -1,7 +1,9 @@
 /* eslint-disable vue/one-component-per-file */
 
-import { mount } from "@vue/test-utils"
 import { computed, defineComponent, h, reactive, ref } from "vue"
+
+import { mount } from "@vue/test-utils"
+
 import { useHoverable } from "../../../../src/ts/composables/useHoverable"
 
 const activeText = "things"

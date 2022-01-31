@@ -6,7 +6,9 @@
 
 <script lang="ts" setup>
 import { computed } from "vue"
+
 import { TYPE, VT_NAMESPACE } from "../ts/constants"
+import { TOAST_DEFAULTS } from "../ts/propValidators"
 import {
   isNonEmptyString,
   isToastContent,
@@ -14,12 +16,13 @@ import {
   isString,
   getVueComponentFromObj,
 } from "../ts/utils"
-import { TOAST_DEFAULTS } from "../ts/propValidators"
-import SuccessIcon from "./icons/VtSuccessIcon.vue"
-import InfoIcon from "./icons/VtInfoIcon.vue"
-import WarningIcon from "./icons/VtWarningIcon.vue"
-import ErrorIcon from "./icons/VtErrorIcon.vue"
+
 import type { Icon } from "../types/common"
+
+import ErrorIcon from "./icons/VtErrorIcon.vue"
+import InfoIcon from "./icons/VtInfoIcon.vue"
+import SuccessIcon from "./icons/VtSuccessIcon.vue"
+import WarningIcon from "./icons/VtWarningIcon.vue"
 
 interface IconProps {
   type?: TYPE

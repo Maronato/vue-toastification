@@ -1,5 +1,7 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from "vue"
+
 import Toast from "../../src"
 
-createApp(App).use(Toast).mount('#app')
+import App from "./App.vue"
+
+createApp(App).use(Toast).mount("#app")

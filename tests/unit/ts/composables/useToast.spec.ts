@@ -1,11 +1,13 @@
-import { mount } from "@vue/test-utils"
 import { defineComponent, h } from "vue"
+
+import { mount } from "@vue/test-utils"
+
 import { EventBus, PluginOptions, ToastInterface } from "../../../../src"
 import * as useToast from "../../../../src/ts/composables/useToast"
 import { VT_NAMESPACE } from "../../../../src/ts/constants"
 import { globalEventBus } from "../../../../src/ts/eventBus"
-import * as utils from "../../../../src/ts/utils"
 import * as interfaceModule from "../../../../src/ts/interface"
+import * as utils from "../../../../src/ts/utils"
 
 const consumerInjected = jest.fn()
 

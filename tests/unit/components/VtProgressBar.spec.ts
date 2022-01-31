@@ -1,5 +1,7 @@
-import { mount } from "@vue/test-utils"
 import { nextTick } from "vue"
+
+import { mount } from "@vue/test-utils"
+
 import VtProgressBar from "../../../src/components/VtProgressBar.vue"
 import { VT_NAMESPACE } from "../../../src/ts/constants"
 
