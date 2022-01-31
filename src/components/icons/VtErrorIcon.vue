@@ -16,5 +16,7 @@
   </svg>
 </template>
 <script lang="ts">
-export default {}
+export default {
+  name: "VtErrorIcon",
+}
 </script>

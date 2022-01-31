@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "node",
-    "target": "ES2017",
+    "target": "esnext",
+    "useDefineForClassFields": true,
     "sourceMap": true,
     "strict": true,
     "outDir": "dist",
@@ -18,5 +19,18 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["src", "tests"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "demo/**/*.ts",
+    "demo/**/*.d.ts",
+    "demo/**/*.tsx",
+    "demo/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.d.ts",
+    "tests/**/*.tsx",
+    "tests/**/*.vue"
+  ]
 }

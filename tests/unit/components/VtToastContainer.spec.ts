@@ -3,14 +3,14 @@ import { EVENTS, POSITION, TYPE } from "../../../src/ts/constants"
 import VtToastContainer from "../../../src/components/VtToastContainer.vue"
 import VtToast from "../../../src/components/VtToast.vue"
 import VtProgressBar from "../../../src/components/VtProgressBar.vue"
-import { ComponentPublicInstance, DefineComponent, h, nextTick } from "vue"
+import { ComponentPublicInstance, h, nextTick } from "vue"
 import { mount, VueWrapper } from "@vue/test-utils"
 import { createToastInterface, EventBus } from "../../../src"
 
 const mountToastContainer = async (props: PluginOptions = {}) => {
   const eventBus = new EventBus()
   const toast = createToastInterface(eventBus)
-  const wrapper = mount(VtToastContainer as DefineComponent, {
+  const wrapper = mount(VtToastContainer, {
     props: { container: undefined, eventBus, ...props },
   })
   await nextTick()
@@ -231,7 +231,7 @@ describe("VtToastContainer", () => {
       list.forEach(([i, position]) => toast(getMessage(i), { position }))
       await nextTick()
 
-      const toasts = wrapper.findAllComponents(VtToast as DefineComponent)
+      const toasts = wrapper.findAllComponents(VtToast)
       expect(toasts.length).toBe(list.length)
 
       type MessagePosition = [string, POSITION]

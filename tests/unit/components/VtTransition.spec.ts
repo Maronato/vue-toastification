@@ -13,16 +13,13 @@ describe("VtTransition", () => {
     expect(wrapper.html()).toMatchSnapshot()
   })
   it("transition-group has default classes", () => {
-    const wrapper = mount<typeof VtTransition, { transition: string }>(
-      VtTransition,
-      {
-        global: {
-          stubs: {
-            "transition-group": false,
-          },
+    const wrapper = mount(VtTransition, {
+      global: {
+        stubs: {
+          "transition-group": false,
         },
-      }
-    )
+      },
+    })
     const transition = wrapper.vm.$props.transition
     const componentProps = wrapper.findComponent(TransitionGroup).props()
     expect(componentProps.enterActiveClass).toBe(`${transition}-enter-active`)
@@ -30,10 +27,7 @@ describe("VtTransition", () => {
     expect(componentProps.leaveActiveClass).toBe(`${transition}-leave-active`)
   })
   it("transition-group has custom classes", () => {
-    const wrapper = mount<
-      typeof VtTransition,
-      { transition: { enter: string; move: string; leave: string } }
-    >(VtTransition, {
+    const wrapper = mount(VtTransition, {
       props: {
         transition: {
           enter: "enter-transition",
