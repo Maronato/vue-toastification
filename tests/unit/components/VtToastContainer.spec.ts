@@ -5,11 +5,11 @@ import VtToast from "../../../src/components/VtToast.vue"
 import VtProgressBar from "../../../src/components/VtProgressBar.vue"
 import { ComponentPublicInstance, h, nextTick } from "vue"
 import { mount, VueWrapper } from "@vue/test-utils"
-import { createToastInterface, EventBus } from "../../../src"
+import { createToastInstance, EventBus } from "../../../src"
 
 const mountToastContainer = async (props: PluginOptions = {}) => {
   const eventBus = new EventBus()
-  const toast = createToastInterface(eventBus)
+  const toast = createToastInstance(eventBus)
   const wrapper = mount(VtToastContainer, {
     props: { container: undefined, eventBus, ...props },
   })

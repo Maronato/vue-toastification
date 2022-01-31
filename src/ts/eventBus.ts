@@ -66,3 +66,5 @@ export class EventBus implements EventBusInterface {
 
 export const isEventBusInterface = (e: unknown): e is EventBusInterface =>
   ["on", "off", "emit"].every(f => hasProp(e, f) && isFunction(e[f]))
+
+export const globalEventBus = new EventBus()
