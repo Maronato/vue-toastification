@@ -2,11 +2,11 @@ import type { App, ComponentPublicInstance } from "vue"
 import type { BaseToastOptions } from "./toast"
 import type { BaseToastContainerOptions } from "./toastContainer"
 
-export interface BasePluginOptions
+export declare interface BasePluginOptions
   extends BaseToastContainerOptions,
     BaseToastOptions {}
 
-export interface PluginOptions extends BasePluginOptions {
+export declare interface PluginOptions extends BasePluginOptions {
   /**
    * Callback executed when the toast container is mounted.
    *

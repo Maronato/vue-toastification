@@ -9,7 +9,7 @@
     "prebuild": "rimraf ./dist",
     "build": "yarn build:code && yarn build:tsc",
     "build:code": "vite build --mode lib",
-    "build:tsc": "vue-tsc --emitDeclarationOnly --project tsconfig.build.json",
+    "build:tsc": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "build:demo": "vite build --mode demo",
     "test:unit": "jest",
     "test": "yarn test:unit",

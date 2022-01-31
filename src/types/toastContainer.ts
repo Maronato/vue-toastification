@@ -1,14 +1,14 @@
 import type { TYPE } from "../ts/constants"
-import type { EventBusable } from "./common"
+import type { ClassNames, EventBusable } from "./common"
 import type {
   BaseToastOptions,
   ToastOptions,
-  ToastOptionsAndRequiredContent,
+  ToastOptionsAndContent,
 } from "./toast"
 
 type ContainerCallback = () => HTMLElement | Promise<HTMLElement>
 
-export interface BaseToastContainerOptions extends EventBusable {
+export declare interface BaseToastContainerOptions extends EventBusable {
   position?: BaseToastOptions["position"]
   /**
    * Container where the toasts are mounted.
@@ -40,17 +40,15 @@ export interface BaseToastContainerOptions extends EventBusable {
    * Takes the new toast and a list of the current toasts and returns a modified toast or false.
    */
   filterBeforeCreate?: (
-    toast: ToastOptionsAndRequiredContent,
-    toasts: ToastOptionsAndRequiredContent[]
-  ) => ToastOptionsAndRequiredContent | false
+    toast: ToastOptionsAndContent,
+    toasts: ToastOptionsAndContent[]
+  ) => ToastOptionsAndContent | false
   /**
    * Callback to filter toasts during render
    *
    * Filter toasts during render and queues filtered toasts.
    */
-  filterToasts?: (
-    toasts: ToastOptionsAndRequiredContent[]
-  ) => ToastOptionsAndRequiredContent[]
+  filterToasts?: (toasts: ToastOptionsAndContent[]) => ToastOptionsAndContent[]
   /**
    * Extra CSS class or classes added to each of the Toast containers.
    *
@@ -59,6 +57,7 @@ export interface BaseToastContainerOptions extends EventBusable {
   containerClassName?: ClassNames
 }
 
-export interface ToastContainerOptions extends BaseToastContainerOptions {
+export declare interface ToastContainerOptions
+  extends BaseToastContainerOptions {
   defaultToastProps?: BaseToastOptions
 }

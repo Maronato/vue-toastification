@@ -11,7 +11,7 @@ import type {
   ToastID,
 } from "./common"
 
-export interface BaseToastOptions
+export declare interface BaseToastOptions
   extends EventBusable,
     Draggable,
     Hoverable,
@@ -88,7 +88,7 @@ export interface BaseToastOptions
   rtl?: boolean
 }
 
-export interface ToastOptions extends BaseToastOptions {
+export declare interface ToastOptions extends BaseToastOptions {
   /**
    *  ID of the toast.
    */
@@ -112,9 +112,9 @@ export interface ToastOptions extends BaseToastOptions {
   onClose?: () => void
 }
 
-export type RenderableToastContent = string | Component
+export declare type RenderableToastContent = string | Component
 
-export interface ToastComponent {
+export declare interface ToastComponent {
   /**
    * Component that will be rendered.
    */
@@ -132,8 +132,11 @@ export interface ToastComponent {
   listeners?: { [listenerEvent: string]: Function }
 }
 
-export type ToastContent = RenderableToastContent | JSX.Element | ToastComponent
+export declare type ToastContent =
+  | RenderableToastContent
+  | JSX.Element
+  | ToastComponent
 
-export type ToastOptionsAndContent = ToastOptions & {
+export declare type ToastOptionsAndContent = ToastOptions & {
   content: ToastContent
 }

@@ -12,6 +12,7 @@ const commonConfig = defineConfig({
 const libConfig = defineConfig({
   ...commonConfig,
   build: {
+    minify: true,
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
       name: "VueToastification",

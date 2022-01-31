@@ -1,11 +1,11 @@
 import type { Component } from "vue"
 import type { EventBusInterface } from "../ts/eventBus"
 
-export type ToastID = string | number
+export declare type ToastID = string | number
 
-export type ClassNames = string | string[]
+export declare type ClassNames = string | string[]
 
-export interface EventBusable {
+export declare interface EventBusable {
   /**
    * EventBus instance used to pass events across the interface
    *
@@ -14,7 +14,7 @@ export interface EventBusable {
   eventBus?: EventBusInterface
 }
 
-export interface Draggable {
+export declare interface Draggable {
   /**
    *  Position of the toast on the screen.
    *
@@ -27,21 +27,21 @@ export interface Draggable {
   draggablePercent?: number
 }
 
-export interface Hoverable {
+export declare interface Hoverable {
   /**
    *  Whether or not the toast is paused when it is hovered by the mouse.
    */
   pauseOnHover?: boolean
 }
 
-export interface Focusable {
+export declare interface Focusable {
   /**
    *  Whether or not the toast is paused when the window loses focus.
    */
   pauseOnFocusLoss?: boolean
 }
 
-export type Icon =
+export declare type Icon =
   | boolean
   | string
   | {
@@ -52,7 +52,7 @@ export type Icon =
   | Component
   | JSX.Element
 
-export type Button =
+export declare type Button =
   | false
   | keyof HTMLElementTagNameMap
   | Component
