@@ -5,7 +5,7 @@
   "description": "Toasts for Vue made easy!",
   "author": "Gustavo Maronato",
   "scripts": {
-    "dev": "yarn vite --mode demo",
+    "dev": "MODE=demo yarn vite",
     "prebuild": "rimraf ./dist",
     "build": "yarn build:code && yarn build:tsc",
     "build:code": "MODE=lib vite build",
