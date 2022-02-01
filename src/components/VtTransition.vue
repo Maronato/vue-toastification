@@ -1,5 +1,6 @@
 <template>
   <transition-group
+    type="animation"
     tag="div"
     :enter-active-class="
       getProp(transition, 'enter', `${transition}-enter-active`)
