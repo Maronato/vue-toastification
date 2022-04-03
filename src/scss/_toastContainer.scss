@@ -36,8 +36,8 @@
       // See https://github.com/Maronato/vue-toastification/issues/179
       @supports not (-moz-appearance:none) {
         .#{$vt-namespace}__toast--rtl {
-          margin-right: unset;
-          margin-left: auto;
+          margin-right: auto;
+          margin-left: unset;
         }
       }
     }
@@ -52,8 +52,8 @@
       // See https://github.com/Maronato/vue-toastification/issues/179
       @supports not (-moz-appearance:none) {
         .#{$vt-namespace}__toast--rtl {
-          margin-left: unset;
-          margin-right: auto;
+          margin-left: auto;
+          margin-right: unset;
         }
       }
     }
