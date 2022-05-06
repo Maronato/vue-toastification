@@ -100,6 +100,10 @@ const CORE_TOAST = {
   closeButton: CLOSE_BUTTON.component,
   closeButtonClassName: CLOSE_BUTTON.classNames,
   showCloseButtonOnHover: CLOSE_BUTTON.showOnHover,
+  allowUnsafeHtml: {
+      type: Boolean,
+      default: false,
+  },
   accessibility: {
     type: Object as PropType<NonNullable<PluginOptions["accessibility"]>>,
     default: () => ({

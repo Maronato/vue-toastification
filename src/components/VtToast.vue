@@ -7,7 +7,8 @@
     @mouseleave="hoverPlay"
   >
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
-    <div v-if="typeof content === 'string'" v-html="content" :role="accessibility.toastRole || 'alert'" :class="bodyClasses"></div>
+    <div v-if="typeof content === 'string' && !allowUnsafeHtml" :role="accessibility.toastRole || 'alert'" :class="bodyClasses" v-text="content"></div>
+    <div v-else-if="typeof content === 'string' && allowUnsafeHtml" :role="accessibility.toastRole || 'alert'" :class="bodyClasses" v-html="content"></div>
     <div v-else :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
       <component
         :is="getVueComponentFromObj(content)"
