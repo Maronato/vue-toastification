@@ -58,7 +58,7 @@ import ProgressBar from "./VtProgressBar.vue"
 
 interface ToastProps {
   content: ToastOptionsAndContent["content"]
-  allowUnsafeHtml: ToastOptionsAndContent["allowUnsafeHtml"]
+  allowUnsafeHtml?: ToastOptionsAndContent["allowUnsafeHtml"]
   id?: ToastOptionsAndContent["id"]
   accessibility?: ToastOptionsAndContent["accessibility"]
   bodyClassName?: ToastOptionsAndContent["bodyClassName"]

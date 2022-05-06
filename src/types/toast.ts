@@ -97,7 +97,7 @@ export declare interface ToastOptions extends BaseToastOptions {
   /**
    *  If unsafe HTML is allowed as content.
    */
-  allowUnsafeHtml?: false
+  allowUnsafeHtml?: boolean
   /**
    *  Type of the toast.
    *
