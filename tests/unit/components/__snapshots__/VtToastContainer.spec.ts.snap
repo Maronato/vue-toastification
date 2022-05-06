@@ -156,9 +156,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
           class="Vue-Toastification__toast-body"
           role="alert"
         >
-          
           info
-          
         </div>
         <button
           aria-label="close"
@@ -192,9 +190,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
           class="Vue-Toastification__toast-body"
           role="alert"
         >
-          
           default
-          
         </div>
         <button
           aria-label="close"
@@ -254,9 +250,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
           class="Vue-Toastification__toast-body"
           role="alert"
         >
-          
           error
-          
         </div>
         <button
           aria-label="close"

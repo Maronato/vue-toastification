@@ -21,9 +21,7 @@ exports[`VtToast snapshots renders 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <button
     aria-label="close"
@@ -59,9 +57,7 @@ exports[`VtToast ui closeButton = false removes it 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <!--v-if-->
   <div
@@ -92,9 +88,7 @@ exports[`VtToast ui has all default sub components 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <button
     aria-label="close"
@@ -118,9 +112,7 @@ exports[`VtToast ui icon = false removes it 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <button
     aria-label="close"
@@ -156,9 +148,7 @@ exports[`VtToast ui renders custom aria role and button aria label 1`] = `
     class="Vue-Toastification__toast-body"
     role="status"
   >
-    
     content
-    
   </div>
   <button
     aria-label="text"
@@ -234,9 +224,7 @@ exports[`VtToast ui renders default aria role and button aria label 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <button
     aria-label="close"
@@ -272,9 +260,7 @@ exports[`VtToast ui renders ltr by default 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <button
     aria-label="close"
@@ -310,9 +296,7 @@ exports[`VtToast ui renders rtl if set 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <button
     aria-label="close"
@@ -348,9 +332,7 @@ exports[`VtToast ui timeout = false removes progress bar 1`] = `
     class="Vue-Toastification__toast-body"
     role="alert"
   >
-    
     content
-    
   </div>
   <button
     aria-label="close"
