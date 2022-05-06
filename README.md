@@ -275,6 +275,12 @@ toast("Persistent toast", { timeout: false })
 app.use(Toast, { timeout: 2000 });
 ```
 
+### Using unsafe HTML
+```js
+toast("I am <b>Toast</b>", { allowUnsafeHtml: true });
+```
+> Note: This can lead to Cross-Site Scripting (XSS) attacks. If you are certain the content passed to `v-html` is sanitized HTML you can use `allowUnsafeHtml`.
+
 ### Using a custom component
 Passing strings as the toast content is not enough? You can render anything inside the toast using custom components! Vue Toastification accepts both Vue Components and JSX templates as parameters.
 
