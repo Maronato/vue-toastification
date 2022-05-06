@@ -147,6 +147,19 @@ describe("VtToastContainer", () => {
       expect(wrapper.findComponent(VtToast).text()).toEqual(`${message} close`)
     })
 
+    it("creates html toast", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+      expect(wrapper.findAllComponents(VtToast).length).toBe(0)
+
+      const message = "I'm a <b>toast</b>"
+      toast.info(message, { allowUnsafeHtml: true })
+      await nextTick()
+
+      expect(
+        wrapper.find(".Vue-Toastification__toast-body").element.innerHTML
+      ).toEqual(message)
+    })
+
     it("creates toast in a different position", async () => {
       const { wrapper, toast } = await mountToastContainer()
 
