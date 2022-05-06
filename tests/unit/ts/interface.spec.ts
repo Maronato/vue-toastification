@@ -1,310 +1,163 @@
 /* eslint-disable vue/one-component-per-file */
 import * as vue from "vue"
-import { buildInterface, ToastInterface } from "../../../src/ts/interface"
+import { App, nextTick } from "vue"
+
+import { isFunction } from "@vue/shared"
+
+import VtToastContainer from "../../../src/components/VtToastContainer.vue"
+import { EventBus } from "../../../src/index"
 import { EVENTS, TYPE } from "../../../src/ts/constants"
-import { loadPlugin } from "../../utils/plugin"
-import { ToastOptions } from "../../../src/types"
-import { EventBus } from "../../../src/ts/eventBus"
-import { nextTick, App } from "vue"
-import * as index from "../../../src/index"
+import { buildInterface } from "../../../src/ts/interface"
 
-type Unpacked<T> = T extends (infer U)[]
-  ? U
-  : T extends (...args: unknown[]) => infer U
-  ? U
-  : T extends Promise<infer U>
-  ? U
-  : T
+import type { PluginOptions } from "../../../src/types/plugin"
 
-describe("ToastInterface", () => {
-  let wrappers: Unpacked<ReturnType<typeof loadPlugin>>
-  let toast: ToastInterface
-
-  const eventBus = new EventBus()
-
-  const eventsEmmited = Object.values(EVENTS).reduce((agg, eventName) => {
-    const handler = jest.fn()
-    eventBus.on(eventName, handler)
-    return { ...agg, [eventName]: handler }
-  }, {} as { [eventName in EVENTS]: jest.Mock })
-
-  beforeEach(async () => {
-    wrappers = await loadPlugin({ eventBus })
-    toast = wrappers.toastInterface
-    jest.clearAllMocks()
+describe("interface", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
     jest.restoreAllMocks()
   })
 
-  it("calls onMounted", async () => {
-    const onMounted = jest.fn()
-    expect(onMounted).not.toHaveBeenCalled()
-    toast = buildInterface({ onMounted })
-    await nextTick()
-    expect(onMounted).toHaveBeenCalledWith(expect.anything(), expect.anything())
-  })
+  describe("buildInterface", () => {
+    let eventBus: EventBus
+    let eventsEmmited: Record<EVENTS, typeof jest.fn>
 
-  it("does not call onMounted", () => {
-    const onMounted = jest.fn()
-    toast = buildInterface()
-    expect(onMounted).not.toHaveBeenCalled()
-  })
-
-  it("mounts if mountContainer is true", async () => {
-    const createAppSpy = jest.spyOn(vue, "createApp")
-    expect(createAppSpy).not.toHaveBeenCalled()
-    toast = buildInterface({}, true)
-    await nextTick()
-    expect(createAppSpy).toHaveBeenCalled()
-  })
-
-  it("does not mount if mountContainer is false", async () => {
-    const createAppSpy = jest.spyOn(vue, "createApp")
-    expect(createAppSpy).not.toHaveBeenCalled()
-    toast = buildInterface({}, false)
-    await nextTick()
-    expect(createAppSpy).not.toHaveBeenCalled()
-  })
-
-  it("Shares app context if shareAppContext", async () => {
-    // Create a base app
-    const baseApp = vue.createApp({ template: "<div>app</div>" })
-    // App starts off empty
-    expect(baseApp._context.components).toEqual({})
-    expect(baseApp._context.directives).toEqual({})
-    expect(baseApp._context.mixins.length).toEqual(0)
-    expect(baseApp._context.provides).toEqual({})
-    expect(baseApp.config.globalProperties).toEqual({})
-
-    // Add a plugin that sets globalProps
-    baseApp.use(App => {
-      App.config.globalProperties.newProp = "text"
-    })
-    // A custom componrnt
-    baseApp.component("CustomApp", { template: "<div></div>" })
-    // A custom directive
-    baseApp.directive("customDir", {})
-    // Provide some data
-    baseApp.provide("provideKey", "value")
-    // And a custom mixin
-    baseApp.mixin({
-      setup() {
-        return { stuff: 123 }
-      },
+    beforeEach(() => {
+      eventBus = new EventBus()
+      eventsEmmited = Object.values(EVENTS).reduce((agg, eventName) => {
+        const handler = jest.fn()
+        eventBus.on(eventName, handler)
+        return { ...agg, [eventName]: handler }
+      }, {} as { [eventName in EVENTS]: jest.Mock })
     })
 
-    // Confirm that app has all values
-    expect(baseApp._context.components).not.toEqual({})
-    expect(baseApp._context.directives).not.toEqual({})
-    expect(baseApp._context.mixins.length).not.toEqual(0)
-    expect(baseApp._context.provides).not.toEqual({})
-    expect(baseApp.config.globalProperties).not.toEqual({})
+    it("creates valid interface by default", async () => {
+      const mockApp = { mount: jest.fn() } as unknown as App
+      jest.spyOn(vue, "createApp").mockImplementation(() => mockApp)
+      const toast = buildInterface()
+      await nextTick()
 
-    let toastApp: App | undefined = undefined
-    const pluginOptions: index.PluginOptions = {
-      onMounted: (_, app) => {
-        toastApp = app
-      },
-      shareAppContext: true,
-    }
-    baseApp.use(index.default, pluginOptions)
-    await nextTick()
-
-    toastApp = toastApp as unknown as App
-
-    // toast app should share configs with app
-    expect(toastApp).toBeDefined()
-    expect(toastApp._context.components).toBe(baseApp._context.components)
-    expect(toastApp._context.directives).toBe(baseApp._context.directives)
-    expect(toastApp._context.mixins).toBe(baseApp._context.mixins)
-    expect(toastApp._context.provides).toBe(baseApp._context.provides)
-    expect(toastApp.config.globalProperties).toBe(
-      baseApp.config.globalProperties
-    )
-  })
-
-  it("Does not share app context if shareAppContext = true", async () => {
-    // Create a base app
-    const baseApp = vue.createApp({ template: "<div>app</div>" })
-    // App starts off empty
-    expect(baseApp._context.components).toEqual({})
-    expect(baseApp._context.directives).toEqual({})
-    expect(baseApp._context.mixins.length).toEqual(0)
-    expect(baseApp._context.provides).toEqual({})
-    expect(baseApp.config.globalProperties).toEqual({})
-
-    // Add a plugin that sets globalProps
-    baseApp.use(App => {
-      App.config.globalProperties.newProp = "text"
-    })
-    // A custom componrnt
-    baseApp.component("CustomApp", { template: "<div></div>" })
-    // A custom directive
-    baseApp.directive("customDir", {})
-    // Provide some data
-    baseApp.provide("provideKey", "value")
-    // And a custom mixin
-    baseApp.mixin({
-      setup() {
-        return { stuff: 123 }
-      },
+      expect(isFunction(toast)).toBe(true)
+      expect(isFunction(toast.info)).toBe(true)
+      expect(isFunction(toast.success)).toBe(true)
+      expect(isFunction(toast.warning)).toBe(true)
+      expect(isFunction(toast.error)).toBe(true)
+      expect(isFunction(toast.dismiss)).toBe(true)
+      expect(isFunction(toast.clear)).toBe(true)
+      expect(isFunction(toast.update)).toBe(true)
+      expect(isFunction(toast.updateDefaults)).toBe(true)
     })
 
-    // Confirm that app has all values
-    expect(baseApp._context.components).not.toEqual({})
-    expect(baseApp._context.directives).not.toEqual({})
-    expect(baseApp._context.mixins.length).not.toEqual(0)
-    expect(baseApp._context.provides).not.toEqual({})
-    expect(baseApp.config.globalProperties).not.toEqual({})
+    it("uses provided eventBus", async () => {
+      const mockApp = { mount: jest.fn() } as unknown as App
+      const createAppSpy = jest
+        .spyOn(vue, "createApp")
+        .mockImplementation(() => mockApp)
+      const toast = buildInterface({ eventBus })
 
-    let toastApp: App | undefined = undefined
-    const pluginOptions: index.PluginOptions = {
-      onMounted: (_, app) => {
-        toastApp = app
-      },
-    }
-    baseApp.use(index.default, pluginOptions)
-    await nextTick()
+      expect(eventsEmmited.add).not.toHaveBeenCalled()
 
-    toastApp = toastApp as unknown as App
+      const content = "hello"
+      toast.success(content)
 
-    // toast app should share configs with app
-    expect(toastApp).toBeDefined()
-    expect(toastApp._context.components).toEqual({})
-    expect(toastApp._context.directives).toEqual({})
-    expect(toastApp._context.mixins.length).toEqual(0)
-    expect(toastApp._context.provides).toEqual({})
-    expect(toastApp.config.globalProperties).toEqual({})
-  })
+      expect(eventsEmmited.add).toHaveBeenCalledWith({
+        id: expect.any(Number),
+        type: TYPE.SUCCESS,
+        content,
+      })
 
-  it("warns if shareAppContext = true in buildInterface", async () => {
-    const consoleSpy = jest.spyOn(console, "warn").mockImplementation()
-    expect(consoleSpy).toHaveBeenCalledTimes(0)
-    buildInterface({ shareAppContext: true }, true)
-    await nextTick()
-    expect(consoleSpy).toHaveBeenCalledTimes(1)
-  })
+      await nextTick()
 
-  it("calls regular toast function with defaults", () => {
-    expect(eventsEmmited.add).not.toHaveBeenCalled()
-    const content = "content"
-    const id = toast(content)
-    expect(eventsEmmited.add).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.add).toBeCalledWith({
-      id: expect.any(Number),
-      type: TYPE.DEFAULT,
-      content,
+      expect(createAppSpy).toHaveBeenCalledWith(VtToastContainer, {
+        eventBus,
+        defaultToastProps: {},
+      })
     })
-    expect(typeof id).toBe("number")
-  })
-  it("calls regular toast function with extra values", () => {
-    expect(eventsEmmited.add).not.toHaveBeenCalled()
-    const content = "content"
-    const options: ToastOptions = { timeout: 1000 }
-    const id = toast(content, options)
-    expect(eventsEmmited.add).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.add).toBeCalledWith({
-      id: expect.any(Number),
-      type: TYPE.DEFAULT,
-      content,
-      ...options,
+
+    it("mounts container by default", async () => {
+      const mockApp = { mount: jest.fn() } as unknown as App
+      const createAppSpy = jest
+        .spyOn(vue, "createApp")
+        .mockImplementation(() => mockApp)
+
+      buildInterface()
+
+      expect(mockApp.mount).not.toHaveBeenCalled()
+      expect(createAppSpy).not.toHaveBeenCalled()
+      await nextTick()
+
+      expect(createAppSpy).toHaveBeenCalledWith(
+        VtToastContainer,
+        expect.objectContaining({
+          eventBus: expect.any(EventBus),
+        })
+      )
+      expect(mockApp.mount).toHaveBeenCalled()
     })
-    expect(typeof id).toBe("number")
-  })
-  it("calls clear", () => {
-    expect(eventsEmmited.clear).not.toHaveBeenCalled()
-    toast.clear()
-    expect(eventsEmmited.clear).toHaveBeenCalledTimes(1)
-  })
-  it("calls updateDefaults", () => {
-    expect(eventsEmmited.update_defaults).not.toHaveBeenCalled()
-    toast.updateDefaults({ timeout: 1000 })
-    expect(eventsEmmited.update_defaults).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.update_defaults).toBeCalledWith({ timeout: 1000 })
-  })
-  it("calls dismiss", () => {
-    expect(eventsEmmited.dismiss).not.toHaveBeenCalled()
-    toast.dismiss(10)
-    expect(eventsEmmited.dismiss).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.dismiss).toBeCalledWith(10)
-  })
-  it("calls update with content", () => {
-    expect(eventsEmmited.update).not.toHaveBeenCalled()
-    const id = 10
-    const content = "content"
-    toast.update(id, { content })
-    expect(eventsEmmited.update).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.update).toBeCalledWith({
-      id,
-      options: { content },
-      create: false,
+
+    it("passes props to mounted container", async () => {
+      const mockApp = { mount: jest.fn() } as unknown as App
+      const createAppSpy = jest
+        .spyOn(vue, "createApp")
+        .mockImplementation(() => mockApp)
+
+      const options: PluginOptions = {
+        timeout: 1000,
+        bodyClassName: "myclass",
+      }
+      buildInterface(options)
+      await nextTick()
+
+      expect(createAppSpy).toHaveBeenCalledWith(VtToastContainer, {
+        eventBus: expect.any(EventBus),
+        defaultToastProps: { ...options },
+      })
+      expect(mockApp.mount).toHaveBeenCalled()
     })
-  })
-  it("calls update with options", () => {
-    expect(eventsEmmited.update).not.toHaveBeenCalled()
-    const id = 10
-    const options: ToastOptions = { timeout: 1000 }
-    toast.update(id, { options })
-    expect(eventsEmmited.update).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.update).toBeCalledWith({
-      id,
-      options: { ...options, content: undefined },
-      create: false,
+
+    it("calls onMounted", async () => {
+      const component = {}
+      const mockApp = { mount: jest.fn(() => component) } as unknown as App
+      jest.spyOn(vue, "createApp").mockImplementation(() => mockApp)
+
+      const onMounted = jest.fn()
+      buildInterface({ onMounted })
+
+      expect(onMounted).not.toHaveBeenCalled()
+      await nextTick()
+
+      expect(onMounted).toHaveBeenCalledWith(component, mockApp)
     })
-  })
-  it("calls update with create", () => {
-    expect(eventsEmmited.update).not.toHaveBeenCalled()
-    const id = 10
-    const content = "abc"
-    toast.update(id, { content }, true)
-    expect(eventsEmmited.update).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.update).toBeCalledWith({
-      id,
-      options: { content },
-      create: true,
-    })
-  })
-  it("calls success", () => {
-    expect(eventsEmmited.add).not.toHaveBeenCalled()
-    const content = "abc"
-    toast.success(content)
-    expect(eventsEmmited.add).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.add).toBeCalledWith({
-      id: expect.any(Number),
-      type: TYPE.SUCCESS,
-      content,
-    })
-  })
-  it("calls info", () => {
-    expect(eventsEmmited.add).not.toHaveBeenCalled()
-    const content = "abc"
-    toast.info(content)
-    expect(eventsEmmited.add).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.add).toBeCalledWith({
-      id: expect.any(Number),
-      type: TYPE.INFO,
-      content,
-    })
-  })
-  it("calls error", () => {
-    expect(eventsEmmited.add).not.toHaveBeenCalled()
-    const content = "abc"
-    toast.error(content)
-    expect(eventsEmmited.add).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.add).toBeCalledWith({
-      id: expect.any(Number),
-      type: TYPE.ERROR,
-      content,
-    })
-  })
-  it("calls warning", () => {
-    expect(eventsEmmited.add).not.toHaveBeenCalled()
-    const content = "abc"
-    toast.warning(content)
-    expect(eventsEmmited.add).toHaveBeenCalledTimes(1)
-    expect(eventsEmmited.add).toBeCalledWith({
-      id: expect.any(Number),
-      type: TYPE.WARNING,
-      content,
+
+    it("shares app context", async () => {
+      const mockApp = {
+        mount: jest.fn(),
+        _context: {},
+        config: {},
+      } as unknown as App
+      jest.spyOn(vue, "createApp").mockImplementation(() => mockApp)
+
+      const userApp = {
+        _context: {
+          components: "components",
+          directives: "directives",
+          mixins: "mixins",
+          provides: "provides",
+        },
+        config: {
+          globalProperties: "globalProperties",
+        },
+      } as unknown as App
+      buildInterface({ shareAppContext: userApp })
+
+      await nextTick()
+
+      expect(mockApp._context.components).toBe(userApp._context.components)
+      expect(mockApp._context.directives).toBe(userApp._context.directives)
+      expect(mockApp._context.mixins).toBe(userApp._context.mixins)
+      expect(mockApp._context.provides).toBe(userApp._context.provides)
+      expect(mockApp.config.globalProperties).toBe(
+        userApp.config.globalProperties
+      )
     })
   })
 })

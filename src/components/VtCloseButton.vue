@@ -8,33 +8,41 @@
     &times;
   </component>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue"
+
+<script lang="ts" setup>
+import { computed } from "vue"
 
 import { VT_NAMESPACE } from "../ts/constants"
-import PROPS from "../ts/propValidators"
+import { TOAST_DEFAULTS } from "../ts/propValidators"
 import { getVueComponentFromObj } from "../ts/utils"
-import { RenderableToastContent } from "../types"
 
-export default defineComponent({
-  name: "VtCloseButton",
+import type { ClassNames, Button } from "../types/common"
 
-  props: PROPS.CLOSE_BUTTON,
+interface CloseButtonProps {
+  component?: Button
+  classNames?: ClassNames
+  showOnHover?: boolean
+  ariaLabel?: string
+}
 
-  computed: {
-    buttonComponent(): RenderableToastContent {
-      if (this.component !== false) {
-        return getVueComponentFromObj(this.component)
-      }
-      return "button"
-    },
-    classes(): string[] {
-      const classes = [`${VT_NAMESPACE}__close-button`]
-      if (this.showOnHover) {
-        classes.push("show-on-hover")
-      }
-      return classes.concat(this.classNames)
-    },
-  },
+const props = withDefaults(defineProps<CloseButtonProps>(), {
+  component: TOAST_DEFAULTS.closeButton,
+  classNames: TOAST_DEFAULTS.closeButtonClassName,
+  ariaLabel: TOAST_DEFAULTS.accessibility()["closeButtonLabel"],
+  showOnHover: TOAST_DEFAULTS.showCloseButtonOnHover,
+})
+
+const buttonComponent = computed(() => {
+  if (props.component !== false) {
+    return getVueComponentFromObj(props.component)
+  }
+  return "button"
+})
+const classes = computed(() => {
+  const classes = [`${VT_NAMESPACE}__close-button`]
+  if (props.showOnHover) {
+    classes.push("show-on-hover")
+  }
+  return classes.concat(props.classNames)
 })
 </script>

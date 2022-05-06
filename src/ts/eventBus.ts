@@ -1,15 +1,16 @@
-import type { EVENTS } from "./constants"
-import { hasProp, isFunction } from "./utils"
+import type { ToastID } from "../types/common"
 import type {
-  ToastOptionsAndRequiredContent,
-  ToastID,
+  ToastOptionsAndContent,
   ToastContent,
   ToastOptions,
-  PluginOptions,
-} from "../types/index"
+} from "../types/toast"
+import type { ToastContainerOptions } from "../types/toastContainer"
+import type { EVENTS } from "./constants"
+
+import { hasProp, isFunction } from "./utils"
 
 type EventData = {
-  [EVENTS.ADD]: ToastOptionsAndRequiredContent & {
+  [EVENTS.ADD]: ToastOptionsAndContent & {
     id: ToastID
   }
   [EVENTS.CLEAR]: undefined
@@ -25,7 +26,7 @@ type EventData = {
         options: Partial<ToastOptions> & { content: ToastContent }
         create: true
       }
-  [EVENTS.UPDATE_DEFAULTS]: PluginOptions
+  [EVENTS.UPDATE_DEFAULTS]: ToastContainerOptions
 }
 
 type Handler<E extends EVENTS> = (event: EventData[E]) => void
@@ -66,3 +67,5 @@ export class EventBus implements EventBusInterface {
 
 export const isEventBusInterface = (e: unknown): e is EventBusInterface =>
   ["on", "off", "emit"].every(f => hasProp(e, f) && isFunction(e[f]))
+
+export const globalEventBus = new EventBus()

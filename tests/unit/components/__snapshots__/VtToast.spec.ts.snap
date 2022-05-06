@@ -6,9 +6,7 @@ exports[`VtToast snapshots renders 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -46,9 +44,7 @@ exports[`VtToast ui closeButton = false removes it 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -81,9 +77,7 @@ exports[`VtToast ui has all default sub components 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -147,9 +141,7 @@ exports[`VtToast ui renders custom aria role and button aria label 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -187,9 +179,7 @@ exports[`VtToast ui renders custom component 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -229,9 +219,7 @@ exports[`VtToast ui renders default aria role and button aria label 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -269,9 +257,7 @@ exports[`VtToast ui renders ltr by default 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -309,9 +295,7 @@ exports[`VtToast ui renders rtl if set 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"
@@ -349,9 +333,7 @@ exports[`VtToast ui timeout = false removes progress bar 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="svg-inline--fa fa-info-circle fa-w-16 Vue-Toastification__icon"
-    data-icon="info-circle"
-    data-prefix="fas"
+    class="Vue-Toastification__icon"
     focusable="false"
     role="img"
     viewBox="0 0 512 512"

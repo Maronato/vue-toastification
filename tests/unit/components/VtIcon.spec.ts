@@ -1,12 +1,14 @@
-import { mount } from "@vue/test-utils"
-import { TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
-import VtIcon from "../../../src/components/VtIcon.vue"
-import VtSuccessIcon from "../../../src/components/icons/VtSuccessIcon.vue"
-import VtInfoIcon from "../../../src/components/icons/VtInfoIcon.vue"
-import VtWarningIcon from "../../../src/components/icons/VtWarningIcon.vue"
-import VtErrorIcon from "../../../src/components/icons/VtErrorIcon.vue"
-import Simple from "../../utils/components/Simple.vue"
 import { markRaw } from "vue"
+
+import { mount } from "@vue/test-utils"
+
+import VtErrorIcon from "../../../src/components/icons/VtErrorIcon.vue"
+import VtInfoIcon from "../../../src/components/icons/VtInfoIcon.vue"
+import VtSuccessIcon from "../../../src/components/icons/VtSuccessIcon.vue"
+import VtWarningIcon from "../../../src/components/icons/VtWarningIcon.vue"
+import VtIcon from "../../../src/components/VtIcon.vue"
+import { TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
+import Simple from "../../utils/components/Simple.vue"
 
 describe("VtIcon", () => {
   describe("snapshots", () => {
@@ -145,45 +147,15 @@ describe("VtIcon", () => {
       expect(wrapper.text()).toBe("my child")
       expect(wrapper.element).toMatchSnapshot()
     })
-  })
-  it("trimValue trims string", () => {
-    const wrapper = mount(VtIcon)
-    const vm = wrapper.vm as unknown as {
-      trimValue(value: unknown, empty?: string): string
-    }
-    const trimValue = vm.trimValue
-    expect(trimValue(" my string ")).toBe("my string")
-  })
-  it("trimValue does nothing to trimmed string", () => {
-    const wrapper = mount(VtIcon)
-    const vm = wrapper.vm as unknown as {
-      trimValue(value: unknown, empty?: string): string
-    }
-    const trimValue = vm.trimValue
-    expect(trimValue("my string")).toBe("my string")
-  })
-  it("trimValue returns default if empty", () => {
-    const wrapper = mount(VtIcon)
-    const vm = wrapper.vm as unknown as {
-      trimValue(value: unknown, empty?: string): string
-    }
-    const trimValue = vm.trimValue
-    expect(trimValue("")).toBe("")
-  })
-  it("trimValue returns given default if empty", () => {
-    const wrapper = mount(VtIcon)
-    const vm = wrapper.vm as unknown as {
-      trimValue(value: unknown, empty?: string): string
-    }
-    const trimValue = vm.trimValue
-    expect(trimValue("", "default")).toBe("default")
-  })
-  it("trimValue returns default if not string", () => {
-    const wrapper = mount(VtIcon)
-    const vm = wrapper.vm as unknown as {
-      trimValue(value: unknown, empty?: string): string
-    }
-    const trimValue = vm.trimValue
-    expect(trimValue(123)).toBe("")
+    it("renders custom icon children if empty", () => {
+      const wrapper = mount(VtIcon, {
+        props: {
+          customIcon: { iconClass: "my-class", iconChildren: "" },
+        },
+      })
+      expect(wrapper.find("i").exists()).toBeTruthy()
+      expect(wrapper.text()).toBe("")
+      expect(wrapper.element).toMatchSnapshot()
+    })
   })
 })

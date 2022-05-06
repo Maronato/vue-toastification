@@ -1,568 +1,562 @@
-import { loadPlugin } from "../../utils/plugin"
-import {
-  PluginOptions,
-  ToastID,
-  ToastOptionsAndContent,
-  ToastOptionsAndRequiredContent,
-} from "../../../src/types"
-import { POSITION, TYPE, VT_NAMESPACE } from "../../../src/ts/constants"
-import { PluginOptionsType } from "../../../src/ts/propValidators"
-import Simple from "../../utils/components/Simple.vue"
-import { isProxy, reactive, toRaw } from "vue"
+import { ComponentPublicInstance, h, nextTick } from "vue"
+
+import { mount, VueWrapper } from "@vue/test-utils"
+
+import { createToastInstance, EventBus } from "../../../src"
+import VtProgressBar from "../../../src/components/VtProgressBar.vue"
+import VtToast from "../../../src/components/VtToast.vue"
+import VtToastContainer from "../../../src/components/VtToastContainer.vue"
+import { EVENTS, POSITION, TYPE } from "../../../src/ts/constants"
+import { asContainerProps } from "../../../src/ts/utils"
+
+import type { PluginOptions } from "../../../src/types/plugin"
+
+const mountToastContainer = async (props: PluginOptions = {}) => {
+  const eventBus = new EventBus()
+  const toast = createToastInstance(eventBus)
+  const options: PluginOptions = {
+    eventBus,
+    ...props,
+  }
+  const wrapper = mount(VtToastContainer, {
+    props: { container: undefined, ...asContainerProps(options) },
+  })
+  await nextTick()
+  return {
+    eventBus,
+    toast,
+    wrapper,
+  }
+}
+
+const defaultToastMessage = (message: string) => `${message} ×`
 
 describe("VtToastContainer", () => {
+  beforeEach(() => {
+    jest.restoreAllMocks()
+    jest.resetAllMocks()
+  })
+
   it("snapshots with default value", async () => {
-    const { containerWrapper } = await loadPlugin()
-    expect(containerWrapper.element).toMatchSnapshot()
+    const { wrapper } = await mountToastContainer()
+    expect(wrapper.element).toMatchSnapshot()
   })
   it("snapshots with classes", async () => {
-    const { containerWrapper } = await loadPlugin({
+    const { wrapper } = await mountToastContainer({
       containerClassName: "myclass",
     })
-    expect(containerWrapper.element).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
+  })
+  it("snapshots with toasts", async () => {
+    const { wrapper, toast } = await mountToastContainer()
+
+    toast("default")
+    toast.info("info")
+    toast.error("error", { position: POSITION.BOTTOM_RIGHT })
+    await nextTick()
+
+    expect(wrapper.element).toMatchSnapshot()
   })
   describe("setup", () => {
     it("removes element and reassigns", async () => {
-      const { containerWrapper } = await loadPlugin()
       const container = document.createElement("div")
-      const vm = containerWrapper.vm as unknown as {
-        setup(container: HTMLElement): void
-      }
-      expect(containerWrapper.element.parentElement).not.toBe(container)
-      vm.setup(container)
-      expect(containerWrapper.element.parentElement).toBe(container)
+
+      const { wrapper, toast } = await mountToastContainer()
+
+      // Should be other container
+      expect(wrapper.element.parentElement).not.toBe(container)
+
+      // Should be new container
+      toast.updateDefaults({ container })
+      await nextTick()
+
+      expect(wrapper.element.parentElement).toBe(container)
     })
     it("accepts function container", async () => {
-      const { containerWrapper } = await loadPlugin()
       const container = document.createElement("div")
-      const vm = containerWrapper.vm as unknown as {
-        setup(container: () => HTMLElement): void
-      }
-      expect(containerWrapper.element.parentElement).not.toBe(container)
-      vm.setup(() => container)
-      await containerWrapper.vm.$nextTick()
-      expect(containerWrapper.element.parentElement).toBe(container)
+
+      const { wrapper, toast } = await mountToastContainer()
+
+      // Should be other container
+      expect(wrapper.element.parentElement).not.toBe(container)
+
+      // Should be new container
+      toast.updateDefaults({ container: () => container })
+      await nextTick()
+
+      expect(wrapper.element.parentElement).toBe(container)
     })
     it("accepts async container", async () => {
-      const { containerWrapper } = await loadPlugin()
       const container = document.createElement("div")
-      const vm = containerWrapper.vm as unknown as {
-        setup(container: () => Promise<HTMLElement>): void
-      }
-      expect(containerWrapper.element.parentElement).not.toBe(container)
-      vm.setup(() => new Promise(resolve => resolve(container)))
-      await containerWrapper.vm.$nextTick()
-      expect(containerWrapper.element.parentElement).toBe(container)
+
+      const { wrapper, toast } = await mountToastContainer()
+
+      // Should be other container
+      expect(wrapper.element.parentElement).not.toBe(container)
+
+      // Should be new container
+      toast.updateDefaults({ container: () => new Promise(r => r(container)) })
+      await nextTick()
+
+      expect(wrapper.element.parentElement).toBe(container)
     })
   })
-  describe("setToast", () => {
-    it("sets toast with id", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        setToast(props: ToastOptionsAndRequiredContent): void
-        toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
-      }
-      expect(vm.toasts).toEqual({})
-      const toast: ToastOptionsAndRequiredContent = {
-        content: "abc",
-        id: "id",
-      }
-      vm.setToast(toast)
-      expect(vm.toasts).toEqual({ id: toast })
-    })
-    it("ignores toast without id", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        setToast(props: ToastOptionsAndRequiredContent): void
-        toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
-      }
-      expect(vm.toasts).toEqual({})
-      const toast: ToastOptionsAndRequiredContent = { content: "abc" }
-      vm.setToast(toast)
-      expect(vm.toasts).toEqual({})
-    })
-  })
-  describe("addToast", () => {
-    it("uses default values if nothing was provided", async () => {
-      const filterBeforeCreate = jest.fn(toast => toast)
-      const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = containerWrapper.vm as unknown as {
-        addToast(params: ToastOptionsAndRequiredContent): void
-        defaults: PluginOptions
-      }
-      const toast: ToastOptionsAndRequiredContent = { content: "abc" }
-      expect(filterBeforeCreate).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(filterBeforeCreate).toHaveBeenCalledWith(
-        { ...vm.defaults, ...toast },
-        []
+  describe("create toast", () => {
+    it("creates simple toast", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+      expect(wrapper.findAllComponents(VtToast).length).toBe(0)
+
+      const message = "I'm a toast"
+      toast.info(message)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      expect(
+        wrapper.find(`.${POSITION.TOP_RIGHT}`).findAllComponents(VtToast).length
+      ).toBe(1)
+      // Test with startsWith as there is a "x" from
+      expect(wrapper.findComponent(VtToast).text()).toEqual(
+        defaultToastMessage(message)
       )
+      expect(wrapper.findComponent(VtToast).isVisible()).toBe(true)
     })
-    it("merges default with params", async () => {
-      const filterBeforeCreate = jest.fn(toast => toast)
-      const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = containerWrapper.vm as unknown as {
-        addToast(params: ToastOptionsAndRequiredContent): void
-        defaults: PluginOptions
-      }
-      const toast: ToastOptionsAndRequiredContent = {
-        content: "abc",
-        timeout: 1000,
-        closeButton: false,
-      }
-      expect(filterBeforeCreate).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(filterBeforeCreate).toHaveBeenCalledWith(
-        { ...vm.defaults, ...toast },
-        []
-      )
-    })
-    it("merges default for toast type with params", async () => {
-      const filterBeforeCreate = jest.fn(toast => toast)
-      const toastDefaults = {
-        [TYPE.SUCCESS]: {
-          timeout: 1000,
-          closeButton: false as const,
-        },
-      }
-      const { containerWrapper } = await loadPlugin({
-        filterBeforeCreate,
-        toastDefaults,
-      })
-      const vm = containerWrapper.vm as unknown as {
-        addToast(params: ToastOptionsAndRequiredContent): void
-        defaults: PluginOptions
-      }
-      const toast: ToastOptionsAndRequiredContent & {
-        type: TYPE.SUCCESS
-      } = {
-        type: TYPE.SUCCESS,
-        content: "abc",
-      }
-      expect(filterBeforeCreate).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(filterBeforeCreate).toHaveBeenCalledWith(
-        { ...vm.defaults, ...toastDefaults[toast.type], ...toast },
-        []
-      )
-    })
-    it("uses default filterBeforeCreate if defined", async () => {
-      const filterBeforeCreate = jest.fn(toast => toast)
-      const toastDefaults = {
-        [TYPE.SUCCESS]: {
-          timeout: 1000,
-          closeButton: false as const,
-        },
-      }
-      const { containerWrapper } = await loadPlugin({
-        filterBeforeCreate,
-        toastDefaults,
-      })
-      const vm = containerWrapper.vm as unknown as {
-        addToast(params: ToastOptionsAndRequiredContent): void
-        defaults: PluginOptions
-      }
-      const toast: ToastOptionsAndRequiredContent & {
-        type: TYPE.SUCCESS
-      } = {
-        type: TYPE.SUCCESS,
-        content: "abc",
-      }
-      expect(filterBeforeCreate).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(filterBeforeCreate).toHaveBeenCalledWith(
-        { ...vm.defaults, ...toastDefaults[toast.type], ...toast },
-        []
-      )
-    })
-    it("uses default filterBeforeCreate", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        addToast(params: ToastOptionsAndRequiredContent): void
-        defaults: PluginOptionsType
-      }
 
-      const filterBeforeCreate = jest.spyOn(vm.defaults, "filterBeforeCreate")
-      const toast: ToastOptionsAndRequiredContent = { content: "abc" }
-      expect(filterBeforeCreate).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(filterBeforeCreate).toHaveBeenCalled()
-    })
-    it("uses custom filterBeforeCreate", async () => {
-      const filterBeforeCreate = jest.fn(toast => toast)
-      const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = containerWrapper.vm as unknown as {
-        addToast(params: ToastOptionsAndRequiredContent): void
-      }
-      const toast: ToastOptionsAndRequiredContent = { content: "abc" }
-      expect(filterBeforeCreate).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(filterBeforeCreate).toHaveBeenCalled()
-    })
-    it("set toast if passes filterBeforeCreate", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        setToast(params: ToastOptionsAndRequiredContent): void
-        addToast(params: ToastOptionsAndRequiredContent): void
-        defaults: PluginOptions
-      }
+    it("creates toast with props", async () => {
+      const { wrapper, toast } = await mountToastContainer()
 
-      const spySetToast = (vm.setToast = jest.fn(vm.setToast))
-      const toast: ToastOptionsAndRequiredContent = { content: "abc" }
-      expect(spySetToast).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(spySetToast).toHaveBeenCalledWith({ ...vm.defaults, ...toast })
-    })
-    it("set toast is raw", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        setToast(params: ToastOptionsAndRequiredContent): void
-        addToast(params: ToastOptionsAndRequiredContent): void
-      }
-      let normalizedToast: ToastOptionsAndRequiredContent = {
-        content: "undefined",
-      }
-      const spySetToast = (vm.setToast = jest.fn(t => (normalizedToast = t)))
-      const toast: ToastOptionsAndRequiredContent = {
-        content: reactive(Simple),
-      }
-      expect(isProxy(toast.content)).toBe(true)
-      expect(spySetToast).not.toHaveBeenCalled()
-      expect(normalizedToast.content).not.toBe(toRaw(toast.content))
-      vm.addToast(toast)
-      expect(normalizedToast.content).toBe(toRaw(toast.content))
-      expect(isProxy(normalizedToast.content)).toBe(false)
-    })
-    it("does not set toast if fails filterBeforeCreate", async () => {
-      const filterBeforeCreate = jest.fn((): false => false)
-      const { containerWrapper } = await loadPlugin({ filterBeforeCreate })
-      const vm = containerWrapper.vm as unknown as {
-        setToast(params: ToastOptionsAndRequiredContent): void
-        addToast(params: ToastOptionsAndRequiredContent): void
-      }
-      const spySetToast = (vm.setToast = jest.fn(vm.setToast))
-      const toast: ToastOptionsAndRequiredContent = { content: "abc" }
-      expect(spySetToast).not.toHaveBeenCalled()
-      vm.addToast(toast)
-      expect(spySetToast).not.toHaveBeenCalled()
-    })
-  })
-  describe("dismissToast", () => {
-    it("dismisses toast", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        dismissToast(id: ToastID): void
-        setToast(params: ToastOptionsAndRequiredContent): void
-        toasts: { [toastId: string]: ToastOptionsAndRequiredContent }
-      }
-      expect(vm.toasts).toEqual({})
-      const toastContent = { id: 10, content: "content" }
-      vm.setToast(toastContent)
-      expect(vm.toasts).toEqual({ "10": expect.objectContaining(toastContent) })
-      vm.dismissToast(10)
-      expect(vm.toasts).toEqual({})
-    })
-    it("calls onClose if set", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        dismissToast(id: ToastID): void
-        setToast(params: ToastOptionsAndRequiredContent): void
-        toasts: { [toastId: string]: ToastOptionsAndRequiredContent }
-      }
-      const onClose = jest.fn()
-      const toastContent = { id: 10, content: "content", onClose }
+      const message = "I'm a toast"
+      toast.info(message, { closeButton: () => h("div", " close") })
+      await nextTick()
 
-      expect(vm.toasts).toEqual({})
-      vm.setToast(toastContent)
-      expect(vm.toasts).toEqual({ "10": expect.objectContaining(toastContent) })
-      expect(onClose).not.toHaveBeenCalled()
-      vm.dismissToast(10)
-      expect(onClose).toHaveBeenCalled()
-      expect(vm.toasts).toEqual({})
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      // Test with startsWith as there is a "x" from
+      expect(wrapper.findComponent(VtToast).text()).toEqual(`${message} close`)
     })
-  })
-  describe("clearToasts", () => {
-    it("clears toasts", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        dismissToast(id: ToastID): void
-        clearToasts(): void
-        setToast(params: ToastOptionsAndRequiredContent): void
-        toasts: { [toastId: string]: ToastOptionsAndRequiredContent }
-      }
 
-      const getContent = (id: number) => ({ id, content: `content${id}` })
-
-      vm.setToast(getContent(1))
-      vm.setToast(getContent(2))
-      vm.setToast(getContent(3))
-
-      expect(vm.toasts).toEqual({
-        "1": expect.objectContaining(getContent(1)),
-        "2": expect.objectContaining(getContent(2)),
-        "3": expect.objectContaining(getContent(3)),
+    it("creates toast with default props", async () => {
+      const { wrapper, toast } = await mountToastContainer({
+        closeButton: () => h("div", " close"),
       })
 
-      vm.clearToasts()
-      expect(vm.toasts).toEqual({})
+      const message = "I'm a toast"
+      toast.info(message)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      // Test with startsWith as there is a "x" from
+      expect(wrapper.findComponent(VtToast).text()).toEqual(`${message} close`)
     })
-  })
-  describe("getPositionToasts", () => {
-    it("gets toast from position", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[]
-        setToast(params: ToastOptionsAndRequiredContent): void
-      }
-      vm.setToast({
-        id: 1,
-        content: "content1",
-        position: POSITION.TOP_CENTER,
-      })
-      vm.setToast({ id: 2, content: "content1", position: POSITION.TOP_RIGHT })
-      const topCenterIds = vm
-        .getPositionToasts(POSITION.TOP_CENTER)
-        .map(t => t.id)
-      const topRightIds = vm
-        .getPositionToasts(POSITION.TOP_RIGHT)
-        .map(t => t.id)
-      const topLeftIds = vm.getPositionToasts(POSITION.TOP_LEFT).map(t => t.id)
-      expect(topCenterIds).toEqual([1])
-      expect(topRightIds).toEqual([2])
-      expect(topLeftIds).toEqual([])
+
+    it("creates toast in a different position", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const message = "I'm a toast"
+      toast.info(message, { position: POSITION.BOTTOM_CENTER })
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      expect(
+        wrapper.find(`.${POSITION.BOTTOM_CENTER}`).findAllComponents(VtToast)
+          .length
+      ).toBe(1)
     })
-    it("regular ordering if newestOnTop is false", async () => {
-      const { containerWrapper: containerWrapper1 } = await loadPlugin({
+
+    it("creates multiple toasts", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      // Create many messages
+      const list = [1, 2, 3, 4, 5]
+      const getMessage = (i: number) => `message ${i}`
+      list.forEach(i => toast(getMessage(i)))
+      await nextTick()
+
+      const toasts = wrapper.findAllComponents(VtToast)
+      expect(toasts.length).toBe(list.length)
+
+      const toastTexts = toasts.map(t => t.text())
+      const expectedTexts = list.map(i => defaultToastMessage(getMessage(i)))
+
+      expect(toastTexts.sort()).toEqual(expectedTexts.sort())
+    })
+
+    it("displays maximum toasts only", async () => {
+      const maxToasts = 3
+      const { wrapper, toast } = await mountToastContainer({ maxToasts })
+
+      // Create many messages
+      const list = [1, 2, 3, 4, 5]
+      const getMessage = (i: number) => `message ${i}`
+      list.forEach(i => toast(getMessage(i)))
+      await nextTick()
+
+      const toasts = wrapper.findAllComponents(VtToast)
+      expect(toasts.length).toBe(maxToasts)
+
+      const toastTexts = toasts.map(t => t.text())
+      const expectedTexts = list
+        .slice(0, maxToasts)
+        .map(i => defaultToastMessage(getMessage(i)))
+
+      expect(toastTexts.sort()).toEqual(expectedTexts.sort())
+    })
+
+    it("displays in reverse if newestOnTop", async () => {
+      const { wrapper, toast } = await mountToastContainer({
         newestOnTop: false,
       })
-      const vm = containerWrapper1.vm as unknown as {
-        getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[]
-        setToast(params: ToastOptionsAndRequiredContent): void
-      }
-      vm.setToast({ id: 1, content: "content1", position: POSITION.TOP_RIGHT })
-      vm.setToast({ id: 2, content: "content2", position: POSITION.TOP_RIGHT })
-      vm.setToast({ id: 3, content: "content3", position: POSITION.TOP_RIGHT })
-      const topRightIds = vm
-        .getPositionToasts(POSITION.TOP_RIGHT)
-        .map(t => t.id)
-      expect(topRightIds).toEqual([1, 2, 3])
+
+      // Create many messages
+      const list = [1, 2, 3, 4, 5]
+      const getMessage = (i: number) => `message ${i}`
+      list.forEach(i => toast(getMessage(i)))
+      await nextTick()
+
+      const oldestToasts = wrapper.findAllComponents(VtToast)
+
+      const oldestTexts = oldestToasts.map(t => t.text())
+
+      toast.updateDefaults({ newestOnTop: true })
+      await nextTick()
+
+      const newestToasts = wrapper.findAllComponents(VtToast)
+      const newestTexts = newestToasts.map(t => t.text())
+
+      expect(oldestTexts).not.toEqual(newestTexts)
+      expect(oldestTexts.reverse()).toEqual(newestTexts)
     })
-    it("reverse ordering if newestOnTop is true", async () => {
-      const { containerWrapper: containerWrapper1 } = await loadPlugin({
-        newestOnTop: true,
-      })
-      const vm = containerWrapper1.vm as unknown as {
-        getPositionToasts(position: POSITION): ToastOptionsAndRequiredContent[]
-        setToast(params: ToastOptionsAndRequiredContent): void
-      }
-      vm.setToast({ id: 1, content: "content1", position: POSITION.TOP_RIGHT })
-      vm.setToast({ id: 2, content: "content2", position: POSITION.TOP_RIGHT })
-      vm.setToast({ id: 3, content: "content3", position: POSITION.TOP_RIGHT })
-      const topRightIds = vm
-        .getPositionToasts(POSITION.TOP_RIGHT)
-        .map(t => t.id)
-      expect(topRightIds).toEqual([3, 2, 1])
-    })
-  })
-  describe("updateDefaults", () => {
-    it("updates defaults", async () => {
-      const { containerWrapper } = await loadPlugin({ timeout: 1000 })
-      const vm = containerWrapper.vm as unknown as {
-        updateDefaults(update: PluginOptions): void
-        defaults: PluginOptions
-      }
-      expect(vm.defaults.timeout).toBe(1000)
-      vm.updateDefaults({ timeout: 5000 })
-      expect(vm.defaults.timeout).toBe(5000)
-    })
-    it("calls setup if container is present", async () => {
-      const { containerWrapper } = await loadPlugin({ timeout: 1000 })
-      const vm = containerWrapper.vm as unknown as {
-        updateDefaults(update: PluginOptions): void
-        defaults: PluginOptions
-        setup(container: HTMLElement): void
-      }
-      const spySetup = (vm.setup = jest.fn(vm.setup))
-      const container = document.createElement("div")
-      expect(vm.defaults.container).not.toBe(container)
-      expect(spySetup).not.toHaveBeenCalled()
-      vm.updateDefaults({ container })
-      expect(spySetup).toHaveBeenCalledWith(container)
-      expect(vm.defaults.container).toBe(container)
-    })
-    it("applies new containerClassName", async () => {
-      const { containerWrapper } = await loadPlugin({ timeout: 1000 })
-      const vm = containerWrapper.vm as unknown as {
-        updateDefaults(update: PluginOptions): void
-        defaults: PluginOptions
-      }
-      expect(vm.defaults.containerClassName).toEqual([])
-      expect(containerWrapper.find(".my-class").exists()).toBeFalsy()
-      expect(containerWrapper.element).toMatchSnapshot()
-      vm.updateDefaults({ containerClassName: "my-class" })
-      await containerWrapper.vm.$nextTick()
-      expect(vm.defaults.containerClassName).toBe("my-class")
-      expect(containerWrapper.find(".my-class").exists()).toBeTruthy()
-      expect(containerWrapper.element).toMatchSnapshot()
-    })
-  })
-  describe("updateToast", () => {
-    it("updates existing toast", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        updateToast({
-          id,
-          options,
-          create,
-        }: {
-          id: ToastID
-          options: ToastOptionsAndContent
-          create: boolean
-        }): void
-        setToast(params: ToastOptionsAndRequiredContent): void
-        toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
-      }
-      const toast: ToastOptionsAndRequiredContent = {
-        id: "id1",
-        content: "content",
-      }
-      vm.setToast(toast)
-      expect(vm.toasts["id1"].content).toBe("content")
-      vm.updateToast({
-        id: "id1",
-        options: { content: "other" },
-        create: false,
-      })
-      expect(vm.toasts["id1"].content).toBe("other")
-    })
-    it("increases timeout if it is the same", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        updateToast({
-          id,
-          options,
-          create,
-        }: {
-          id: ToastID
-          options: ToastOptionsAndContent
-          create: boolean
-        }): void
-        setToast(params: ToastOptionsAndRequiredContent): void
-        toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
-      }
-      const toast: ToastOptionsAndRequiredContent = {
-        id: "id1",
-        content: "content",
-        timeout: 1000,
-      }
-      vm.setToast(toast)
-      expect(vm.toasts["id1"].timeout).toBe(1000)
-      vm.updateToast({ id: "id1", options: { timeout: 1000 }, create: false })
-      expect(vm.toasts["id1"].timeout).toBe(1001)
-    })
-    it("creates new toast if create is true", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        updateToast({
-          id,
-          options,
-          create,
-        }: {
-          id: ToastID
-          options: ToastOptionsAndContent
-          create: boolean
-        }): void
-        addToast(params: ToastOptionsAndRequiredContent): void
-        toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
-      }
-      expect(vm.toasts["id1"]).toBe(undefined)
-      vm.updateToast({
-        id: "id1",
-        options: { content: "content" },
-        create: true,
-      })
-      expect(vm.toasts["id1"]).not.toBe(undefined)
-      expect(vm.toasts["id1"].content).toBe("content")
-    })
-    it("ignores if missing toast and not create", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        updateToast({
-          id,
-          options,
-          create,
-        }: {
-          id: ToastID
-          options: ToastOptionsAndContent
-          create: boolean
-        }): void
-        addToast(params: ToastOptionsAndRequiredContent): void
-        toasts: { [toastID: string]: ToastOptionsAndRequiredContent }
-      }
-      expect(vm.toasts["id1"]).toBe(undefined)
-      vm.updateToast({
-        id: "id1",
-        options: { content: "content" },
-        create: false,
-      })
-      expect(vm.toasts["id1"]).toBe(undefined)
-    })
-  })
-  describe("getClasses", () => {
-    it("returns classes", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        getClasses(position: POSITION): string[]
-      }
-      const position = POSITION.BOTTOM_RIGHT
-      expect(vm.getClasses(position)).toEqual([
-        `${VT_NAMESPACE}__container`,
+
+    it("creates multiple toasts in different positions", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      // Create many messages
+      const list: [number, POSITION][] = [
+        [1, POSITION.BOTTOM_CENTER],
+        [2, POSITION.TOP_CENTER],
+        [3, POSITION.TOP_LEFT],
+        [4, POSITION.TOP_LEFT],
+      ]
+      const getMessage = (i: number) => `message ${i}`
+      list.forEach(([i, position]) => toast(getMessage(i), { position }))
+      await nextTick()
+
+      const toasts = wrapper.findAllComponents(VtToast)
+      expect(toasts.length).toBe(list.length)
+
+      type MessagePosition = [string, POSITION]
+
+      const toastTexts = Object.values(POSITION)
+        .map(position => {
+          const toasts = wrapper
+            .find(`.${position}`)
+            .findAllComponents(VtToast) as VueWrapper<ComponentPublicInstance>[]
+          return toasts.map(toast => [
+            toast.text(),
+            position,
+          ]) as MessagePosition[]
+        })
+        .reduce((agg, value) => [...agg, ...value], [])
+
+      const expectedTexts: MessagePosition[] = list.map(([i, position]) => [
+        defaultToastMessage(getMessage(i)),
         position,
       ])
+
+      expect(toastTexts.sort()).toEqual(expectedTexts.sort())
+    })
+    it("uses type defaults", async () => {
+      const infoClass = "info-class"
+      const errorClass = "error-class"
+      const { wrapper, toast } = await mountToastContainer({
+        toastDefaults: {
+          [TYPE.ERROR]: {
+            toastClassName: errorClass,
+          },
+          [TYPE.INFO]: {
+            toastClassName: infoClass,
+          },
+        },
+      })
+
+      const infoText = "info toast"
+      const errorText = "error toast"
+
+      toast.info(infoText)
+      toast.error(errorText)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(2)
+      expect(wrapper.find(`.${infoClass}`).text()).toEqual(
+        defaultToastMessage(infoText)
+      )
+      expect(wrapper.find(`.${errorClass}`).text()).toEqual(
+        defaultToastMessage(errorText)
+      )
+    })
+
+    it("filters before creating", async () => {
+      const showText = "I'm a toast"
+      const hideText = "do not show"
+      const filterBeforeCreate: PluginOptions["filterBeforeCreate"] = toast =>
+        toast.content === hideText ? false : toast
+      const { wrapper, toast } = await mountToastContainer({
+        filterBeforeCreate,
+      })
+
+      toast.info(showText)
+      toast.info(hideText)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      expect(wrapper.findComponent(VtToast).text()).toEqual(
+        defaultToastMessage(showText)
+      )
+    })
+
+    it("filters after creating", async () => {
+      const showText = "I'm a toast"
+      const hideText = "do not show"
+      const filterToasts: PluginOptions["filterToasts"] = toasts =>
+        toasts.filter(toast => toast.content !== hideText)
+      const { wrapper, toast } = await mountToastContainer({
+        filterToasts,
+      })
+
+      toast.info(showText)
+      toast.info(hideText)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      expect(wrapper.findComponent(VtToast).text()).toEqual(
+        defaultToastMessage(showText)
+      )
+    })
+
+    it("does nothing if filterToasts is undefined", async () => {
+      const showText = "I'm a toast"
+      const hideText = "do not show"
+      const { wrapper, toast } = await mountToastContainer({
+        filterToasts: undefined,
+      })
+
+      toast.info(showText)
+      toast.info(hideText)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(2)
+    })
+
+    it("does not create if toastID is undefined", async () => {
+      const { wrapper, eventBus } = await mountToastContainer()
+      expect(wrapper.findAllComponents(VtToast).length).toBe(0)
+
+      const content = "I'm a toast"
+      eventBus.emit(EVENTS.ADD, { content, id: undefined as unknown as number })
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(0)
     })
   })
-  describe("toastArray", () => {
-    it("maps array", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        toastArray: ToastOptionsAndRequiredContent[]
-        setToast(params: ToastOptionsAndRequiredContent): void
-      }
-      expect(vm.toastArray.map(t => t.id)).toEqual([])
-      vm.setToast({ id: "1", content: "abc" })
-      expect(vm.toastArray.map(t => t.id)).toEqual(["1"])
-      vm.setToast({ id: "2", content: "def" })
-      expect(vm.toastArray.map(t => t.id)).toEqual(["1", "2"])
+  describe("dismiss toast", () => {
+    it("dismisses existing toast", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const message = "I'm a toast"
+      const toastID = toast.info(message)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+
+      toast.dismiss(toastID)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(0)
+    })
+
+    it("do not dismiss if wrong toastID", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const message = "I'm a toast"
+      const toastID = toast.info(message)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+
+      toast.dismiss(`not-${toastID}`)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+    })
+
+    it("calls onClose when dismissing", async () => {
+      const { toast } = await mountToastContainer()
+
+      const onClose = jest.fn()
+      const toastID = toast.info("I'm a toast", { onClose })
+      await nextTick()
+
+      expect(onClose).not.toHaveBeenCalled()
+
+      toast.dismiss(toastID)
+      await nextTick()
+
+      expect(onClose).toHaveBeenCalled()
     })
   })
-  describe("filteredToasts", () => {
-    it("filters toasts with default filterToasts", async () => {
-      const { containerWrapper } = await loadPlugin()
-      const vm = containerWrapper.vm as unknown as {
-        filteredToasts: ToastOptionsAndRequiredContent[]
-        setToast(params: ToastOptionsAndRequiredContent): void
-      }
-      vm.setToast({ id: "1", content: "abc" })
-      vm.setToast({ id: "2", content: "def" })
-      expect(vm.filteredToasts.map(t => t.id)).toEqual(["1", "2"])
+  describe("clear toasts", () => {
+    it("clears all toasts", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const message = "I'm a toast"
+      toast.info(message)
+      toast.info(message)
+      toast.info(message)
+      toast.info(message)
+      toast.info(message)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(5)
+
+      toast.clear()
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(0)
     })
-    it("filters toasts with provided filterToasts", async () => {
-      const filterToasts = jest.fn(() => [])
-      expect(filterToasts).not.toHaveBeenCalled()
-      const { containerWrapper } = await loadPlugin({ filterToasts })
-      const vm = containerWrapper.vm as unknown as {
-        filteredToasts: ToastOptionsAndRequiredContent[]
-        setToast(params: ToastOptionsAndRequiredContent): void
-        toastArray: ToastOptionsAndRequiredContent[]
-      }
-      expect(filterToasts).toHaveBeenCalledTimes(1)
-      expect(filterToasts).toHaveBeenCalledWith([])
-      vm.setToast({ id: "1", content: "abc" })
-      vm.setToast({ id: "2", content: "def" })
-      expect(filterToasts).toHaveBeenCalledTimes(1)
-      expect(vm.filteredToasts).toEqual([])
-      expect(filterToasts).toHaveBeenCalledTimes(2)
-      expect(filterToasts).toHaveBeenCalledWith(vm.toastArray)
+  })
+  describe("update toast", () => {
+    it("update an existing toast property", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const className = "myclass"
+      const otherClassName = "otherclass"
+      const toastID = toast.info("I'm a toast", { bodyClassName: className })
+      await nextTick()
+
+      expect(wrapper.find(`.${className}`).exists()).toBe(true)
+      expect(wrapper.find(`.${otherClassName}`).exists()).toBe(false)
+
+      toast.update(toastID, { options: { bodyClassName: otherClassName } })
+      await nextTick()
+
+      expect(wrapper.find(`.${className}`).exists()).toBe(false)
+      expect(wrapper.find(`.${otherClassName}`).exists()).toBe(true)
+    })
+
+    it("adds a new toast property", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const className = "myclass"
+      const toastID = toast.info("I'm a toast")
+      await nextTick()
+
+      expect(wrapper.find(`.${className}`).exists()).toBe(false)
+
+      toast.update(toastID, { options: { bodyClassName: className } })
+      await nextTick()
+
+      expect(wrapper.find(`.${className}`).exists()).toBe(true)
+    })
+
+    it("updates the content", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const oldContent = "foo"
+      const newContent = "bar"
+      const toastID = toast.info(oldContent)
+      await nextTick()
+
+      expect(wrapper.findComponent(VtToast).text()).toBe(
+        defaultToastMessage(oldContent)
+      )
+
+      toast.update(toastID, { content: newContent })
+      await nextTick()
+
+      expect(wrapper.findComponent(VtToast).text()).toBe(
+        defaultToastMessage(newContent)
+      )
+    })
+
+    it("resets timeout", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const timeout = 3000
+      const toastID = toast.info("I'm a toast", { timeout })
+      await nextTick()
+
+      const getStyles = () =>
+        (wrapper.findComponent(VtProgressBar).element as HTMLElement).style
+      expect(getStyles().animationDuration).toBe(`${timeout}ms`)
+
+      toast.update(toastID, { options: { timeout } })
+      await nextTick()
+
+      expect(getStyles().animationDuration).toBe(`${timeout + 1}ms`)
+    })
+
+    it("creates and updates with .update()", async () => {
+      const { wrapper, toast } = await mountToastContainer()
+
+      const toastID = "my-id"
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(0)
+
+      const content = "my toast"
+      toast.update(toastID, { content }, true)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      expect(wrapper.findComponent(VtToast).text()).toEqual(
+        defaultToastMessage(content)
+      )
+
+      const newContent = "another"
+      toast.update(toastID, { content: newContent }, true)
+      await nextTick()
+
+      expect(wrapper.findAllComponents(VtToast).length).toBe(1)
+      expect(wrapper.findComponent(VtToast).text()).toEqual(
+        defaultToastMessage(newContent)
+      )
+    })
+  })
+  describe("update defaults", () => {
+    it("update a default property", async () => {
+      const className = "my-class"
+      const newClassName = "my-other-class"
+      const { wrapper, toast } = await mountToastContainer({
+        toastClassName: className,
+      })
+
+      toast.info("I'm a toast")
+      await nextTick()
+
+      expect(wrapper.find(`.${className}`).exists()).toBe(true)
+      expect(wrapper.find(`.${newClassName}`).exists()).toBe(false)
+
+      toast.updateDefaults({ toastClassName: newClassName })
+      await nextTick()
+
+      toast.info("I'm another toast")
+      await nextTick()
+
+      expect(wrapper.find(`.${className}`).exists()).toBe(true)
+      expect(wrapper.find(`.${newClassName}`).exists()).toBe(true)
+    })
+
+    it("updates container", async () => {
+      const container = document.createElement("div")
+
+      const { wrapper, toast } = await mountToastContainer()
+
+      // Should be other container
+      expect(wrapper.element.parentElement).not.toBe(container)
+
+      // Should be new container
+      toast.updateDefaults({ container })
+      await nextTick()
+
+      expect(wrapper.element.parentElement).toBe(container)
     })
   })
 })

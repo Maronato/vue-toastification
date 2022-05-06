@@ -1,6 +1,13 @@
 import { TransitionGroup } from "vue"
+
 import { mount } from "@vue/test-utils"
+
 import VtTransition from "../../../src/components/VtTransition.vue"
+
+const asEmitter = (arg: unknown) =>
+  arg as {
+    $emit: (event: string, el: Element | XMLDocument, done: () => void) => void
+  }
 
 describe("VtTransition", () => {
   it("snapshots default values", () => {
@@ -8,16 +15,13 @@ describe("VtTransition", () => {
     expect(wrapper.html()).toMatchSnapshot()
   })
   it("transition-group has default classes", () => {
-    const wrapper = mount<typeof VtTransition, { transition: string }>(
-      VtTransition,
-      {
-        global: {
-          stubs: {
-            "transition-group": false,
-          },
+    const wrapper = mount(VtTransition, {
+      global: {
+        stubs: {
+          "transition-group": false,
         },
-      }
-    )
+      },
+    })
     const transition = wrapper.vm.$props.transition
     const componentProps = wrapper.findComponent(TransitionGroup).props()
     expect(componentProps.enterActiveClass).toBe(`${transition}-enter-active`)
@@ -25,10 +29,7 @@ describe("VtTransition", () => {
     expect(componentProps.leaveActiveClass).toBe(`${transition}-leave-active`)
   })
   it("transition-group has custom classes", () => {
-    const wrapper = mount<
-      typeof VtTransition,
-      { transition: { enter: string; move: string; leave: string } }
-    >(VtTransition, {
+    const wrapper = mount(VtTransition, {
       props: {
         transition: {
           enter: "enter-transition",
@@ -61,7 +62,7 @@ describe("VtTransition", () => {
     const done = jest.fn()
     const el = document.createElement("div")
 
-    transition.vm.$emit("leave", el, done)
+    asEmitter(transition.vm).$emit("leave", el, done)
 
     expect(el.style.left).toBe(el.offsetLeft + "px")
     expect(el.style.top).toBe(el.offsetTop + "px")
@@ -87,7 +88,7 @@ describe("VtTransition", () => {
     const done = jest.fn()
     const el = document.implementation.createDocument("xml", "element")
 
-    transition.vm.$emit("leave", el, done)
+    asEmitter(transition.vm).$emit("leave", el, done)
 
     const events = transition.emitted("leave")
 
