@@ -95,6 +95,10 @@ export declare interface ToastOptions extends BaseToastOptions {
    */
   id?: ToastID
   /**
+   *  If unsafe HTML is allowed as content.
+   */
+  allowUnsafeHtml?: boolean
+  /**
    *  Type of the toast.
    *
    *  Can be any of `success error default info warning`

@@ -15,6 +15,7 @@ const asFactory = <T>(f: T) => (() => f) as unknown as T
 
 export const TOAST_DEFAULTS: Required<InferDefaults<Readonly<ToastOptions>>> = {
   id: 0,
+  allowUnsafeHtml: false,
   accessibility: () => ({
     toastRole: "alert",
     closeButtonLabel: "close",

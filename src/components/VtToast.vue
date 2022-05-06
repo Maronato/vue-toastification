@@ -1,11 +1,21 @@
 <template>
   <div ref="el" :class="classes" @click="clickHandler">
     <Icon v-if="icon" :custom-icon="icon" :type="type" />
-    <div :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
-      <template v-if="typeof content === 'string'">{{ content }}</template>
+    <div
+      v-if="typeof content === 'string' && !allowUnsafeHtml"
+      :role="accessibility.toastRole || 'alert'"
+      :class="bodyClasses"
+      v-text="content"
+    ></div>
+    <div
+      v-else-if="typeof content === 'string' && allowUnsafeHtml"
+      :role="accessibility.toastRole || 'alert'"
+      :class="bodyClasses"
+      v-html="content"
+    ></div>
+    <div v-else :role="accessibility.toastRole || 'alert'" :class="bodyClasses">
       <component
         :is="getVueComponentFromObj(content)"
-        v-else
         :toast-id="id"
         v-bind="getProp(content, 'props', {})"
         v-on="getProp(content, 'listeners', {})"
@@ -48,6 +58,7 @@ import ProgressBar from "./VtProgressBar.vue"
 
 interface ToastProps {
   content: ToastOptionsAndContent["content"]
+  allowUnsafeHtml?: ToastOptionsAndContent["allowUnsafeHtml"]
   id?: ToastOptionsAndContent["id"]
   accessibility?: ToastOptionsAndContent["accessibility"]
   bodyClassName?: ToastOptionsAndContent["bodyClassName"]
@@ -75,6 +86,7 @@ interface ToastProps {
 
 const props = withDefaults(defineProps<ToastProps>(), {
   id: 0,
+  allowUnsafeHtml: TOAST_DEFAULTS.allowUnsafeHtml,
   accessibility: TOAST_DEFAULTS.accessibility,
   bodyClassName: TOAST_DEFAULTS.bodyClassName,
   closeButton: TOAST_DEFAULTS.closeButton,
