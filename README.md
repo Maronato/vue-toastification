@@ -190,6 +190,29 @@ To create toasts, get a *toast interface* by calling `useToast` from within a co
 </script>
 ```
 
+### Using inside Single-File Components (SFCs)
+
+To create toasts inside a Single-File Component using `<script setup>`, get a *toast interface* by calling `useToast` from within a component.
+
+```html
+<script setup>
+    import { useToast } from "vue-toastification";
+
+    const toast = useToast();
+
+    // Use it!
+    toast("I'm a toast!");
+
+    // or with options
+    toast.success("My toast content", {
+        timeout: 2000
+    });
+
+    // Use it inside methods
+    const myMethod = () => toast.info("I'm an info toast!");
+</script>
+```
+
 ### Using with Vuex or outside components
 By default, Vue Toastification creates the plugin using a global event bus, so all you need to do to use it outside your components is to call `useToast()`.
 
