@@ -653,6 +653,9 @@ $vt-text-color-success: #000;
 @import "vue-toastification/src/scss/_progressBar";
 @import "vue-toastification/src/scss/_icon";
 @import "vue-toastification/src/scss/animations/_bounce";
+@import "vue-toastification/src/scss/animations/_fade";
+@import "vue-toastification/src/scss/animations/_slideBlurred";
+
 ```
 
 Then you import it when registering the plugin
