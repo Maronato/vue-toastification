@@ -32,7 +32,7 @@ exports[`VtToast snapshots renders 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -65,7 +65,7 @@ exports[`VtToast ui closeButton = false removes it 1`] = `
   </div>
   <!--v-if-->
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -103,7 +103,7 @@ exports[`VtToast ui has all default sub components 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -129,7 +129,7 @@ exports[`VtToast ui icon = false removes it 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -167,7 +167,7 @@ exports[`VtToast ui renders custom aria role and button aria label 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -207,7 +207,7 @@ exports[`VtToast ui renders custom component 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -245,7 +245,7 @@ exports[`VtToast ui renders default aria role and button aria label 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -283,7 +283,7 @@ exports[`VtToast ui renders ltr by default 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
@@ -321,7 +321,7 @@ exports[`VtToast ui renders rtl if set 1`] = `
      × 
   </button>
   <div
-    class="Vue-Toastification__progress-bar"
+    class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
     style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
   />
 </div>
