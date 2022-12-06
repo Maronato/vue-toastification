@@ -167,7 +167,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
            × 
         </button>
         <div
-          class="Vue-Toastification__progress-bar"
+          class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--info"
           style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
         />
       </div>
@@ -203,7 +203,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
            × 
         </button>
         <div
-          class="Vue-Toastification__progress-bar"
+          class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--default"
           style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
         />
       </div>
@@ -265,7 +265,7 @@ exports[`VtToastContainer snapshots with toasts 1`] = `
            × 
         </button>
         <div
-          class="Vue-Toastification__progress-bar"
+          class="Vue-Toastification__progress-bar Vue-Toastification__progress-bar--error"
           style="animation-duration: 5000ms; animation-play-state: running; opacity: 1;"
         />
       </div>

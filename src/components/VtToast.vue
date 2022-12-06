@@ -25,6 +25,7 @@
       :is-running="isRunning"
       :hide-progress-bar="hideProgressBar"
       :timeout="timeout"
+      :type="props.type"
       @close-toast="closeToast"
     />
   </div>

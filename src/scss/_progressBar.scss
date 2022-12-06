@@ -14,12 +14,32 @@
   width: 100%;
   height: 5px;
   z-index: ($vt-z-index + 1);
-  background-color: rgba(255, 255, 255, 0.7);
   transform-origin: left;
   animation: scale-x-frames linear 1 forwards;
+
   .#{$vt-namespace}__toast--rtl & {
     right: 0;
     left: unset;
     transform-origin: right;
+  }
+
+  &--default {
+    background-color: $vt-progress-bar-color-default;
+  }
+
+  &--info {
+    background-color: $vt-progress-bar-color-info;
+  }
+
+  &--success {
+    background-color: $vt-progress-bar-color-success;
+  }
+
+  &--error {
+    background-color: $vt-progress-bar-color-error;
+  }
+
+  &--warning {
+    background-color: $vt-progress-bar-color-warning;
   }
 }

@@ -5,8 +5,9 @@
 <script lang="ts" setup>
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue"
 
-import { VT_NAMESPACE } from "../ts/constants"
+import { TYPE, VT_NAMESPACE } from "../ts/constants"
 import { TOAST_DEFAULTS } from "../ts/propValidators"
+import { ToastOptionsAndContent } from "../types/toast"
 
 import type { BaseToastOptions } from "../types/toast"
 
@@ -14,6 +15,7 @@ interface ProgressBarProps {
   timeout?: BaseToastOptions["timeout"]
   hideProgressBar?: BaseToastOptions["hideProgressBar"]
   isRunning?: boolean
+  type?: ToastOptionsAndContent["type"]
 }
 
 const emit = defineEmits(["close-toast"])
@@ -21,6 +23,7 @@ const props = withDefaults(defineProps<ProgressBarProps>(), {
   hideProgressBar: TOAST_DEFAULTS.hideProgressBar,
   isRunning: false,
   timeout: TOAST_DEFAULTS.timeout,
+  type: TYPE.DEFAULT,
 })
 
 const el = ref<HTMLElement>()
@@ -35,7 +38,12 @@ const style = computed(() => {
 })
 
 const cpClass = computed(() =>
-  hasClass.value ? `${VT_NAMESPACE}__progress-bar` : ""
+  hasClass.value
+    ? [
+        `${VT_NAMESPACE}__progress-bar`,
+        `${VT_NAMESPACE}__progress-bar--${props.type}`,
+      ]
+    : ""
 )
 
 watch(

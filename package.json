@@ -41,6 +41,7 @@
   "sideEffects": true,
   "dependencies": {},
   "devDependencies": {
+    "@babel/helper-string-parser": "^7.19.4",
     "@types/jest": "^27.4.0",
     "@types/lodash.merge": "^4.6.6",
     "@typescript-eslint/eslint-plugin": "^5.10.1",

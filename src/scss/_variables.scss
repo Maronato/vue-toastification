@@ -8,14 +8,19 @@ $vt-toast-max-height: 800px !default;
 
 $vt-color-default: #1976d2 !default;
 $vt-text-color-default: #fff !default;
+$vt-progress-bar-color-default: rgba(255, 255, 255, 0.7) !default;
 $vt-color-info: #2196f3 !default;
 $vt-text-color-info: #fff !default;
+$vt-progress-bar-color-info: rgba(255, 255, 255, 0.7) !default;
 $vt-color-success: #4caf50 !default;
 $vt-text-color-success: #fff !default;
+$vt-progress-bar-color-success: rgba(255, 255, 255, 0.7) !default;
 $vt-color-warning: #ffc107 !default;
 $vt-text-color-warning: #fff !default;
+$vt-progress-bar-color-warning: rgba(255, 255, 255, 0.7) !default;
 $vt-color-error: #ff5252 !default;
 $vt-text-color-error: #fff !default;
+$vt-progress-bar-color-error: rgba(255, 255, 255, 0.7) !default;
 
 $vt-color-progress-default: linear-gradient(
   to right,
