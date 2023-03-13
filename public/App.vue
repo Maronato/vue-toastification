@@ -714,7 +714,7 @@ export default {
   draggable: ${this.options.draggable},
   draggablePercent: ${this.options.draggablePercent / 100},
   showCloseButtonOnHover: ${this.options.showCloseButtonOnHover},
-  hideProgressBar: ${!this.options.hideProgressBar},
+  hideProgressBar: ${this.options.hideProgressBar},
   closeButton: ${
     this.options.closeButton ? `"${this.options.closeButton}"` : "false"
   },
