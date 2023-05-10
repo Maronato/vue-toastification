@@ -5,6 +5,6 @@ export const {
   trackEvent,
   enableAutoOutboundTracking,
 } = Plausible({
-  domain: "maronato.github.io/vue-toastification",
-  apiHost: "https://plausible.maronato.dev",
+  domain: "vue-toastification.maronato.dev",
+  apiHost: "https://stats.maronato.dev",
 });
