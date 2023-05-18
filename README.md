@@ -121,6 +121,29 @@ $ npm install --save vue-toastification@next
 
 ### Plugin registration
 
+#### Nuxt 3 Process
+Register plugin inside `plugins/toast.js` directory. 
+```javascript
+// toast.js
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+export default defineNuxtPlugin(nuxtApp => {
+    nuxtApp.vueApp.use(Toast, {
+        hideProgressBar : true
+    });
+  })
+```
+**Transpile** plugin since it is old package to solve issue of **Commonjs** issue
+```js
+// nuxt.config.js
+build:{
+        // vue-toastification - old commonjs module 
+        transpile: ['vue-toastification'],
+      },
+```
+-------
+#### Vue Process 
 Add it as a plugin to your app:
 ```javascript
 import { createApp } from "vue";
